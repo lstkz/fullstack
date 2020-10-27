@@ -41,7 +41,7 @@ jobs:
 
       - name: deploy
         run: |
-          npm i -g aws-cdk@1.38.0
+          npm i -g aws-cdk@1.70.0
           touch .env
           cd packages/fullstack-cli
           npm i -g .

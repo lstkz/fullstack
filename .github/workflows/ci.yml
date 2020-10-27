@@ -11,12 +11,12 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
-      - name: Configure AWS credentials
-        uses: aws-actions/configure-aws-credentials@v1
-        with:
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: eu-central-1
+      # - name: Configure AWS credentials
+      #   uses: aws-actions/configure-aws-credentials@v1
+      #   with:
+      #     aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+      #     aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      #     aws-region: eu-central-1
 
       - name: Get yarn cache directory path
         id: yarn-cache-dir-path
@@ -38,14 +38,14 @@ jobs:
       - name: install yarn
         run: yarn install --frozen-lockfile
 
-      - name: test front
+      - name: test blog
         run: |
-          npm i -g aws-cdk@1.38.0
+          npm i -g aws-cdk@1.70.0
           touch .env
           cd packages/fullstack-cli
           npm i -g .
           cd ../..
-          pd build blog
+          fs build blog
         env:
           STACK_NAME: fullstack-dev
           NODE_ENV: production
