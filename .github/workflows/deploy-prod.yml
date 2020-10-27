@@ -51,4 +51,4 @@ jobs:
           STACK_NAME: fullstack-production
           NODE_ENV: production
           BLOG_DOMAIN: fullstack.pl,blog.fullstack.pl
-          DOMAIN_CERT: arn:aws:acm:us-east-2:761975498781:certificate/9887bd42-aecb-4726-8b94-8d95d15b4154
+          DOMAIN_CERT: arn:aws:acm:us-east-1:761975498781:certificate/02c0ca60-e3bc-4cab-a15c-2443541e2a3c
