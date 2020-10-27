@@ -1,0 +1,14 @@
+{
+  "name": "fullstack-dev",
+  "private": true,
+  "scripts": {},
+  "workspaces": [
+    "packages/*",
+    "apps/*"
+  ],
+  "dependencies": {
+    "@types/prettier": "^2.1.5",
+    "prettier": "^2.1.2",
+    "typescript": "^4.0.5"
+  }
+}
