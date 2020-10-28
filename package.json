@@ -2,6 +2,9 @@
   "name": "fullstack-dev",
   "private": true,
   "scripts": {},
+  "engines": {
+    "node": "14.13"
+  },
   "workspaces": [
     "packages/*",
     "apps/*"
