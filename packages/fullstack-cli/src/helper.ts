@@ -46,7 +46,7 @@ export function validateApp(app: string) {
 }
 
 export function cpToPromise(cp: ChildProcess) {
-  return new Promise((resolve, reject) => {
+  return new Promise<void>((resolve, reject) => {
     cp.addListener('exit', code => {
       if (code === 0) {
         resolve();
