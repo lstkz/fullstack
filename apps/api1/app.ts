@@ -5,7 +5,7 @@ const app = express();
 
 app.get('/', (req, res) => {
   res.json({
-    msg: 'it works 1b',
+    msg: 'it works 1c',
   });
 });
 
