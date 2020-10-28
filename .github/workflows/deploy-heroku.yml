@@ -1,0 +1,18 @@
+name: deploy-heroku
+
+on:
+  pull_request:
+    # push:
+    branches: [master]
+
+jobs:
+  api1:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: akhileshns/heroku-deploy@v3.6.8 # This is the action
+        with:
+          heroku_api_key: ${{secrets.HEROKU_API_KEY}}
+          heroku_app_name: 'fullstackpl' #Must be unique in Heroku
+          heroku_email: 'sirmims@gmail.com'
+          appdir: 'apps/api1' # <- This will point to the api folder in your project
