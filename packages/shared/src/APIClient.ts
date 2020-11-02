@@ -2,8 +2,6 @@ import * as Rx from 'rxjs';
 import { ajax, AjaxRequest } from 'rxjs/ajax';
 import { map } from 'rxjs/operators';
 
-import { MoveType } from './types';
-
 // IMPORTS
 import { Foo } from './types';
 // IMPORTS END

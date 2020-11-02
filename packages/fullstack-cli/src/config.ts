@@ -1,6 +1,6 @@
 import path from 'path';
 
-export const apps = ['blog'];
+export const apps = ['blog', 'api'];
 
 export const libs = ['deploy'];
 export const sharedLibs: string[] = [];

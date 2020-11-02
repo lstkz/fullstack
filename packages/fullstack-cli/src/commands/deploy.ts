@@ -55,7 +55,10 @@ export function init() {
     .action(async ({ prod, stage, build }) => {
       if (build) {
         const buildOptions = { prod, stage };
-        await Promise.all([buildApp('blog', buildOptions)]);
+        await Promise.all([
+          buildApp('blog', buildOptions),
+          buildApp('api', buildOptions),
+        ]);
       }
       const env = getEnvSettings({ prod, stage });
 

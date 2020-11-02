@@ -7,11 +7,12 @@ module.exports = {
   devtool: false,
   entry: path.join(__dirname, './src/lambda/entry.ts'),
   optimization: {
-    namedModules: false,
-    namedChunks: true,
+    chunkIds: 'named',
+    // namedModules: false,
+    // namedChunks: true,
     nodeEnv: 'production',
     flagIncludedChunks: true,
-    occurrenceOrder: true,
+    // occurrenceOrder: true,
     sideEffects: true,
     usedExports: true,
     concatenateModules: true,
@@ -39,7 +40,7 @@ module.exports = {
     libraryTarget: 'commonjs',
   },
   externals: [
-    function(context, request, callback) {
+    function (context, request, callback) {
       if (
         /^aws-sdk|^chrome-aws-lambda|^puppeteer-core|^puppeteer/.test(request)
       ) {
