@@ -31,10 +31,10 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-yarn-
 
-      - name: Use Node.js 14
+      - name: Use Node.js 12
         uses: actions/setup-node@v1
         with:
-          node-version: 14.x
+          node-version: 12.x
 
       - name: install yarn
         run: yarn install --frozen-lockfile
@@ -50,5 +50,9 @@ jobs:
         env:
           STACK_NAME: fullstack-production
           NODE_ENV: production
+          ES_URL: ${{ secrets.PROD_ES_URL }}
+          ES_USERNAME: ${{ secrets.PROD_ES_USERNAME }}
+          ES_PASSWORD: ${{ secrets.PROD_ES_PASSWORD }}
+          TOPIC_ARN: dummy
           BLOG_DOMAIN: fullstack.pl,blog.fullstack.pl
           DOMAIN_CERT: arn:aws:acm:us-east-1:761975498781:certificate/02c0ca60-e3bc-4cab-a15c-2443541e2a3c

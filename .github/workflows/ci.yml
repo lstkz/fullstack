@@ -6,7 +6,7 @@ on:
     branches: [master]
 
 jobs:
-  blog:
+  api:
     runs-on: ubuntu-latest
 
     steps:
@@ -30,23 +30,37 @@ jobs:
           key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
           restore-keys: |
             ${{ runner.os }}-yarn-
+      - name: Setup DynamoDB Local
+        uses: rrainn/dynamodb-action@v2.0.0
+        with:
+          port: 8000
+          cors: "*"
+      - name: Configure sysctl limits
+        run: |
+          sudo swapoff -a
+          sudo sysctl -w vm.swappiness=1
+          sudo sysctl -w fs.file-max=262144
+          sudo sysctl -w vm.max_map_count=262144
+      - name: Runs Elasticsearch
+        uses: elastic/elastic-github-actions/elasticsearch@master
+        with:
+          stack-version: 7.6.0
 
-      - name: Use Node.js 14
+      - name: Use Node.js 12
         uses: actions/setup-node@v1
         with:
-          node-version: 14.x
+          node-version: 12.x
 
       - name: install yarn
         run: yarn install --frozen-lockfile
-
-      - name: test blog
+      - name: test api
         run: |
-          npm i -g aws-cdk@1.70.0
-          touch .env
-          cd packages/fullstack-cli
-          npm i -g .
-          cd ../..
-          fs build blog
+          cd apps/api
+          yarn test
         env:
-          STACK_NAME: fullstack-dev
-          NODE_ENV: production
+          TABLE: dummy
+          ES_URL: http://localhost:9200
+          ES_USERNAME: dummy
+          ES_PASSWORD: dummy
+          TOPIC_ARN: dummy
+          S3_BUCKET_NAME: dummy
