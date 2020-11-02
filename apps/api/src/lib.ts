@@ -1,5 +1,5 @@
 import { TABLE_NAME } from './config';
-import { initialize } from 'contract';
+import { ContractMeta, initialize } from 'contract';
 import AWS from 'aws-sdk';
 import { AppEvent } from './types';
 import { Transaction } from './orm/Transaction';
@@ -36,7 +36,7 @@ export interface CreateRpcBindingOptions {
   public?: true;
   admin?: true;
   signature: string;
-  handler: (...args: any[]) => any;
+  handler: ((...args: any[]) => any) & ContractMeta<any>;
 }
 
 export function createRpcBinding(options: CreateRpcBindingOptions) {

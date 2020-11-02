@@ -68,8 +68,8 @@ export async function handler(
     } catch (e) {
       throw new AppError('Invalid JSON');
     }
-    if (!Array.isArray(params)) {
-      throw new AppError('Request body must be an array');
+    if (typeof params !== 'object' || !params) {
+      throw new AppError('Request body must be an object');
     }
     const headers = event.headers || {};
     const ret = await rpcHandler(exec[1], params, headers['x-token']);

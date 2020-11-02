@@ -68,8 +68,8 @@ const server = http.createServer(async (req, res) => {
       throw new Error('Method must be POST');
     }
     const body = await _getBody(req);
-    if (!Array.isArray(body)) {
-      throw new Error('Request body must be an array');
+    if (typeof body !== 'object' || !body) {
+      throw new Error('Request body must be an object');
     }
     const token = req.headers['x-token'];
     if (Array.isArray(token)) {

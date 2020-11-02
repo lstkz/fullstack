@@ -3,7 +3,7 @@ import { AppError } from './common/errors';
 
 export async function handler(
   rpcMethod: string,
-  rpcParams: any[],
+  rpcBody: any,
   authToken: string | null | undefined
 ) {
   const getFn = apiMapping[rpcMethod];
@@ -34,9 +34,13 @@ export async function handler(
     // return user;
   };
   const user = await getUser();
-  const params = [...rpcParams];
+  const params = options.handler.getParams();
   if (options.injectUser) {
-    params.unshift(user?.id);
+    params.shift();
   }
-  return options.handler(...params);
+  const values = params.map(x => rpcBody[x]);
+  if (options.injectUser) {
+    values.unshift(user);
+  }
+  return options.handler(...values);
 }
