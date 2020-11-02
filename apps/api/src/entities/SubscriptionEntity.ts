@@ -7,14 +7,13 @@ export interface SubscriptionKey {
 export interface SubscriptionProps extends SubscriptionKey {
   name: string;
   email: string;
+  createdAt: number;
+  unsubscribeCode: string;
 }
 
 const BaseEntity = createBaseEntity('subscription')
   .props<SubscriptionProps>()
-  .key<SubscriptionKey>(key => ({
-    pk: `$:${key.email}`,
-    sk: '$',
-  }))
+  .key<SubscriptionKey>(key => `$:${key.email.toLowerCase()}`)
   .build();
 
 export class SubscriptionEntity extends BaseEntity {}

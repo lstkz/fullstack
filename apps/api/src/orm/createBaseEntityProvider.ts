@@ -21,7 +21,7 @@ import {
   getIndexName,
 } from './helper';
 import { DynamodbWrapper } from './DynamodbWrapper';
-import { encLastKey, decLastKey } from '../common/helper';
+import { encLastKey, decLastKey, safeKeys } from '../common/helper';
 
 export interface CreateBaseEntityProviderOptions<TIndexes> {
   dynamodb: AWS.DynamoDB;
@@ -60,12 +60,18 @@ class Builder {
     const colMapping = this.colMapping;
     const createKey = this.createKey;
     const entityType = this.entityType;
+    const fixKeyName = (obj: DynamoKey) => {
+      safeKeys(obj).forEach(key => {
+        obj[key] = obj[key].replace('$', this.entityType);
+      });
+      return obj;
+    };
     const getDynamoKey = (key: string | DynamoKey) => {
       const value = createKey(key);
       if (typeof value === 'string') {
-        return { pk: value, sk: value };
+        return fixKeyName({ pk: value, sk: value });
       }
-      return value;
+      return fixKeyName(value);
     };
 
     const getEntityName = (Entity: any): string => {

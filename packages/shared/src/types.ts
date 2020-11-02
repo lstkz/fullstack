@@ -9,3 +9,7 @@ export interface User {
   username: string;
   isAdmin: boolean;
 }
+
+export interface SubscriptionResult {
+  result: 'ok' | 'already-subscribed';
+}

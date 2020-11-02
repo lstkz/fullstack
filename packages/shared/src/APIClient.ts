@@ -3,7 +3,7 @@ import { ajax, AjaxRequest } from 'rxjs/ajax';
 import { map } from 'rxjs/operators';
 
 // IMPORTS
-import { Foo } from './types';
+import { Foo, SubscriptionResult } from './types';
 // IMPORTS END
 
 export class APIClient {
@@ -19,6 +19,22 @@ export class APIClient {
   example_createFoo(values: { foo: string }): Rx.Observable<Foo> {
     return this.call('example.createFoo', { values });
   }
+  subscription_confirmSubscription(code: string): Rx.Observable<unknown> {
+    return this.call('subscription.confirmSubscription', { code });
+  }
+  subscription_subscribe(
+    name: string,
+    email: string
+  ): Rx.Observable<SubscriptionResult> {
+    return this.call('subscription.subscribe', { name, email });
+  }
+  subscription_unsubscribe(
+    email: string,
+    code: string,
+    source: string
+  ): Rx.Observable<unknown> {
+    return this.call('subscription.unsubscribe', { email, code, source });
+  }
   // SIGNATURES END
   private call(name: string, params: any): any {
     const token = this.getToken();
@@ -29,7 +45,7 @@ export class APIClient {
       headers['x-token'] = token;
     }
     const options: AjaxRequest = {
-      url: `${this.baseUrl}/api/${name}`,
+      url: `${this.baseUrl}/rpc/${name}`,
       method: 'POST',
       body: JSON.stringify(params),
       headers,

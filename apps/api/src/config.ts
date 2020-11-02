@@ -55,4 +55,4 @@ export const ES_INDEX_PREFIX = process.env.JEST_WORKER_ID
 export const EMAIL_SENDER = 'Fullstack.pl <no-reply@fullstack.pl>';
 export const CONTACT_EMAIL = 'kontakt@fullstack.pl';
 
-export const BASE_URL = process.env.BASE_URL || 'https://fullstack.pl';
+export const BASE_URL = process.env.BASE_URL || 'https://blog.fullstack.pl';
