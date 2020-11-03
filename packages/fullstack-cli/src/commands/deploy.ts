@@ -31,7 +31,10 @@ async function uploadS3(name: string, bucketName: string) {
         if (!contentType) {
           throw new Error('no contentType for ' + filePath);
         }
-        const noCache = filePath.endsWith('.html');
+        const noCache =
+          filePath.endsWith('.html') ||
+          filePath.endsWith('app-data.json') ||
+          filePath.includes('page-data');
         const file = Path.relative(buildDir, filePath);
         await s3
           .upload({
