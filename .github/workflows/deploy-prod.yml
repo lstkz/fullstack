@@ -52,6 +52,7 @@ jobs:
           ES_URL: ${{ secrets.PROD_ES_URL }}
           ES_USERNAME: ${{ secrets.PROD_ES_USERNAME }}
           ES_PASSWORD: ${{ secrets.PROD_ES_PASSWORD }}
+          SES_REGION: eu-west-1
           TOPIC_ARN: dummy
           BLOG_DOMAIN: fullstack.pl,blog.fullstack.pl
           DOMAIN_CERT: arn:aws:acm:us-east-1:761975498781:certificate/02c0ca60-e3bc-4cab-a15c-2443541e2a3c
