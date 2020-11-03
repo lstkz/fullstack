@@ -1,10 +1,12 @@
 const listeners: Array<(ev: WindowEventMap['keyup']) => any> = [];
 
-window.addEventListener('keyup', e => {
-  if (listeners.length) {
-    listeners[0](e);
-  }
-});
+if (typeof window !== 'undefined') {
+  window.addEventListener('keyup', e => {
+    if (listeners.length) {
+      listeners[0](e);
+    }
+  });
+}
 
 export const modalGlobalContext = {
   addListener(listener: (this: Window, ev: WindowEventMap['keyup']) => any) {
