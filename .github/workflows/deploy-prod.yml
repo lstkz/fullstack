@@ -1,7 +1,6 @@
 name: deploy-prod
 on:
-  pull_request:
-    # push:
+  push:
     branches: [master]
 
 jobs:
