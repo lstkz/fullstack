@@ -2,6 +2,8 @@ import http from 'http';
 import util from 'util';
 import { handler } from './handler';
 import chokidar from 'chokidar';
+import { s3 } from './lib';
+import { S3_BUCKET_NAME } from './config';
 
 const watcher = chokidar.watch(__dirname);
 
@@ -43,23 +45,19 @@ const server = http.createServer(async (req, res) => {
       res.end();
       return;
     }
-    // if (
-    //   req.url!.startsWith('/bundle/') ||
-    //   req.url!.startsWith('/avatars/') ||
-    //   req.url!.startsWith('/assets/')
-    // ) {
-    //   const obj = await s3
-    //     .getObject({
-    //       Bucket: S3_BUCKET_NAME,
-    //       Key: req.url!.substr(1),
-    //     })
-    //     .promise();
-    //   res.setHeader('Cache-Control', 'public, max-age=31557600');
-    //   res.setHeader('content-type', 'text/javascript');
-    //   res.write(obj.Body);
-    //   res.end();
-    //   return;
-    // }
+    if (req.url!.startsWith('/assets/')) {
+      const obj = await s3
+        .getObject({
+          Bucket: S3_BUCKET_NAME,
+          Key: req.url!.substr(1),
+        })
+        .promise();
+      res.setHeader('Cache-Control', 'public, max-age=31557600');
+      res.setHeader('content-type', 'text/javascript');
+      res.write(obj.Body);
+      res.end();
+      return;
+    }
     const exec = /\/rpc\/(.+)/.exec(req.url!);
     if (!exec) {
       throw new Error('Invalid url');
