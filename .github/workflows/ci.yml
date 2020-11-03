@@ -1,8 +1,8 @@
 name: CI
 
 on:
-  # pull_request:
-  push:
+  pull_request:
+    # push:
     branches: [master]
 
 jobs:
@@ -34,7 +34,7 @@ jobs:
         uses: rrainn/dynamodb-action@v2.0.0
         with:
           port: 8000
-          cors: "*"
+          cors: '*'
       - name: Configure sysctl limits
         run: |
           sudo swapoff -a
