@@ -24,3 +24,16 @@ export function useBodyWidth() {
 
   return windowSize;
 }
+
+export function parseQueryString(qs: string | null | undefined) {
+  return (qs || '')
+    .replace(/^\?/, '')
+    .split('&')
+    .reduce((params, param) => {
+      const [key, value] = param.split('=');
+      if (key) {
+        params[key] = value ? decodeURIComponent(value) : '';
+      }
+      return params;
+    }, {} as Record<string, string>);
+}

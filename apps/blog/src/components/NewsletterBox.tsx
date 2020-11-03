@@ -1,3 +1,4 @@
+import { Link } from 'gatsby';
 import * as React from 'react';
 import { useForm } from 'react-hook-form';
 import { SubscriptionResult } from 'shared';
@@ -19,6 +20,11 @@ interface NewsletterForm {
   email: string;
   name: string;
 }
+
+const Info = styled.div`
+  font-size: 12px;
+  margin-top: 15px;
+`;
 
 const _NewsletterBox = (props: NewsletterBoxProps) => {
   const { className } = props;
@@ -94,6 +100,10 @@ const _NewsletterBox = (props: NewsletterBoxProps) => {
           Dołącz
         </Button>
       </form>
+      <Info>
+        Zapisując się to newslettera wyrażasz zgodę na przetwarzanie Twoich
+        danych zgodnie z <Link to="/privacy">polityką prywatności</Link>.
+      </Info>
     </SidebarBox>
   );
 };

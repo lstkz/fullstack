@@ -6,6 +6,7 @@ import { ArticlePreview } from '../components/ArticlePreview';
 import { Post } from '../types';
 import { MainToColGrid } from '../components/MainToColGrid';
 import { Pagination } from '../components/Pagination';
+import { ConfirmEmailChecker } from '../components/ConfirmEmailChecker';
 
 interface BlogIndexProps {
   data: any;
@@ -26,6 +27,7 @@ const BlogIndex = (props: BlogIndexProps) => {
 
   return (
     <Layout location={location}>
+      <ConfirmEmailChecker />
       <SEO title="Wszystkie posty" />
       <MainToColGrid>
         {posts.map(post => {

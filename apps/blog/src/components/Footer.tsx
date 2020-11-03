@@ -1,7 +1,7 @@
 import { Link } from 'gatsby';
 import * as React from 'react';
 import styled from 'styled-components';
-import { SMALL_DESKTOP, socialLinks } from '../const';
+import { SMALL_DESKTOP, socialLinks, TABLET } from '../const';
 import { Theme } from '../Theme';
 import { ArrowIcon } from './ArrowIcon';
 import { Button } from './Button';
@@ -32,15 +32,26 @@ const Title = styled.h2`
 const Col = styled.div`
   flex-shrink: 0;
   width: 100%;
+  margin-bottom: 20px;
+
   &:nth-child(1) {
-    width: 50%;
+    width: 100%;
   }
   &:nth-child(2) {
-    width: 50%;
+    width: 100%;
   }
   &:nth-child(3) {
     max-width: 400px;
     margin-bottom: 30px;
+  }
+
+  ${TABLET} {
+    &:nth-child(1) {
+      width: 50%;
+    }
+    &:nth-child(2) {
+      width: 50%;
+    }
   }
 
   ${SMALL_DESKTOP} {
@@ -165,6 +176,12 @@ const _Footer = (props: FooterProps) => {
                 <Link to="/kontakt">
                   <ArrowIcon />
                   Kontakt
+                </Link>
+              </li>
+              <li>
+                <Link to="/privacy">
+                  <ArrowIcon />
+                  Polityka Prywatności
                 </Link>
               </li>
             </Links>

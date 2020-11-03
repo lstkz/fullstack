@@ -24,7 +24,7 @@ it('subscribe and confirm email', async () => {
   expect(result).toEqual({
     result: 'ok',
   });
-  const code = /confirm\/([^"]+)/.exec(body)![1];
+  const code = /confirm-email=([^"]+)/.exec(body)![1];
   let sub = await SubscriptionEntity.getByKeyOrNull({
     email: 'john@example.org',
   });

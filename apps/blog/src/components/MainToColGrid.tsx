@@ -20,7 +20,7 @@ const _MainToColGrid = (props: MainToColGridProps) => {
       left={children}
       right={
         <>
-          <EbookBox />
+          {/* <EbookBox /> */}
           <CategoryBox />
           <NewsletterBox />
         </>

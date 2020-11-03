@@ -29,7 +29,7 @@ export const subscribe = createContract('subscription.subscribe')
       name,
       email,
     });
-    const confirmLink = `${BASE_URL}/confirm/${subId}`;
+    const confirmLink = `${BASE_URL}?confirm-email=${subId}`;
     await sendEmail({
       to: email,
       subject: '👋 Potwierdź subskrypcję',
