@@ -2923,7 +2923,7 @@
   resolved "https://registry.yarnpkg.com/@types/uuid/-/uuid-3.4.9.tgz#fcf01997bbc9f7c09ae5f91383af076d466594e1"
   integrity sha512-XDwyIlt/47l2kWLTzw/mtrpLdB+GPSskR2n/PIcPn+VYhVO77rGhRncIR5GPU0KRzXuqkDO+J5qqrG0Y8P6jzQ==
 
-"@types/vfile-message@*":
+"@types/vfile-message@*", "@types/vfile-message@^2.0.0":
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/@types/vfile-message/-/vfile-message-2.0.0.tgz#690e46af0fdfc1f9faae00cd049cc888957927d5"
   integrity sha512-GpTIuDpb9u4zIO165fUy9+fXcULdD8HFRNli04GehoMVbeNq7D6OBnqSmg3lxZnC+UvgUhEWKxdKiwYUkGltIw==
@@ -15007,10 +15007,10 @@ remark@^10.0.1:
     remark-stringify "^6.0.0"
     unified "^7.0.0"
 
-remeda@^0.0.23:
-  version "0.0.23"
-  resolved "https://registry.yarnpkg.com/remeda/-/remeda-0.0.23.tgz#8eecf52e6f5b62212e95fb268887576d3ce8d17b"
-  integrity sha512-bd6t3Y9LlzO3uk/N8VyFZC3ozqpTJcYtFgH6r4V9kRjkDQXo7Fcy0DrQDn5bU047WAU0lhoY9zA60thHKl7uAA==
+remeda@^0.0.25:
+  version "0.0.25"
+  resolved "https://registry.yarnpkg.com/remeda/-/remeda-0.0.25.tgz#4e509dca88cb2fb53cc1bac62abfe5075e42567e"
+  integrity sha512-g82NTtfoQBfZVmQOXcjRz0F09TSdU787nOBVqoEVnewwR0INhUZvOLQZCQGtkWziBt+45tcUBrxqSnIQYfX8+Q==
 
 remove-trailing-separator@^1.0.1:
   version "1.1.0"

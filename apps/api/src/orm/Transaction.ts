@@ -38,7 +38,7 @@ export class Transaction {
     fields: Array<keyof T>,
     options?: ExpressionOptions
   ) {
-    this.updateEntities.push([entity, fields, options]);
+    this.updateEntities.push([entity, fields as string[], options]);
   }
 
   updateRaw(options: UpdateRawOptions) {

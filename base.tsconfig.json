@@ -23,7 +23,7 @@
       "ES2016.Array.Include"
     ],
     "pretty": true,
-    "keyofStringsOnly": true,
+    "keyofStringsOnly": false,
     "noFallthroughCasesInSwitch": true,
     "noImplicitAny": true,
     "noImplicitReturns": true,
