@@ -11,6 +11,7 @@
   ],
   "dependencies": {
     "@types/prettier": "^2.1.5",
+    "@types/vfile-message": "^2.0.0",
     "prettier": "^2.1.2",
     "ts-node": "^9.0.0",
     "typescript": "^4.0.5"
