@@ -1,6 +1,7 @@
 import cdk = require('@aws-cdk/core');
 import cf = require('@aws-cdk/aws-cloudfront');
 import s3 = require('@aws-cdk/aws-s3');
+import lambda = require('@aws-cdk/aws-lambda');
 import { MainBucket } from './MainBucket';
 
 interface BlogWebSiteDistDeps {
@@ -71,6 +72,18 @@ export class BlogWebSiteDist {
                 allowedMethods: cf.CloudFrontAllowedMethods.GET_HEAD_OPTIONS,
                 cachedMethods:
                   cf.CloudFrontAllowedCachedMethods.GET_HEAD_OPTIONS,
+                lambdaFunctionAssociations: process.env.FIX_INDEX_LAMBDA_ARN
+                  ? [
+                      {
+                        eventType: cf.LambdaEdgeEventType.ORIGIN_REQUEST,
+                        lambdaFunction: lambda.Version.fromVersionArn(
+                          scope,
+                          'fix-index-lambda',
+                          process.env.FIX_INDEX_LAMBDA_ARN
+                        ),
+                      },
+                    ]
+                  : [],
               },
             ],
           },
