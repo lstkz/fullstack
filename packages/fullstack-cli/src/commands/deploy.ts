@@ -66,6 +66,23 @@ export function init() {
         spawn(
           'cdk',
           [
+            'bootstrap',
+            '--app',
+            '"yarn workspace deploy run ts-node -T src/MainStack"',
+          ],
+          {
+            env: {
+              ...process.env,
+              ...env,
+            },
+            ...getSpawnOptions('deploy'),
+          }
+        )
+      );
+      await cpToPromise(
+        spawn(
+          'cdk',
+          [
             'deploy',
             '--app',
             '"yarn workspace deploy run ts-node -T src/MainStack"',
