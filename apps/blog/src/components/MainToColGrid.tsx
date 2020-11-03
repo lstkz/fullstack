@@ -2,6 +2,7 @@ import * as React from 'react';
 import styled from 'styled-components';
 import { CategoryBox } from './CategoryBox';
 import { EbookBox } from './EbookBox';
+import { NewsletterBox } from './NewsletterBox';
 import { TwoColGrid } from './TwoColGrid';
 
 interface MainToColGridProps {
@@ -19,8 +20,9 @@ const _MainToColGrid = (props: MainToColGridProps) => {
       left={children}
       right={
         <>
-          <EbookBox />
+          {/* <EbookBox /> */}
           <CategoryBox />
+          <NewsletterBox />
         </>
       }
     ></TwoColGrid>

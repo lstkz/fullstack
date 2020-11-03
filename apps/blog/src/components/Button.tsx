@@ -12,10 +12,11 @@ interface ButtonProps {
   block?: boolean;
   size?: 'lg' | 'default';
   type?: 'solid' | 'gray' | 'default';
+  disabled?: boolean;
 }
 
 const _Button = (props: ButtonProps) => {
-  const { className, href, hrefExternal, children } = props;
+  const { className, href, hrefExternal, children, disabled } = props;
   if (href) {
     if (hrefExternal) {
       return (
@@ -30,7 +31,11 @@ const _Button = (props: ButtonProps) => {
       </Link>
     );
   }
-  return <button className={className}>{children}</button>;
+  return (
+    <button className={className} disabled={disabled}>
+      {children}
+    </button>
+  );
 };
 
 export const Button = styled(_Button)`
@@ -55,6 +60,7 @@ export const Button = styled(_Button)`
     css`
       width: 100%;
       text-align: center;
+      justify-content: center;
     `}
 
   ${props =>
@@ -102,4 +108,10 @@ export const Button = styled(_Button)`
         background: ${color.darken(Theme.primary, 0.05)};
       }
     `}
+
+  &[disabled] {
+    background: #ccc;
+    border-color: #ccc;
+    cursor: default;
+  }
 `;

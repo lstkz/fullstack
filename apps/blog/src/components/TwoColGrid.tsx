@@ -41,10 +41,11 @@ export const TwoColGrid = styled(_TwoColGrid)`
   && {
     display: flex;
   }
-  padding-top: 120px;
+  padding-top: 40px;
   background: ${props => (props.white ? 'white' : '#fdfdfd')};
 
   ${TABLET} {
+    padding-top: 120px;
     flex-direction: row;
   }
 `;
