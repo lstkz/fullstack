@@ -69,7 +69,7 @@ const AboutMe = ({ location }: NotFoundPageProps) => {
         <Title>O mnie</Title>
         <Content>
           <P>
-            Nazywam się Łukasz Sentkiewicz. Jestem programistą z ponad 10 letnim
+            Nazywam się Łukasz Sentkiewicz. Jestem programistą z ponad 10-letnim
             doświadczeniem. W latach 2013-2018 wygrałem ponad $1,000,000 na
             TopCoder.com, gdzie robiłem sporo projektów dla takich firm jak
             NASA, DARPA, EPA, Comcast, TopCoder, IBM. Jestem fullstack
@@ -125,8 +125,8 @@ const AboutMe = ({ location }: NotFoundPageProps) => {
             rozbudowane. Obecnie jest przesyt materiałów dla ludzi
             początkujących i brakuje kontentu dla osób bardziej zaawansowanych.
             <br />
-            Moim celem jest pokazuwanie rzeczy, które są wymagane dla
-            programistów chcących zarabiach topowe stawki (~15-20k PLN).
+            Moim celem jest pokazywanie rzeczy, które są wymagane dla
+            programistów chcących zarabiać topowe stawki (~15-20k PLN).
             <br />
             Jeżeli interesują Cię rzeczy bardziej rozbudowane niż statyczne
             strony HTML to zapraszam na mój kanał 😉.
