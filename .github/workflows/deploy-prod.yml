@@ -63,3 +63,7 @@ jobs:
           TPAY_PASSWORD: ${{ secrets.TPAY_PASSWORD }}
           TPAY_CODE: ${{ secrets.TPAY_CODE }}
           TPAY_RESULT_EMAIL: ${{ secrets.TPAY_RESULT_EMAIL }}
+          GITHUB_CLIENT_ID: ${{ secrets.GITHUB_CLIENT_ID }}
+          GITHUB_CLIENT_SECRET: ${{ secrets.GITHUB_CLIENT_SECRET }}
+          GOOGLE_CLIENT_ID: ${{ secrets.GOOGLE_CLIENT_ID }}
+          GOOGLE_CLIENT_SECRET: ${{ secrets.GOOGLE_CLIENT_SECRET }}

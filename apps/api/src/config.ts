@@ -48,3 +48,6 @@ export const TPAY_API_KEY = _get('TPAY_API_KEY');
 export const TPAY_PASSWORD = _get('TPAY_PASSWORD');
 export const TPAY_CODE = process.env.TPAY_CODE ?? '';
 export const TPAY_RESULT_EMAIL = _get('TPAY_RESULT_EMAIL');
+
+export const GITHUB_CLIENT_ID = _get('GITHUB_CLIENT_ID');
+export const GITHUB_CLIENT_SECRET = _get('GITHUB_CLIENT_SECRET');

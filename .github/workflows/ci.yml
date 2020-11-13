@@ -73,6 +73,10 @@ jobs:
           TPAY_API_KEY: 75f86137a6635df826e3efe2e66f7c9a946fdde1
           TPAY_PASSWORD: demo
           TPAY_RESULT_EMAIL: 'example@example.org'
+          GITHUB_CLIENT_ID: dummy
+          GITHUB_CLIENT_SECRET: dummy
+          GOOGLE_CLIENT_ID: dummy
+          GOOGLE_CLIENT_SECRET: dummy
   blog:
     runs-on: ubuntu-latest
 

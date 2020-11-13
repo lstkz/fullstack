@@ -3,7 +3,7 @@ import { ajax, AjaxRequest } from 'rxjs/ajax';
 import { map } from 'rxjs/operators';
 
 // IMPORTS
-import { Foo, SubscriptionResult } from './types';
+import { SubscriptionResult } from './types';
 // IMPORTS END
 
 export class APIClient {
@@ -16,9 +16,7 @@ export class APIClient {
   }
 
   // SIGNATURES
-  example_createFoo(values: { foo: string }): Rx.Observable<Foo> {
-    return this.call('example.createFoo', { values });
-  }
+
   subscription_confirmSubscription(code: string): Rx.Observable<unknown> {
     return this.call('subscription.confirmSubscription', { code });
   }

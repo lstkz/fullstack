@@ -1,3 +1,4 @@
+import { User } from 'shared';
 import { createBaseEntity } from '../lib';
 import { UserEmailEntity } from './UserEmailEntity';
 
@@ -7,9 +8,11 @@ export interface UserKey {
 
 export interface UserProps extends UserKey {
   email: string;
-  salt?: string;
-  password?: string;
+  salt: string;
+  password: string;
+  isVerified: boolean;
   isAdmin?: boolean;
+  githubId?: number;
 }
 
 const BaseEntity = createBaseEntity('user')
@@ -39,5 +42,14 @@ export class UserEntity extends BaseEntity {
 
   static getById(userId: string) {
     return this.getByKey({ userId });
+  }
+
+  toUser(): User {
+    return {
+      id: this.userId,
+      email: this.email,
+      isVerified: this.isVerified,
+      isAdmin: this.isAdmin,
+    };
   }
 }

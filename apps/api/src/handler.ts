@@ -8,7 +8,7 @@ export async function handler(
 ) {
   const getFn = apiMapping[rpcMethod];
   if (!getFn) {
-    throw new AppError('RPC Method not found');
+    throw new AppError('RPC Method not found: ' + rpcMethod);
   }
   const { options } = await getFn();
 
