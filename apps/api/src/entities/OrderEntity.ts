@@ -18,6 +18,7 @@ export interface OrderProps extends OrderKey {
   };
   amount: number;
   status: 'NOT_PAID' | 'PAID';
+  paidAt?: number;
   product: OrderProduct;
   customer: {
     email: string;
