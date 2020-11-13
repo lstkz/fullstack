@@ -7,4 +7,11 @@ interface EventMapping {
     [x: string]: () => Promise<BindingResult>;
   };
 }
-export const eventMapping: EventMapping = {};
+export const eventMapping: EventMapping = {
+  OrderPaidEvent: {
+    completeCourseOrderEvent: () =>
+      import(
+        /* webpackChunkName: "OrderPaidEvent.completeCourseOrderEvent"*/ '../contracts/order/completeCourseOrder'
+      ).then(x => x['completeCourseOrderEvent']),
+  },
+};

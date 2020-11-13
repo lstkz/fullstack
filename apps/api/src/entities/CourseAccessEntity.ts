@@ -11,7 +11,7 @@ const BaseEntity = createBaseEntity('course_access')
   .props<CourseAccessProps>()
   .key<CourseAccessKey>(key => ({
     pk: `$:${key.userId}`,
-    sk: `$:${key.userId}${key.courseId}`,
+    sk: `$:${key.userId}:${key.courseId}`,
   }))
   .build();
 
