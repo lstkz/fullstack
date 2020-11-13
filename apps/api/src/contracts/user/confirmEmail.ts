@@ -4,12 +4,14 @@ import { AppError } from '../../common/errors';
 import { _generateAuthData } from './_generateAuthData';
 import { ConfirmCodeEntity } from '../../entities/ConfirmCodeEntity';
 import { UserEntity } from '../../entities/UserEntity';
+import { AuthData } from 'shared';
 
 export const confirmEmail = createContract('user.confirmEmail')
   .params('code')
   .schema({
     code: S.string(),
   })
+  .returns<AuthData>()
   .fn(async code => {
     const confirmCode = await ConfirmCodeEntity.getByKeyOrNull({ code });
     if (!confirmCode) {
