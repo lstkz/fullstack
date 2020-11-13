@@ -8,12 +8,12 @@ export interface {{name}}Props extends {{name}}Key {
   bar: string;
 }
 
-const BaseEntity = createBaseEntity()
+const BaseEntity = createBaseEntity('{{snakeCase name}}')
   .props<{{name}}Props>()
-  .key<{{name}}Key>(key => `FOO:${key.foo}`)
+  .key<{{name}}Key>(key => `$:${key.foo}`)
   .key<{{name}}Key>(key => ({
-    pk: `FOO:${key.foo}`,
-    sk: `BAR:${key.bar}`,
+    pk: `$:${key.foo}`,
+    sk: `$:${key.bar}`,
   }))
   .build();
 

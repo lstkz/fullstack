@@ -6,6 +6,14 @@ interface ApiMapping {
   [x: string]: () => Promise<BindingResult>;
 }
 export const apiMapping: ApiMapping = {
+  'course.updateCourse': () =>
+    import(
+      /* webpackChunkName: "course.updateCourse"*/ '../contracts/course/updateCourse'
+    ).then(x => x['updateCourseRpc']),
+  'order.createOrder': () =>
+    import(
+      /* webpackChunkName: "order.createOrder"*/ '../contracts/order/createOrder'
+    ).then(x => x['createOrderRpc']),
   'subscription.confirmSubscription': () =>
     import(
       /* webpackChunkName: "subscription.confirmSubscription"*/ '../contracts/subscription/confirmSubscription'

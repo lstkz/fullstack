@@ -2,6 +2,9 @@ import { dynamodb } from '../src/lib';
 import { Converter } from 'aws-sdk/clients/dynamodb';
 import { TABLE_NAME } from '../src/config';
 import { esClearIndex, exIndexBulk } from '../src/common/elastic';
+import { ContractMeta } from 'contract';
+import { Convert } from 'schema';
+import { handler } from '../src/handler';
 
 export async function resetDb() {
   const deleteNext = async () => {
@@ -55,4 +58,20 @@ export async function esReIndexFromDynamo(entityType: string) {
       entity: Converter.unmarshall(item) as any,
     }))
   );
+}
+type ExtractParams<T> = T extends ContractMeta<infer S>
+  ? Omit<
+      Convert<
+        {
+          [P in keyof S]: Convert<S[P]>;
+        }
+      >,
+      'user'
+    >
+  : never;
+
+export function execContract<
+  T extends ((...args: any[]) => any) & ContractMeta<any>
+>(contract: T, params: ExtractParams<T>, accessToken?: string): ReturnType<T> {
+  return handler(contract.getSignature(), params, accessToken) as any;
 }

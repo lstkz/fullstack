@@ -195,3 +195,7 @@ export function intersectionBy<T, K, R>(
   const set = new Set(other.map(fn));
   return items.filter(x => set.has(fn(x)));
 }
+
+export function md5(str: string) {
+  return crypto.createHash('md5').update(str).digest('hex');
+}
