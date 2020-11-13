@@ -8,6 +8,12 @@ interface EventMapping {
   };
 }
 export const eventMapping: EventMapping = {
+  UserRegisteredEvent: {
+    sendConfirmEmailEvent: () =>
+      import(
+        /* webpackChunkName: "UserRegisteredEvent.sendConfirmEmailEvent"*/ '../contracts/notification/sendConfirmEmail'
+      ).then(x => x['sendConfirmEmailEvent']),
+  },
   OrderPaidEvent: {
     completeCourseOrderEvent: () =>
       import(

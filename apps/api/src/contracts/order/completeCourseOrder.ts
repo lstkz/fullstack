@@ -1,13 +1,11 @@
 import { S } from 'schema';
 import uuid from 'uuid';
+import { randomUniqString } from '../../common/helper';
 import { CourseAccessEntity } from '../../entities/CourseAccessEntity';
 import { OrderEntity } from '../../entities/OrderEntity';
 import { UserEntity } from '../../entities/UserEntity';
-import {
-  createContract,
-  createEventBinding,
-  createTransaction,
-} from '../../lib';
+import { createContract, createEventBinding } from '../../lib';
+import { _createUser } from '../user/_createUser';
 
 export const completeCourseOrder = createContract('order.completeCourseOrder')
   .params('orderId')
@@ -20,20 +18,19 @@ export const completeCourseOrder = createContract('order.completeCourseOrder')
       return;
     }
     let user = await UserEntity.getUserByEmailOrNull(order.customer.email);
-    const t = createTransaction();
     if (!user) {
-      user = new UserEntity({
+      user = await _createUser({
         userId: uuid(),
         email: order.customer.email,
+        isVerified: true,
+        password: randomUniqString(),
       });
-      t.insert(user);
     }
     const courseAccess = new CourseAccessEntity({
       courseId: order.product.courseId,
       userId: user.userId,
     });
-    t.insert(courseAccess);
-    await t.commit();
+    await courseAccess.insert();
   });
 
 export const completeCourseOrderEvent = createEventBinding({

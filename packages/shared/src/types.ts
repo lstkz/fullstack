@@ -1,13 +1,13 @@
-export interface Foo {
-  id: string;
-  foo: string;
-  bar: string;
-}
-
 export interface User {
   id: string;
-  username: string;
-  isAdmin: boolean;
+  email: string;
+  isAdmin?: boolean;
+  isVerified: boolean;
+}
+
+export interface AuthData {
+  user: User;
+  token: string;
 }
 
 export interface SubscriptionResult {

@@ -13,4 +13,11 @@ const BaseEntity = createBaseEntity('user_email')
   .key<UserEmailKey>(key => `$:${key.email.toLowerCase()}`)
   .build();
 
-export class UserEmailEntity extends BaseEntity {}
+export class UserEmailEntity extends BaseEntity {
+  static async getIsTaken(email: string) {
+    const item = await this.getByKeyOrNull({
+      email,
+    });
+    return item != null;
+  }
+}

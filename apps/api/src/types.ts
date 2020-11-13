@@ -7,6 +7,11 @@ export interface OrderPaidEvent {
   payload: { orderId: string };
 }
 
-export type AppEvent = OrderPaidEvent;
+export interface UserRegisteredEvent {
+  type: 'UserRegisteredEvent';
+  payload: { userId: string };
+}
+
+export type AppEvent = OrderPaidEvent | UserRegisteredEvent;
 
 export * from './types-aws';
