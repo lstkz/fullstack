@@ -67,6 +67,12 @@ jobs:
           ES_PASSWORD: dummy
           TOPIC_ARN: dummy
           S3_BUCKET_NAME: dummy
+          API_BASE_URL: 'https://api.fullstack.pl'
+          APP_BASE_URL: 'https://fullstack.pl'
+          TPAY_CUSTOMER_ID: 1010
+          TPAY_API_KEY: 75f86137a6635df826e3efe2e66f7c9a946fdde1
+          TPAY_PASSWORD: demo
+          TPAY_RESULT_EMAIL: 'example@example.org'
   blog:
     runs-on: ubuntu-latest
 

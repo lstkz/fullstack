@@ -188,7 +188,7 @@ class Builder {
           throw new DatabaseError(
             `${getEntityName(this)} not found with pk="${
               dynamoKey.pk
-            }" and sk="${dynamoKey.pk}"`
+            }" and sk="${dynamoKey.sk}"`
           );
         }
         return item;
