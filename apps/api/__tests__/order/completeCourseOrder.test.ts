@@ -1,11 +1,7 @@
-import { mocked } from 'ts-jest/utils';
-import { md5 } from '../../src/common/helper';
-import { TPAY_CODE, TPAY_CUSTOMER_ID } from '../../src/config';
-import { tpayHook } from '../../src/contracts/order/tpayHook';
 import { dispatch } from '../../src/dispatch';
 import { CourseAccessEntity } from '../../src/entities/CourseAccessEntity';
 import { OrderEntity } from '../../src/entities/OrderEntity';
-import { execContract, resetDb } from '../helper';
+import { resetDb } from '../helper';
 
 jest.mock('uuid', () => {
   let next = 1;

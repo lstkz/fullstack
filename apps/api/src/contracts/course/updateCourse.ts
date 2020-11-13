@@ -1,5 +1,5 @@
 import { S } from 'schema';
-import { createContract, createRpcBinding, createTransaction } from '../../lib';
+import { createContract, createRpcBinding } from '../../lib';
 
 export const updateCourse = createContract('course.updateCourse')
   .params('id', 'course', 'lessons')
