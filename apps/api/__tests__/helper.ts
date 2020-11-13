@@ -66,7 +66,7 @@ type ExtractParams<T> = T extends ContractMeta<infer S>
           [P in keyof S]: Convert<S[P]>;
         }
       >,
-      'user'
+      'userId'
     >
   : never;
 

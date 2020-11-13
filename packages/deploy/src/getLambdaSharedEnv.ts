@@ -8,18 +8,16 @@ interface GetLambdaSharedEnvOptions {
   mainTable: MainTable;
 }
 
+function _get(name: string) {
+  const value = process.env[name];
+  if (!value) {
+    throw new Error(`${name} is not set`);
+  }
+  return value;
+}
+
 export function getLambdaSharedEnv(options: GetLambdaSharedEnvOptions) {
   const { mainBucket, mainTable, mainTopic } = options;
-
-  if (!process.env.ES_URL) {
-    throw new Error('ES_URL is not set');
-  }
-  if (!process.env.ES_USERNAME) {
-    throw new Error('ES_USERNAME is not set');
-  }
-  if (!process.env.ES_PASSWORD) {
-    throw new Error('ES_PASSWORD is not set');
-  }
 
   return {
     IS_AWS: '1',
@@ -27,9 +25,22 @@ export function getLambdaSharedEnv(options: GetLambdaSharedEnvOptions) {
     TOPIC_ARN: mainTopic.getSNSTopic().topicArn,
     TABLE: mainTable.getDynamoTable().tableName,
     S3_BUCKET_NAME: mainBucket.getS3Bucket().bucketName,
-    ES_URL: process.env.ES_URL,
-    ES_USERNAME: process.env.ES_USERNAME,
-    ES_PASSWORD: process.env.ES_PASSWORD,
-    SES_REGION: process.env.SES_REGION!,
+    SES_REGION: process.env.SES_REGION,
+
+    API_BASE_URL: _get('API_BASE_URL'),
+    APP_BASE_URL: _get('APP_BASE_URL'),
+
+    ES_URL: _get('ES_URL'),
+    ES_USERNAME: _get('ES_USERNAME'),
+    ES_PASSWORD: _get('ES_PASSWORD'),
+
+    TPAY_CUSTOMER_ID: _get('TPAY_CUSTOMER_ID'),
+    TPAY_API_KEY: _get('TPAY_API_KEY'),
+    TPAY_PASSWORD: _get('TPAY_PASSWORD'),
+    TPAY_CODE: process.env.TPAY_CODE,
+    TPAY_RESULT_EMAIL: _get('TPAY_RESULT_EMAIL'),
+
+    GITHUB_CLIENT_ID: _get('GITHUB_CLIENT_ID'),
+    GITHUB_CLIENT_SECRET: _get('GITHUB_CLIENT_SECRET'),
   };
 }

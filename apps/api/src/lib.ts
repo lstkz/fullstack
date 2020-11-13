@@ -31,7 +31,6 @@ export const createBaseEntity = createBaseEntityProvider({
 });
 
 export interface CreateRpcBindingOptions {
-  verified?: true;
   injectUser?: boolean;
   public?: true;
   raw?: true;

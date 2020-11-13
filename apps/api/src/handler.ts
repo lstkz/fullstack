@@ -1,5 +1,6 @@
 import { apiMapping } from './generated/api-mapping';
 import { AppError } from './common/errors';
+import { getUserByToken } from './contracts/user/getUserByToken';
 
 export async function handler(
   rpcMethod: string,
@@ -17,21 +18,20 @@ export async function handler(
   }
 
   const getUser = async () => {
-    return null as any;
-    // if (!authToken) {
-    //   return null;
-    // }
-    // const user = await getUserByToken(authToken);
-    // if (!user) {
-    //   throw new AppError('Invalid or expired token');
-    // }
-    // if (options.admin && !user.isAdmin) {
-    //   throw new AppError('Admin only');
-    // }
-    // if (options.verified && !user.isVerified) {
-    //   throw new AppError('Account not verified');
-    // }
-    // return user;
+    if (!authToken) {
+      return null;
+    }
+    const user = await getUserByToken(authToken);
+    if (!user) {
+      throw new AppError('Invalid or expired token');
+    }
+    if (options.admin && !user.isAdmin) {
+      throw new AppError('Admin only');
+    }
+    if (!user.isVerified) {
+      throw new AppError('User is not verified');
+    }
+    return user;
   };
   const user = await getUser();
   const params = options.handler.getParams();
@@ -40,7 +40,7 @@ export async function handler(
   }
   const values = options.raw ? [rpcBody] : params.map(x => rpcBody[x]);
   if (options.injectUser) {
-    values.unshift(user);
+    values.unshift(user!.id);
   }
   return options.handler(...values);
 }
