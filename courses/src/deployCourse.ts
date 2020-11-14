@@ -4,10 +4,19 @@ import tar from 'tar';
 import webpack from 'webpack';
 import TerserPlugin from 'terser-webpack-plugin';
 import tmp from 'tmp';
+import mime from 'mime-types';
+import { XMLHttpRequest } from 'xmlhttprequest';
+
 import { CleanWebpackPlugin } from 'clean-webpack-plugin';
 import { APIClient, Course, CourseLessonUpload } from 'shared';
-import { execWebpack, getAllFiles, getWebpackModule } from './helper';
-import { CourseTask, TaskInfo } from './types';
+import {
+  execWebpack,
+  getAllFiles,
+  getWebpackModule,
+  md5,
+  uploadS3,
+} from './helper';
+import { CourseTask, TaskInfo, TaskUpload } from './types';
 
 function _getCourseBaseDir(courseName: string) {
   return Path.join(__dirname, '../', courseName);
@@ -40,8 +49,13 @@ async function _collectSources(tasks: TaskInfo[]) {
       await tar.create(
         {
           gzip: true,
+          portable: true,
           file: task.sourceTarPath,
           cwd: dir.name,
+          filter: (path, stat) => {
+            stat.mtime = null!;
+            return true;
+          },
         },
         await fs.readdir(dir.name)
       );
@@ -161,13 +175,55 @@ function _getLesson(courseName: string) {
   return info;
 }
 
-function _getCourses(courseName: string) {
+function _getLessons(courseName: string) {
   const lessons: CourseLessonUpload[] = require(`../${courseName}/lessons`)
     .lessons;
   if (!lessons) {
     throw new Error('Cannot get lessons');
   }
   return lessons;
+}
+
+async function _uploadTasks(bucketName: string, tasks: TaskInfo[]) {
+  return await Promise.all(
+    tasks.map(async task => {
+      const taskUpload: TaskUpload = {
+        id: task.id,
+        week: task.week,
+        name: task.task.name,
+        detailsS3Key: '',
+        sourceS3Key: '',
+      };
+      await Promise.all(
+        [
+          { path: task.distFilePath, out: 'detailsS3Key' as const },
+          { path: task.sourceTarPath, out: 'sourceS3Key' as const },
+        ].map(async file => {
+          const { out, path } = file;
+          const contentType = mime.lookup(path);
+          const ext = Path.extname(path);
+          if (!ext) {
+            throw new Error('No extension');
+          }
+          if (!contentType) {
+            throw new Error('Cannot get content type: ' + path);
+          }
+          const name = Path.basename(path, ext);
+          const content = await fs.readFile(path);
+          const hash = md5(content);
+          const s3Key = `protected/${name}.${hash}${ext}`;
+          await uploadS3({
+            bucketName: bucketName,
+            content,
+            contentType,
+            s3Key,
+          });
+          taskUpload[out] = s3Key;
+        })
+      );
+      return taskUpload;
+    })
+  );
 }
 
 interface DeployCourseOptions {
@@ -180,16 +236,20 @@ interface DeployCourseOptions {
 async function deployCourse(options: DeployCourseOptions) {
   const { courseName, s3BucketName, apiUrl, accessToken } = options;
   const info = _getLesson(courseName);
-  const lessons = _getCourses(courseName);
+  const lessons = _getLessons(courseName);
 
   const tasks = _getTasks(courseName);
   await _buildDetails(courseName, tasks);
   await _collectSources(tasks);
 
-  // await Promise.all(lessons.map(async lesson => {}));
+  const taskUploads = await _uploadTasks(s3BucketName, tasks);
 
-  const api = new APIClient(apiUrl, () => accessToken);
-  // api.
+  const api = new APIClient(
+    apiUrl,
+    () => accessToken,
+    () => new XMLHttpRequest()
+  );
+  await api.course_updateCourse(info, lessons, taskUploads).toPromise();
 }
 
 if (!process.env.COURSE_NAME) {
@@ -201,7 +261,7 @@ if (!process.env.S3_BUCKET_NAME) {
 if (!process.env.API_URL) {
   throw new Error('API_URL is not set');
 }
-if (!process.env.ACCESS_TOKEN) {
+if (!process.env.API_TOKEN) {
   throw new Error('ACCESS_TOKEN is not set');
 }
 
@@ -209,7 +269,7 @@ deployCourse({
   courseName: process.env.COURSE_NAME,
   s3BucketName: process.env.S3_BUCKET_NAME,
   apiUrl: process.env.API_URL,
-  accessToken: process.env.ACCESS_TOKEN,
+  accessToken: process.env.API_TOKEN,
 })
   .then(() => {
     process.exit();

@@ -28,3 +28,11 @@ export interface TaskInfo {
   distFilePath: string;
   sourceTarPath: string;
 }
+
+export interface TaskUpload {
+  id: number;
+  name: string;
+  week: number;
+  detailsS3Key: string;
+  sourceS3Key: string;
+}

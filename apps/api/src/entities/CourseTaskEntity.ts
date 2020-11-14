@@ -8,7 +8,8 @@ export interface CourseTaskKey {
 export interface CourseTaskProps extends CourseTaskKey {
   name: string;
   week: number;
-  s3Key: string;
+  detailsS3Key: string;
+  sourceS3Key: string;
 }
 
 const BaseEntity = createBaseEntity('course_task')
@@ -19,4 +20,13 @@ const BaseEntity = createBaseEntity('course_task')
   }))
   .build();
 
-export class CourseTaskEntity extends BaseEntity {}
+export class CourseTaskEntity extends BaseEntity {
+  static getByCourse(courseId: string) {
+    return this.queryAll({
+      key: {
+        pk: `course_task:${courseId}`,
+      },
+      sort: 'asc',
+    });
+  }
+}

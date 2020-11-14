@@ -17,8 +17,8 @@ export class APIClient {
 
   // SIGNATURES
   course_updateCourse(
-    id: string,
     course: {
+      id: string;
       name: string;
       description: string;
       promoPrice: number;
@@ -30,9 +30,16 @@ export class APIClient {
       name: string;
       week: number;
       sources: { resolution: number; s3Key: string }[];
+    }[],
+    tasks: {
+      id: number;
+      name: string;
+      week: number;
+      detailsS3Key: string;
+      sourceS3Key: string;
     }[]
   ): Rx.Observable<unknown> {
-    return this.call('course.updateCourse', { id, course, lessons });
+    return this.call('course.updateCourse', { course, lessons, tasks });
   }
   order_createOrder(values: {
     group: number;
