@@ -6,6 +6,7 @@ import { createPasswordHash } from '../../common/helper';
 import { _generateAuthData } from './_generateAuthData';
 import { ResetPasswordCodeEntity } from '../../entities/ResetPasswordCodeEntity';
 import { UserEntity } from '../../entities/UserEntity';
+import { AuthData } from 'shared';
 
 export const confirmResetPassword = createContract('user.confirmResetPassword')
   .params('code', 'newPassword')
@@ -13,6 +14,7 @@ export const confirmResetPassword = createContract('user.confirmResetPassword')
     code: S.string(),
     newPassword: S.string().min(5),
   })
+  .returns<AuthData>()
   .fn(async (code, newPassword) => {
     const resetCode = await ResetPasswordCodeEntity.getByKeyOrNull({ code });
     if (!resetCode) {

@@ -3,7 +3,7 @@ import { ajax, AjaxRequest } from 'rxjs/ajax';
 import { map } from 'rxjs/operators';
 
 // IMPORTS
-import { SubscriptionResult, AuthData, User } from './types';
+import { Course, SubscriptionResult, AuthData, User } from './types';
 // IMPORTS END
 
 export class APIClient {
@@ -16,24 +16,27 @@ export class APIClient {
   }
 
   // SIGNATURES
+  course_getAllCourses(): Rx.Observable<Course[]> {
+    return this.call('course.getAllCourses', {});
+  }
   course_updateCourse(
     course: {
-      id: string;
       name: string;
       description: string;
-      promoPrice: number;
       price: number;
+      promoPrice: number;
       promoEnds: Date;
+      id: string;
     },
     lessons: {
-      id: number;
       name: string;
+      id: number;
       week: number;
       sources: { resolution: number; s3Key: string }[];
     }[],
     tasks: {
-      id: number;
       name: string;
+      id: number;
       week: number;
       detailsS3Key: string;
       sourceS3Key: string;
@@ -48,7 +51,7 @@ export class APIClient {
   }
   order_createOrder(values: {
     group: number;
-    product: { type: 'course'; courseId: string };
+    product: { courseId: string; type: 'course' };
     customer: { email: string; firstName: string; lastName: string };
     invoice?:
       | {
@@ -114,7 +117,7 @@ export class APIClient {
   user_confirmResetPassword(
     code: string,
     newPassword: string
-  ): Rx.Observable<unknown> {
+  ): Rx.Observable<AuthData> {
     return this.call('user.confirmResetPassword', { code, newPassword });
   }
   user_getMe(): Rx.Observable<User> {
@@ -132,7 +135,7 @@ export class APIClient {
   }): Rx.Observable<AuthData> {
     return this.call('user.register', { values });
   }
-  user_resetPassword(email: string): Rx.Observable<unknown> {
+  user_resetPassword(email: string): Rx.Observable<void> {
     return this.call('user.resetPassword', { email });
   }
   // SIGNATURES END
