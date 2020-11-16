@@ -66,5 +66,5 @@ jobs:
           TPAY_RESULT_EMAIL: ${{ secrets.TPAY_RESULT_EMAIL }}
           GITHUB_CLIENT_ID: ${{ secrets.PROD_GITHUB_CLIENT_ID }}
           GITHUB_CLIENT_SECRET: ${{ secrets.PROD_GITHUB_CLIENT_SECRET }}
-          GOOGLE_CLIENT_ID: ${{ secrets.GOOGLE_CLIENT_ID }}
-          GOOGLE_CLIENT_SECRET: ${{ secrets.GOOGLE_CLIENT_SECRET }}
+          GOOGLE_CLIENT_ID: ${{ secrets.PROD_GOOGLE_CLIENT_ID }}
+          GOOGLE_CLIENT_SECRET: ${{ secrets.PROD_GOOGLE_CLIENT_SECRET }}
