@@ -112,8 +112,8 @@ export class APIClient {
   ): Rx.Observable<unknown> {
     return this.call('user.confirmResetPassword', { code, newPassword });
   }
-  user_getMe(userId: string): Rx.Observable<User> {
-    return this.call('user.getMe', { userId });
+  user_getMe(): Rx.Observable<User> {
+    return this.call('user.getMe', {});
   }
   user_login(values: {
     email: string;
