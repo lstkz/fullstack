@@ -73,10 +73,10 @@ export function LoginView(props?: LoginViewProps) {
 
           <FormInput
             testId="login-input"
-            id="emailOrUsername"
-            name="emailOrUsername"
-            label="Username or Email"
-            placeholder="name@example.com or coder"
+            id="email"
+            name="email"
+            label="Email"
+            placeholder="name@example.com"
           />
           <FormInput
             testId="password-input"

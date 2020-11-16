@@ -2,6 +2,7 @@ import * as React from 'react';
 import { createUrl } from 'src/common/url';
 import { Link } from 'typeless-router';
 import styled from 'styled-components';
+import { Theme } from 'src/Theme';
 
 interface LogoProps {
   className?: string;
@@ -23,9 +24,12 @@ const _Logo = (props: LogoProps) => {
 export const Logo = styled(_Logo)`
   a {
     display: flex;
+    &:hover {
+      text-decoration: none;
+    }
   }
   h1 {
-    color: white;
+    color: ${props => (props.type === 'dark' ? Theme.textDark : 'white')};
     margin: 0;
     padding: 0;
     font-size: 30px;

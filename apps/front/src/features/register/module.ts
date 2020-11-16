@@ -63,13 +63,13 @@ handle
     if (!getIsActive()) {
       return Rx.empty();
     }
-    return authWith(action$, () => api.user_authGithub(false, code));
+    return authWith(action$, () => api.user_authGithub(true, code));
   })
   .on(GlobalActions.googleCallback, ({ token }, { action$ }) => {
     if (!getIsActive()) {
       return Rx.empty();
     }
-    return authWith(action$, () => api.user_authGoogle(false, token));
+    return authWith(action$, () => api.user_authGoogle(true, token));
   });
 
 // --- Reducer ---
