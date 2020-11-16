@@ -60,6 +60,7 @@ jobs:
           API_URL: 'https://api.fullstack.pl'
           API_BASE_URL: 'https://api.fullstack.pl'
           APP_BASE_URL: 'https://fullstack.pl'
+          PROTECTED_BASE_URL: /
           TPAY_CUSTOMER_ID: ${{ secrets.TPAY_CUSTOMER_ID }}
           TPAY_API_KEY: ${{ secrets.TPAY_API_KEY }}
           TPAY_PASSWORD: ${{ secrets.TPAY_PASSWORD }}
