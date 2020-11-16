@@ -19,7 +19,7 @@ function _getCourse(id: string) {
     description: `description ${id}`,
     promoPrice: 1000,
     price: 3000,
-    promoEnds: new Date(2020, 1, 1),
+    promoEnds: new Date('2020-01-01T00:00:00.000Z'),
   };
 }
 
@@ -74,7 +74,7 @@ it('should update a course', async () => {
       "entityType": "course",
       "name": "name c1",
       "price": 3000,
-      "promoEnds": 1580511600000,
+      "promoEnds": 1577836800000,
       "promoPrice": 1000,
     }
   `);
@@ -177,7 +177,7 @@ it('should update a course (update, and remove lessons and tasks)', async () => 
         description: `updated description c1`,
         promoPrice: 1100,
         price: 3100,
-        promoEnds: new Date(2030, 1, 1),
+        promoEnds: new Date('2030-01-01T00:00:00.000Z'),
       },
       lessons: [
         _getLesson(1),
@@ -224,7 +224,7 @@ it('should update a course (update, and remove lessons and tasks)', async () => 
       "entityType": "course",
       "name": "updated name c1",
       "price": 3100,
-      "promoEnds": 1896130800000,
+      "promoEnds": 1893456000000,
       "promoPrice": 1100,
     }
   `);
