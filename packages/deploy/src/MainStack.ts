@@ -28,9 +28,7 @@ export class MainStack extends cdk.Stack {
     new GatewayApi(this, {
       apiLambda,
     });
-    new BlogWebSiteDist(this, {
-      mainBucket,
-    });
+    new BlogWebSiteDist(this);
     new AppWebSiteDist(this, {
       mainBucket,
     });

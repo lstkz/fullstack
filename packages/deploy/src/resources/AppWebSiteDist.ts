@@ -16,7 +16,6 @@ export class AppWebSiteDist {
     );
 
     mainBucket.getS3Bucket().grantRead(cfIdentity);
-
     const deployBucket = new s3.Bucket(scope, 'AppDeployBucket', {
       removalPolicy: cdk.RemovalPolicy.DESTROY,
       websiteIndexDocument: 'index.html',

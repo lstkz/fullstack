@@ -2,22 +2,9 @@ import cdk = require('@aws-cdk/core');
 import cf = require('@aws-cdk/aws-cloudfront');
 import s3 = require('@aws-cdk/aws-s3');
 import lambda = require('@aws-cdk/aws-lambda');
-import { MainBucket } from './MainBucket';
-
-interface BlogWebSiteDistDeps {
-  mainBucket: MainBucket;
-}
 
 export class BlogWebSiteDist {
-  constructor(scope: cdk.Construct, { mainBucket }: BlogWebSiteDistDeps) {
-    const cfIdentity = new cf.OriginAccessIdentity(
-      scope,
-      'CloudFrontOriginAccessIdentity',
-      {}
-    );
-
-    mainBucket.getS3Bucket().grantRead(cfIdentity);
-
+  constructor(scope: cdk.Construct) {
     const deployBucket = new s3.Bucket(scope, 'BlogDeployBucket', {
       removalPolicy: cdk.RemovalPolicy.DESTROY,
       websiteIndexDocument: 'index.html',
