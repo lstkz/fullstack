@@ -61,7 +61,7 @@ export function init() {
         await Promise.all([
           buildApp('blog', buildOptions),
           buildApp('api', buildOptions),
-          buildApp('app', buildOptions),
+          buildApp('front', buildOptions),
         ]);
       }
       const env = getEnvSettings({ prod, stage });
