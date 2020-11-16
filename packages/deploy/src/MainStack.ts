@@ -3,6 +3,7 @@ import { ApiLambda } from './resources/ApiLambda';
 import { AppWebSiteDist } from './resources/AppWebSiteDist';
 import { BlogWebSiteDist } from './resources/BlogWebSiteDist';
 import { GatewayApi } from './resources/GatewayApi';
+import { LogLambda } from './resources/LogLambda';
 import { MainBucket } from './resources/MainBucket';
 import { MainTable } from './resources/MainTable';
 import { MainTopic } from './resources/MainTopic';
@@ -28,6 +29,14 @@ export class MainStack extends cdk.Stack {
     new GatewayApi(this, {
       apiLambda,
     });
+    if (process.env.REPORT_ERROR_EMAIL) {
+      new LogLambda(this, initOnly, {
+        apiLambda,
+        mainTopic,
+        mainBucket,
+        mainTable,
+      });
+    }
     new BlogWebSiteDist(this);
     new AppWebSiteDist(this, {
       mainBucket,

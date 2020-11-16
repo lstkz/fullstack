@@ -41,6 +41,11 @@ export class APIClient {
   ): Rx.Observable<unknown> {
     return this.call('course.updateCourse', { course, lessons, tasks });
   }
+  errorReporting_reportFrontendError(content: {
+    [key: string]: any;
+  }): Rx.Observable<unknown> {
+    return this.call('errorReporting.reportFrontendError', { content });
+  }
   order_createOrder(values: {
     group: number;
     product: { type: 'course'; courseId: string };

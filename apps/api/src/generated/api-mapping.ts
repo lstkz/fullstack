@@ -10,6 +10,10 @@ export const apiMapping: ApiMapping = {
     import(
       /* webpackChunkName: "course.updateCourse"*/ '../contracts/course/updateCourse'
     ).then(x => x['updateCourseRpc']),
+  'errorReporting.reportFrontendError': () =>
+    import(
+      /* webpackChunkName: "errorReporting.reportFrontendError"*/ '../contracts/errorReporting/reportFrontendError'
+    ).then(x => x['reportFrontendErrorRpc']),
   'order.createOrder': () =>
     import(
       /* webpackChunkName: "order.createOrder"*/ '../contracts/order/createOrder'
