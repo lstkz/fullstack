@@ -28,7 +28,7 @@ handle
     Object.assign(state, initialState);
   })
   .on(CoursesActions.loaded, (state, { result }) => {
-    state.isLoaded = false;
+    state.isLoaded = true;
     state.items = result;
   });
 

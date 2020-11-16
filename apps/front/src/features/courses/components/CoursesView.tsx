@@ -19,7 +19,7 @@ export function CoursesView() {
   return (
     <Dashboard>
       <Container data-test="courses-page" mt>
-        {isLoaded ? (
+        {!isLoaded ? (
           <Loader center />
         ) : items.length === 0 ? (
           <NoData data-test="no-courses">Brak kursów</NoData>
