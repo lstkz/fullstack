@@ -129,8 +129,6 @@ function checkNode(node: ts.Node, checker: ts.TypeChecker) {
 
   let returnType = '';
   let signature = '';
-  let params = [] as string[];
-  let paramNames = [] as string[];
   let injectUser = false;
   let args: {
     name: string;
@@ -172,37 +170,10 @@ function checkNode(node: ts.Node, checker: ts.TypeChecker) {
       );
       const str = argSignature.substr(1, argSignature.length - 2);
       args = parseArgs(str);
-      if (args[0]?.name === 'user') {
-        args.shift();
-      }
-      // console.log({ str });
-      // console.log(parseArgs(str));
-
-      // signature.parameters.forEach(param => {
-      //   const type = checker.getTypeOfSymbolAtLocation(
-      //     param,
-      //     param.valueDeclaration!
-      //   );
-      //   const paramName = param.escapedName.toString();
-      //   // console.log({ paramName });
-      //   console.log(
-      //     checker.typeToString(type, undefined, ts.TypeFormatFlags.NoTruncation)
-      //   );
-      //   params.push(
-      //     `${paramName}: ${checker.typeToString(
-      //       type,
-      //       undefined,
-      //       ts.TypeFormatFlags.NoTruncation
-      //     )},`
-      //   );
-      //   paramNames.push(paramName);
-      // });
     }
   });
-
   if (injectUser) {
-    paramNames.shift();
-    params.shift();
+    args.shift();
   }
 
   signatures.push(
@@ -214,25 +185,6 @@ function checkNode(node: ts.Node, checker: ts.TypeChecker) {
       .join(', ')} })
   }`
   );
-
-  // contractType.
-  // showTree(fn.parent);
-
-  // console.log({
-  //   prop,
-  //   fn,
-  // });
-
-  // console.log({
-  //   params,
-  //   returnType,
-  //   signature,
-  // });
-
-  // console.log(getChildren(objectLiteralExpression));
-  // console.log(
-  //   getChildren(objectLiteralExpression).map(node => ts.SyntaxKind[node.kind])
-  // );
 }
 
 /** Generate documentation for all classes in a set of .ts files */

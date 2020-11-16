@@ -1,5 +1,6 @@
 import cdk = require('@aws-cdk/core');
 import { ApiLambda } from './resources/ApiLambda';
+import { AppWebSiteDist } from './resources/AppWebSiteDist';
 import { BlogWebSiteDist } from './resources/BlogWebSiteDist';
 import { GatewayApi } from './resources/GatewayApi';
 import { MainBucket } from './resources/MainBucket';
@@ -28,6 +29,9 @@ export class MainStack extends cdk.Stack {
       apiLambda,
     });
     new BlogWebSiteDist(this, {
+      mainBucket,
+    });
+    new AppWebSiteDist(this, {
       mainBucket,
     });
   }
