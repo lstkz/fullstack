@@ -57,6 +57,7 @@ jobs:
           BLOG_DOMAIN: fullstack.pl,blog.fullstack.pl
           DOMAIN_CERT: arn:aws:acm:us-east-1:761975498781:certificate/02c0ca60-e3bc-4cab-a15c-2443541e2a3c
           FIX_INDEX_LAMBDA_ARN: arn:aws:lambda:us-east-1:761975498781:function:fix-index:1
+          API_URL: 'https://api.fullstack.pl'
           API_BASE_URL: 'https://api.fullstack.pl'
           APP_BASE_URL: 'https://fullstack.pl'
           TPAY_CUSTOMER_ID: ${{ secrets.TPAY_CUSTOMER_ID }}
