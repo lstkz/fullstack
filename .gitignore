@@ -14,6 +14,7 @@ cdk.out
 .DS_Store
 apps/front copy
 demo-entry.tsx
+dist-source
 
 # Runtime data
 pids

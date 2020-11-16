@@ -9,7 +9,7 @@ export interface CourseLessonKey {
 export interface CourseLessonProps extends CourseLessonKey {
   name: string;
   week: number;
-  source: VideoUpload[];
+  sources: VideoUpload[];
 }
 
 const BaseEntity = createBaseEntity('course_lesson')
@@ -20,4 +20,13 @@ const BaseEntity = createBaseEntity('course_lesson')
   }))
   .build();
 
-export class CourseLessonEntity extends BaseEntity {}
+export class CourseLessonEntity extends BaseEntity {
+  static getByCourse(courseId: string) {
+    return this.queryAll({
+      key: {
+        pk: `course_lesson:${courseId}`,
+      },
+      sort: 'asc',
+    });
+  }
+}

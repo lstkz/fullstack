@@ -44,7 +44,7 @@
   "devDependencies": {
     "prettier": "2.1.2"
   },
-  "license": "MIT",
+  "license": "UNLICENSED",
   "scripts": {
     "build": "GATSBY_API_URL=https://api.fullstack.pl gatsby build",
     "dev": "GATSBY_API_URL=http://localhost:3000 gatsby develop --port 4000",

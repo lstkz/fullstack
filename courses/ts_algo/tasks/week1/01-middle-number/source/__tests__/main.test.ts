@@ -1,4 +1,4 @@
-import { middleNumber } from '../src/task';
+import { middleNumber } from '../src/main';
 
 test.each([
   [1, 2, 3, 2],

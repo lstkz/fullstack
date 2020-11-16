@@ -3,20 +3,20 @@ import fs from 'fs';
 import AWS from 'aws-sdk';
 import dotenv from 'dotenv';
 import { ChildProcess } from 'child_process';
-import { libs, rootPath, apps, sharedLibs } from './config';
+import { libs, rootPath, apps, rootApps } from './config';
 
 function isLib(app: string) {
   return libs.includes(app);
 }
 
-function isSharedLib(app: string) {
-  return sharedLibs.includes(app);
+function isRootApps(app: string) {
+  return rootApps.includes(app);
 }
 
 export function getAppRoot(app: string) {
   return path.join(
     rootPath,
-    isLib(app) ? 'packages' : isSharedLib(app) ? 'packages-pvd' : 'apps',
+    isLib(app) ? 'packages' : isRootApps(app) ? '' : 'apps',
     app
   );
 }
