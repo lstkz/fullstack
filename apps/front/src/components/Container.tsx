@@ -5,6 +5,7 @@ interface ContainerProps {
   className?: string;
   children: React.ReactNode;
   flex?: boolean;
+  mt?: boolean;
 }
 
 export const Container = styled.div<ContainerProps>`
@@ -19,6 +20,7 @@ export const Container = styled.div<ContainerProps>`
   margin-left: auto;
   padding-right: 15px;
   padding-left: 15px;
+  ${props => (props.mt ? 'margin-top: 30px' : null)};
   ${props =>
     props.flex &&
     css`

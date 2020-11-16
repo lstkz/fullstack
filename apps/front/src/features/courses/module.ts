@@ -1,11 +1,20 @@
+import { api } from 'src/services/api';
+import * as Rx from 'src/rx';
 import { GlobalActions } from '../global/interface';
 import { CoursesActions, CoursesState, handle } from './interface';
+import { handleAppError } from 'src/common/helper';
 
 // --- Epic ---
 handle
   .epic()
   .on(GlobalActions.auth, () => CoursesActions.load())
-  .on(CoursesActions.$mounted, () => CoursesActions.load());
+  .on(CoursesActions.$mounted, () => CoursesActions.load())
+  .on(CoursesActions.load, () => {
+    return api.course_getAllCourses().pipe(
+      Rx.map(ret => CoursesActions.loaded(ret)),
+      handleAppError()
+    );
+  });
 
 // --- Reducer ---
 const initialState: CoursesState = {

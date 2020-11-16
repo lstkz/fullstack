@@ -15,6 +15,14 @@ export type UrlOptions =
       name: 'courses';
     }
   | {
+      name: 'course';
+      id: string;
+    }
+  | {
+      name: 'buy-course';
+      id: string;
+    }
+  | {
       name: 'home';
     }
   | {
@@ -36,6 +44,10 @@ export function createUrl(options: UrlOptions) {
       return '/courses';
     case 'tos':
       return '/terms';
+    case 'course':
+      return '/course/' + options.id;
+    case 'buy-course':
+      return '/buy-course/' + options.id;
     default:
       return '/' + options.name;
   }
