@@ -40,7 +40,7 @@ export async function handler(
   }
   const values = options.raw ? [rpcBody] : params.map(x => rpcBody[x]);
   if (options.injectUser) {
-    values.unshift(user!.id);
+    values.unshift(user?.id);
   }
   return options.handler(...values);
 }

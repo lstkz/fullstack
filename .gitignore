@@ -15,6 +15,7 @@ cdk.out
 apps/front copy
 demo-entry.tsx
 dist-source
+.vscode
 
 # Runtime data
 pids

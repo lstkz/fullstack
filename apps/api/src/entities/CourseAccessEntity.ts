@@ -15,4 +15,12 @@ const BaseEntity = createBaseEntity('course_access')
   }))
   .build();
 
-export class CourseAccessEntity extends BaseEntity {}
+export class CourseAccessEntity extends BaseEntity {
+  static getAllUserAccess(userId: string) {
+    return this.queryAll({
+      key: {
+        pk: this.createKey({ userId, courseId: '' }).pk,
+      },
+    });
+  }
+}

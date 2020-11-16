@@ -14,6 +14,7 @@ export const resetPassword = createContract('user.resetPassword')
   .schema({
     email: S.string().trim(),
   })
+  .returns<void>()
   .fn(async email => {
     const user = await UserEntity.getUserByEmailOrNull(email);
     if (!user) {

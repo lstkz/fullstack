@@ -2,6 +2,12 @@ import { BaseTheme } from 'ui';
 
 export const Theme = {
   ...BaseTheme,
+
+  primary: '#F7646C',
+  primary50: 'rgba(247, 100, 108, 0.5)',
+  textDark: '#333645',
+  textLight: '#666',
+
   bgLightGray2: '#F2F3F5',
   bgLightGray3: '#F2F3F8',
   bgLightGray4: '#F2F3F6',

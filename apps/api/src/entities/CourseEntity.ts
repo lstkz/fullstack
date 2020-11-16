@@ -1,3 +1,5 @@
+import * as R from 'remeda';
+import { Course } from 'shared';
 import { createBaseEntity } from '../lib';
 
 export interface CourseKey {
@@ -20,4 +22,21 @@ const BaseEntity = createBaseEntity('course')
   }))
   .build();
 
-export class CourseEntity extends BaseEntity {}
+export class CourseEntity extends BaseEntity {
+  static getAll() {
+    return this.queryAll({
+      key: {
+        pk: 'course',
+      },
+    });
+  }
+
+  toCourse(hasAccess: boolean): Course {
+    return {
+      id: this.courseId,
+      ...R.pick(this, ['name', 'description', 'promoPrice', 'price']),
+      promoEnds: new Date(this.promoEnds).toISOString(),
+      hasAccess,
+    };
+  }
+}

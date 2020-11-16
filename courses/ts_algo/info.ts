@@ -1,4 +1,4 @@
-import { Course } from 'shared';
+import { Course } from '../src/types';
 
 export const info: Course = {
   id: 'ts_algo',

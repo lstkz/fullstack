@@ -20,7 +20,8 @@ export interface Course {
   description: string;
   promoPrice: number;
   price: number;
-  promoEnds: Date;
+  promoEnds: string;
+  hasAccess: boolean;
 }
 
 export interface VideoUpload {
