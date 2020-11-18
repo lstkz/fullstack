@@ -16,10 +16,10 @@ const _Icon = (props: IconProps) => {
   return <div className={className}>{children}</div>;
 };
 
-function _iconVariant(color: string) {
+function _iconVariant(color: string, lighten: number) {
   return css`
     color: ${color};
-    background: ${Color(color).lighten(40).toHexString()};
+    background: ${Color(color).lighten(lighten).toHexString()};
   `;
 }
 
@@ -48,13 +48,13 @@ export const Icon = styled(_Icon)`
   ${props => {
     switch (props.type) {
       case 'primary':
-        return _iconVariant(NewTheme.primary);
+        return _iconVariant(NewTheme.primary, 40);
       case 'danger':
-        return _iconVariant(NewTheme.danger);
+        return _iconVariant(NewTheme.danger, 25);
       case 'warning':
-        return _iconVariant(NewTheme.warning);
+        return _iconVariant(NewTheme.warning, 25);
       case 'success':
-        return _iconVariant(NewTheme.success);
+        return _iconVariant(NewTheme.success, 34);
       default:
         return null;
     }

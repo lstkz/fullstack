@@ -2,16 +2,17 @@ import * as React from 'react';
 import { Container } from 'src/components/Container';
 import { NewTheme } from 'src/NewTheme';
 import styled from 'styled-components';
-
-import { library } from '@fortawesome/fontawesome-svg-core';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-
-import { faStoreAlt } from '@fortawesome/free-solid-svg-icons';
-
+import {
+  faTasks,
+  faVideo,
+  faGraduationCap,
+  faLaptopCode,
+  faChalkboardTeacher,
+  faExclamation,
+} from '@fortawesome/free-solid-svg-icons';
 import { Illustration1 } from './Illustration1';
 import { Icon } from 'src/new-components/Icon';
-
-// library.add(faStoreAlt);
 
 interface MoreThenCourseProps {
   className?: string;
@@ -51,7 +52,10 @@ const List = styled.ul`
     padding: 0.5rem 0;
     font-weight: 600;
     color: ${NewTheme.headings_color};
+    display: flex;
     ${Icon} {
+      flex-shrink: 0;
+      display: flex;
       margin-right: 1rem;
     }
   }
@@ -73,9 +77,41 @@ const _MoreThenCourse = (props: MoreThenCourseProps) => {
           <List>
             <li>
               <Icon type="primary" circle size="sm">
-                <FontAwesomeIcon icon={faStoreAlt} />
+                <FontAwesomeIcon icon={faGraduationCap} />
               </Icon>
-              Lekcje video
+              Podział na tygodnie nauki.
+            </li>
+            <li>
+              <Icon type="warning" circle size="sm">
+                <FontAwesomeIcon icon={faVideo} />
+              </Icon>
+              Każdy tydzień zawiera lekcje video i zadania do zrobienie.
+            </li>
+            <li>
+              <Icon type="success" circle size="sm">
+                <FontAwesomeIcon icon={faTasks} />
+              </Icon>
+              Zadania są automatycznie sprawdzane.
+            </li>
+            <li>
+              <Icon type="primary" circle size="sm">
+                <FontAwesomeIcon icon={faLaptopCode} />
+              </Icon>
+              Wbudowane IDE w przeglądarce. Nie trzeba nic ściągać!
+            </li>
+            <li>
+              <Icon type="warning" circle size="sm">
+                <FontAwesomeIcon icon={faChalkboardTeacher} />
+              </Icon>
+              Po każdej lekcji możesz zobaczyć film video z rozwiązaniem
+              wzorcowym przez mentora.
+            </li>
+            <li>
+              <Icon type="danger" circle size="sm">
+                <FontAwesomeIcon icon={faExclamation} />
+              </Icon>
+              Nie wiesz jak zrobić zadania? Przeczytaj wskazówkę albo zobacz
+              kompletne rozwiązanie.
             </li>
           </List>
         </Right>
