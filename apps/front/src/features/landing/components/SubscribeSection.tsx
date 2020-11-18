@@ -27,8 +27,8 @@ const _SubscribeSection = (props: SubscribeSectionProps) => {
       <Container>
         <Title>Dołącz do mailingu</Title>
         <Desc>
-          Kurs jest w budowie. Podaj swojego maila, a dostaniesz powiadomienie
-          jak wystartujemy.
+          Platforma jest w budowie. Podaj swojego maila, a dostaniesz
+          powiadomienie jak wystartujemy.
         </Desc>
 
         <InputGroup
