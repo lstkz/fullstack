@@ -7,6 +7,7 @@ import { LandingSymbol } from '../symbol';
 import { LandingFooter } from './LandingFooter';
 import { LandingHeader } from './LandingHeader';
 import { MainBanner } from './MainBanner';
+import { MentorSection } from './MentorSection';
 import { MoreThenCourse } from './MoreThenCourse';
 import { SubscribeSection } from './SubscribeSection';
 
@@ -43,6 +44,7 @@ export function LandingView() {
       <GlobalStyles />
       <LandingHeader />
       <MainBanner />
+      <MentorSection />
       <MoreThenCourse />
       <SubscribeSection />
       <LandingFooter />

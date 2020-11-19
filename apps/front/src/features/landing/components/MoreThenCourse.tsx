@@ -13,6 +13,7 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 import { Illustration1 } from './Illustration1';
 import { Icon } from 'src/new-components/Icon';
+import { Heading } from 'src/new-components/Heading';
 
 interface MoreThenCourseProps {
   className?: string;
@@ -28,14 +29,6 @@ const Left = styled.div`
 const Right = styled.div`
   width: 50%;
   padding-left: 4.5rem;
-`;
-
-const Title = styled.h2`
-  margin: 0;
-  font-weight: 600;
-  font-size: 2rem;
-  color: ${NewTheme.headings_color};
-  line-height: 1.5;
 `;
 
 const Desc = styled.p`
@@ -70,7 +63,7 @@ const _MoreThenCourse = (props: MoreThenCourseProps) => {
           <Illustration1 />
         </Left>
         <Right>
-          <Title>To więcej niż zwykły kurs programowania</Title>
+          <Heading type={2}>To więcej niż zwykły kurs programowania</Heading>
           <Desc>
             Fullstack.pl to kompletna platforma do nauki programowania.
           </Desc>

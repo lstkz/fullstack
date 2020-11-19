@@ -1,16 +1,11 @@
 import * as React from 'react';
 import { Container } from 'src/components/Container';
 import { Button } from 'src/new-components/Button';
+import { Heading } from 'src/new-components/Heading';
 import { Input } from 'src/new-components/Input';
 import { InputGroup } from 'src/new-components/InputGroup';
 import { NewTheme } from 'src/NewTheme';
 import styled from 'styled-components';
-
-const Title = styled.h2`
-  margin-bottom: 1rem;
-  font-size: 2rem;
-  color: ${NewTheme.headings_color};
-`;
 
 const Desc = styled.div`
   color: ${NewTheme.text_muted_color};
@@ -25,7 +20,7 @@ const _SubscribeSection = (props: SubscribeSectionProps) => {
   return (
     <div className={className}>
       <Container>
-        <Title>Dołącz do mailingu</Title>
+        <Heading type={2}>Dołącz do mailingu</Heading>
         <Desc>
           Platforma jest w budowie. Podaj swojego maila, a dostaniesz
           powiadomienie jak wystartujemy.

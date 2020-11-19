@@ -80,4 +80,5 @@ export const NewTheme = {
   section_dark: Color(BaseThemeColors.dark).darken(7).toHexString(),
 };
 
-console.log(NewTheme);
+export const MEDIA_MD = '@media (min-width: 768px)';
+export const MEDIA_LG = '@media (min-width: 1200px)';
