@@ -7,6 +7,7 @@ import { Row, Col } from 'src/new-components/Grid';
 import { Heading } from 'src/new-components/Heading';
 import { NewTheme } from 'src/NewTheme';
 import styled from 'styled-components';
+import { SectionShape } from './SectionShape';
 
 interface FaqSectionProps {
   className?: string;
@@ -18,6 +19,7 @@ const _FaqSection = (props: FaqSectionProps) => {
   const { className } = props;
   return (
     <div className={className}>
+      <SectionShape position="top" color="white" inverse />
       <Container>
         <Heading type={2} mb={5} white center>
           Najczęstsze pytania
@@ -86,6 +88,7 @@ const _FaqSection = (props: FaqSectionProps) => {
 };
 
 export const FaqSection = styled(_FaqSection)`
+  position: relative;
   display: block;
   background: ${NewTheme.primary};
   padding-top: 7.5rem;

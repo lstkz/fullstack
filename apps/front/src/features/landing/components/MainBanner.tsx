@@ -2,7 +2,7 @@ import * as React from 'react';
 import { Container } from 'src/components/Container';
 import { NewTheme } from 'src/NewTheme';
 import styled from 'styled-components';
-import { SvgCut } from './SvgCut';
+import { SectionShape } from './SectionShape';
 
 interface MainBannerProps {
   className?: string;
@@ -71,19 +71,6 @@ const SecondaryImage = styled.div`
   left: -3rem;
 `;
 
-const Bottom = styled.div`
-  position: absolute;
-  overflow: hidden;
-  bottom: 0;
-  left: 0;
-  width: 100%;
-  svg {
-    display: block;
-    fill: white;
-    pointer-events: none;
-  }
-`;
-
 const _MainBanner = (props: MainBannerProps) => {
   const { className } = props;
   return (
@@ -108,9 +95,7 @@ const _MainBanner = (props: MainBannerProps) => {
           <MainImage />
         </Right>
       </Container>
-      <Bottom>
-        <SvgCut />
-      </Bottom>
+      <SectionShape position="bottom" color="white" />
     </div>
   );
 };

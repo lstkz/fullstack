@@ -20,7 +20,7 @@ const _SectionShape = (props: SectionShapeProps) => {
 
 export const SectionShape = styled(_SectionShape)`
   position: absolute;
-  ${props => `${props.position}: 0'`}
+  ${props => `${props.position}: 0;`}
   left: 0;
   overflow: hidden;
   ${props => props.inverse && `transform: rotate(180deg);`}
