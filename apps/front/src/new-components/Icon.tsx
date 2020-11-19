@@ -55,6 +55,8 @@ export const Icon = styled(_Icon)`
         return _iconVariant(NewTheme.warning, 25);
       case 'success':
         return _iconVariant(NewTheme.success, 34);
+      case 'secondary':
+        return _iconVariant(NewTheme.secondary, 10);
       default:
         return null;
     }

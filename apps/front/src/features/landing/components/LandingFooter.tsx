@@ -14,6 +14,7 @@ const Top = styled.div`
   left: 0;
   overflow: hidden;
   transform: rotate(180deg);
+  width: 100%;
   svg {
     fill: white;
     display: block;

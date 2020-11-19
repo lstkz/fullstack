@@ -1,7 +1,7 @@
 import { css } from 'styled-components';
 
 const spacerBase = 1;
-const spacerMap = {
+const spacerMap: Record<number, number> = {
   0: 0,
   1: spacerBase * 0.25,
   2: spacerBase * 0.5,
@@ -69,87 +69,116 @@ export interface SpacerProps {
   py?: Size;
 }
 
+function _getStyles(
+  prefix: string,
+  total: number | undefined,
+  top: number | undefined,
+  bottom: number | undefined,
+  left: number | undefined,
+  right: number | undefined
+) {
+  const parts: string[] = [];
+  if (total != null) {
+    parts.push(`${prefix}: ${spacerMap[total]}rem !important;`);
+  }
+  if (top != null) {
+    parts.push(`${prefix}-top: ${spacerMap[top]}rem !important;`);
+  }
+  if (bottom != null) {
+    parts.push(`${prefix}-bottom: ${spacerMap[bottom]}rem !important;`);
+  }
+  if (left != null) {
+    parts.push(`${prefix}-left: ${spacerMap[left]}rem !important;`);
+  }
+  if (right != null) {
+    parts.push(`${prefix}: ${spacerMap[right]}rem !important;`);
+  }
+  return parts.join('');
+}
+
 export const spacerStyle = css`
   ${(props: SpacerProps) => {
-    let margin: string | undefined = undefined;
-    let marginLeft: string | undefined = undefined;
-    let marginRight: string | undefined = undefined;
-    let marginTop: string | undefined = undefined;
-    let marginBottom: string | undefined = undefined;
+    let margin: number | undefined = undefined;
+    let marginLeft: number | undefined = undefined;
+    let marginRight: number | undefined = undefined;
+    let marginTop: number | undefined = undefined;
+    let marginBottom: number | undefined = undefined;
     if (props.m) {
-      margin = `${spacerMap[props.m]}rem;`;
+      margin = props.m;
     }
     if (props.my) {
-      marginTop = `${spacerMap[props.my]}rem;`;
-      marginBottom = `${spacerMap[props.my]}rem;`;
+      marginTop = props.my;
+      marginBottom = props.my;
     }
     if (props.mx) {
-      marginLeft = `${spacerMap[props.mx]}rem;`;
-      marginRight = `${spacerMap[props.mx]}rem;`;
+      marginLeft = props.mx;
+      marginRight = props.mx;
     }
     if (props.mx) {
-      marginLeft = `${spacerMap[props.mx]}rem;`;
-      marginRight = `${spacerMap[props.mx]}rem;`;
+      marginLeft = props.mx;
+      marginRight = props.mx;
     }
     if (props.mt) {
-      marginTop = `${spacerMap[props.mt]}rem;`;
+      marginTop = props.mt;
     }
     if (props.mb) {
-      marginBottom = `${spacerMap[props.mb]}rem;`;
+      marginBottom = props.mb;
     }
     if (props.ml) {
-      marginLeft = `${spacerMap[props.ml]}rem;`;
+      marginLeft = props.ml;
     }
     if (props.mr) {
-      marginRight = `${spacerMap[props.mr]}rem;`;
+      marginRight = props.mr;
     }
-    return `
-      margin: ${margin};
-      margin-left: ${marginLeft};
-      margin-right: ${marginRight};
-      margin-top: ${marginTop};
-      margin-bottom: ${marginBottom};
-    `;
+    return _getStyles(
+      'margin',
+      margin,
+      marginTop,
+      marginBottom,
+      marginLeft,
+      marginRight
+    );
   }}
   ${(props: SpacerProps) => {
-    let padding: string | undefined = undefined;
-    let paddingLeft: string | undefined = undefined;
-    let paddingRight: string | undefined = undefined;
-    let paddingTop: string | undefined = undefined;
-    let paddingBottom: string | undefined = undefined;
+    let padding: number | undefined = undefined;
+    let paddingLeft: number | undefined = undefined;
+    let paddingRight: number | undefined = undefined;
+    let paddingTop: number | undefined = undefined;
+    let paddingBottom: number | undefined = undefined;
     if (props.p) {
-      padding = `${spacerMap[props.p]}rem;`;
+      padding = props.p;
     }
     if (props.py) {
-      paddingTop = `${spacerMap[props.py]}rem;`;
-      paddingBottom = `${spacerMap[props.py]}rem;`;
+      paddingTop = props.py;
+      paddingBottom = props.py;
     }
     if (props.px) {
-      paddingLeft = `${spacerMap[props.px]}rem;`;
-      paddingRight = `${spacerMap[props.px]}rem;`;
+      paddingLeft = props.px;
+      paddingRight = props.px;
     }
     if (props.px) {
-      paddingLeft = `${spacerMap[props.px]}rem;`;
-      paddingRight = `${spacerMap[props.px]}rem;`;
+      paddingLeft = props.px;
+      paddingRight = props.px;
     }
     if (props.pt) {
-      paddingTop = `${spacerMap[props.pt]}rem;`;
+      paddingTop = props.pt;
     }
     if (props.pb) {
-      paddingBottom = `${spacerMap[props.pb]}rem;`;
+      paddingBottom = props.pb;
     }
     if (props.pl) {
-      paddingLeft = `${spacerMap[props.pl]}rem;`;
+      paddingLeft = props.pl;
     }
     if (props.pr) {
-      paddingRight = `${spacerMap[props.pr]}rem;`;
+      paddingRight = props.pr;
     }
-    return `
-      padding: ${padding};
-      padding-left: ${paddingLeft};
-      padding-right: ${paddingRight};
-      padding-top: ${paddingTop};
-      padding-bottom: ${paddingBottom};
-    `;
+    return _getStyles(
+      'padding',
+      padding,
+      paddingTop,
+      paddingBottom,
+      paddingLeft,
+      paddingRight
+    );
   }}
 `;

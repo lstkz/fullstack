@@ -7,6 +7,8 @@ interface HeadingProps extends SpacerProps {
   className?: string;
   children: React.ReactNode;
   type: 1 | 2 | 3 | 4 | 5 | 6;
+  white?: boolean;
+  center?: boolean;
 }
 
 const tagMap = {
@@ -42,5 +44,7 @@ export const Heading = styled(_Heading)`
   font-size: ${props => fontSize[props.type]}rem;
   color: ${NewTheme.headings_color};
   margin: 0;
+  ${props => props.white && `color: white;`}
+  ${props => props.center && `text-align: center;`}
   ${spacerStyle}
 `;

@@ -4,6 +4,7 @@ import { NewTheme } from 'src/NewTheme';
 import { createGlobalStyle } from 'styled-components';
 import { createModule } from 'typeless';
 import { LandingSymbol } from '../symbol';
+import { FaqSection } from './FaqSection';
 import { LandingFooter } from './LandingFooter';
 import { LandingHeader } from './LandingHeader';
 import { MainBanner } from './MainBanner';
@@ -44,8 +45,9 @@ export function LandingView() {
       <GlobalStyles />
       <LandingHeader />
       <MainBanner />
-      <MentorSection />
       <MoreThenCourse />
+      <FaqSection />
+      <MentorSection />
       <SubscribeSection />
       <LandingFooter />
     </>

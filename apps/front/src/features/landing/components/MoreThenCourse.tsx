@@ -1,6 +1,5 @@
 import * as React from 'react';
 import { Container } from 'src/components/Container';
-import { NewTheme } from 'src/NewTheme';
 import styled from 'styled-components';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
@@ -14,6 +13,7 @@ import {
 import { Illustration1 } from './Illustration1';
 import { Icon } from 'src/new-components/Icon';
 import { Heading } from 'src/new-components/Heading';
+import { IconList } from './IconList';
 
 interface MoreThenCourseProps {
   className?: string;
@@ -38,22 +38,6 @@ const Desc = styled.p`
   font-weight: 300;
 `;
 
-const List = styled.ul`
-  padding-left: 0;
-  list-style: none;
-  li {
-    padding: 0.5rem 0;
-    font-weight: 600;
-    color: ${NewTheme.headings_color};
-    display: flex;
-    ${Icon} {
-      flex-shrink: 0;
-      display: flex;
-      margin-right: 1rem;
-    }
-  }
-`;
-
 const _MoreThenCourse = (props: MoreThenCourseProps) => {
   const { className } = props;
   return (
@@ -67,7 +51,7 @@ const _MoreThenCourse = (props: MoreThenCourseProps) => {
           <Desc>
             Fullstack.pl to kompletna platforma do nauki programowania.
           </Desc>
-          <List>
+          <IconList>
             <li>
               <Icon type="primary" circle size="sm">
                 <FontAwesomeIcon icon={faGraduationCap} />
@@ -106,7 +90,7 @@ const _MoreThenCourse = (props: MoreThenCourseProps) => {
               Nie wiesz jak zrobić zadania? Przeczytaj wskazówkę albo zobacz
               kompletne rozwiązanie.
             </li>
-          </List>
+          </IconList>
         </Right>
       </Container>
     </div>
