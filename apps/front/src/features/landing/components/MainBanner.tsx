@@ -87,7 +87,7 @@ const _MainBanner = (props: MainBannerProps) => {
             <br />
             Ponad 300 godzin praktyki.
             <br />
-            Jest to pierwszy krok to zostania fullstakiem.
+            Jest to pierwszy krok do zostania fullstakiem.
           </Desc>
         </Left>
         <Right>

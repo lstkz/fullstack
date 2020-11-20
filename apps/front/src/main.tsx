@@ -14,7 +14,7 @@ initErrorReporter();
 addTypelessExt();
 
 (window as any)._registry = registry;
-const render = () => {
+const render = (scrollY?: number) => {
   const App = require('./components/App').App;
   ReactDOM.unmountComponentAtNode(MOUNT_NODE);
   try {
@@ -27,7 +27,17 @@ const render = () => {
           </>
         </TypelessContext.Provider>
       </Hmr>,
-      MOUNT_NODE
+      MOUNT_NODE,
+      () => {
+        if (scrollY != null) {
+          requestAnimationFrame(() => {
+            window.scroll({
+              top: scrollY,
+              behavior: 'auto',
+            });
+          });
+        }
+      }
     );
   } catch (e) {
     // tslint:disable-next-line:no-console
@@ -38,8 +48,9 @@ const render = () => {
 
 if (module.hot) {
   module.hot.accept('./components/App', () => {
+    const scrollY = window.scrollY;
     startHmr();
-    render();
+    render(scrollY);
   });
 }
 if (window.location.pathname === '/github') {

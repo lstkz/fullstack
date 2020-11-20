@@ -46,8 +46,8 @@ export function LandingView() {
       <LandingHeader />
       <MainBanner />
       <MoreThenCourse />
-      <FaqSection />
       <MentorSection />
+      <FaqSection />
       <SubscribeSection />
       <LandingFooter />
     </>

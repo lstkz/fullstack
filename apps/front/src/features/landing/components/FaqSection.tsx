@@ -1,8 +1,6 @@
-import { faFile } from '@fortawesome/free-solid-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import * as React from 'react';
 import { Container } from 'src/components/Container';
-import { AccordionItem } from 'src/new-components/AccordionItem';
+import { Accordion, AccordionItem } from 'src/new-components/AccordionItem';
 import { Row, Col } from 'src/new-components/Grid';
 import { Heading } from 'src/new-components/Heading';
 import { NewTheme } from 'src/NewTheme';
@@ -12,8 +10,6 @@ import { SectionShape } from './SectionShape';
 interface FaqSectionProps {
   className?: string;
 }
-
-const Accordion = styled.div``;
 
 const _FaqSection = (props: FaqSectionProps) => {
   const { className } = props;
@@ -82,6 +78,7 @@ const _FaqSection = (props: FaqSectionProps) => {
             </Accordion>
           </Col>
         </Row>
+        <SectionShape position="bottom" color="white" />
       </Container>
     </div>
   );
@@ -91,6 +88,6 @@ export const FaqSection = styled(_FaqSection)`
   position: relative;
   display: block;
   background: ${NewTheme.primary};
-  padding-top: 7.5rem;
+  padding: 7.5rem 0;
   color: white;
 `;
