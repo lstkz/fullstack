@@ -5,6 +5,7 @@ import { SvgCut } from './SvgCut';
 interface SectionShapeProps {
   className?: string;
   inverse?: boolean;
+  flip?: boolean;
   position: 'top' | 'bottom';
   color: string;
 }
@@ -24,7 +25,7 @@ export const SectionShape = styled(_SectionShape)`
   left: 0;
   overflow: hidden;
   ${props => props.inverse && `transform: rotate(180deg);`}
-  ${props => props.inverse && `transform: rotate(180deg);`}
+  ${props => props.flip && `transform: scaleX(-1);`}
   width: 100%;
   svg {
     fill: ${props => props.color};

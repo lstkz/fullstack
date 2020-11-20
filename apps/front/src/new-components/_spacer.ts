@@ -1,4 +1,4 @@
-import { css } from 'styled-components';
+import styled, { css } from 'styled-components';
 
 const spacerBase = 1;
 const spacerMap: Record<number, number> = {
@@ -181,4 +181,8 @@ export const spacerStyle = css`
       paddingRight
     );
   }}
+`;
+
+export const Spacer = styled.div`
+  ${spacerStyle}
 `;

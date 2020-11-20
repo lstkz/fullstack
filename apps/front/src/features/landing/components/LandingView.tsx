@@ -11,6 +11,7 @@ import { MainBanner } from './MainBanner';
 import { MentorSection } from './MentorSection';
 import { MoreThenCourse } from './MoreThenCourse';
 import { SubscribeSection } from './SubscribeSection';
+import { TargetSection } from './TargetSection';
 
 export const [handle, LandingActions] = createModule(LandingSymbol).withActions(
   {
@@ -37,6 +38,14 @@ const GlobalStyles = createGlobalStyle`
         text-decoration: none;
     }
   }
+  figure {
+    max-width: 100%;
+    min-height: 1px;
+  }
+  figcaption, figure, main {
+      display: block;
+      margin: 0;
+  }
 `;
 
 export function LandingView() {
@@ -46,6 +55,7 @@ export function LandingView() {
       <LandingHeader />
       <MainBanner />
       <MoreThenCourse />
+      <TargetSection />
       <MentorSection />
       <FaqSection />
       <SubscribeSection />
