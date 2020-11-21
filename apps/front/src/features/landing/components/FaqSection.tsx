@@ -23,57 +23,53 @@ const _FaqSection = (props: FaqSectionProps) => {
         <Row>
           <Col lg={6}>
             <Accordion>
-              <AccordionItem header={<>Which license do I need?</>}>
-                Anim pariatur cliche reprehenderit, enim eiusmod high life
-                accusamus terry richardson ad squid. 3 wolf moon officia aute,
-                non cupidatat skateboard dolor brunch. Food truck quinoa
-                nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua
-                put a bird on it squid single-origin coffee nulla assumenda
-                shoreditch et.
+              <AccordionItem header={<>Czego się nauczę konkretnie?</>}>
+                Nauczysz się TypeScripta i rozwiązywania zadań bez frameworków.
+                Na samym początku kariery programisty, kluczowe jest, aby umieć
+                przepisywać "logikę biznesową" na kod.
+                <br />
+                Celem tego kursu jest nauka fundamentów, które będą potrzebne w
+                poźniejszej pracy frontend i/lub backend developera.
               </AccordionItem>
-              <AccordionItem header={<>How do I get access to a theme?</>}>
-                Anim pariatur cliche reprehenderit, enim eiusmod high life
-                accusamus terry richardson ad squid. 3 wolf moon officia aute,
-                non cupidatat skateboard dolor brunch. Food truck quinoa
-                nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua
-                put a bird on it squid single-origin coffee nulla assumenda
-                shoreditch et.
+              <AccordionItem header={<>Dla kogo NIE jest ten kurs?</>}>
+                Ten kurs nie jest dla osób, których celem jest tworzenie tylko
+                prostych stron z użyciem HTMLa i CSSów.
               </AccordionItem>
-              <AccordionItem header={<>How do I see previous orders?</>}>
-                Anim pariatur cliche reprehenderit, enim eiusmod high life
-                accusamus terry richardson ad squid. 3 wolf moon officia aute,
-                non cupidatat skateboard dolor brunch. Food truck quinoa
-                nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua
-                put a bird on it squid single-origin coffee nulla assumenda
-                shoreditch et.
+              <AccordionItem header={<>Jak wyglądają zadania do zrobienia?</>}>
+                Cały kod piszesz w wbudowanym Visual Studio Code w przeglądarce.
+                Nie musisz nic ściągać, ani instalować. Testowanie odbywa się
+                automaczynie, a wynik otrzymasz w parę sekund.
+              </AccordionItem>
+              <AccordionItem header={<>Ile czasu muszę poświęcić?</>}>
+                Im więcej typ lepiej 🙂. Będziesz musiał poświęcić od 6 do 10
+                godzin dziennie. Niestety, ale nie da się nauczyć programować
+                siedząc 2 godziny przez weekend.
+                <br />
+                Dostęp do kursu jest nieograniczony. Możesz robić zadania przez
+                dowolnie długi czas!
               </AccordionItem>
             </Accordion>
           </Col>
-          <Col lg={6}>
+          <Col lg={6} mt={0}>
             <Accordion>
-              <AccordionItem header={<>Which license do I need?</>}>
-                Anim pariatur cliche reprehenderit, enim eiusmod high life
-                accusamus terry richardson ad squid. 3 wolf moon officia aute,
-                non cupidatat skateboard dolor brunch. Food truck quinoa
-                nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua
-                put a bird on it squid single-origin coffee nulla assumenda
-                shoreditch et.
+              <AccordionItem
+                header={<>Co jeżeli nie będę umiał zrobić zadania?</>}
+              >
+                Dostępna będzie wskazówka tekstowa, która opisuje rozwiązania
+                zadania. Jeżeli ciągle masz trudności, to możesz obejrzeć
+                kompletne rozwiązanie video stworzone przez mentora. Ważne jest,
+                aby rozwiązać 80-90% wszystkich zadań samodzielnie.
               </AccordionItem>
-              <AccordionItem header={<>How do I get access to a theme?</>}>
-                Anim pariatur cliche reprehenderit, enim eiusmod high life
-                accusamus terry richardson ad squid. 3 wolf moon officia aute,
-                non cupidatat skateboard dolor brunch. Food truck quinoa
-                nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua
-                put a bird on it squid single-origin coffee nulla assumenda
-                shoreditch et.
+              <AccordionItem header={<>Czy jest dostęp do społeczności?</>}>
+                Tak, każda osoba, która kupi kurs, otrzyma dostęp do prywatnego
+                Slacka.
               </AccordionItem>
-              <AccordionItem header={<>How do I see previous orders?</>}>
-                Anim pariatur cliche reprehenderit, enim eiusmod high life
-                accusamus terry richardson ad squid. 3 wolf moon officia aute,
-                non cupidatat skateboard dolor brunch. Food truck quinoa
-                nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua
-                put a bird on it squid single-origin coffee nulla assumenda
-                shoreditch et.
+              <AccordionItem header={<>Czy otrzymam fakturę VAT?</>}>
+                Tak, możesz otrzymać fakturę z 23% VAT.
+              </AccordionItem>
+              <AccordionItem header={<>Czy są zwroty?</>}>
+                Tak, możesz otrzymać 100% zwrotu pieniędzy do 14-dni od
+                uzyskania dostępu do kursu.
               </AccordionItem>
             </Accordion>
           </Col>

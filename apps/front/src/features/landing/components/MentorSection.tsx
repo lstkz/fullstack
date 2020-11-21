@@ -59,7 +59,7 @@ const _MentorSection = (props: MentorSectionProps) => {
               </Col>
             </Row>
           </Col>
-          <RightCol md={6} pl={6}>
+          <RightCol md={6} mdSpacer={{ pl: 6 }}>
             <Heading type={2} mb={3}>
               Poznaj mentora 👋
             </Heading>

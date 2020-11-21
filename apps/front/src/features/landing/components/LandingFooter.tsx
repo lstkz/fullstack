@@ -2,24 +2,11 @@ import * as React from 'react';
 import { Container } from 'src/components/Container';
 import { NewTheme } from 'src/NewTheme';
 import styled from 'styled-components';
-import { SvgCut } from './SvgCut';
+import { SectionShape } from './SectionShape';
 
 interface LandingFooterProps {
   className?: string;
 }
-
-const Top = styled.div`
-  position: absolute;
-  top: 0;
-  left: 0;
-  overflow: hidden;
-  transform: rotate(180deg);
-  width: 100%;
-  svg {
-    fill: white;
-    display: block;
-  }
-`;
 
 const Divider = styled.hr`
   position: relative;
@@ -56,9 +43,7 @@ const _LandingFooter = (props: LandingFooterProps) => {
   const { className } = props;
   return (
     <div className={className}>
-      <Top>
-        <SvgCut />
-      </Top>
+      <SectionShape position="top" color={NewTheme.section_secondary} inverse />
       <Container>
         <Divider />
         <Bottom>

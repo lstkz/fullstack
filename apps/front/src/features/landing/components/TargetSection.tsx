@@ -67,7 +67,7 @@ const _TargetSection = (props: TargetSectionProps) => {
             >
               Ponad 90% kandydatów odpada na praktycznym zadaniu rekrutacyjnym.
               Wkuwanie na pamięć dziesiątek pytań niewiele daje. Po skończonym
-              kursie rozmowy o prace będą dużo łatwiejsze.
+              kursie, rozmowy o prace będą dużo łatwiejsze.
             </Media>
             <Media
               icon={<MoneyBagIcon />}

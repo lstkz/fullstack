@@ -14,22 +14,24 @@ import { Illustration1 } from './Illustration1';
 import { Icon } from 'src/new-components/Icon';
 import { Heading } from 'src/new-components/Heading';
 import { IconList } from './IconList';
+import { Col, Row } from 'src/new-components/Grid';
+import { MEDIA_MD } from 'src/NewTheme';
 
 interface MoreThenCourseProps {
   className?: string;
 }
 
-const Left = styled.div`
-  width: 50%;
+const Left = styled(Col)`
+  order: 2;
+  ${MEDIA_MD} {
+    order: 1;
+  }
   svg {
     max-width: 100%;
     height: auto;
   }
 `;
-const Right = styled.div`
-  width: 50%;
-  padding-left: 4.5rem;
-`;
+const Right = styled(Col)``;
 
 const Desc = styled.p`
   line-height: 1.9;
@@ -43,55 +45,57 @@ const _MoreThenCourse = (props: MoreThenCourseProps) => {
   return (
     <div className={className}>
       <Container>
-        <Left>
-          <Illustration1 />
-        </Left>
-        <Right>
-          <Heading type={2}>To więcej niż zwykły kurs programowania</Heading>
-          <Desc>
-            Fullstack.pl to kompletna platforma do nauki programowania.
-          </Desc>
-          <IconList>
-            <li>
-              <Icon type="primary" circle size="sm">
-                <FontAwesomeIcon icon={faGraduationCap} />
-              </Icon>
-              Podział na tygodnie nauki.
-            </li>
-            <li>
-              <Icon type="warning" circle size="sm">
-                <FontAwesomeIcon icon={faVideo} />
-              </Icon>
-              Każdy tydzień zawiera lekcje video i zadania do zrobienie.
-            </li>
-            <li>
-              <Icon type="success" circle size="sm">
-                <FontAwesomeIcon icon={faTasks} />
-              </Icon>
-              Zadania są automatycznie sprawdzane.
-            </li>
-            <li>
-              <Icon type="primary" circle size="sm">
-                <FontAwesomeIcon icon={faLaptopCode} />
-              </Icon>
-              Wbudowane IDE w przeglądarce. Nie trzeba nic ściągać!
-            </li>
-            <li>
-              <Icon type="warning" circle size="sm">
-                <FontAwesomeIcon icon={faChalkboardTeacher} />
-              </Icon>
-              Po każdej lekcji możesz zobaczyć film video z rozwiązaniem
-              wzorcowym przez mentora.
-            </li>
-            <li>
-              <Icon type="danger" circle size="sm">
-                <FontAwesomeIcon icon={faExclamation} />
-              </Icon>
-              Nie wiesz jak zrobić zadania? Przeczytaj wskazówkę albo zobacz
-              kompletne rozwiązanie.
-            </li>
-          </IconList>
-        </Right>
+        <Row>
+          <Left md={6}>
+            <Illustration1 />
+          </Left>
+          <Right md={6} mdSpacer={{ pl: 6 }}>
+            <Heading type={2}>To więcej niż zwykły kurs programowania</Heading>
+            <Desc>
+              Fullstack.pl to kompletna platforma do nauki programowania.
+            </Desc>
+            <IconList>
+              <li>
+                <Icon type="primary" circle size="sm">
+                  <FontAwesomeIcon icon={faGraduationCap} />
+                </Icon>
+                Podział na tygodnie nauki.
+              </li>
+              <li>
+                <Icon type="warning" circle size="sm">
+                  <FontAwesomeIcon icon={faVideo} />
+                </Icon>
+                Każdy tydzień zawiera lekcje video i zadania do zrobienie.
+              </li>
+              <li>
+                <Icon type="success" circle size="sm">
+                  <FontAwesomeIcon icon={faTasks} />
+                </Icon>
+                Zadania są automatycznie sprawdzane.
+              </li>
+              <li>
+                <Icon type="primary" circle size="sm">
+                  <FontAwesomeIcon icon={faLaptopCode} />
+                </Icon>
+                Wbudowane IDE w przeglądarce. Nie trzeba nic ściągać!
+              </li>
+              <li>
+                <Icon type="warning" circle size="sm">
+                  <FontAwesomeIcon icon={faChalkboardTeacher} />
+                </Icon>
+                Po każdej lekcji możesz zobaczyć film video z rozwiązaniem
+                wzorcowym przez mentora.
+              </li>
+              <li>
+                <Icon type="danger" circle size="sm">
+                  <FontAwesomeIcon icon={faExclamation} />
+                </Icon>
+                Nie wiesz jak zrobić zadania? Przeczytaj wskazówkę albo zobacz
+                kompletne rozwiązanie.
+              </li>
+            </IconList>
+          </Right>
+        </Row>
       </Container>
     </div>
   );

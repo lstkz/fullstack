@@ -53,6 +53,7 @@ const DEFAULT_GUTTER = 30;
 export const Row = styled.div<RowProps>`
   display: flex;
   flex-wrap: wrap;
+  width: 100%;
   ${MOBILE} {
     margin-left: 0;
     margin-right: 0;

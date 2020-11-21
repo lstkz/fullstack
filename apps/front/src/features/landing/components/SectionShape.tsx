@@ -27,6 +27,7 @@ export const SectionShape = styled(_SectionShape)`
   ${props => props.inverse && `transform: rotate(180deg);`}
   ${props => props.flip && `transform: scaleX(-1);`}
   width: 100%;
+  z-index: 3;
   svg {
     fill: ${props => props.color};
     display: block;
