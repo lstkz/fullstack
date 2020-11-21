@@ -40,6 +40,7 @@ module.exports = {
     // contentBase: path.join(__dirname, 'dist'),
     compress: true,
     port: process.env.PORT || 4000,
+    host: '0.0.0.0',
     hot: true,
     stats: 'errors-only',
     historyApiFallback: true,

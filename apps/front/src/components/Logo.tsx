@@ -6,14 +6,18 @@ import { Theme } from 'src/Theme';
 
 interface LogoProps {
   className?: string;
+  landing?: boolean;
   type: 'dark' | 'light';
 }
 
 const _Logo = (props: LogoProps) => {
-  const { className } = props;
+  const { className, landing } = props;
   return (
     <div className={className}>
-      <Link href={createUrl({ name: 'home' })} aria-label="logo">
+      <Link
+        href={landing ? '/' : createUrl({ name: 'home' })}
+        aria-label="logo"
+      >
         {/* {type === 'dark' ? <LogoDark /> : <LogoLight />} */}
         <h1>Fullstack</h1>
       </Link>
