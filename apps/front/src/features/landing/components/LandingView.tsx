@@ -1,9 +1,8 @@
 import React from 'react';
-import * as Rx from 'rxjs';
 import { NewTheme } from 'src/NewTheme';
 import { createGlobalStyle } from 'styled-components';
-import { createModule } from 'typeless';
-import { LandingSymbol } from '../symbol';
+import { useLandingModule } from '../module';
+import { useSubscribeForm } from '../subscribe-form';
 import { FaqSection } from './FaqSection';
 import { LandingFooter } from './LandingFooter';
 import { LandingHeader } from './LandingHeader';
@@ -12,16 +11,6 @@ import { MentorSection } from './MentorSection';
 import { MoreThenCourse } from './MoreThenCourse';
 import { SubscribeSection } from './SubscribeSection';
 import { TargetSection } from './TargetSection';
-
-export const [handle, LandingActions] = createModule(LandingSymbol).withActions(
-  {
-    $mounted: null,
-  }
-);
-
-handle.epic().on(LandingActions.$mounted, () => {
-  return Rx.empty();
-});
 
 const GlobalStyles = createGlobalStyle` 
   body {
@@ -49,6 +38,8 @@ const GlobalStyles = createGlobalStyle`
 `;
 
 export function LandingView() {
+  useSubscribeForm();
+  useLandingModule();
   return (
     <>
       <GlobalStyles />
