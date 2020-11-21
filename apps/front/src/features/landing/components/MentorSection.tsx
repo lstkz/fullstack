@@ -5,7 +5,7 @@ import { Container } from 'src/components/Container';
 import { Col, Row } from 'src/new-components/Grid';
 import { Heading } from 'src/new-components/Heading';
 import { Icon } from 'src/new-components/Icon';
-import { spacerStyle } from 'src/new-components/_spacer';
+import { SpacerProps, spacerStyle } from 'src/new-components/_spacer';
 import { NewTheme } from 'src/NewTheme';
 import styled from 'styled-components';
 import { IconList } from './IconList';
@@ -20,15 +20,16 @@ const RightCol = styled(Col)`
   justify-content: center;
 `;
 
-const Image = styled.div`
+const Image = styled.div<{ empty?: boolean } & SpacerProps>`
   width: 100%;
-  padding-bottom: 100%;
+  ${props => props.empty && 'padding-bottom: 100%;'}
   border-radius: 0.375rem;
   background: ${NewTheme.gray_400};
   img {
     max-width: 100%;
     max-height: 100%;
     border-radius: 0.375rem;
+    display: block;
   }
   ${spacerStyle}
 `;
@@ -49,13 +50,19 @@ const _MentorSection = (props: MentorSectionProps) => {
             <Row>
               <Col sm={6} mt={6} px={2}>
                 <Image mb={3}>
-                  {/* <img src={require('./assets/tco.jpg').default} /> */}
+                  <img src={require('./assets/mentor_1.jpg').default} />
                 </Image>
-                <Image />
+                <Image>
+                  <img src={require('./assets/mentor_3.jpg').default} />
+                </Image>
               </Col>
               <Col sm={6} px={2}>
-                <Image mb={3} />
-                <Image />
+                <Image mb={3}>
+                  <img src={require('./assets/mentor_6.jpg').default} />
+                </Image>
+                <Image>
+                  <img src={require('./assets/mentor_5.jpg').default} />
+                </Image>
               </Col>
             </Row>
           </Col>

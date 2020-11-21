@@ -15,7 +15,7 @@ const _FaqSection = (props: FaqSectionProps) => {
   const { className } = props;
   return (
     <div className={className}>
-      <SectionShape position="top" color="white" inverse />
+      {/* <SectionShape position="top" color="white" inverse /> */}
       <Container>
         <Heading type={2} mb={5} white center>
           Najczęstsze pytania
