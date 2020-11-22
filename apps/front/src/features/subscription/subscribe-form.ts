@@ -1,6 +1,6 @@
 import { createForm } from 'typeless-form';
 import { S } from 'schema';
-import { SubscribeFormSymbol } from './symbol';
+import { SubscribeFormSymbol } from '../landing/symbol';
 import { validate } from '../../common/helper';
 
 export interface SubscribeFormValues {

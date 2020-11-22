@@ -7,14 +7,14 @@ import { Heading } from 'src/new-components/Heading';
 import { InputGroup } from 'src/new-components/InputGroup';
 import { MEDIA_MD, NewTheme } from 'src/NewTheme';
 import styled from 'styled-components';
-import { faEnvelope } from '@fortawesome/free-solid-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { SubscribeFormActions, SubscribeFormProvider } from '../subscribe-form';
-import { SimpleModal } from './SimpleModal';
+import {
+  SubscribeFormActions,
+  SubscribeFormProvider,
+} from '../../subscription/subscribe-form';
 import { FormInput } from 'src/new-components/FormInput';
 import { useActions } from 'typeless';
 import { FormInputError } from 'src/new-components/FormInputError';
-import { getLandingState, LandingActions } from '../interface';
+import { getSubscriptionState } from 'src/features/subscription/interface';
 
 const Desc = styled.div`
   color: ${NewTheme.text_muted_color};
@@ -36,8 +36,7 @@ const FormWrapper = styled.div`
 
 const _SubscribeSection = (props: SubscribeSectionProps) => {
   const { className } = props;
-  const { visibleModal, isSubmitting } = getLandingState.useState();
-  const { hideModal } = useActions(LandingActions);
+  const { isSubmitting } = getSubscriptionState.useState();
   const { submit } = useActions(SubscribeFormActions);
   return (
     <SubscribeFormProvider>
@@ -49,21 +48,6 @@ const _SubscribeSection = (props: SubscribeSectionProps) => {
         className={className}
         id="subscribe-section"
       >
-        <SimpleModal
-          isOpen={visibleModal === 'confirm'}
-          bgColor="primary"
-          header="Prawie gotowe!"
-          icon={<FontAwesomeIcon size="4x" icon={faEnvelope} />}
-          title="Potwierdź maila"
-          description={
-            <>
-              Link potwierdzający został wysłany na Twój adres email.
-              <br />
-              Potwierdź go, aby otrzymywać newsletter.
-            </>
-          }
-          close={hideModal}
-        />
         <Container>
           <Heading type={2}>Dołącz do mailingu</Heading>
           <Desc>

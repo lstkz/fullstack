@@ -2,7 +2,7 @@ import React from 'react';
 import { NewTheme } from 'src/NewTheme';
 import { createGlobalStyle } from 'styled-components';
 import { useLandingModule } from '../module';
-import { useSubscribeForm } from '../subscribe-form';
+import { useSubscribeForm } from '../../subscription/subscribe-form';
 import { FaqSection } from './FaqSection';
 import { LandingFooter } from './LandingFooter';
 import { LandingHeader } from './LandingHeader';
@@ -34,6 +34,12 @@ const GlobalStyles = createGlobalStyle`
   figcaption, figure, main {
       display: block;
       margin: 0;
+  }
+  #root {
+    z-index: 1;
+  }
+  #portals {
+    z-index: 2;
   }
 `;
 

@@ -2,7 +2,8 @@ import React from 'react';
 import { Button } from 'src/new-components/Button';
 import { Heading } from 'src/new-components/Heading';
 import { Modal, ModalProps } from 'src/new-components/Modal';
-import { Spacer } from 'src/new-components/_spacer';
+import { spacerStyle } from 'src/new-components/_spacer';
+import styled from 'styled-components';
 
 interface SimpleModalProps
   extends Pick<ModalProps, 'isOpen' | 'close' | 'bgColor' | 'testId'> {
@@ -12,13 +13,17 @@ interface SimpleModalProps
   description: React.ReactNode;
 }
 
+const Content = styled.div`
+  text-align: center;
+  ${spacerStyle}
+`;
+
 export function SimpleModal(props: SimpleModalProps) {
   const { isOpen, close, icon, title, description, ...rest } = props;
   return (
     <Modal
       {...rest}
       isOpen={isOpen}
-      bgColor="primary"
       close={close}
       footer={
         <Button
@@ -30,13 +35,13 @@ export function SimpleModal(props: SimpleModalProps) {
         </Button>
       }
     >
-      <Spacer py={4}>
+      <Content py={4}>
         {icon}
         <Heading type={4} center white mt={4} mb={3}>
           {title}
         </Heading>
         {description}
-      </Spacer>
+      </Content>
     </Modal>
   );
 }

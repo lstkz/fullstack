@@ -1,14 +1,14 @@
 import React from 'react';
 import styled, { createGlobalStyle, css } from 'styled-components';
 import { CSSTransition } from 'react-transition-group';
-import Color from 'tinycolor2';
 import { VoidLink } from './VoidLink';
 import { FocusContainer } from './FocusContainer';
 import { modalGlobalContext } from './ModalGlobalContext';
 import { MEDIA_MD, NewTheme } from 'src/NewTheme';
+import { Portal } from 'src/components/Portal';
 
 interface ModalContentProps {
-  bgColor?: 'primary' | 'success' | 'danger';
+  bgColor?: 'primary' | 'success' | 'danger' | 'warning';
 }
 
 export interface ModalProps extends ModalContentProps {
@@ -24,8 +24,19 @@ export interface ModalProps extends ModalContentProps {
   footer?: React.ReactNode;
 }
 
+const Alpha = styled.div`
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: #1f2d3d;
+  z-index: 1001;
+  opacity: 0.4;
+`;
+
 const GlobalStyle = createGlobalStyle`
-.modal-enter {
+.modal-enter  {
   opacity: 0.01; 
 }
 
@@ -39,8 +50,8 @@ const GlobalStyle = createGlobalStyle`
 }
 
 .modal-exit.modal-exit-active {
-  opacity: 0.01;
-  transition: opacity 150ms ease-in-out;
+  opacity: 0.01;  
+    transition: opacity 150ms ease-in-out;
 }
 
 .modal-open {
@@ -48,9 +59,6 @@ const GlobalStyle = createGlobalStyle`
 }
 
 `;
-function _yiq(color: string) {
-  return Color(color).isDark() ? 'white' : NewTheme.body_color;
-}
 
 const ModalHeader = styled.div`
   position: relative;
@@ -90,15 +98,14 @@ const ModalContent = styled.div<ModalContentProps>`
   outline: 0;
 
   ${MEDIA_MD} {
-    box-shadow: 0 0.5rem 1rem rgba(31, 45, 61, 0.3);
     max-width: 500px;
+    box-shadow: 0 0.5rem 1rem rgba(31, 45, 61, 0.3);
     margin: 1.75rem auto;
-    min-height: calc(100% - 3.5rem);
   }
   ${props =>
     props.bgColor &&
     css`
-      color: ${_yiq(NewTheme[props.bgColor])};
+      color: white;
       background: ${NewTheme[props.bgColor]};
       ${ModalHeader},
       ${ModalFooter} {
@@ -142,8 +149,8 @@ const Wrapper = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  background: rgba(0, 0, 0, 0.5);
-  z-index: 100;
+  /* background: black; */
+  z-index: 1001;
 `;
 
 export function Modal(props: ModalProps) {
@@ -195,54 +202,57 @@ export function Modal(props: ModalProps) {
   }, [isOpen]);
 
   return (
-    <>
-      <GlobalStyle />
-      <CSSTransition
-        in={isOpen}
-        classNames="modal"
-        timeout={150}
-        unmountOnExit
-        mountOnEnter
-      >
-        <Wrapper
-          data-modal-wrapper
-          onClick={e => {
-            const target = e.target as HTMLDivElement;
-            if (
-              target.hasAttribute('data-modal-wrapper') &&
-              !noBackgroundClose
-            ) {
-              close('background');
-            }
-          }}
+    <Portal>
+      <>
+        <GlobalStyle />
+        <CSSTransition
+          in={isOpen}
+          classNames="modal"
+          timeout={150}
+          unmountOnExit
+          mountOnEnter
         >
           <FocusContainer data-focus-root>
-            <div ref={modalRef}></div>
-            <ModalContent
-              {...contentProps}
-              data-test={testId}
-              ref={modalRef as any}
-              tabIndex={-1}
-              role="modal"
+            <Alpha />
+            <Wrapper
+              data-modal-wrapper
+              onClick={e => {
+                const target = e.target as HTMLDivElement;
+                if (
+                  target.hasAttribute('data-modal-wrapper') &&
+                  !noBackgroundClose
+                ) {
+                  close('background');
+                }
+              }}
             >
-              {header && (
-                <ModalHeader>
-                  {header}
-                  <Close
-                    data-test="close-btn"
-                    onClick={() => close('close-button')}
-                    aria-label="close"
-                  >
-                    ×
-                  </Close>
-                </ModalHeader>
-              )}
-              <ModalBody>{children}</ModalBody>
-              <ModalFooter>{footer}</ModalFooter>
-            </ModalContent>
+              <div ref={modalRef}></div>
+              <ModalContent
+                {...contentProps}
+                data-test={testId}
+                ref={modalRef as any}
+                tabIndex={-1}
+                role="modal"
+              >
+                {header && (
+                  <ModalHeader>
+                    {header}
+                    <Close
+                      data-test="close-btn"
+                      onClick={() => close('close-button')}
+                      aria-label="close"
+                    >
+                      ×
+                    </Close>
+                  </ModalHeader>
+                )}
+                <ModalBody>{children}</ModalBody>
+                <ModalFooter>{footer}</ModalFooter>
+              </ModalContent>
+            </Wrapper>
           </FocusContainer>
-        </Wrapper>
-      </CSSTransition>
-    </>
+        </CSSTransition>
+      </>
+    </Portal>
   );
 }

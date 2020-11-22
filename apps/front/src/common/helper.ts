@@ -47,7 +47,7 @@ export function getErrorMessage(e: any) {
 
 export const handleAppError = () =>
   Rx.catchLog<ActionLike, Rx.Observable<ActionLike>>((e: any) => {
-    return Rx.of(GlobalActions.showAppError(getErrorMessage(e)));
+    return Rx.of(GlobalActions.showErrorModal(getErrorMessage(e)));
   });
 
 interface HandleAuthOptions {
