@@ -107,7 +107,7 @@ export async function getStack(stackName: string) {
 export function getStackOutput(stack: AWS.CloudFormation.Stack, name: string) {
   const output = (stack.Outputs || []).find(x => x.OutputKey === name);
   if (!output) {
-    throw new Error(`Output not found: ${output}`);
+    throw new Error(`Output not found: ${name}`);
   }
   if (!output.OutputValue) {
     throw new Error(`Output not set: ${output}`);

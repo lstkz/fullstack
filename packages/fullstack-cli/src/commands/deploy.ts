@@ -59,7 +59,6 @@ export function init() {
       if (build) {
         const buildOptions = { prod, stage };
         await Promise.all([
-          buildApp('blog', buildOptions),
           buildApp('api', buildOptions),
           buildApp('front', buildOptions),
         ]);
@@ -84,7 +83,6 @@ export function init() {
         )
       );
       const stack = await getStack(env.STACK_NAME || process.env.STACK_NAME!);
-      await uploadS3('blog/public', getStackOutput(stack, 'blogDeployBucket'));
       await uploadS3('front/build', getStackOutput(stack, 'appDeployBucket'));
     });
 }

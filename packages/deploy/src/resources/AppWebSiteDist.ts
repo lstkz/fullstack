@@ -43,10 +43,10 @@ export class AppWebSiteDist {
       ],
       viewerProtocolPolicy: cf.ViewerProtocolPolicy.REDIRECT_TO_HTTPS,
       aliasConfiguration:
-        process.env.DOMAIN_CERT && process.env.APP_DOMAIN
+        process.env.DOMAIN_CERT && process.env.DOMAIN
           ? {
               acmCertRef: process.env.DOMAIN_CERT,
-              names: process.env.APP_DOMAIN.split(','),
+              names: process.env.DOMAIN.split(','),
             }
           : undefined,
       originConfigs: [
