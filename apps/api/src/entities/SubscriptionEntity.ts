@@ -5,7 +5,7 @@ export interface SubscriptionKey {
 }
 
 export interface SubscriptionProps extends SubscriptionKey {
-  name: string;
+  name?: string | null | undefined;
   email: string;
   createdAt: number;
   unsubscribeCode: string;

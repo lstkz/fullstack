@@ -5,7 +5,7 @@ export interface SubscriptionRequestKey {
 }
 
 export interface SubscriptionRequestProps extends SubscriptionRequestKey {
-  name: string;
+  name?: string | null | undefined;
   email: string;
 }
 

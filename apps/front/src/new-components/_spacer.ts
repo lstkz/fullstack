@@ -155,15 +155,6 @@ function _getStyles(params?: SpacerParams, media?: string) {
 
 export const spacerStyle = css`
   ${(props: SpacerProps) => {
-    if (props.mdSpacer) {
-      console.log(
-        [
-          _getStyles(props),
-          _getStyles(props.mdSpacer, MEDIA_MD),
-          _getStyles(props.lgSpacer, MEDIA_LG),
-        ].join('\n')
-      );
-    }
     return [
       _getStyles(props),
       _getStyles(props.mdSpacer, MEDIA_MD),

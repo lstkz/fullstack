@@ -3,17 +3,15 @@ import styled, { createGlobalStyle, css } from 'styled-components';
 import { CSSTransition } from 'react-transition-group';
 import Color from 'tinycolor2';
 import { VoidLink } from './VoidLink';
-import { CloseIcon } from 'src/icons/CloseIcon';
 import { FocusContainer } from './FocusContainer';
 import { modalGlobalContext } from './ModalGlobalContext';
-import { MOBILE, Theme } from 'src/Theme';
 import { MEDIA_MD, NewTheme } from 'src/NewTheme';
 
 interface ModalContentProps {
   bgColor?: 'primary' | 'success' | 'danger';
 }
 
-interface ModalProps extends ModalContentProps {
+export interface ModalProps extends ModalContentProps {
   transparent?: boolean;
   isOpen: boolean;
   close: (source: 'close-button' | 'background' | 'esc') => void;
@@ -23,6 +21,7 @@ interface ModalProps extends ModalContentProps {
   noBackgroundClose?: boolean;
   testId?: string;
   header?: React.ReactNode;
+  footer?: React.ReactNode;
 }
 
 const GlobalStyle = createGlobalStyle`
@@ -64,6 +63,20 @@ const ModalHeader = styled.div`
   border-top-right-radius: calc(0.75rem - 1px);
 `;
 
+const ModalFooter = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: flex-end;
+  padding: 1.25rem;
+  border-top: 1px solid ${NewTheme.gray_200};
+  border-bottom-right-radius: calc(0.75rem - 1px);
+  border-bottom-left-radius: calc(0.75rem - 1px);
+  > * {
+    margin: 0.25rem;
+  }
+`;
+
 const ModalContent = styled.div<ModalContentProps>`
   position: relative;
   display: flex;
@@ -87,7 +100,8 @@ const ModalContent = styled.div<ModalContentProps>`
     css`
       color: ${_yiq(NewTheme[props.bgColor])};
       background: ${NewTheme[props.bgColor]};
-      ${ModalHeader} {
+      ${ModalHeader},
+      ${ModalFooter} {
         border-color: rgba(255, 255, 255, 0.075);
       }
     `}
@@ -143,6 +157,7 @@ export function Modal(props: ModalProps) {
     noBackgroundClose,
     testId,
     header,
+    footer,
     ...contentProps
   } = props;
 
@@ -210,14 +225,6 @@ export function Modal(props: ModalProps) {
               tabIndex={-1}
               role="modal"
             >
-              {/* <Close
-                data-test="close-btn"
-                onClick={() => close('close-button')}
-                aria-label="close"
-              >
-                <CloseIcon scale={1.3} color={Theme.text} />
-              </Close> */}
-
               {header && (
                 <ModalHeader>
                   {header}
@@ -227,10 +234,11 @@ export function Modal(props: ModalProps) {
                     aria-label="close"
                   >
                     ×
-                  </Close>{' '}
+                  </Close>
                 </ModalHeader>
               )}
               <ModalBody>{children}</ModalBody>
+              <ModalFooter>{footer}</ModalFooter>
             </ModalContent>
           </FocusContainer>
         </Wrapper>

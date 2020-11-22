@@ -24,11 +24,13 @@ const _InputGroup = (props: InputGroupProps) => {
 export const InputGroup = styled(_InputGroup)`
   display: flex;
   ${Input} {
-    border-top-right-radius: 0;
-    border-bottom-right-radius: 0;
     flex: 1 1 auto;
     width: 1%;
     min-width: 0;
+  }
+  ${Input} input {
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
   }
   ${Button} {
     border-top-left-radius: 0;

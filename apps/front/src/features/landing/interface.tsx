@@ -21,12 +21,24 @@ export const [handle, LandingActions, getLandingState] = createModule(
   .withActions({
     $init: null,
     $mounted: null,
-    logout: null,
+    showModal: (visibleModal: LandingModal) => ({
+      payload: {
+        visibleModal,
+      },
+    }),
+    hideModal: null,
+    setIsSubmitting: (isSubmitting: boolean) => ({
+      payload: {
+        isSubmitting,
+      },
+    }),
   })
   .withState<LandingState>();
 
+export type LandingModal = 'confirm' | 'confirmed';
+
 // --- Types ---
 export interface LandingState {
-  isShowConfirmModal: boolean;
-  isShowConfirmedModal: boolean;
+  visibleModal: null | LandingModal;
+  isSubmitting: boolean;
 }

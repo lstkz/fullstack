@@ -4,15 +4,17 @@ import { Container } from 'src/components/Container';
 import { Link } from 'src/components/Link';
 import { Button } from 'src/new-components/Button';
 import { Heading } from 'src/new-components/Heading';
-import { Input } from 'src/new-components/Input';
 import { InputGroup } from 'src/new-components/InputGroup';
-import { Modal } from 'src/new-components/Modal';
 import { MEDIA_MD, NewTheme } from 'src/NewTheme';
 import styled from 'styled-components';
 import { faEnvelope } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { Spacer } from 'src/new-components/_spacer';
-import { SubscribeFormProvider } from '../subscribe-form';
+import { SubscribeFormActions, SubscribeFormProvider } from '../subscribe-form';
+import { SimpleModal } from './SimpleModal';
+import { FormInput } from 'src/new-components/FormInput';
+import { useActions } from 'typeless';
+import { FormInputError } from 'src/new-components/FormInputError';
+import { getLandingState, LandingActions } from '../interface';
 
 const Desc = styled.div`
   color: ${NewTheme.text_muted_color};
@@ -27,51 +29,61 @@ interface SubscribeSectionProps {
   className?: string;
 }
 
+const FormWrapper = styled.div`
+  margin: 2rem auto 0.75rem;
+  max-width: 600px;
+`;
+
 const _SubscribeSection = (props: SubscribeSectionProps) => {
   const { className } = props;
-  const [isModalOpen, setIsModalOpen] = React.useState(false);
+  const { visibleModal, isSubmitting } = getLandingState.useState();
+  const { hideModal } = useActions(LandingActions);
+  const { submit } = useActions(SubscribeFormActions);
   return (
     <SubscribeFormProvider>
-      <div className={className} id="subscribe-section">
-        <Modal
-          isOpen={isModalOpen}
+      <form
+        onSubmit={e => {
+          e.preventDefault();
+          submit();
+        }}
+        className={className}
+        id="subscribe-section"
+      >
+        <SimpleModal
+          isOpen={visibleModal === 'confirm'}
           bgColor="primary"
           header="Prawie gotowe!"
-          close={() => {
-            setIsModalOpen(false);
-          }}
-        >
-          <Spacer py={4}>
-            <FontAwesomeIcon size="4x" icon={faEnvelope} />
-            <Heading type={4} center white mt={4} mb={3}>
-              Potwierdź maila
-            </Heading>
-            Link potwierdzający został wysłany na Twój adres email.
-            <br />
-            Potwierdź go, aby otrzymywać newsletter.
-          </Spacer>
-        </Modal>
+          icon={<FontAwesomeIcon size="4x" icon={faEnvelope} />}
+          title="Potwierdź maila"
+          description={
+            <>
+              Link potwierdzający został wysłany na Twój adres email.
+              <br />
+              Potwierdź go, aby otrzymywać newsletter.
+            </>
+          }
+          close={hideModal}
+        />
         <Container>
           <Heading type={2}>Dołącz do mailingu</Heading>
           <Desc>
             Platforma jest w budowie. Podaj swojego maila, a dostaniesz
             powiadomienie jak wystartujemy.
           </Desc>
-
-          <InputGroup
-            size="large"
-            input={<Input placeholder="Twój email" />}
-            append={
-              <Button
-                onClick={() => {
-                  setIsModalOpen(true);
-                }}
-                type="primary"
-              >
-                Zapisz się
-              </Button>
-            }
-          />
+          <FormWrapper>
+            <InputGroup
+              size="large"
+              input={
+                <FormInput noFeedback name="email" placeholder="Twój email" />
+              }
+              append={
+                <Button type="primary" htmlType="submit" loading={isSubmitting}>
+                  Zapisz się
+                </Button>
+              }
+            />
+            <FormInputError name="email" />
+          </FormWrapper>
           <Text>
             Zapisując się to newslettera wyrażasz zgodę na przetwarzanie Twoich
             danych zgodnie z{' '}
@@ -81,7 +93,7 @@ const _SubscribeSection = (props: SubscribeSectionProps) => {
             .
           </Text>
         </Container>
-      </div>
+      </form>
     </SubscribeFormProvider>
   );
 };
@@ -91,10 +103,6 @@ export const SubscribeSection = styled(_SubscribeSection)`
   background: ${NewTheme.section_secondary};
   padding: 4.5rem 0;
   text-align: center;
-  ${InputGroup} {
-    margin: 2rem auto 0.75rem;
-    max-width: 600px;
-  }
   ${MEDIA_MD} {
     padding: 4.5rem;
   }
