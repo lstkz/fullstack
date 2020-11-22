@@ -10,6 +10,7 @@ import { useLoginModule } from 'src/features/login/module';
 import { useRegisterModule } from 'src/features/register/module';
 import { useResetPasswordModule } from 'src/features/resetPassword/module';
 import { useSubscriptionModule } from 'src/features/subscription/module';
+import { GlobalStyles } from 'src/new-components/GlobalStyles';
 
 export function App() {
   useGlobalModule();
@@ -25,6 +26,7 @@ export function App() {
   }
   return (
     <>
+      <GlobalStyles />
       <RouteResolver />
       <GlobalModals />
     </>
