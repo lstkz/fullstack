@@ -7,6 +7,7 @@ export interface SubscriptionRequestKey {
 export interface SubscriptionRequestProps extends SubscriptionRequestKey {
   name?: string | null | undefined;
   email: string;
+  unsubscribeCode: string;
 }
 
 const BaseEntity = createBaseEntity('subscription_request')

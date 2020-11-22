@@ -1,6 +1,5 @@
 import { S } from 'schema';
 import { AppError } from '../../common/errors';
-import { randomUniqString } from '../../common/helper';
 import { SubscriptionEntity } from '../../entities/SubscriptionEntity';
 import { SubscriptionRequestEntity } from '../../entities/SubscriptionRequestEntity';
 import { createContract, createRpcBinding } from '../../lib';
@@ -29,7 +28,7 @@ export const confirmSubscription = createContract(
       createdAt: Date.now(),
       email: subscriptionRequest.email,
       name: subscriptionRequest.name,
-      unsubscribeCode: randomUniqString(),
+      unsubscribeCode: subscriptionRequest.unsubscribeCode,
     });
     await subscription.insert();
   });
