@@ -1,6 +1,4 @@
 import React from 'react';
-import { NewTheme } from 'src/NewTheme';
-import { createGlobalStyle } from 'styled-components';
 import { useLandingModule } from '../module';
 import { useSubscribeForm } from '../../subscription/subscribe-form';
 import { FaqSection } from './FaqSection';
