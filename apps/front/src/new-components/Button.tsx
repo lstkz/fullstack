@@ -2,6 +2,7 @@ import React from 'react';
 import Color from 'tinycolor2';
 import styled, { css } from 'styled-components';
 import { NewTheme } from 'src/NewTheme';
+import { SpinnerBoarder } from './SpinnerBoarder';
 
 interface ButtonProps {
   children?: React.ReactNode;
@@ -42,6 +43,7 @@ const _Button = (props: ButtonProps, ref: any) => {
       type={htmlType || 'button'}
       ref={ref}
     >
+      {loading && <SpinnerBoarder size="sm" />}
       {children}
     </button>
   );
@@ -108,6 +110,8 @@ const buttonCss = css`
     switch (props.type) {
       case 'primary':
         return _buttonVariant(NewTheme.primary, NewTheme.primary);
+      case 'secondary':
+        return _buttonVariant(NewTheme.secondary, NewTheme.secondary);
       default: {
         return null;
       }
@@ -123,10 +127,28 @@ const buttonCss = css`
           border-radius: 0.5rem;
         `;
       }
+      case 'small': {
+        return css`
+          padding: 0.5rem 1.25rem;
+          font-size: 0.875rem;
+          border-radius: 0.375rem;
+        `;
+      }
       default:
         return null;
     }
   }}
+  ${SpinnerBoarder} {
+    margin-right: 0.75rem;
+  }
+
+  ${props =>
+    (props.disabled || props.loading) &&
+    css`
+      opacity: 0.65;
+      box-shadow: none;
+      cursor: default;
+    `}
 `;
 
 export const Button = styled(React.forwardRef(_Button))`

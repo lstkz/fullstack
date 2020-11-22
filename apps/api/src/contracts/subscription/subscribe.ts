@@ -4,13 +4,13 @@ import { SubscriptionEntity } from '../../entities/SubscriptionEntity';
 import { SubscriptionRequestEntity } from '../../entities/SubscriptionRequestEntity';
 import { createContract, createRpcBinding } from '../../lib';
 import { randomUniqString } from '../../common/helper';
-import { BASE_URL } from '../../config';
+import { APP_BASE_URL } from '../../config';
 import { sendEmail } from '../../common/email';
 
 export const subscribe = createContract('subscription.subscribe')
   .params('name', 'email')
   .schema({
-    name: S.string().max(50),
+    name: S.string().max(50).optional().nullable(),
     email: S.string().email(),
   })
   .returns<SubscriptionResult>()
@@ -29,12 +29,12 @@ export const subscribe = createContract('subscription.subscribe')
       name,
       email,
     });
-    const confirmLink = `${BASE_URL}?confirm-email=${subId}`;
+    const confirmLink = `${APP_BASE_URL}?confirm-email=${subId}`;
     await sendEmail({
       to: email,
       subject: '👋 Potwierdź subskrypcję',
       body: `
-      Cześć ${name},
+      Cześć,
       <br/>
       <br/>
       Otwórz poniższy link, żeby potwierdzić subskrypcję:

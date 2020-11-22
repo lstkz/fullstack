@@ -90,7 +90,7 @@ export class APIClient {
     return this.call('subscription.confirmSubscription', { code });
   }
   subscription_subscribe(
-    name: string,
+    name: string | null | undefined,
     email: string
   ): Rx.Observable<SubscriptionResult> {
     return this.call('subscription.subscribe', { name, email });

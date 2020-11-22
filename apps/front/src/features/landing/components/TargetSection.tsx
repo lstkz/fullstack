@@ -39,7 +39,7 @@ const _TargetSection = (props: TargetSectionProps) => {
     <div className={className}>
       <Container>
         <MainRow>
-          <Col lg={6}>
+          <Col md={6}>
             <Heading white type={3}>
               Dla kogo jest fullstack.pl?
             </Heading>
@@ -78,7 +78,7 @@ const _TargetSection = (props: TargetSectionProps) => {
               ścieżkę nauki. Wiele osób zatrzymuje się na poziomie podstawowym.
             </Media>
           </Col>
-          <Col lg={5}>
+          <Col md={5}>
             <Illustration3 />
           </Col>
         </MainRow>

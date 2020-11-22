@@ -74,7 +74,7 @@ const _FaqSection = (props: FaqSectionProps) => {
             </Accordion>
           </Col>
         </Row>
-        <SectionShape position="bottom" color="white" />
+        <SectionShape position="bottom" color={NewTheme.section_secondary} />
       </Container>
     </div>
   );

@@ -15,8 +15,12 @@ export class UnreachableCaseError extends Error {
 }
 
 function fixErrorMessage(message: string) {
+  console.log({ message });
   if (message === 'is required') {
-    return 'This field is required';
+    return 'Pole wymagane';
+  }
+  if (message === 'must a valid email') {
+    return 'Niepoprawny email';
   }
 
   return message[0].toUpperCase() + message.slice(1);
@@ -43,7 +47,7 @@ export function getErrorMessage(e: any) {
 
 export const handleAppError = () =>
   Rx.catchLog<ActionLike, Rx.Observable<ActionLike>>((e: any) => {
-    return Rx.of(GlobalActions.showAppError(getErrorMessage(e)));
+    return Rx.of(GlobalActions.showErrorModal(getErrorMessage(e)));
   });
 
 interface HandleAuthOptions {

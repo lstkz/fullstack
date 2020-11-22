@@ -9,9 +9,11 @@ import { GlobalModals } from './GlobalModals';
 import { useLoginModule } from 'src/features/login/module';
 import { useRegisterModule } from 'src/features/register/module';
 import { useResetPasswordModule } from 'src/features/resetPassword/module';
+import { useSubscriptionModule } from 'src/features/subscription/module';
 
 export function App() {
   useGlobalModule();
+  useSubscriptionModule();
   useRouterModule();
   useLoginModule();
   useRegisterModule();
