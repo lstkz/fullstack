@@ -11,10 +11,18 @@
       content="Naucz się programować od zera. Kompletne kursy progrmowania z wielogodzinną praktyką."
     />
     <meta name="google" content="notranslate" />
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-BCL4V7HET1"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'G-BCL4V7HET1');
+    </script>
     <style>
       @import url(https://fonts.googleapis.com/css?family=Nunito+Sans:400,400i,600,700,800&display=swap);
     </style>
-    <title><%= htmlWebpackPlugin.options.title %></title>
+    <title>Fullstack</title>
     <link rel="icon" type="image/png" href="/favicon-32x32.png?2" />
     <% for (var chunk in htmlWebpackPlugin.files.css) { %>
     <link rel="stylesheet" href="<%= htmlWebpackPlugin.files.css[chunk] %>" />
