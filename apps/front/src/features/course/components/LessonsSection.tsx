@@ -30,7 +30,17 @@ const _LessonsSection = (props: LessonsSectionProps) => {
       <LessonItem
         aboveText="Lekcja 6"
         title="Operatory dwuargumentowe podstawowe: +, -, *, **, /, %"
-        time="5 min"
+        time="3 min"
+      />
+      <LessonItem
+        aboveText="Lekcja 7"
+        title="Operatory dwuargumentowe binarne: |, ^, &, >>, <<"
+        time="3 min"
+      />
+      <LessonItem
+        aboveText="Lekcja 8"
+        title="Operatory przypisania: =, +=, -=, *=, **=, /=, %=, &=, |=, ^=, <<=, >>="
+        time="6 min"
       />
     </div>
   );

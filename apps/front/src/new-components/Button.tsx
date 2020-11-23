@@ -11,8 +11,8 @@ interface ButtonProps {
   soft?: boolean;
   outline?: boolean;
   loading?: boolean;
-  type: 'primary' | 'secondary' | 'danger';
-  size?: 'small' | 'default' | 'large' | 'extra-large';
+  type: 'primary' | 'secondary' | 'danger' | 'dark' | 'neutral';
+  size?: 'extra-small' | 'small' | 'default' | 'large' | 'extra-large';
   href?: string;
   icon?: React.ReactNode;
   disabled?: boolean;
@@ -107,13 +107,16 @@ const buttonCss = css`
   margin: 0;
   font-family: inherit;
   ${(props: ButtonProps) => {
+    if (!props.type) {
+      return null;
+    }
     switch (props.type) {
       case 'primary':
         return _buttonVariant(NewTheme.primary, NewTheme.primary);
       case 'secondary':
         return _buttonVariant(NewTheme.secondary, NewTheme.secondary);
       default: {
-        return null;
+        return _buttonVariant(NewTheme[props.type], NewTheme[props.type]);
       }
     }
   }}
@@ -130,6 +133,13 @@ const buttonCss = css`
       case 'small': {
         return css`
           padding: 0.5rem 1.25rem;
+          font-size: 0.875rem;
+          border-radius: 0.375rem;
+        `;
+      }
+      case 'extra-small': {
+        return css`
+          padding: 0.25rem 0.75rem;
           font-size: 0.875rem;
           border-radius: 0.375rem;
         `;
