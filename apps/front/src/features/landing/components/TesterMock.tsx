@@ -57,8 +57,8 @@ const Item = styled.div<{ idx: number; color: 'success' | 'danger' }>`
   }
   transform: scale(1);
   opacity: 1;
-  transition: all 0.35s cubic-bezier(0.36, -0.64, 0.34, 1.76)
-    ${props => props.idx * 350}ms;
+  transition: all 0.4s cubic-bezier(0.36, -0.64, 0.34, 1.76)
+    ${props => props.idx * 150}ms;
 `;
 
 const Bar = styled.div`
