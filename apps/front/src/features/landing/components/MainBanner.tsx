@@ -74,7 +74,7 @@ const MainImage = styled.div`
 const SecondaryImage = styled.div`
   border-top-left-radius: 0.375rem;
   border-top-right-radius: 0.375rem;
-  height: 320px;
+  height: 330px;
   width: 240px;
   background: ${NewTheme.primary};
   position: absolute;
