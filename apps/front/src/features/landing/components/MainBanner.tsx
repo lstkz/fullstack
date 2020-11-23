@@ -119,7 +119,6 @@ export const MainBanner = styled(_MainBanner)`
   color: white;
   overflow: hidden;
   ${Container} {
-    display: flex;
     padding: 0.75rem 1rem 0;
     border-top: 1px solid rgba(255, 255, 255, 0.2);
   }
