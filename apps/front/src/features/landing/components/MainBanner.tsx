@@ -4,6 +4,7 @@ import { Col, Row } from 'src/new-components/Grid';
 import { MEDIA_MD, NewTheme } from 'src/NewTheme';
 import styled from 'styled-components';
 import { SectionShape } from './SectionShape';
+import { TesterMock } from './TesterMock';
 
 interface MainBannerProps {
   className?: string;
@@ -52,11 +53,15 @@ const MainImage = styled.div`
   border-top-left-radius: 0.375rem;
   border-top-right-radius: 0.375rem;
   height: 500px;
-  background: #eee;
   margin-top: 1.5rem;
   left: 7.5rem;
   position: relative;
   overflow: hidden;
+  img {
+    width: 100%;
+    border-top-left-radius: 0.375rem;
+    border-top-right-radius: 0.375rem;
+  }
 
   @media (min-width: 1350px) {
     width: 120%;
@@ -69,7 +74,7 @@ const MainImage = styled.div`
 const SecondaryImage = styled.div`
   border-top-left-radius: 0.375rem;
   border-top-right-radius: 0.375rem;
-  height: 420px;
+  height: 320px;
   width: 240px;
   background: ${NewTheme.primary};
   position: absolute;
@@ -102,8 +107,12 @@ const _MainBanner = (props: MainBannerProps) => {
             </Desc>
           </Left>
           <Right md={6}>
-            <SecondaryImage />
-            <MainImage />
+            <SecondaryImage>
+              <TesterMock />
+            </SecondaryImage>
+            <MainImage>
+              <img src={require('./assets/main-image.png').default} />
+            </MainImage>
           </Right>
         </Row>
       </Container>
@@ -119,7 +128,6 @@ export const MainBanner = styled(_MainBanner)`
   color: white;
   overflow: hidden;
   ${Container} {
-    display: flex;
     padding: 0.75rem 1rem 0;
     border-top: 1px solid rgba(255, 255, 255, 0.2);
   }

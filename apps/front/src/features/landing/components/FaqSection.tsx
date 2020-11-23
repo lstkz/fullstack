@@ -29,7 +29,7 @@ const _FaqSection = (props: FaqSectionProps) => {
                 przepisywać "logikę biznesową" na kod.
                 <br />
                 Celem tego kursu jest nauka fundamentów, które będą potrzebne w
-                poźniejszej pracy frontend i/lub backend developera.
+                późniejszej pracy frontend i/lub backend developera.
               </AccordionItem>
               <AccordionItem header={<>Dla kogo NIE jest ten kurs?</>}>
                 Ten kurs nie jest dla osób, których celem jest tworzenie tylko
@@ -41,7 +41,7 @@ const _FaqSection = (props: FaqSectionProps) => {
                 automaczynie, a wynik otrzymasz w parę sekund.
               </AccordionItem>
               <AccordionItem header={<>Ile czasu muszę poświęcić?</>}>
-                Im więcej typ lepiej 🙂. Będziesz musiał poświęcić od 6 do 10
+                Im więcej typ lepiej 🙂. Będziesz musiał(a) poświęcić od 6 do 10
                 godzin dziennie. Niestety, ale nie da się nauczyć programować
                 siedząc 2 godziny przez weekend.
                 <br />
@@ -53,7 +53,7 @@ const _FaqSection = (props: FaqSectionProps) => {
           <Col lg={6} mt={0}>
             <Accordion>
               <AccordionItem
-                header={<>Co jeżeli nie będę umiał zrobić zadania?</>}
+                header={<>Co jeżeli nie będę umiał(a) zrobić zadania?</>}
               >
                 Dostępna będzie wskazówka tekstowa, która opisuje rozwiązania
                 zadania. Jeżeli ciągle masz trudności, to możesz obejrzeć

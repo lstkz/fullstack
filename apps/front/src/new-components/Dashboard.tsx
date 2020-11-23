@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { NewTheme } from 'src/NewTheme';
 import styled from 'styled-components';
 import { Footer } from './Footer';
 import { Header } from './Header';
@@ -10,6 +11,7 @@ interface DashboardProps {
 
 const Content = styled.div`
   flex: 1 0 0;
+  background-color: ${NewTheme.gray_100};
 `;
 
 const _Dashboard = (props: DashboardProps) => {
