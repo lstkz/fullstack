@@ -65,7 +65,7 @@ const _MoreThenCourse = (props: MoreThenCourseProps) => {
                 <Icon type="warning" circle size="sm">
                   <FontAwesomeIcon icon={faVideo} />
                 </Icon>
-                Każdy tydzień zawiera lekcje video i zadania do zrobienie.
+                Każdy tydzień zawiera lekcje video i zadania do zrobienia.
               </li>
               <li>
                 <Icon type="success" circle size="sm">
