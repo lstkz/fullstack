@@ -1,4 +1,4 @@
-import { CourseActions, CourseState, handle } from './interface';
+import { CourseState, handle } from './interface';
 
 // --- Epic ---
 handle.epic();
@@ -13,4 +13,4 @@ handle.reducer(initialState);
 // --- Module ---
 export function useCourseModule() {
   handle();
-};
+}
