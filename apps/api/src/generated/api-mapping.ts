@@ -22,6 +22,10 @@ export const apiMapping: ApiMapping = {
     import(
       /* webpackChunkName: "order.createOrder"*/ '../contracts/order/createOrder'
     ).then(x => x['createOrderRpc']),
+  'order.getTPayGroups': () =>
+    import(
+      /* webpackChunkName: "order.getTPayGroups"*/ '../contracts/order/getTPayGroups'
+    ).then(x => x['getTPayGroupsRpc']),
   'order.tpayHook': () =>
     import(
       /* webpackChunkName: "order.tpayHook"*/ '../contracts/order/tpayHook'

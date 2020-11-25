@@ -1,13 +1,14 @@
 import React, { useContext } from 'react';
 import { FormContext } from 'typeless-form';
-import { Input, InputProps } from './Input';
+import { Checkbox, CheckboxProps } from './Checkbox';
 
-interface FormInputProps extends InputProps {
+interface FormCheckboxProps
+  extends Omit<CheckboxProps, 'value' | 'onChange' | 'checked'> {
   name: string;
   noFeedback?: boolean;
 }
 
-export const FormInput = (props: FormInputProps) => {
+export const FormCheckbox = (props: FormCheckboxProps) => {
   const { name, noFeedback, ...rest } = props;
   const data = useContext(FormContext);
   if (!data) {
@@ -16,23 +17,19 @@ export const FormInput = (props: FormInputProps) => {
   const hasError = data.touched[name] && !!data.errors[name];
   const value = data.values[name];
   const inputProps: any = {};
-  if (rest.type !== 'file') {
-    inputProps.value = value == null ? '' : value;
-  }
+
   return (
-    <Input
+    <Checkbox
       data-error={hasError ? true : undefined}
       feedback={noFeedback ? '' : hasError ? data.errors[name] : null}
       state={hasError ? 'error' : undefined}
       onBlur={() => data.actions.blur(name)}
-      onChange={e => {
-        data.actions.change(
-          name,
-          rest.type === 'file' ? e.target.files![0] : e.target.value
-        );
+      onChange={() => {
+        data.actions.change(name, !value);
       }}
       {...inputProps}
       {...rest}
+      checked={value === true}
       id={rest.id ?? name}
     />
   );

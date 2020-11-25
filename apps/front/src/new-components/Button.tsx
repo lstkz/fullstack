@@ -3,6 +3,7 @@ import Color from 'tinycolor2';
 import styled, { css } from 'styled-components';
 import { NewTheme } from 'src/NewTheme';
 import { SpinnerBoarder } from './SpinnerBoarder';
+import { spacerStyle } from './_spacer';
 
 interface ButtonProps {
   children?: React.ReactNode;
@@ -165,4 +166,5 @@ export const Button = styled(React.forwardRef(_Button))`
   outline: none;
   cursor: pointer;
   ${buttonCss}
+  ${spacerStyle}
 `;

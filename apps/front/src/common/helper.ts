@@ -216,3 +216,5 @@ export function isMenuHighlighted(
       throw new UnreachableCaseError(menu);
   }
 }
+
+export const isConfirmKey = (code: string) => code === 'Enter' || code === ' ';

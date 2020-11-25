@@ -3,7 +3,7 @@ import { ajax, AjaxRequest } from 'rxjs/ajax';
 import { map } from 'rxjs/operators';
 
 // IMPORTS
-import { Course, SubscriptionResult, AuthData, User } from './types';
+import { Course, TPayGroup, SubscriptionResult, AuthData, User } from './types';
 // IMPORTS END
 
 export class APIClient {
@@ -67,6 +67,9 @@ export class APIClient {
       | undefined;
   }): Rx.Observable<unknown> {
     return this.call('order.createOrder', { values });
+  }
+  order_getTPayGroups(): Rx.Observable<TPayGroup[]> {
+    return this.call('order.getTPayGroups', {});
   }
   order_tpayHook(
     values: {

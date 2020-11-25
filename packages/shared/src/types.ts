@@ -41,3 +41,10 @@ export interface CourseTaskUpload {
   week: number;
   s3Key: string;
 }
+export interface TPayGroup {
+  id: number;
+  name: string;
+  banks: string;
+  img: string;
+  main_bank_id: number;
+}
