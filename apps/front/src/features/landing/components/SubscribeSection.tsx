@@ -54,7 +54,7 @@ const _SubscribeSection = (props: SubscribeSectionProps) => {
             Platforma jest w budowie. Podaj swojego maila, a dostaniesz
             powiadomienie jak wystartujemy.
             <br />
-            Start jest czacowany na początek 2021 roku.
+            Start jest szacowany na początek 2021 roku.
           </Desc>
           <FormWrapper>
             <InputGroup
