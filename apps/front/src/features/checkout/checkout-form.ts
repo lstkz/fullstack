@@ -13,6 +13,7 @@ export interface CheckoutFormValues {
   city: string;
   agreeTerms: boolean;
   agreeNewsletter: boolean;
+  groupId: number;
 }
 
 export const [
@@ -34,9 +35,20 @@ export const [
         address: S.string(),
         postalCode: S.string(),
         city: S.string(),
+        groupId: S.number(),
         agreeTerms: S.boolean(),
         agreeNewsletter: S.boolean().optional(),
       })
     );
+
+    if (values.companyName && !values.companyVat) {
+      errors.companyVat = 'Pole wymagane jeśli Nazwa firmy nie jest puste';
+    }
+    if (values.companyVat && !values.companyName) {
+      errors.companyName = 'Pole wymagane jeśli NIP nie jest puste';
+    }
+    if (errors.groupId) {
+      errors.groupId = 'Wybierz formę płatności';
+    }
   },
 });

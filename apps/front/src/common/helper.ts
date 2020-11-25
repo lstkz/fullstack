@@ -15,7 +15,6 @@ export class UnreachableCaseError extends Error {
 }
 
 function fixErrorMessage(message: string) {
-  console.log({ message });
   if (message === 'is required') {
     return 'Pole wymagane';
   }

@@ -2,7 +2,7 @@ import * as React from 'react';
 import { Button } from 'src/new-components/Button';
 import { Col, Row } from 'src/new-components/Grid';
 import { Heading } from 'src/new-components/Heading';
-import { NewTheme } from 'src/NewTheme';
+import { MEDIA_MD, NewTheme } from 'src/NewTheme';
 import styled from 'styled-components';
 import { useActions } from 'typeless';
 import { CheckoutActions, getCheckoutState } from '../interface';
@@ -173,4 +173,8 @@ export const OrderDetails = styled(_OrderDetails)`
   background-clip: border-box;
   border: 1px solid ${NewTheme.gray_200};
   border-radius: 0.375rem;
+  ${MEDIA_MD} {
+    position: sticky;
+    top: 20px;
+  }
 `;

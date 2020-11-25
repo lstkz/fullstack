@@ -3,6 +3,7 @@ import { isConfirmKey } from 'src/common/helper';
 import { NewTheme } from 'src/NewTheme';
 import styled from 'styled-components';
 import Color from 'tinycolor2';
+import { InputFeedback } from './Input';
 
 export interface CheckboxProps {
   className?: string;
@@ -10,6 +11,8 @@ export interface CheckboxProps {
   id: string;
   checked: boolean;
   onChange: () => void;
+  feedback?: string;
+  state?: 'error';
 }
 
 const Icon = styled.div`
@@ -28,7 +31,7 @@ const Label = styled.div`
 `;
 
 const _Checkbox = (props: CheckboxProps) => {
-  const { className, checked, children, onChange } = props;
+  const { className, checked, children, onChange, feedback, state } = props;
   return (
     <div
       tabIndex={0}
@@ -47,7 +50,17 @@ const _Checkbox = (props: CheckboxProps) => {
       }}
     >
       <Icon />
-      <Label>{children}</Label>
+      <div>
+        <Label>{children}</Label>
+        {feedback && (
+          <InputFeedback
+            mt={0}
+            color={state === 'error' ? 'danger' : undefined}
+          >
+            {feedback}
+          </InputFeedback>
+        )}
+      </div>
     </div>
   );
 };

@@ -4,7 +4,12 @@ import { Dashboard } from 'src/new-components/Dashboard';
 import { FormInput } from 'src/new-components/FormInput';
 import { Col, Row } from 'src/new-components/Grid';
 import { Heading } from 'src/new-components/Heading';
-import { CheckoutFormProvider, useCheckoutForm } from '../checkout-form';
+import { useActions } from 'typeless';
+import {
+  CheckoutFormActions,
+  CheckoutFormProvider,
+  useCheckoutForm,
+} from '../checkout-form';
 import { useCheckoutModule } from '../module';
 import { CheckoutButtons } from './CheckoutButtons';
 import { OrderDetails } from './OrderDetails';
@@ -13,12 +18,13 @@ import { PaymentOptions } from './PaymentOptions';
 export function CheckoutView() {
   useCheckoutForm();
   useCheckoutModule();
-
+  const { submit } = useActions(CheckoutFormActions);
   return (
     <CheckoutFormProvider>
       <form
         onSubmit={e => {
           e.preventDefault();
+          submit();
         }}
       >
         <Dashboard>

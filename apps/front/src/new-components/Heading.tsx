@@ -9,6 +9,7 @@ interface HeadingProps extends SpacerProps {
   type: 1 | 2 | 3 | 4 | 5 | 6;
   white?: boolean;
   center?: boolean;
+  id?: string;
 }
 
 const tagMap = {
@@ -30,9 +31,13 @@ const fontSize = {
 } as const;
 
 const _Heading = (props: HeadingProps) => {
-  const { className, type, children } = props;
+  const { className, type, children, id } = props;
   const Tag = tagMap[type];
-  return <Tag className={className}>{children}</Tag>;
+  return (
+    <Tag id={id} className={className}>
+      {children}
+    </Tag>
+  );
 };
 
 export const Heading = styled(_Heading)`
