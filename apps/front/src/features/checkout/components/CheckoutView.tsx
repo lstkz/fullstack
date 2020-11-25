@@ -30,10 +30,11 @@ export function CheckoutView() {
         <Dashboard>
           <Container>
             <Row my={5}>
-              <Col lg={7}>
+              <Col lg={7} flexOrder={2} lgFlexOrder={1}>
                 <Heading mb={1} type={5}>
                   Szczegóły płatności
                 </Heading>
+                <FormInput name="email" label="Email" />
                 <Row>
                   <Col md={6}>
                     <FormInput name="firstName" label="Imię" />
@@ -67,7 +68,7 @@ export function CheckoutView() {
                 <PaymentOptions />
                 <CheckoutButtons />
               </Col>
-              <Col lg={5}>
+              <Col lg={5} flexOrder={1} lgFlexOrder={2} mb={5}>
                 <OrderDetails />
               </Col>
             </Row>

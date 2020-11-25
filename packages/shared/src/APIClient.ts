@@ -52,20 +52,18 @@ export class APIClient {
   order_createOrder(values: {
     group: number;
     product: { courseId: string; type: 'course' };
-    customer: { email: string; firstName: string; lastName: string };
-    invoice?:
-      | {
-          company: string;
-          country: string;
-          vat: string;
-          street: string;
-          streetNo: string;
-          postalCode: string;
-          city: string;
-          localNo?: string | undefined;
-        }
-      | undefined;
-  }): Rx.Observable<unknown> {
+    customer: {
+      email: string;
+      firstName: string;
+      lastName: string;
+      address: string;
+      postalCode: string;
+      city: string;
+      companyName?: string | undefined;
+      companyVat?: string | undefined;
+    };
+    subscribeNewsletter?: boolean | undefined;
+  }): Rx.Observable<{ paymentUrl: string }> {
     return this.call('order.createOrder', { values });
   }
   order_getTPayGroups(): Rx.Observable<TPayGroup[]> {

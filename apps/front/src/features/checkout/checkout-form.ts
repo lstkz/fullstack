@@ -4,6 +4,7 @@ import { CheckoutFormSymbol } from './symbol';
 import { validate } from '../../common/helper';
 
 export interface CheckoutFormValues {
+  email: string;
   firstName: string;
   lastName: string;
   companyName: string;
@@ -28,6 +29,7 @@ export const [
       errors,
       values,
       S.object().keys({
+        email: S.string().email(),
         firstName: S.string(),
         lastName: S.string(),
         companyName: S.string().optional(),

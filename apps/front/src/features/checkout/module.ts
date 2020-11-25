@@ -4,6 +4,8 @@ import { CheckoutActions, CheckoutState, handle } from './interface';
 import { handleAppError } from 'src/common/helper';
 import { CheckoutFormActions, getCheckoutFormState } from './checkout-form';
 
+const courseId = 'ts_algo';
+
 // --- Epic ---
 handle
   .epic()
@@ -14,7 +16,32 @@ handle
     );
   })
   .on(CheckoutFormActions.setSubmitSucceeded, () => {
-    return Rx.EMPTY;
+    const {
+      values: { groupId, agreeTerms, agreeNewsletter, ...customer },
+    } = getCheckoutFormState();
+    return Rx.concatObs(
+      Rx.of(CheckoutActions.setIsSubmitting(true)),
+      api
+        .order_createOrder({
+          group: groupId,
+          subscribeNewsletter: agreeNewsletter,
+          product: {
+            type: 'course',
+            courseId,
+          },
+          customer,
+        })
+        .pipe(
+          Rx.map(ret => {
+            setTimeout(() => {
+              window.location.href = ret.paymentUrl;
+            }, 0);
+            return CheckoutActions.setIsDone(true);
+          }),
+          handleAppError()
+        ),
+      Rx.of(CheckoutActions.setIsSubmitting(false))
+    );
   })
   .on(CheckoutFormActions.setSubmitFailed, () => {
     const { errors } = getCheckoutFormState();
@@ -45,6 +72,8 @@ handle
 const initialState: CheckoutState = {
   count: 1,
   tpayGroups: null,
+  isSubmitting: false,
+  isDone: false,
 };
 
 handle
@@ -57,6 +86,12 @@ handle
   })
   .on(CheckoutActions.groupsLoaded, (state, { tpayGroups }) => {
     state.tpayGroups = tpayGroups;
+  })
+  .on(CheckoutActions.setIsSubmitting, (state, { isSubmitting }) => {
+    state.isSubmitting = isSubmitting;
+  })
+  .on(CheckoutActions.setIsDone, (state, { isDone }) => {
+    state.isDone = isDone;
   });
 
 // --- Module ---

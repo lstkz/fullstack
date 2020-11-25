@@ -14,6 +14,8 @@ export const [handle, CheckoutActions, getCheckoutState] = createModule(
     groupsLoaded: (tpayGroups: TPayGroup[]) => ({
       payload: { tpayGroups },
     }),
+    setIsSubmitting: (isSubmitting: boolean) => ({ payload: { isSubmitting } }),
+    setIsDone: (isDone: boolean) => ({ payload: { isDone } }),
   })
   .withState<CheckoutState>();
 
@@ -29,6 +31,8 @@ export const routeConfig: RouteConfig = {
 
 // --- Types ---
 export interface CheckoutState {
+  isDone: boolean;
+  isSubmitting: boolean;
   count: number;
   tpayGroups: TPayGroup[] | null;
 }

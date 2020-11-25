@@ -24,14 +24,9 @@ export interface OrderProps extends OrderKey {
     email: string;
     firstName: string;
     lastName: string;
-  };
-  invoice?: {
-    company: string;
-    country: string;
-    vat: string;
-    street: string;
-    streetNo: string;
-    localNo?: string;
+    companyName?: string;
+    companyVat?: string;
+    address: string;
     postalCode: string;
     city: string;
   };

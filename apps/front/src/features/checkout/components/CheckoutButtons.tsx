@@ -5,6 +5,7 @@ import { Button } from 'src/new-components/Button';
 import { FormCheckbox } from 'src/new-components/FormCheckbox';
 import { Spacer } from 'src/new-components/_spacer';
 import styled from 'styled-components';
+import { getCheckoutState } from '../interface';
 
 interface CheckoutButtonsProps {
   className?: string;
@@ -12,6 +13,7 @@ interface CheckoutButtonsProps {
 
 const _CheckoutButtons = (props: CheckoutButtonsProps) => {
   const { className } = props;
+  const { isSubmitting, isDone } = getCheckoutState.useState();
   return (
     <div className={className}>
       <FormCheckbox id="terms" name="agreeTerms">
@@ -27,8 +29,8 @@ const _CheckoutButtons = (props: CheckoutButtonsProps) => {
         mówi nasza{' '}
         <Link href={createUrl({ name: 'privacy' })}>polityka prywatności</Link>.
       </Spacer>
-      <Button type="primary" htmlType="submit">
-        Zamawiam i płacę
+      <Button type="primary" htmlType="submit" loading={isSubmitting || isDone}>
+        {isDone ? 'Przekierowywanie do płatności...' : ' Zamawiam i płacę'}
       </Button>
     </div>
   );

@@ -12,6 +12,7 @@ export const createOrder = createContract('order.createOrder')
   .schema({
     values: S.object().keys({
       group: S.number(),
+      subscribeNewsletter: S.boolean().optional(),
       product: S.object().keys({
         type: S.enum().literal('course'),
         courseId: S.string(),
@@ -20,21 +21,15 @@ export const createOrder = createContract('order.createOrder')
         email: S.string().email(),
         firstName: S.string(),
         lastName: S.string(),
+        companyName: S.string().optional(),
+        companyVat: S.string().optional(),
+        address: S.string(),
+        postalCode: S.string(),
+        city: S.string(),
       }),
-      invoice: S.object()
-        .keys({
-          company: S.string(),
-          country: S.string(),
-          vat: S.string(),
-          street: S.string(),
-          streetNo: S.string(),
-          localNo: S.string().optional(),
-          postalCode: S.string(),
-          city: S.string(),
-        })
-        .optional(),
     }),
   })
+  .returns<{ paymentUrl: string }>()
   .fn(async values => {
     const groups = await getTPayGroups();
     if (!groups.some(x => x.id === values.group)) {
@@ -54,7 +49,6 @@ export const createOrder = createContract('order.createOrder')
       createdAt: Date.now(),
       amount,
       customer: values.customer,
-      invoice: values.invoice,
       product: values.product,
       provider: {
         name: 'tpay',
