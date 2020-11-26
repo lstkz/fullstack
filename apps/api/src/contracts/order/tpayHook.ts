@@ -59,11 +59,12 @@ export const tpayHook = createContract('order.tpayHook')
       type: 'OrderPaidEvent',
       payload: { orderId: order.orderId },
     });
+
+    return 'TRUE';
   });
 
 export const tpayHookRpc = createRpcBinding({
   public: true,
-  raw: true,
   signature: 'order.tpayHook',
   handler: tpayHook,
 });
