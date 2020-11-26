@@ -11,10 +11,22 @@ jest.mock('uuid', () => {
 beforeEach(async () => {
   await resetDb();
   const order = new OrderEntity({
-    amount: 120,
+    priceNet: 1000,
+    priceTotal: 1230,
+    quantity: 1,
+    vat: 230,
+    vatRate: 0.23,
     createdAt: 1,
-    customer: { email: 'john@example.org', firstName: 'john', lastName: 'doe' },
+    customer: {
+      email: 'john@example.org',
+      firstName: 'john',
+      lastName: 'doe',
+      address: 'address',
+      city: 'city',
+      postalCode: 'zip',
+    },
     orderId: 'order-abc',
+    orderSecret: 'secret-abc',
     product: {
       courseId: 'course-1',
       type: 'course',

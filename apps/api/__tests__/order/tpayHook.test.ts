@@ -1,10 +1,9 @@
 import { mocked } from 'ts-jest/utils';
-import { md5 } from '../../src/common/helper';
-import { TPAY_CODE, TPAY_CUSTOMER_ID } from '../../src/config';
 import { tpayHook } from '../../src/contracts/order/tpayHook';
 import { dispatch } from '../../src/dispatch';
 import { OrderEntity } from '../../src/entities/OrderEntity';
 import { execContract, resetDb } from '../helper';
+import { getCustomerData, getTPayHookData } from '../seed-data';
 
 jest.mock('../../src/dispatch');
 
@@ -13,10 +12,15 @@ const mockedDispatch = mocked(dispatch);
 beforeEach(async () => {
   await resetDb();
   const order = new OrderEntity({
-    amount: 120,
+    priceNet: 1000,
+    priceTotal: 1230,
+    quantity: 1,
+    vat: 230,
+    vatRate: 0.23,
     createdAt: 1,
-    customer: { email: 'john@example.org', firstName: 'john', lastName: 'doe' },
+    customer: getCustomerData(),
     orderId: 'order-abc',
+    orderSecret: 'secret-abc',
     product: {
       courseId: 'course-1',
       type: 'course',
@@ -32,27 +36,10 @@ beforeEach(async () => {
   mockedDispatch.mockReset();
 });
 
-function getValues() {
-  return {
-    id: TPAY_CUSTOMER_ID,
-    tr_id: 't-123',
-    tr_date: 'date',
-    tr_crc: 'order-abc',
-    tr_amount: 120,
-    tr_paid: 120,
-    tr_desc: 'foo',
-    tr_status: 'TRUE' as const,
-    tr_error: 'none',
-    tr_email: 'john@',
-    test_mode: '0',
-    md5sum: md5(`${TPAY_CUSTOMER_ID}${120}order-abc${TPAY_CODE}`),
-  };
-}
-
 it('should throw an error if md5sum invalid', async () => {
   await expect(
     execContract(tpayHook, {
-      values: { ...getValues(), md5sum: 'abc' },
+      values: { ...getTPayHookData(), md5sum: 'abc' },
     })
   ).rejects.toThrow('Invalid md5sum');
 });
@@ -60,14 +47,14 @@ it('should throw an error if md5sum invalid', async () => {
 it('should throw an error if not fully paid', async () => {
   await expect(
     execContract(tpayHook, {
-      values: { ...getValues(), tr_paid: 20 },
+      values: { ...getTPayHookData(), tr_paid: 20 },
     })
   ).rejects.toThrow('Not fully paid');
 });
 
 it('should ignore if status is FALSE', async () => {
   await execContract(tpayHook, {
-    values: { ...getValues(), tr_status: 'FALSE' },
+    values: { ...getTPayHookData(), tr_status: 'FALSE' },
   });
   const order = await OrderEntity.getByKey({ orderId: 'order-abc' });
   expect(order.status).toEqual('NOT_PAID');
@@ -76,7 +63,7 @@ it('should ignore if status is FALSE', async () => {
 
 it('should ignore if tr_error is defined', async () => {
   await execContract(tpayHook, {
-    values: { ...getValues(), tr_error: 'some error' },
+    values: { ...getTPayHookData(), tr_error: 'some error' },
   });
   const order = await OrderEntity.getByKey({ orderId: 'order-abc' });
   expect(order.status).toEqual('NOT_PAID');
@@ -86,10 +73,10 @@ it('should ignore if tr_error is defined', async () => {
 it('should process successfully', async () => {
   await Promise.all([
     execContract(tpayHook, {
-      values: getValues(),
+      values: getTPayHookData(),
     }),
     execContract(tpayHook, {
-      values: getValues(),
+      values: getTPayHookData(),
     }),
   ]);
   const order = await OrderEntity.getByKey({ orderId: 'order-abc' });

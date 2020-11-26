@@ -4,6 +4,7 @@ import { createOrder } from '../../src/contracts/order/createOrder';
 import { CourseEntity } from '../../src/entities/CourseEntity';
 import { OrderEntity } from '../../src/entities/OrderEntity';
 import { execContract, resetDb } from '../helper';
+import { getCustomerData } from '../seed-data';
 
 jest.mock('../../src/common/tpay');
 
@@ -60,17 +61,6 @@ beforeEach(async () => {
   }));
 });
 
-function _getCustomer() {
-  return {
-    email: 'user1@example.org',
-    firstName: 'John',
-    lastName: 'Doe',
-    address: 'address',
-    postalCode: 'postalCode',
-    city: 'city',
-  };
-}
-
 it('should throw an error if group invalid', async () => {
   await expect(
     execContract(createOrder, {
@@ -82,7 +72,7 @@ it('should throw an error if group invalid', async () => {
           type: 'course',
           courseId: 'promoCourse',
         },
-        customer: _getCustomer(),
+        customer: getCustomerData(),
       },
     })
   ).rejects.toThrow('Invalid group');
@@ -99,7 +89,7 @@ it('should throw an error if course is not found', async () => {
           type: 'course',
           courseId: 'aaaa',
         },
-        customer: _getCustomer(),
+        customer: getCustomerData(),
       },
     })
   ).rejects.toThrow('Course not found');
@@ -116,7 +106,7 @@ it('should throw an error if requestUnitPriceNet is invalid', async () => {
           type: 'course',
           courseId: 'promoCourse',
         },
-        customer: _getCustomer(),
+        customer: getCustomerData(),
       },
     })
   ).rejects.toThrow('Invalid requestUnitPriceNet');
@@ -133,7 +123,7 @@ it('should throw an error if provided promo price when promo ended', async () =>
           type: 'course',
           courseId: 'nonPromoCourse',
         },
-        customer: _getCustomer(),
+        customer: getCustomerData(),
       },
     })
   ).rejects.toThrow('Promo ended');
@@ -149,7 +139,7 @@ it('should order promo course', async () => {
         type: 'course',
         courseId: 'promoCourse',
       },
-      customer: _getCustomer(),
+      customer: getCustomerData(),
     },
   });
   expect(result).toEqual({
@@ -181,7 +171,7 @@ it('should order non-promo course', async () => {
         type: 'course',
         courseId: 'nonPromoCourse',
       },
-      customer: _getCustomer(),
+      customer: getCustomerData(),
     },
   });
   const options = await mockedCreateTPayTransaction.mock.calls[0][0];
@@ -207,7 +197,7 @@ it('should order 10x non-promo course', async () => {
         type: 'course',
         courseId: 'nonPromoCourse',
       },
-      customer: _getCustomer(),
+      customer: getCustomerData(),
     },
   });
   const options = await mockedCreateTPayTransaction.mock.calls[0][0];
