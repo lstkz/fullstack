@@ -1,4 +1,4 @@
-import { TPayGroup } from 'shared';
+import { Course, TPayGroup } from 'shared';
 import { RouteConfig } from 'src/types';
 import { createModule } from 'typeless';
 import { CheckoutSymbol } from './symbol';
@@ -11,6 +11,7 @@ export const [handle, CheckoutActions, getCheckoutState] = createModule(
     $mounted: null,
     $init: null,
     setCount: (count: number) => ({ payload: { count } }),
+    courseLoaded: (course: Course) => ({ payload: { course } }),
     groupsLoaded: (tpayGroups: TPayGroup[]) => ({
       payload: { tpayGroups },
     }),
@@ -24,7 +25,7 @@ export const [handle, CheckoutActions, getCheckoutState] = createModule(
 export const routeConfig: RouteConfig = {
   type: 'route',
   auth: 'any',
-  path: '/checkout',
+  path: '/checkout/:courseId',
   component: () =>
     import('./components/CheckoutView').then(x => x.CheckoutView),
 };
@@ -34,5 +35,7 @@ export interface CheckoutState {
   isDone: boolean;
   isSubmitting: boolean;
   count: number;
+  course: Course | null;
   tpayGroups: TPayGroup[] | null;
+  priceNet: number;
 }

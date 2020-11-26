@@ -53,6 +53,7 @@ export function createUrl(options: UrlOptions) {
   }
 }
 
+export function getRouteParams(name: 'checkout'): { courseId: string };
 export function getRouteParams(name: 'reset-password'): { code: string };
 export function getRouteParams(name: 'confirm'): { code: string };
 export function getRouteParams(name: 'confirm-change-email'): { code: string };
@@ -65,7 +66,7 @@ export function getRouteParams(
     | 'profile'
     | 'confirm-change-email'
     | 'faq'
-    | 'projectChallenge'
+    | 'checkout'
 ): any {
   const location = getRouterState().location!;
   const getLast = () => R.last(location.pathname.split('/'));
@@ -83,13 +84,6 @@ export function getRouteParams(
         id: Number(getLast()),
       };
     }
-    case 'projectChallenge': {
-      const [, , projectId, , challengeId] = location.pathname.split('/');
-      return {
-        projectId: Number(projectId),
-        id: Number(challengeId),
-      };
-    }
     case 'profile': {
       return {
         username: getLast(),
@@ -98,6 +92,11 @@ export function getRouteParams(
     case 'faq': {
       return {
         slug: location.pathname === '/faq' ? null : getLast(),
+      };
+    }
+    case 'checkout': {
+      return {
+        courseId: getLast(),
       };
     }
   }

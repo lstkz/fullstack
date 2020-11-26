@@ -4,21 +4,42 @@ import { Dashboard } from 'src/new-components/Dashboard';
 import { FormInput } from 'src/new-components/FormInput';
 import { Col, Row } from 'src/new-components/Grid';
 import { Heading } from 'src/new-components/Heading';
+import { SpinnerBoarder } from 'src/new-components/SpinnerBoarder';
+import styled from 'styled-components';
 import { useActions } from 'typeless';
 import {
   CheckoutFormActions,
   CheckoutFormProvider,
   useCheckoutForm,
 } from '../checkout-form';
+import { getCheckoutState } from '../interface';
 import { useCheckoutModule } from '../module';
 import { CheckoutButtons } from './CheckoutButtons';
 import { OrderDetails } from './OrderDetails';
 import { PaymentOptions } from './PaymentOptions';
 
+const Loader = styled.div`
+  padding: 3rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`;
+
 export function CheckoutView() {
   useCheckoutForm();
   useCheckoutModule();
   const { submit } = useActions(CheckoutFormActions);
+  const { course } = getCheckoutState.useState();
+  if (!course) {
+    return (
+      <Dashboard>
+        <Loader>
+          <SpinnerBoarder />
+        </Loader>
+      </Dashboard>
+    );
+  }
+
   return (
     <CheckoutFormProvider>
       <form

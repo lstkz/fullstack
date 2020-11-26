@@ -19,6 +19,9 @@ export class APIClient {
   course_getAllCourses(): Rx.Observable<Course[]> {
     return this.call('course.getAllCourses', {});
   }
+  course_getCourse(courseId: string): Rx.Observable<Course> {
+    return this.call('course.getCourse', { courseId });
+  }
   course_updateCourse(
     course: {
       name: string;
@@ -49,8 +52,17 @@ export class APIClient {
   }): Rx.Observable<unknown> {
     return this.call('errorReporting.reportFrontendError', { content });
   }
+  order_checkOrderStatus(
+    orderId: string,
+    secret: string
+  ): Rx.Observable<{
+    status: 'not-paid' | 'paid';
+    email?: string | undefined;
+  }> {
+    return this.call('order.checkOrderStatus', { orderId, secret });
+  }
   order_createOrder(values: {
-    group: number;
+    quantity: number;
     product: { courseId: string; type: 'course' };
     customer: {
       email: string;
@@ -62,6 +74,8 @@ export class APIClient {
       companyName?: string | undefined;
       companyVat?: string | undefined;
     };
+    requestUnitPriceNet: number;
+    group: number;
     subscribeNewsletter?: boolean | undefined;
   }): Rx.Observable<{ paymentUrl: string }> {
     return this.call('order.createOrder', { values });
@@ -133,6 +147,7 @@ export class APIClient {
   user_register(values: {
     email: string;
     password: string;
+    activationCode: string;
   }): Rx.Observable<AuthData> {
     return this.call('user.register', { values });
   }

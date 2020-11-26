@@ -82,10 +82,8 @@ function _formatPrice(n: number) {
 const _OrderDetails = (props: OrderDetailsProps) => {
   const { className } = props;
   const { setCount } = useActions(CheckoutActions);
-  const { count } = getCheckoutState.useState();
-  const basePrice = 990;
-  const priceNetto = 804.88;
-  const totalNetto = priceNetto * count;
+  const { count, priceNet } = getCheckoutState.useState();
+  const totalNetto = priceNet * count;
   const totalVat = _round(totalNetto * 0.23);
   const total = totalNetto + totalVat;
 
@@ -102,7 +100,7 @@ const _OrderDetails = (props: OrderDetailsProps) => {
             <Text>Typescript i podstawy algorytmiki</Text>
           </Col>
           <Col sm={rightSize}>
-            <Price>{_formatPrice(basePrice)}</Price>
+            <Price>{_formatPrice(priceNet)}</Price>
           </Col>
         </Row>
         <Row mt={2}>

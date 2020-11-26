@@ -1,8 +1,14 @@
 import { api } from 'src/services/api';
 import * as Rx from 'src/rx';
-import { CheckoutActions, CheckoutState, handle } from './interface';
+import {
+  CheckoutActions,
+  CheckoutState,
+  getCheckoutState,
+  handle,
+} from './interface';
 import { handleAppError } from 'src/common/helper';
 import { CheckoutFormActions, getCheckoutFormState } from './checkout-form';
+import { getRouteParams } from 'src/common/url';
 
 const courseId = 'ts_algo';
 
@@ -10,19 +16,27 @@ const courseId = 'ts_algo';
 handle
   .epic()
   .on(CheckoutActions.$mounted, () => {
-    return api.order_getTPayGroups().pipe(
-      Rx.map(ret => CheckoutActions.groupsLoaded(ret)),
-      handleAppError()
-    );
+    const { courseId } = getRouteParams('checkout');
+    return Rx.mergeObs(
+      api
+        .course_getCourse(courseId)
+        .pipe(Rx.map(ret => CheckoutActions.courseLoaded(ret))),
+      api
+        .order_getTPayGroups()
+        .pipe(Rx.map(ret => CheckoutActions.groupsLoaded(ret)))
+    ).pipe(handleAppError());
   })
   .on(CheckoutFormActions.setSubmitSucceeded, () => {
     const {
       values: { groupId, agreeTerms, agreeNewsletter, ...customer },
     } = getCheckoutFormState();
+    const { count, priceNet } = getCheckoutState();
     return Rx.concatObs(
       Rx.of(CheckoutActions.setIsSubmitting(true)),
       api
         .order_createOrder({
+          quantity: count,
+          requestUnitPriceNet: priceNet,
           group: groupId,
           subscribeNewsletter: agreeNewsletter,
           product: {
@@ -74,6 +88,8 @@ const initialState: CheckoutState = {
   tpayGroups: null,
   isSubmitting: false,
   isDone: false,
+  course: null,
+  priceNet: 0,
 };
 
 handle
@@ -92,6 +108,13 @@ handle
   })
   .on(CheckoutActions.setIsDone, (state, { isDone }) => {
     state.isDone = isDone;
+  })
+  .on(CheckoutActions.courseLoaded, (state, { course }) => {
+    state.course = course;
+    state.priceNet =
+      new Date(course.promoEnds).getTime() < Date.now()
+        ? course.price
+        : course.promoPrice;
   });
 
 // --- Module ---
