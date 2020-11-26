@@ -53,15 +53,15 @@ export function createUrl(options: UrlOptions) {
   }
 }
 
+export function getRouteParams(name: 'check-order'): { orderId: string };
 export function getRouteParams(name: 'checkout'): { courseId: string };
 export function getRouteParams(name: 'reset-password'): { code: string };
 export function getRouteParams(name: 'confirm'): { code: string };
 export function getRouteParams(name: 'confirm-change-email'): { code: string };
 export function getRouteParams(
   name:
+    | 'check-order'
     | 'reset-password'
-    | 'challenge'
-    | 'project'
     | 'confirm'
     | 'profile'
     | 'confirm-change-email'
@@ -78,12 +78,6 @@ export function getRouteParams(
         code: getLast(),
       };
     }
-    case 'project':
-    case 'challenge': {
-      return {
-        id: Number(getLast()),
-      };
-    }
     case 'profile': {
       return {
         username: getLast(),
@@ -97,6 +91,11 @@ export function getRouteParams(
     case 'checkout': {
       return {
         courseId: getLast(),
+      };
+    }
+    case 'check-order': {
+      return {
+        orderId: getLast(),
       };
     }
   }

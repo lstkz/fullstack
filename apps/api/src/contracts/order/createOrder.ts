@@ -40,7 +40,6 @@ export const createOrder = createContract('order.createOrder')
       throw new AppError('Invalid group');
     }
     const orderId = randomUniqString().toUpperCase();
-    const orderSecret = randomUniqString().toUpperCase();
     const course = await CourseEntity.getByKeyOrNull({
       courseId: values.product.courseId,
     });
@@ -61,7 +60,6 @@ export const createOrder = createContract('order.createOrder')
 
     const order = new OrderEntity({
       orderId,
-      orderSecret,
       createdAt: Date.now(),
       quantity: values.quantity,
       vatRate: VAT_RATE,
@@ -92,7 +90,7 @@ export const createOrder = createContract('order.createOrder')
       result_email: TPAY_RESULT_EMAIL,
       result_url: `${API_BASE_URL}/rcp/order.tpayHook`,
       return_error_url: `${APP_BASE_URL}`,
-      return_url: `${APP_BASE_URL}/check-order/${orderId}?secret=${orderSecret}`,
+      return_url: `${APP_BASE_URL}/check-order/${orderId}`,
     });
     await order.insert();
     order.provider.transactionId = tpayTransaction.id;

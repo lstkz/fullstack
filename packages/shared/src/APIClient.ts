@@ -53,13 +53,9 @@ export class APIClient {
     return this.call('errorReporting.reportFrontendError', { content });
   }
   order_checkOrderStatus(
-    orderId: string,
-    secret: string
-  ): Rx.Observable<{
-    status: 'not-paid' | 'paid';
-    email?: string | undefined;
-  }> {
-    return this.call('order.checkOrderStatus', { orderId, secret });
+    orderId: string
+  ): Rx.Observable<{ status: 'NOT_PAID' | 'PAID' }> {
+    return this.call('order.checkOrderStatus', { orderId });
   }
   order_createOrder(values: {
     quantity: number;

@@ -1,9 +1,13 @@
+import { faCheckCircle } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React from 'react';
 import { Container } from 'src/components/Container';
 import { Dashboard } from 'src/new-components/Dashboard';
 import { Heading } from 'src/new-components/Heading';
 import { SpinnerBoarder } from 'src/new-components/SpinnerBoarder';
+import { NewTheme } from 'src/NewTheme';
 import styled from 'styled-components';
+import { getCheckOrderState } from '../interface';
 import { useCheckOrderModule } from '../module';
 
 const Center = styled.div`
@@ -18,23 +22,54 @@ const Wrapper = styled.div`
   background-clip: border-box;
   border: 1px solid #eaecf3;
   border-radius: 0.375rem;
-  margin-top: 4rem;
+  margin: 4rem 0;
+`;
+
+const Text = styled.div`
+  padding: 2rem;
+  text-align: center;
+`;
+
+const CheckWrapper = styled.div`
+  text-align: center;
+  color: ${NewTheme.green};
 `;
 
 export function CheckOrderView() {
   useCheckOrderModule();
+  const { isDone } = getCheckOrderState.useState();
 
-  return (
-    <Dashboard>
-      <Container>
-        <Wrapper>
+  const renderContent = () => {
+    if (!isDone) {
+      return (
+        <>
           <Heading type={3} center mt={5}>
             Oczekiwanie na płatność
           </Heading>
           <Center>
             <SpinnerBoarder />
           </Center>
-        </Wrapper>
+        </>
+      );
+    }
+    return (
+      <>
+        <Heading type={3} center mt={5}>
+          Płatność zakończona pomyślnie
+        </Heading>
+        <Text>Na podanego maila został wysłany link do aktywacji konto.</Text>
+        <CheckWrapper>
+          <FontAwesomeIcon icon={faCheckCircle} size="6x" />
+        </CheckWrapper>
+        <Center></Center>
+      </>
+    );
+  };
+
+  return (
+    <Dashboard>
+      <Container>
+        <Wrapper>{renderContent()}</Wrapper>
       </Container>
     </Dashboard>
   );

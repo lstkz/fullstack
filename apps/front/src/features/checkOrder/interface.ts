@@ -8,6 +8,7 @@ export const [handle, CheckOrderActions, getCheckOrderState] = createModule(
 )
   .withActions({
     $mounted: null,
+    done: null,
   })
   .withState<CheckOrderState>();
 
@@ -16,12 +17,12 @@ export const [handle, CheckOrderActions, getCheckOrderState] = createModule(
 export const routeConfig: RouteConfig = {
   type: 'route',
   auth: 'any',
-  path: '/check-order/:id',
+  path: '/check-order/:orderId',
   component: () =>
     import('./components/CheckOrderView').then(x => x.CheckOrderView),
 };
 
 // --- Types ---
 export interface CheckOrderState {
-  foo: string;
+  isDone: boolean;
 }

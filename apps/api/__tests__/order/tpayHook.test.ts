@@ -20,7 +20,6 @@ beforeEach(async () => {
     createdAt: 1,
     customer: getCustomerData(),
     orderId: 'order-abc',
-    orderSecret: 'secret-abc',
     product: {
       courseId: 'course-1',
       type: 'course',

@@ -5,26 +5,17 @@ import { createContract, createRpcBinding } from '../../lib';
 import { _generateAuthData } from '../user/_generateAuthData';
 
 export const checkOrderStatus = createContract('order.checkOrderStatus')
-  .params('orderId', 'secret')
+  .params('orderId')
   .schema({
     orderId: S.string(),
-    secret: S.string(),
   })
-  .returns<{ status: 'not-paid' | 'paid'; email?: string }>()
-  .fn(async (orderId, secret) => {
+  .returns<{ status: 'NOT_PAID' | 'PAID' }>()
+  .fn(async orderId => {
     const order = await OrderEntity.getByKeyOrNull({ orderId });
-    if (!order || order.orderSecret !== secret) {
+    if (!order) {
       throw new AppError('Order not found');
     }
-    if (order.status !== 'PAID') {
-      return {
-        status: 'not-paid',
-      };
-    }
-    return {
-      status: 'paid',
-      email: order.customer.email,
-    };
+    return { status: order.status };
   });
 
 export const checkOrderStatusRpc = createRpcBinding({

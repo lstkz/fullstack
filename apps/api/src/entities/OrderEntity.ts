@@ -10,7 +10,6 @@ type OrderProduct = {
 };
 
 export interface OrderProps extends OrderKey {
-  orderSecret: string;
   createdAt: number;
   provider: {
     name: 'tpay';
