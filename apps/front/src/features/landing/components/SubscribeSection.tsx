@@ -60,7 +60,12 @@ const _SubscribeSection = (props: SubscribeSectionProps) => {
             <InputGroup
               size="large"
               input={
-                <FormInput noFeedback name="email" placeholder="Twój email" />
+                <FormInput
+                  noMargin
+                  noFeedback
+                  name="email"
+                  placeholder="Twój email"
+                />
               }
               append={
                 <Button type="primary" htmlType="submit" loading={isSubmitting}>

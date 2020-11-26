@@ -7,7 +7,7 @@ import { randomUniqString, getDuration } from '../../common/helper';
 import { APP_BASE_URL } from '../../config';
 import { UserEntity } from '../../entities/UserEntity';
 import { ResetPasswordCodeEntity } from '../../entities/ResetPasswordCodeEntity';
-import { sendEmail } from '../../common/email';
+import { dispatch } from '../../dispatch';
 
 export const resetPassword = createContract('user.resetPassword')
   .params('email')
@@ -29,19 +29,21 @@ export const resetPassword = createContract('user.resetPassword')
 
     await resetPasswordCode.insert();
     const url = `${APP_BASE_URL}/reset-password/${code}`;
-    await sendEmail({
-      to: user.email,
-      subject: 'Reset hasła',
-      body: `
-        Cześć,
-        <br/>
-        <br/>
-        Otwórz poniższy link, żeby zresetować hasło:
-        <br/>
-        <a href="${url}">Resetuj hasło</a>
-        <br/>
-        <br/>
-        Fullstack.pl`,
+    await dispatch({
+      type: 'SendEmailEvent',
+      payload: {
+        to: user.email,
+        subject: 'Reset hasła',
+        template: {
+          name: 'ButtonAction',
+          params: {
+            header: 'Reset hasła',
+            description: 'Otwórz poniższy link, żeby zresetować hasło',
+            buttonText: 'Resetuj hasło',
+            buttonUrl: url,
+          },
+        },
+      },
     });
   });
 

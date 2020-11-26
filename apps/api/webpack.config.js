@@ -6,6 +6,7 @@ module.exports = {
   mode: 'none',
   devtool: false,
   entry: path.join(__dirname, './src/lambda/entry.ts'),
+  stats: 'errors-only',
   optimization: {
     chunkIds: 'named',
     // namedModules: false,
@@ -32,7 +33,7 @@ module.exports = {
     new webpack.NoEmitOnErrorsPlugin(),
   ],
   resolve: {
-    extensions: ['.js', '.ts', '.json'],
+    extensions: ['.js', '.ts', '.tsx', '.json'],
   },
   output: {
     path: path.join(__dirname, 'dist'),

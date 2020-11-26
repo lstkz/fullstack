@@ -5,8 +5,7 @@ import { SubscriptionRequestEntity } from '../../entities/SubscriptionRequestEnt
 import { createContract, createRpcBinding } from '../../lib';
 import { randomUniqString } from '../../common/helper';
 import { APP_BASE_URL } from '../../config';
-import { sendEmail } from '../../common/email';
-import { actionButtonTemplate } from '../../email-templates/actionButtonTemplate';
+import { dispatch } from '../../dispatch';
 
 export const subscribe = createContract('subscription.subscribe')
   .params('name', 'email')
@@ -36,17 +35,24 @@ export const subscribe = createContract('subscription.subscribe')
     const unsubscribeLink = `${APP_BASE_URL}?unsubscribe=${unsubscribeCode}&source=request&email=${encodeURIComponent(
       email
     )}`;
-    await sendEmail({
-      to: email,
-      subject: '👋 Potwierdź subskrypcję',
-      body: actionButtonTemplate({
-        buttonText: 'Potwierdź',
-        buttonUrl: confirmLink,
-        header: 'Już prawie gotowe.',
-        description:
-          'Jeszcze jeden ostatni krok – prosimy o potwierdzenie Twojego maila.',
-        unsubscribeLink: unsubscribeLink,
-      }),
+
+    await dispatch({
+      type: 'SendEmailEvent',
+      payload: {
+        to: email,
+        subject: '👋 Potwierdź subskrypcję',
+        template: {
+          name: 'ButtonAction',
+          params: {
+            buttonText: 'Potwierdź',
+            buttonUrl: confirmLink,
+            header: 'Już prawie gotowe.',
+            description:
+              'Jeszcze jeden ostatni krok – prosimy o potwierdzenie Twojego maila.',
+            unsubscribeLink: unsubscribeLink,
+          },
+        },
+      },
     });
 
     await subscriptionRequest.insert();

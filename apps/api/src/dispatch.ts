@@ -1,6 +1,5 @@
 import { AppEvent } from './types';
 import { sns } from './lib';
-import { eventMapping } from './generated/event-mapping';
 
 export async function dispatch(event: AppEvent) {
   if (process.env.IS_AWS) {
@@ -11,6 +10,7 @@ export async function dispatch(event: AppEvent) {
       })
       .promise();
   } else {
+    const { eventMapping } = await import('./generated/event-mapping');
     const handlerMap = eventMapping[event.type] || {};
     const keys = Object.keys(handlerMap);
     await Promise.all(

@@ -15,6 +15,7 @@ export interface InputProps extends BaseProps {
   feedback?: string;
   state?: 'error';
   label?: string;
+  noMargin?: boolean;
 }
 
 const Label = styled.label`
@@ -31,7 +32,7 @@ export const InputFeedback = styled(Small)`
 `;
 
 const _Input = (props: InputProps) => {
-  const { size, feedback, state, className, label, ...rest } = props;
+  const { size, feedback, state, className, label, noMargin, ...rest } = props;
   return (
     <div className={className}>
       {label && <Label htmlFor={rest.id}>{label}</Label>}
@@ -46,7 +47,7 @@ const _Input = (props: InputProps) => {
 };
 
 export const Input = styled(_Input)`
-  margin-bottom: 1rem;
+  ${props => !props.noMargin && 'margin-bottom: 1rem;'}
 
   input {
     display: block;
