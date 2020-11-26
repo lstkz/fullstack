@@ -1,16 +1,20 @@
 import { S } from 'schema';
 import { AppError } from '../../common/errors';
-import { randomUniqString } from '../../common/helper';
+import { randomUniqString, roundCurrency } from '../../common/helper';
 import { createTPayTransaction, getTPayGroups } from '../../common/tpay';
 import { API_BASE_URL, APP_BASE_URL, TPAY_RESULT_EMAIL } from '../../config';
 import { CourseEntity } from '../../entities/CourseEntity';
 import { OrderEntity } from '../../entities/OrderEntity';
 import { createContract, createRpcBinding } from '../../lib';
 
+const VAT_RATE = 0.23;
+
 export const createOrder = createContract('order.createOrder')
   .params('values')
   .schema({
     values: S.object().keys({
+      quantity: S.number().integer(),
+      requestUnitPriceNet: S.number(),
       group: S.number(),
       subscribeNewsletter: S.boolean().optional(),
       product: S.object().keys({
@@ -43,13 +47,27 @@ export const createOrder = createContract('order.createOrder')
     if (!course) {
       throw new AppError('Course not found');
     }
-    const amount =
+    const unitPriceNet =
       course.promoEnds > Date.now() ? course.promoPrice : course.price;
+    if (values.requestUnitPriceNet !== unitPriceNet) {
+      if (values.requestUnitPriceNet === course.promoPrice) {
+        throw new AppError('Promo ended');
+      }
+      throw new AppError('Invalid requestUnitPriceNet');
+    }
+    const priceNet = unitPriceNet * values.quantity;
+    const vat = roundCurrency(VAT_RATE * priceNet);
+    const priceTotal = priceNet + vat;
+
     const order = new OrderEntity({
       orderId,
       orderSecret,
       createdAt: Date.now(),
-      amount,
+      quantity: values.quantity,
+      vatRate: VAT_RATE,
+      vat: vat,
+      priceNet,
+      priceTotal,
       customer: values.customer,
       product: values.product,
       provider: {
@@ -63,7 +81,7 @@ export const createOrder = createContract('order.createOrder')
 
     const tpayTransaction = await createTPayTransaction({
       crc: orderId,
-      amount,
+      amount: priceTotal,
       description: `Kurs: ${course.name}`,
       name: `${values.customer.firstName} ${values.customer.lastName}`,
       email: values.customer.email,

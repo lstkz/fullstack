@@ -6,7 +6,6 @@ module.exports = {
   mode: 'none',
   devtool: false,
   entry: path.join(__dirname, './src/lambda/entry.ts'),
-  stats: 'errors-only',
   optimization: {
     chunkIds: 'named',
     // namedModules: false,
@@ -51,7 +50,16 @@ module.exports = {
     },
   ],
   module: {
+    exprContextRegExp: /$^/,
+    exprContextCritical: false,
     rules: [
+      {
+        test: path.resolve(
+          __dirname,
+          '../../node_modules/uglify-js/tools/node.js'
+        ),
+        loader: 'null-loader',
+      },
       {
         test: /\.(js|jsx|ts|tsx)$/,
         exclude: /node_modules/,

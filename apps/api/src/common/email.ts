@@ -36,7 +36,9 @@ export function renderTemplate<T>(
   component: (props: T) => JSX.Element,
   props: T
 ) {
-  const { html, errors } = render(React.createElement(component, props));
+  const { html, errors } = render(React.createElement(component, props), {
+    minify: false,
+  });
   if (errors.length) {
     console.error('Failed to compile template', errors);
     throw new Error('Failed to compile MJML template');

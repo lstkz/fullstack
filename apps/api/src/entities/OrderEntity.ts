@@ -17,7 +17,11 @@ export interface OrderProps extends OrderKey {
     transactionId: string | null;
     paymentUrl: string | null;
   };
-  amount: number;
+  quantity: number;
+  vat: number;
+  vatRate: number;
+  priceNet: number;
+  priceTotal: number;
   status: 'NOT_PAID' | 'PAID';
   paidAt?: number;
   product: OrderProduct;
