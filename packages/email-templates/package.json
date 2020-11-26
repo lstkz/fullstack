@@ -1,0 +1,26 @@
+{
+  "name": "email-templates",
+  "version": "1.0.0",
+  "description": "",
+  "scripts": {
+    "dev": "NODE_ENV=development nodemon",
+    "tsc": "tsc --noEmit",
+    "test": "yarn run tsc"
+  },
+  "license": "MIT",
+  "sideEffects": false,
+  "dependencies": {
+    "@types/mjml-react": "^1.0.4",
+    "mjml": "^4.7.1",
+    "mjml-react": "^1.0.59",
+    "nodemon": "^1.19.1"
+  },
+  "devDependencies": {
+    "@types/react": "^16.9.2",
+    "@types/react-dom": "^16.9.0"
+  },
+  "peerDependencies": {
+    "react": "^16.9.0",
+    "react-dom": "^16.9.0"
+  }
+}
