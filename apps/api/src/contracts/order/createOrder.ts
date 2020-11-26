@@ -88,7 +88,7 @@ export const createOrder = createContract('order.createOrder')
       merchant_description: 'Fullstack.pl',
       online: 1,
       result_email: TPAY_RESULT_EMAIL,
-      result_url: `${API_BASE_URL}/rcp/order.tpayHook`,
+      result_url: `${API_BASE_URL}/rpc/order.tpayHook`,
       return_error_url: `${APP_BASE_URL}`,
       return_url: `${APP_BASE_URL}/check-order/${orderId}`,
     });

@@ -25,7 +25,7 @@ handle.epic().on(CheckOrderActions.$mounted, ({}, { action$ }) => {
 
 // --- Reducer ---
 const initialState: CheckOrderState = {
-  isDone: true,
+  isDone: false,
 };
 
 handle.reducer(initialState).on(CheckOrderActions.done, state => {

@@ -73,6 +73,12 @@ export async function handler(
     }
     const headers = event.headers || {};
     const ret = await rpcHandler(exec[1], params, headers['x-token']);
+    if (ret === 'TRUE') {
+      return {
+        statusCode: 200,
+        body: 'TRUE',
+      };
+    }
     return {
       statusCode: 200,
       body: JSON.stringify(ret),

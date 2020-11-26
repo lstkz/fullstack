@@ -63,6 +63,7 @@ export const tpayHook = createContract('order.tpayHook')
 
 export const tpayHookRpc = createRpcBinding({
   public: true,
+  raw: true,
   signature: 'order.tpayHook',
   handler: tpayHook,
 });
