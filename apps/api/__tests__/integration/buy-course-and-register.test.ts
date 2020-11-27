@@ -28,6 +28,7 @@ beforeEach(async () => {
   });
   await promoCourse.insert();
   mockedGetTPayGroups.mockClear();
+  mockedCreateTPayTransaction.mockClear();
   mockedGetTPayGroups.mockImplementation(async () => [
     {
       id: 100,
@@ -90,7 +91,7 @@ it('buy course and register', async () => {
   expect(loginRet.user.email).toEqual('user@example.com');
 });
 
-fit('buy multiple courses', async () => {
+it('buy multiple courses', async () => {
   let codes: string[] = [];
   const sendEmailMock: any = (params: SES.Types.SendEmailRequest) => ({
     promise: () => {

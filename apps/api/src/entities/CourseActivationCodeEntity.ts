@@ -27,7 +27,7 @@ export class CourseActivationCodeEntity extends BaseEntity {
   static getAllByOrderId(orderId: string) {
     return this.queryAll({
       key: {
-        sk: this.createKey({ code: '-1', orderId }).pk,
+        sk: this.createKey({ code: '-1', orderId }).sk,
         data_n: null,
       },
     });
