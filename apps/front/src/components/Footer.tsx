@@ -47,7 +47,7 @@ const _Footer = (props: FooterProps) => {
               name: 'courses',
             })}
           >
-            Challenges
+            Courses
           </Link>
           {' | '}
           <Link

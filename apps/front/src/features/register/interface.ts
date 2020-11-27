@@ -8,7 +8,7 @@ export const [handle, RegisterActions, getRegisterState] = createModule(
 )
   .withActions({
     $mounted: null,
-    reset: null,
+    $init: null,
     setSubmitting: (isSubmitting: boolean) => ({ payload: { isSubmitting } }),
     setError: (error: string | null) => ({ payload: { error } }),
   })

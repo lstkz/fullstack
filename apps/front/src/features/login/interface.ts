@@ -5,9 +5,8 @@ import { LoginSymbol } from './symbol';
 // --- Actions ---
 export const [handle, LoginActions, getLoginState] = createModule(LoginSymbol)
   .withActions({
-    reset: null,
-    showModal: null,
-    hideModal: null,
+    $init: null,
+    $mounted: null,
     setSubmitting: (isSubmitting: boolean) => ({ payload: { isSubmitting } }),
     setError: (error: string | null) => ({ payload: { error } }),
   })
@@ -27,7 +26,6 @@ export const routeConfig: RouteConfig = {
 
 // --- Types ---
 export interface LoginState {
-  isModalOpen: boolean;
   isSubmitting: boolean;
   error: string | null;
 }

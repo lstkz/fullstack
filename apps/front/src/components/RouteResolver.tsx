@@ -174,7 +174,7 @@ export const RouteResolver = () => {
             .pipe(
               Rx.ofType([
                 routeConfig.waitForAction,
-                GlobalActions.showAppError,
+                GlobalActions.showErrorModal,
               ]),
               Rx.take(1),
               Rx.tap(() => {
@@ -194,11 +194,12 @@ export const RouteResolver = () => {
           return null;
         }
       })
-      .catch(() => {
+      .catch(e => {
         if (isCancelled()) {
           return;
         }
         tryCompleteLoader();
+        console.error(e);
         showAppError('No internet connection. Please refresh the page.');
       });
   };
@@ -220,7 +221,7 @@ export const RouteResolver = () => {
     }
     // not found route
     // you can display 404 or redirect to default routes
-    replace(user ? '/challenges' : '/login');
+    replace(user ? '/courses' : '/login');
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [location, user]);

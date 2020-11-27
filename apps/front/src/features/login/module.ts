@@ -1,5 +1,5 @@
 import * as Rx from 'src/rx';
-import { LoginActions, LoginState, handle, getLoginState } from './interface';
+import { LoginActions, LoginState, handle } from './interface';
 import {
   LoginFormActions,
   getLoginFormState,
@@ -7,31 +7,17 @@ import {
 } from './login-form';
 import { api } from 'src/services/api';
 import { GlobalActions } from '../global/interface';
-import { getErrorMessage, handleAuth } from 'src/common/helper';
+import { getErrorMessage } from 'src/common/helper';
 import { AuthData } from 'shared';
-import { isRoute } from 'src/common/url';
 
 // --- Epic ---
 
-function authWith(
-  action$: Rx.Observable<any>,
-  fn: () => Rx.Observable<AuthData>
-) {
-  const { isModalOpen } = getLoginState();
-
+function authWith(fn: () => Rx.Observable<AuthData>) {
   return Rx.concatObs(
     Rx.of(LoginActions.setSubmitting(true)),
     Rx.of(LoginActions.setError(null)),
     fn().pipe(
-      Rx.mergeMap(authData =>
-        handleAuth({
-          authData,
-          isModalOpen,
-          hideModal: LoginActions.hideModal,
-          reset: LoginActions.reset,
-          action$,
-        })
-      ),
+      Rx.map(authData => GlobalActions.auth(authData)),
       Rx.catchError(e => {
         return Rx.of(LoginActions.setError(getErrorMessage(e)));
       })
@@ -40,49 +26,29 @@ function authWith(
   );
 }
 
-function getIsActive() {
-  return getLoginState().isModalOpen || isRoute('login');
-}
-
 handle
   .epic()
-  .onMany([LoginActions.showModal, LoginActions.reset], () =>
-    LoginFormActions.reset()
-  )
-  .on(LoginFormActions.setSubmitSucceeded, ({}, { action$ }) => {
-    return authWith(action$, () => api.user_login(getLoginFormState().values));
+  .on(LoginActions.$mounted, () => LoginFormActions.reset())
+  .on(LoginFormActions.setSubmitSucceeded, ({}) => {
+    return authWith(() => api.user_login(getLoginFormState().values));
   })
-  .on(GlobalActions.githubCallback, ({ code }, { action$ }) => {
-    if (!getIsActive()) {
-      return Rx.empty();
-    }
-    return authWith(action$, () => api.user_authGithub(false, code));
+  .on(GlobalActions.githubCallback, ({ code }) => {
+    return authWith(() => api.user_githubLogin(code));
   })
-  .on(GlobalActions.googleCallback, ({ token }, { action$ }) => {
-    if (!getIsActive()) {
-      return Rx.empty();
-    }
-    return authWith(action$, () => api.user_authGoogle(false, token));
+  .on(GlobalActions.googleCallback, ({ token }) => {
+    return authWith(() => api.user_googleLogin(token));
   });
 
 // --- Reducer ---
 const initialState: LoginState = {
-  isModalOpen: false,
   isSubmitting: false,
   error: null,
 };
 
 handle
   .reducer(initialState)
-  .on(LoginActions.reset, state => {
+  .on(LoginActions.$init, state => {
     Object.assign(state, initialState);
-  })
-  .on(LoginActions.showModal, state => {
-    Object.assign(state, initialState);
-    state.isModalOpen = true;
-  })
-  .on(LoginActions.hideModal, state => {
-    state.isModalOpen = false;
   })
   .on(LoginActions.setSubmitting, (state, { isSubmitting }) => {
     state.isSubmitting = isSubmitting;
