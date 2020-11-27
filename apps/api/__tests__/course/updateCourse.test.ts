@@ -1,15 +1,12 @@
+import { ADMIN_TOKEN } from '../../src/config';
 import { updateCourse } from '../../src/contracts/course/updateCourse';
-import { makeAdmin } from '../../src/contracts/user/makeAdmin';
 import { CourseEntity } from '../../src/entities/CourseEntity';
 import { CourseLessonEntity } from '../../src/entities/CourseLessonEntity';
 import { CourseTaskEntity } from '../../src/entities/CourseTaskEntity';
 import { execContract, resetDb } from '../helper';
-import { registerSampleUsers } from '../seed-data';
 
 beforeEach(async () => {
   await resetDb();
-  await registerSampleUsers();
-  await makeAdmin('1');
 });
 
 function _getCourse(id: string) {
@@ -59,7 +56,7 @@ it('should update a course', async () => {
       lessons: [_getLesson(1), _getLesson(2), _getLesson(3)],
       tasks: [_getTask(1), _getTask(2)],
     },
-    'user1_token'
+    ADMIN_TOKEN
   );
 
   const [course, lessons, tasks] = await Promise.all([
@@ -165,7 +162,7 @@ it('should update a course (update, and remove lessons and tasks)', async () => 
       lessons: [_getLesson(1), _getLesson(2), _getLesson(3)],
       tasks: [_getTask(1), _getTask(2), _getTask(3)],
     },
-    'user1_token'
+    ADMIN_TOKEN
   );
 
   await execContract(
@@ -208,7 +205,7 @@ it('should update a course (update, and remove lessons and tasks)', async () => 
         },
       ],
     },
-    'user1_token'
+    ADMIN_TOKEN
   );
 
   const [course, lessons, tasks] = await Promise.all([
