@@ -10,6 +10,10 @@ export const apiMapping: ApiMapping = {
     import(
       /* webpackChunkName: "course.getAllCourses"*/ '../contracts/course/getAllCourses'
     ).then(x => x['getAllCoursesRpc']),
+  'course.getCourse': () =>
+    import(
+      /* webpackChunkName: "course.getCourse"*/ '../contracts/course/getCourse'
+    ).then(x => x['getCourseRpc']),
   'course.updateCourse': () =>
     import(
       /* webpackChunkName: "course.updateCourse"*/ '../contracts/course/updateCourse'
@@ -18,10 +22,18 @@ export const apiMapping: ApiMapping = {
     import(
       /* webpackChunkName: "errorReporting.reportFrontendError"*/ '../contracts/errorReporting/reportFrontendError'
     ).then(x => x['reportFrontendErrorRpc']),
+  'order.checkOrderStatus': () =>
+    import(
+      /* webpackChunkName: "order.checkOrderStatus"*/ '../contracts/order/checkOrderStatus'
+    ).then(x => x['checkOrderStatusRpc']),
   'order.createOrder': () =>
     import(
       /* webpackChunkName: "order.createOrder"*/ '../contracts/order/createOrder'
     ).then(x => x['createOrderRpc']),
+  'order.getTPayGroups': () =>
+    import(
+      /* webpackChunkName: "order.getTPayGroups"*/ '../contracts/order/getTPayGroups'
+    ).then(x => x['getTPayGroupsRpc']),
   'order.tpayHook': () =>
     import(
       /* webpackChunkName: "order.tpayHook"*/ '../contracts/order/tpayHook'

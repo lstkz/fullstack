@@ -1,45 +1,77 @@
-import { dispatch } from '../../src/dispatch';
-import { CourseAccessEntity } from '../../src/entities/CourseAccessEntity';
+import { completeCourseOrder } from '../../src/contracts/order/completeCourseOrder';
+
+import { CourseActivationCodeEntity } from '../../src/entities/CourseActivationCodeEntity';
+import { CourseEntity } from '../../src/entities/CourseEntity';
 import { OrderEntity } from '../../src/entities/OrderEntity';
 import { resetDb } from '../helper';
+import { getCustomerData } from '../seed-data';
 
-jest.mock('uuid', () => {
-  let next = 1;
-  return () => `id-${next++}`;
-});
+jest.mock('../../src/dispatch');
+
+const courseId = 'course-1';
+const orderId = 'order-abc';
 
 beforeEach(async () => {
   await resetDb();
-  const order = new OrderEntity({
-    amount: 120,
-    createdAt: 1,
-    customer: { email: 'john@example.org', firstName: 'john', lastName: 'doe' },
-    orderId: 'order-abc',
-    product: {
-      courseId: 'course-1',
-      type: 'course',
-    },
-    provider: {
-      name: 'tpay',
-      paymentUrl: 'url',
-      transactionId: 't-123',
-    },
-    status: 'PAID',
-    paidAt: 1,
-  });
-  await order.insert();
+
+  await Promise.all([
+    new CourseEntity({
+      courseId: courseId,
+      description: 'This is a Promo Course',
+      name: 'Promo Course',
+      price: 200,
+      promoPrice: 200,
+      promoEnds: 1,
+    }).insert(),
+    new OrderEntity({
+      priceNet: 1000,
+      priceTotal: 1230,
+      quantity: 5,
+      vat: 230,
+      vatRate: 0.23,
+      createdAt: 1,
+      customer: getCustomerData(),
+      orderId: orderId,
+      product: {
+        courseId: courseId,
+        type: 'course',
+      },
+      provider: {
+        name: 'tpay',
+        paymentUrl: 'url',
+        transactionId: 't-123',
+      },
+      status: 'PAID',
+    }).insert(),
+    new CourseActivationCodeEntity({
+      code: 'c1',
+      courseId,
+      orderId,
+      index: 1,
+    }).insert(),
+    new CourseActivationCodeEntity({
+      code: 'c2',
+      courseId,
+      orderId,
+      index: 2,
+    }).insert(),
+    new CourseActivationCodeEntity({
+      code: 'c4',
+      courseId,
+      orderId,
+      index: 4,
+    }).insert(),
+  ]);
 });
 
-it('should complete order and create a user', async () => {
-  await dispatch({
-    type: 'OrderPaidEvent',
-    payload: {
-      orderId: 'order-abc',
-    },
-  });
-  const access = await CourseAccessEntity.getByKey({
-    courseId: 'course-1',
-    userId: 'id-1',
-  });
-  expect(access).toBeDefined();
+it('complete order if some codes already exists', async () => {
+  await completeCourseOrder('order-abc');
+
+  const codeEntities = await CourseActivationCodeEntity.getAllByOrderId(
+    orderId
+  );
+  const codes = codeEntities.sort((a, b) => a.index - b.index).map(x => x.code);
+  expect(codes[0]).toEqual('c1');
+  expect(codes[1]).toEqual('c2');
+  expect(codes[3]).toEqual('c4');
 });

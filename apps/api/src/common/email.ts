@@ -1,3 +1,6 @@
+import React from 'react';
+import { render } from 'mjml-react';
+
 import { EMAIL_SENDER } from '../config';
 import { ses } from '../lib';
 
@@ -7,7 +10,7 @@ interface SendEmailOptions {
   body: string;
 }
 
-export async function sendEmail(options: SendEmailOptions) {
+export async function sendSESEmail(options: SendEmailOptions) {
   const { body, subject, to } = options;
   await ses
     .sendEmail({
@@ -27,4 +30,18 @@ export async function sendEmail(options: SendEmailOptions) {
       },
     })
     .promise();
+}
+
+export function renderTemplate<T>(
+  component: (props: T) => JSX.Element,
+  props: T
+) {
+  const { html, errors } = render(React.createElement(component, props), {
+    minify: false,
+  });
+  if (errors.length) {
+    console.error('Failed to compile template', errors);
+    throw new Error('Failed to compile MJML template');
+  }
+  return html;
 }

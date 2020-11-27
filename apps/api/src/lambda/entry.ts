@@ -1,5 +1,5 @@
 import {
-  APIGatewayProxyEvent,
+  APIHttpEvent,
   SNSEvent,
   DynamoDBStreamEvent,
   CloudWatchLogsEvent,
@@ -7,7 +7,7 @@ import {
 
 type AWSEvent =
   | SNSEvent
-  | APIGatewayProxyEvent
+  | APIHttpEvent
   | DynamoDBStreamEvent
   | CloudWatchLogsEvent;
 

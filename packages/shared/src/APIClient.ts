@@ -3,7 +3,7 @@ import { ajax, AjaxRequest } from 'rxjs/ajax';
 import { map } from 'rxjs/operators';
 
 // IMPORTS
-import { Course, SubscriptionResult, AuthData, User } from './types';
+import { Course, TPayGroup, SubscriptionResult, AuthData, User } from './types';
 // IMPORTS END
 
 export class APIClient {
@@ -18,6 +18,9 @@ export class APIClient {
   // SIGNATURES
   course_getAllCourses(): Rx.Observable<Course[]> {
     return this.call('course.getAllCourses', {});
+  }
+  course_getCourse(courseId: string): Rx.Observable<Course> {
+    return this.call('course.getCourse', { courseId });
   }
   course_updateCourse(
     course: {
@@ -49,24 +52,32 @@ export class APIClient {
   }): Rx.Observable<unknown> {
     return this.call('errorReporting.reportFrontendError', { content });
   }
+  order_checkOrderStatus(
+    orderId: string
+  ): Rx.Observable<{ status: 'NOT_PAID' | 'PAID' }> {
+    return this.call('order.checkOrderStatus', { orderId });
+  }
   order_createOrder(values: {
-    group: number;
+    quantity: number;
     product: { courseId: string; type: 'course' };
-    customer: { email: string; firstName: string; lastName: string };
-    invoice?:
-      | {
-          company: string;
-          country: string;
-          vat: string;
-          street: string;
-          streetNo: string;
-          postalCode: string;
-          city: string;
-          localNo?: string | undefined;
-        }
-      | undefined;
-  }): Rx.Observable<unknown> {
+    customer: {
+      email: string;
+      firstName: string;
+      lastName: string;
+      address: string;
+      postalCode: string;
+      city: string;
+      companyName?: string | undefined;
+      companyVat?: string | undefined;
+    };
+    requestUnitPriceNet: number;
+    group: number;
+    subscribeNewsletter?: boolean | undefined;
+  }): Rx.Observable<{ paymentUrl: string }> {
     return this.call('order.createOrder', { values });
+  }
+  order_getTPayGroups(): Rx.Observable<TPayGroup[]> {
+    return this.call('order.getTPayGroups', {});
   }
   order_tpayHook(
     values: {
@@ -132,6 +143,7 @@ export class APIClient {
   user_register(values: {
     email: string;
     password: string;
+    activationCode: string;
   }): Rx.Observable<AuthData> {
     return this.call('user.register', { values });
   }

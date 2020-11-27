@@ -32,7 +32,7 @@ module.exports = {
     new webpack.NoEmitOnErrorsPlugin(),
   ],
   resolve: {
-    extensions: ['.js', '.ts', '.json'],
+    extensions: ['.js', '.ts', '.tsx', '.json'],
   },
   output: {
     path: path.join(__dirname, 'dist'),
@@ -50,7 +50,16 @@ module.exports = {
     },
   ],
   module: {
+    exprContextRegExp: /$^/,
+    exprContextCritical: false,
     rules: [
+      {
+        test: path.resolve(
+          __dirname,
+          '../../node_modules/uglify-js/tools/node.js'
+        ),
+        loader: 'null-loader',
+      },
       {
         test: /\.(js|jsx|ts|tsx)$/,
         exclude: /node_modules/,

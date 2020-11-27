@@ -8,11 +8,11 @@ interface EventMapping {
   };
 }
 export const eventMapping: EventMapping = {
-  UserRegisteredEvent: {
-    sendConfirmEmailEvent: () =>
+  SendEmailEvent: {
+    sendEmailEvent: () =>
       import(
-        /* webpackChunkName: "UserRegisteredEvent.sendConfirmEmailEvent"*/ '../contracts/notification/sendConfirmEmail'
-      ).then(x => x['sendConfirmEmailEvent']),
+        /* webpackChunkName: "SendEmailEvent.sendEmailEvent"*/ '../contracts/notification/sendEmail'
+      ).then(x => x['sendEmailEvent']),
   },
   OrderPaidEvent: {
     completeCourseOrderEvent: () =>

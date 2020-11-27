@@ -15,7 +15,6 @@ export class UnreachableCaseError extends Error {
 }
 
 function fixErrorMessage(message: string) {
-  console.log({ message });
   if (message === 'is required') {
     return 'Pole wymagane';
   }
@@ -216,3 +215,5 @@ export function isMenuHighlighted(
       throw new UnreachableCaseError(menu);
   }
 }
+
+export const isConfirmKey = (code: string) => code === 'Enter' || code === ' ';

@@ -57,7 +57,12 @@ handle
   )
   .on(RegisterFormActions.setSubmitSucceeded, ({}, { action$ }) => {
     const values = R.omit(getRegisterFormState().values, ['confirmPassword']);
-    return authWith(action$, () => api.user_register(values));
+    return authWith(action$, () =>
+      api.user_register({
+        activationCode: '',
+        ...values,
+      })
+    );
   })
   .on(GlobalActions.githubCallback, ({ code }, { action$ }) => {
     if (!getIsActive()) {

@@ -6,7 +6,7 @@ import { Small } from './Small';
 
 type BaseProps = Pick<
   React.InputHTMLAttributes<HTMLInputElement>,
-  'value' | 'placeholder' | 'onChange' | 'type'
+  'value' | 'placeholder' | 'onChange' | 'type' | 'id'
 >;
 
 export interface InputProps extends BaseProps {
@@ -14,7 +14,16 @@ export interface InputProps extends BaseProps {
   size?: 'small' | 'default' | 'large' | 'extra-large';
   feedback?: string;
   state?: 'error';
+  label?: string;
+  noMargin?: boolean;
 }
+
+const Label = styled.label`
+  color: ${NewTheme.gray_600};
+  font-size: 0.875rem;
+  font-weight: 500;
+  margin-bottom: 0.5rem;
+`;
 
 export const InputFeedback = styled(Small)`
   color: ${NewTheme.gray_600};
@@ -23,9 +32,10 @@ export const InputFeedback = styled(Small)`
 `;
 
 const _Input = (props: InputProps) => {
-  const { size, feedback, state, className, ...rest } = props;
+  const { size, feedback, state, className, label, noMargin, ...rest } = props;
   return (
     <div className={className}>
+      {label && <Label htmlFor={rest.id}>{label}</Label>}
       <input {...rest} />
       {feedback && (
         <InputFeedback color={state === 'error' ? 'danger' : undefined}>
@@ -37,6 +47,8 @@ const _Input = (props: InputProps) => {
 };
 
 export const Input = styled(_Input)`
+  ${props => !props.noMargin && 'margin-bottom: 1rem;'}
+
   input {
     display: block;
     width: 100%;

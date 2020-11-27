@@ -38,7 +38,7 @@ export async function handler(
   if (options.injectUser) {
     params.shift();
   }
-  const values = options.raw ? [rpcBody] : params.map(x => rpcBody[x]);
+  const values = params.map(x => rpcBody[x]);
   if (options.injectUser) {
     values.unshift(user?.id);
   }

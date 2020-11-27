@@ -16,7 +16,11 @@ export interface OrderProps extends OrderKey {
     transactionId: string | null;
     paymentUrl: string | null;
   };
-  amount: number;
+  quantity: number;
+  vat: number;
+  vatRate: number;
+  priceNet: number;
+  priceTotal: number;
   status: 'NOT_PAID' | 'PAID';
   paidAt?: number;
   product: OrderProduct;
@@ -24,14 +28,9 @@ export interface OrderProps extends OrderKey {
     email: string;
     firstName: string;
     lastName: string;
-  };
-  invoice?: {
-    company: string;
-    country: string;
-    vat: string;
-    street: string;
-    streetNo: string;
-    localNo?: string;
+    companyName?: string;
+    companyVat?: string;
+    address: string;
     postalCode: string;
     city: string;
   };

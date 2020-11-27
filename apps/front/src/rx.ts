@@ -1,4 +1,4 @@
-import { Observable, ObservableInput } from 'rxjs';
+import { EMPTY, Observable, ObservableInput } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 
 export * from 'typeless/rx';
@@ -14,3 +14,5 @@ export const catchLog = <T, O extends ObservableInput<any>>(
     }
     return fn(err, source);
   });
+
+export { EMPTY };

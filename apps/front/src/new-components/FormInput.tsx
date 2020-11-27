@@ -33,6 +33,7 @@ export const FormInput = (props: FormInputProps) => {
       }}
       {...inputProps}
       {...rest}
+      id={rest.id ?? name}
     />
   );
 };

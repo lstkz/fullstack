@@ -15,6 +15,9 @@ interface ColProps extends SpacerProps {
   sm?: number;
   md?: number;
   lg?: number;
+  flexOrder?: number;
+  mdFlexOrder?: number;
+  lgFlexOrder?: number;
 }
 
 function _getWidth(size: number) {
@@ -24,9 +27,17 @@ function _getWidth(size: number) {
   `;
 }
 
+const DEFAULT_GUTTER = 30;
+
 export const Col = styled.div<ColProps>`
   position: relative;
   width: 100%;
+  ${props =>
+    props.sm !== 12 &&
+    props.sm &&
+    css`
+      margin-top: 0 !important;
+    `}
 
   ${props => props.sm && _getWidth(props.sm)}
   ${props =>
@@ -44,10 +55,26 @@ export const Col = styled.div<ColProps>`
       }
     `};
 
+  order: ${props => props.flexOrder};
+
+  ${props =>
+    props.mdFlexOrder &&
+    css`
+      ${MEDIA_MD} {
+        order: ${props.mdFlexOrder};
+      }
+    `};
+
+  ${props =>
+    props.lgFlexOrder &&
+    css`
+      ${MEDIA_LG} {
+        order: ${props.lgFlexOrder};
+      }
+    `};
+
   ${spacerStyle}
 `;
-
-const DEFAULT_GUTTER = 30;
 
 export const Row = styled.div<RowProps>`
   display: flex;

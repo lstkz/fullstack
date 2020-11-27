@@ -1,5 +1,6 @@
 import util from 'util';
 import uuid from 'uuid';
+import qs from 'querystring';
 import { APIGatewayProxyEvent, ALBEvent, APIHttpEvent } from '../types';
 import { handler as rpcHandler } from '../handler';
 import { AppError } from '../common/errors';
@@ -41,9 +42,11 @@ function _getPublicErrorMessage(e: any) {
   return target.message;
 }
 
-export async function handler(
-  event: APIGatewayProxyEvent | ALBEvent | APIHttpEvent
-) {
+function _isHook(url: string) {
+  return url.toLowerCase().includes('hook');
+}
+
+export async function handler(event: APIHttpEvent) {
   try {
     const { path, httpMethod } = _getHttpParams(event);
     const exec = /\/rpc\/(.+)/.exec(path);
@@ -59,20 +62,39 @@ export async function handler(
     if (httpMethod !== 'POST') {
       throw new AppError('Method must be POST');
     }
-    let params: any[];
+    let params: any;
     if (!event.body) {
       throw new AppError('Body required');
     }
-    try {
-      params = JSON.parse(event.body);
-    } catch (e) {
-      throw new AppError('Invalid JSON');
+    if (event.headers['content-type'] === 'application/x-www-form-urlencoded') {
+      try {
+        const decoded = event.isBase64Encoded
+          ? Buffer.from(event.body, 'base64').toString()
+          : event.body;
+        params = {
+          values: { ...qs.parse(decoded) },
+        };
+      } catch (e) {
+        throw new AppError('Invalid urlencoded content');
+      }
+    } else {
+      try {
+        params = JSON.parse(event.body);
+      } catch (e) {
+        throw new AppError('Invalid JSON');
+      }
     }
     if (typeof params !== 'object' || !params) {
       throw new AppError('Request body must be an object');
     }
     const headers = event.headers || {};
     const ret = await rpcHandler(exec[1], params, headers['x-token']);
+    if (ret === 'TRUE' || ret === 'FALSE') {
+      return {
+        statusCode: 200,
+        body: ret,
+      };
+    }
     return {
       statusCode: 200,
       body: JSON.stringify(ret),
@@ -82,6 +104,9 @@ export async function handler(
     const serialized = util.inspect(e, { depth: null });
     const requestId = event.requestContext?.requestId || uuid();
     if (_isPublicError(e)) {
+      if (_isHook(event.requestContext.http.path)) {
+        console.error(requestId, serialized);
+      }
       return {
         statusCode: 400,
         headers: baseHeaders,

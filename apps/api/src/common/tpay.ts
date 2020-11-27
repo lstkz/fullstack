@@ -1,4 +1,5 @@
 import fetch from 'node-fetch';
+import { TPayGroup } from 'shared';
 import {
   TPAY_API_KEY,
   TPAY_CODE,
@@ -6,14 +7,6 @@ import {
   TPAY_PASSWORD,
 } from '../config';
 import { md5 } from './helper';
-
-interface TPayGroup {
-  id: number;
-  name: string;
-  banks: string;
-  img: string;
-  main_bank_id: number;
-}
 
 const BASE_URL = 'https://secure.tpay.com';
 
@@ -25,7 +18,8 @@ export async function getTPayGroups(): Promise<TPayGroup[]> {
       'Content-Type': 'application/json',
     },
   });
-  const groups: TPayGroup[] = await res.json();
+  const body: Record<string, TPayGroup> = await res.json();
+  const groups = Object.values(body);
   groups.forEach(group => {
     group.id = Number(group.id);
     group.main_bank_id = Number(group.main_bank_id);

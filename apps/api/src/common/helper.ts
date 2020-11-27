@@ -199,3 +199,7 @@ export function intersectionBy<T, K, R>(
 export function md5(str: string) {
   return crypto.createHash('md5').update(str).digest('hex');
 }
+
+export function roundCurrency(n: number) {
+  return Math.round(n * 100) / 100;
+}
