@@ -57,7 +57,7 @@ export function CheckOrderView() {
         <Heading type={3} center mt={5}>
           Płatność zakończona pomyślnie
         </Heading>
-        <Text>Na podanego maila został wysłany link do aktywacji konto.</Text>
+        <Text>Na podanego maila został wysłany link do aktywacji konta.</Text>
         <CheckWrapper>
           <FontAwesomeIcon icon={faCheckCircle} size="6x" />
         </CheckWrapper>
