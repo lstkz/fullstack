@@ -32,18 +32,20 @@ export function getCustomerData() {
 }
 
 export function getTPayHookData(crc = 'order-abc') {
+  const amount = Number(120).toFixed(2);
+  const tr_id = 't-123';
   return {
-    id: TPAY_CUSTOMER_ID,
-    tr_id: 't-123',
+    id: TPAY_CUSTOMER_ID.toFixed(),
+    tr_id: tr_id,
     tr_date: 'date',
     tr_crc: crc,
-    tr_amount: 120,
-    tr_paid: 120,
+    tr_amount: amount,
+    tr_paid: amount,
     tr_desc: 'foo',
     tr_status: 'TRUE' as const,
     tr_error: 'none',
     tr_email: 'john@',
     test_mode: '0',
-    md5sum: md5(`${TPAY_CUSTOMER_ID}${120}${crc}${TPAY_CODE}`),
+    md5sum: md5(`${TPAY_CUSTOMER_ID}${tr_id}${amount}${crc}${TPAY_CODE}`),
   };
 }

@@ -46,7 +46,7 @@ it('should throw an error if md5sum invalid', async () => {
 it('should throw an error if not fully paid', async () => {
   await expect(
     execContract(tpayHook, {
-      values: { ...getTPayHookData(), tr_paid: 20 },
+      values: { ...getTPayHookData(), tr_paid: '20' },
     })
   ).rejects.toThrow('Not fully paid');
 });

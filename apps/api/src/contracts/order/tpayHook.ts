@@ -13,12 +13,12 @@ export const tpayHook = createContract('order.tpayHook')
   .schema({
     values: S.object()
       .keys({
-        id: S.number(),
+        id: S.string(),
         tr_id: S.string(),
         tr_date: S.string(),
         tr_crc: S.string(),
-        tr_amount: S.number(),
-        tr_paid: S.number(),
+        tr_amount: S.string(),
+        tr_paid: S.string(),
         tr_desc: S.string(),
         tr_status: S.enum().literal('TRUE', 'FALSE'),
         tr_error: S.string(),
@@ -30,8 +30,9 @@ export const tpayHook = createContract('order.tpayHook')
   })
   .fn(async values => {
     if (
-      md5(`${values.id}${values.tr_amount}${values.tr_crc}${TPAY_CODE}`) !==
-      values.md5sum
+      md5(
+        `${values.id}${values.tr_id}${values.tr_amount}${values.tr_crc}${TPAY_CODE}`
+      ) !== values.md5sum
     ) {
       throw new AppError('Invalid md5sum');
     }
