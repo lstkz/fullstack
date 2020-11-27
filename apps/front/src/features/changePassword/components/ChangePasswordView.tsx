@@ -1,16 +1,16 @@
 import React from 'react';
 import { useChangePasswordModule } from '../module';
-import { Button } from 'src/components/Button';
 import {
   useChangePasswordForm,
   ChangePasswordFormProvider,
   ChangePasswordFormActions,
 } from '../changePassword-form';
-import { FormInput } from '../../../components/FormInput';
 import { useActions } from 'typeless';
 import { FullPageForm } from '../../../components/FullPageForm';
 import { getChangePasswordState } from '../interface';
 import { Alert } from 'src/components/Alert';
+import { FormInput } from 'src/new-components/FormInput';
+import { Button } from 'src/new-components/Button';
 
 export function ChangePasswordView() {
   useChangePasswordForm();
@@ -19,10 +19,7 @@ export function ChangePasswordView() {
   const { isSubmitting, error } = getChangePasswordState.useState();
 
   return (
-    <FullPageForm
-      title="Change Password"
-      subTitle={<>Set your new password.</>}
-    >
+    <FullPageForm title="Zmień Hasło" subTitle={<>Ustaw nowe hasło</>}>
       <ChangePasswordFormProvider>
         <form
           onSubmit={e => {
@@ -34,19 +31,19 @@ export function ChangePasswordView() {
           <FormInput
             id="password"
             name="password"
-            label="Password"
+            label="Hasło"
             placeholder="********"
             type="password"
           />
           <FormInput
             id="confirmPassword"
             name="confirmPassword"
-            label="Confirm Password"
+            label="Potwórz hasło"
             placeholder="********"
             type="password"
           />
           <Button type="primary" block loading={isSubmitting} htmlType="submit">
-            CHANGE PASSWORD
+            Zmień Hasło
           </Button>
         </form>
       </ChangePasswordFormProvider>

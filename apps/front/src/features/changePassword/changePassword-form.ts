@@ -2,6 +2,7 @@ import { createForm } from 'typeless-form';
 import { S } from 'schema';
 import { ChangePasswordFormSymbol } from './symbol';
 import { validate } from '../../common/helper';
+import { getPasswordSchema } from 'shared';
 
 export interface ChangePasswordFormValues {
   username: string;
@@ -22,7 +23,7 @@ export const [
       errors,
       values,
       S.object().keys({
-        password: S.string().min(4),
+        password: getPasswordSchema(),
         confirmPassword: S.string(),
       })
     );
@@ -31,7 +32,7 @@ export const [
       !errors.confirmPassword &&
       values.password !== values.confirmPassword
     ) {
-      errors.confirmPassword = 'Passwords do not match';
+      errors.confirmPassword = 'Hasła się nie zgadzają';
     }
   },
 });
