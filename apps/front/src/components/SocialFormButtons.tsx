@@ -1,16 +1,19 @@
 import styled from 'styled-components';
 import React from 'react';
-import { Row, Col } from './Grid';
-import { Button } from 'src/components/Button';
 import { GithubIcon } from 'src/icons/GithubIcon';
 import { GoogleIcon } from 'src/icons/GoogleIcon';
 import { GITHUB_CLIENT_ID, GOOGLE_CLIENT_ID } from 'src/config';
 import { useActions } from 'typeless';
 import { GlobalActions } from 'src/features/global/interface';
+import { spacerStyle } from 'src/new-components/_spacer';
+import { Row, Col } from 'src/new-components/Grid';
+import { Button } from 'src/new-components/Button';
 
 const Or = styled.div`
-  padding: 20px 0;
+  font-size: 0.75rem;
+  text-transform: uppercase;
   text-align: center;
+  ${spacerStyle}
 `;
 
 function popupCenter(url: string, title: string, w: number, h: number) {
@@ -66,9 +69,9 @@ export function SocialFormButtons() {
 
   return (
     <>
-      <Or>OR</Or>
-      <Row gutter={10}>
-        <Col lg={6}>
+      <Or py={3}>lub</Or>
+      <Row>
+        <Col sm={6}>
           <Button
             testId="social-github-btn"
             onClick={() => {
@@ -84,14 +87,14 @@ export function SocialFormButtons() {
                 700
               );
             }}
-            type="secondary"
+            type="neutral"
             block
             icon={<GithubIcon size={20} />}
           >
             Github
           </Button>
         </Col>
-        <Col lg={6}>
+        <Col sm={6}>
           <Button
             testId="social-google-btn"
             onClick={() => {
@@ -108,7 +111,7 @@ export function SocialFormButtons() {
                 700
               );
             }}
-            type="secondary"
+            type="neutral"
             block
             icon={<GoogleIcon size={20} />}
           >

@@ -51,3 +51,6 @@ export const TPAY_RESULT_EMAIL = _get('TPAY_RESULT_EMAIL');
 
 export const GITHUB_CLIENT_ID = _get('GITHUB_CLIENT_ID');
 export const GITHUB_CLIENT_SECRET = _get('GITHUB_CLIENT_SECRET');
+
+export const ADMIN_TOKEN =
+  process.env.NODE_ENV === 'test' ? 'admin-token' : process.env.ADMIN_TOKEN;

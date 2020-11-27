@@ -10,6 +10,7 @@ export const [
 ] = createModule(ChangePasswordSymbol)
   .withActions({
     $init: null,
+    $mounted: null,
     setSubmitting: (isSubmitting: boolean) => ({ payload: { isSubmitting } }),
     setError: (error: string | null) => ({ payload: { error } }),
   })

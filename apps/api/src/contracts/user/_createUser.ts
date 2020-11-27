@@ -1,6 +1,9 @@
 import { randomSalt, createPasswordHash } from '../../common/helper';
 import uuid from 'uuid';
 import { createUserCUD } from '../../cud/user';
+import { _checkCodeUsed } from '../activation/_checkCodeUsed';
+import { activateCourse } from '../activation/activateCourse';
+import { _generateAuthData } from './_generateAuthData';
 
 interface CreateUserValues {
   userId?: string;
@@ -23,4 +26,14 @@ export async function _createUser(values: CreateUserValues) {
     githubId: values.githubId,
   });
   return user;
+}
+
+export async function _createUserWithActivation(
+  activationCode: string,
+  values: CreateUserValues
+) {
+  await _checkCodeUsed(activationCode);
+  const user = await _createUser(values);
+  await activateCourse(user.userId, activationCode);
+  return _generateAuthData(user);
 }

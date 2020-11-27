@@ -17,7 +17,7 @@ import { getRouteParams } from 'src/common/url';
 // --- Epic ---
 handle
   .epic()
-  .on(ChangePasswordActions.$init, () => ChangePasswordFormActions.reset())
+  .on(ChangePasswordActions.$mounted, () => ChangePasswordFormActions.reset())
   .on(ChangePasswordFormActions.setSubmitSucceeded, () => {
     const values = R.omit(getChangePasswordFormState().values, [
       'confirmPassword',

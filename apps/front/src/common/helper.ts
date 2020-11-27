@@ -21,6 +21,9 @@ function fixErrorMessage(message: string) {
   if (message === 'must a valid email') {
     return 'Niepoprawny email';
   }
+  if (message === 'length must be at least 5 characters long') {
+    return 'Hasło musi mieć przynajmniej 5 znaków';
+  }
 
   return message[0].toUpperCase() + message.slice(1);
 }
@@ -51,31 +54,20 @@ export const handleAppError = () =>
 
 interface HandleAuthOptions {
   authData: AuthData;
-  isModalOpen: boolean;
-  hideModal: () => any;
   reset: () => any;
   action$: Rx.Observable<any>;
 }
 
 export function handleAuth(options: HandleAuthOptions) {
-  const { authData, isModalOpen, hideModal, reset, action$ } = options;
+  const { authData, reset, action$ } = options;
   return Rx.mergeObs(
-    Rx.defer(() => {
-      if (isModalOpen) {
-        return Rx.of(reset());
-      } else {
-        return action$.pipe(
-          Rx.waitForType(RouterActions.locationChange),
-          Rx.map(() => reset())
-        );
-      }
-    }).pipe(Rx.delay(1000)),
-    Rx.defer(() => {
-      if (isModalOpen) {
-        return [GlobalActions.auth(authData, true), hideModal()];
-      }
-      return [GlobalActions.auth(authData)];
-    })
+    action$
+      .pipe(
+        Rx.waitForType(RouterActions.locationChange),
+        Rx.map(() => reset())
+      )
+      .pipe(Rx.delay(1000)),
+    Rx.of(GlobalActions.auth(authData))
   );
 }
 

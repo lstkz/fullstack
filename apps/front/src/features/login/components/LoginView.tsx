@@ -1,63 +1,30 @@
 import React from 'react';
-import { Button } from 'src/components/Button';
-import { Link } from '../../../components/Link';
 import { LoginFormProvider, LoginFormActions } from '../login-form';
-import { FormInput } from '../../../components/FormInput';
-import { FullPageForm } from '../../../components/FullPageForm';
 import { createUrl } from '../../../common/url';
 import { useActions } from 'typeless';
-import { getLoginState, LoginActions } from '../interface';
+import { getLoginState } from '../interface';
 import { Alert } from 'src/components/Alert';
 import { SocialFormButtons } from 'src/components/SocialFormButtons';
-import { RegisterActions } from 'src/features/register/interface';
-import { ResetPasswordActions } from 'src/features/resetPassword/interface';
+import { useLoginModule } from '../module';
+import { FullPageForm } from 'src/components/FullPageForm';
+import { FormInput } from 'src/new-components/FormInput';
+import { Button } from 'src/new-components/Button';
+import { Link } from 'src/components/Link';
+import styled from 'styled-components';
 
-export interface LoginViewProps {
-  isModal?: boolean;
-}
+const ForgotWrapper = styled.div`
+  text-align: right;
+  font-size: 0.8rem;
+  margin-top: 1rem;
+`;
 
-export function LoginView(props?: LoginViewProps) {
-  const { isModal } = props || {};
+export function LoginView() {
+  useLoginModule();
   const { submit } = useActions(LoginFormActions);
-  const { hideModal } = useActions(LoginActions);
-  const { showModal: showRegisterModal } = useActions(RegisterActions);
-  const { showModal: showResetPasswordModal } = useActions(
-    ResetPasswordActions
-  );
-  const { isSubmitting, error, isModalOpen } = getLoginState.useState();
+  const { isSubmitting, error } = getLoginState.useState();
 
   return (
-    <FullPageForm
-      modal={
-        isModal
-          ? {
-              onClose: hideModal,
-              isOpen: isModalOpen,
-            }
-          : null
-      }
-      testId="login-form"
-      title="Login"
-      subTitle="Sign in to your account to continue."
-      bottom={
-        <>
-          Not registered?{' '}
-          <Link
-            onClick={e => {
-              if (isModal) {
-                hideModal();
-                showRegisterModal();
-                e.preventDefault();
-              }
-            }}
-            testId="register-link"
-            href={createUrl({ name: 'register' })}
-          >
-            Create account
-          </Link>
-        </>
-      }
-    >
+    <FullPageForm testId="login-form" title="Logowanie">
       <LoginFormProvider>
         <form
           onSubmit={e => {
@@ -70,7 +37,6 @@ export function LoginView(props?: LoginViewProps) {
               {error}
             </Alert>
           )}
-
           <FormInput
             testId="login-input"
             id="email"
@@ -85,21 +51,6 @@ export function LoginView(props?: LoginViewProps) {
             label="Password"
             placeholder="********"
             type="password"
-            rightLabel={
-              <Link
-                onClick={e => {
-                  if (isModal) {
-                    hideModal();
-                    showResetPasswordModal();
-                    e.preventDefault();
-                  }
-                }}
-                testId="reset-password-link"
-                href={createUrl({ name: 'reset-password' })}
-              >
-                Lost password?
-              </Link>
-            }
           />
           <Button
             testId="login-submit"
@@ -108,9 +59,17 @@ export function LoginView(props?: LoginViewProps) {
             loading={isSubmitting}
             htmlType="submit"
           >
-            SIGN IN
+            Zaloguj się
           </Button>
           <SocialFormButtons />
+          <ForgotWrapper>
+            <Link
+              testId="reset-password-link"
+              href={createUrl({ name: 'reset-password' })}
+            >
+              Resetuj hasło
+            </Link>
+          </ForgotWrapper>
         </form>
       </LoginFormProvider>
     </FullPageForm>

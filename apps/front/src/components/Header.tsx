@@ -13,8 +13,6 @@ import { GlobalActions } from 'src/features/global/interface';
 import { useUser } from 'src/hooks/useUser';
 import { getRouterState } from 'typeless-router';
 import { Button } from 'src/components/Button';
-import { LoginActions } from 'src/features/login/interface';
-import { RegisterActions } from 'src/features/register/interface';
 import { isMenuHighlighted } from 'src/common/helper';
 
 interface HeaderProps {
@@ -99,8 +97,6 @@ const _Header = (props: HeaderProps) => {
   const { logout } = useActions(GlobalActions);
   const user = useUser();
   const pathname = getRouterState().location!.pathname;
-  const { showModal: showLoginModal } = useActions(LoginActions);
-  const { showModal: showRegisterModal } = useActions(RegisterActions);
 
   return (
     <div className={className}>
@@ -146,10 +142,6 @@ const _Header = (props: HeaderProps) => {
           ) : (
             <Buttons>
               <Button
-                onClick={e => {
-                  showLoginModal();
-                  e.preventDefault();
-                }}
                 testId="header-login-btn"
                 type="secondary"
                 href={createUrl({ name: 'login' })}
@@ -157,10 +149,6 @@ const _Header = (props: HeaderProps) => {
                 LOGIN
               </Button>
               <Button
-                onClick={e => {
-                  showRegisterModal();
-                  e.preventDefault();
-                }}
                 testId="header-register-btn"
                 type="primary"
                 href={createUrl({ name: 'register' })}

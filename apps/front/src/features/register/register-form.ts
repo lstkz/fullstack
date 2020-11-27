@@ -32,7 +32,7 @@ export const [
       !errors.confirmPassword &&
       values.password !== values.confirmPassword
     ) {
-      errors.confirmPassword = 'Passwords do not match';
+      errors.confirmPassword = 'Hasła się nie zgadzają';
     }
   },
 });

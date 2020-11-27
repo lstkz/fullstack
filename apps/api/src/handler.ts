@@ -1,6 +1,7 @@
 import { apiMapping } from './generated/api-mapping';
 import { AppError } from './common/errors';
 import { getUserByToken } from './contracts/user/getUserByToken';
+import { ADMIN_TOKEN } from './config';
 
 export async function handler(
   rpcMethod: string,
@@ -18,15 +19,18 @@ export async function handler(
   }
 
   const getUser = async () => {
+    if (options.admin) {
+      if (!ADMIN_TOKEN || authToken !== ADMIN_TOKEN) {
+        throw new AppError('Admin only');
+      }
+      return null;
+    }
     if (!authToken) {
       return null;
     }
     const user = await getUserByToken(authToken);
     if (!user) {
       throw new AppError('Invalid or expired token');
-    }
-    if (options.admin && !user.isAdmin) {
-      throw new AppError('Admin only');
     }
     if (!user.isVerified) {
       throw new AppError('User is not verified');

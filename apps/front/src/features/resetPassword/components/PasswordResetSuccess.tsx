@@ -2,16 +2,14 @@ import * as React from 'react';
 import styled from 'styled-components';
 import { FullPageForm } from 'src/components/FullPageForm';
 import { MailSuccessIcon } from 'src/icons/MailSuccessIcon';
-import { useActions } from 'typeless';
-import { ResetPasswordActions, getResetPasswordState } from '../interface';
-import { Theme } from 'src/Theme';
+import { NewTheme } from 'src/NewTheme';
 
 const Content = styled.div`
   border-radius: 5px;
-  background: ${Theme.lightGreen};
+  background: ${NewTheme.success};
   text-align: center;
   padding: 15px 45px 30px;
-  color: ${Theme.textDark};
+  color: white;
 `;
 
 const Icon = styled.div`
@@ -21,36 +19,15 @@ const Icon = styled.div`
   margin-bottom: 10px;
 `;
 
-interface PasswordResetSuccessProps {
-  isModal?: boolean;
-}
-
-export function PasswordResetSuccess(props: PasswordResetSuccessProps) {
-  const { isModal } = props;
-  const { hideModal } = useActions(ResetPasswordActions);
-  const { isModalOpen } = getResetPasswordState.useState();
+export function PasswordResetSuccess() {
   return (
-    <FullPageForm
-      testId="reset-password-success"
-      title="Reset Password"
-      padding="sm"
-      modal={
-        isModal
-          ? {
-              onClose: hideModal,
-              isOpen: isModalOpen,
-            }
-          : null
-      }
-    >
+    <FullPageForm testId="reset-password-success" title="Resetuj Hasło">
       <Content>
         <Icon>
           <MailSuccessIcon />
         </Icon>
-        An email has been sent to your email address with further instruction
-        how to reset your password.
-        <br />
-        Please check your email.
+        Wiadomość z linkiem do resetowania hasła została wysłana na Twój adres
+        e-mail.
       </Content>
     </FullPageForm>
   );

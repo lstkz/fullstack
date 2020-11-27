@@ -7,9 +7,8 @@ export const [handle, RegisterActions, getRegisterState] = createModule(
   RegisterSymbol
 )
   .withActions({
-    showModal: null,
-    hideModal: null,
-    reset: null,
+    $mounted: null,
+    $init: null,
     setSubmitting: (isSubmitting: boolean) => ({ payload: { isSubmitting } }),
     setError: (error: string | null) => ({ payload: { error } }),
   })
@@ -29,7 +28,6 @@ export const routeConfig: RouteConfig = {
 
 // --- Types ---
 export interface RegisterState {
-  isModalOpen: boolean;
   isSubmitting: boolean;
   error: string | null;
 }

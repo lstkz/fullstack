@@ -81,12 +81,12 @@ export class APIClient {
   }
   order_tpayHook(
     values: {
-      id: number;
+      id: string;
       tr_id: string;
       tr_date: string;
       tr_crc: string;
-      tr_amount: number;
-      tr_paid: number;
+      tr_amount: string;
+      tr_paid: string;
       tr_desc: string;
       tr_status: 'TRUE' | 'FALSE';
       tr_error: string;
@@ -113,15 +113,6 @@ export class APIClient {
   ): Rx.Observable<unknown> {
     return this.call('subscription.unsubscribe', { email, code, source });
   }
-  user_authGithub(autoConnect: boolean, code: string): Rx.Observable<AuthData> {
-    return this.call('user.authGithub', { autoConnect, code });
-  }
-  user_authGoogle(
-    autoConnect: boolean,
-    accessToken: string
-  ): Rx.Observable<AuthData> {
-    return this.call('user.authGoogle', { autoConnect, accessToken });
-  }
   user_confirmEmail(code: string): Rx.Observable<AuthData> {
     return this.call('user.confirmEmail', { code });
   }
@@ -133,6 +124,24 @@ export class APIClient {
   }
   user_getMe(): Rx.Observable<User> {
     return this.call('user.getMe', {});
+  }
+  user_githubLogin(code: string): Rx.Observable<AuthData> {
+    return this.call('user.githubLogin', { code });
+  }
+  user_githubRegister(
+    code: string,
+    activationCode: string
+  ): Rx.Observable<AuthData> {
+    return this.call('user.githubRegister', { code, activationCode });
+  }
+  user_googleLogin(accessToken: string): Rx.Observable<AuthData> {
+    return this.call('user.googleLogin', { accessToken });
+  }
+  user_googleRegister(
+    accessToken: string,
+    activationCode: string
+  ): Rx.Observable<AuthData> {
+    return this.call('user.googleRegister', { accessToken, activationCode });
   }
   user_login(values: {
     email: string;
