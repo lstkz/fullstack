@@ -2,6 +2,7 @@ import http from 'http';
 import { render } from 'mjml-react';
 import React from 'react';
 import { ButtonActionTemplate } from './templates/ButtonActionTemplate';
+import { MultiLinksTemplate } from './templates/MultiLinksTemplate';
 
 const templates = {
   action: (
@@ -19,6 +20,18 @@ const templates = {
       description="Jeszcze jeden ostatni krok – prosimy o potwierdzenie Twojego maila."
       buttonText="Potwierdź"
       buttonUrl="https://example.org/confirm"
+    />
+  ),
+  multiLinks: (
+    <MultiLinksTemplate
+      header="Kupiłeś wiele dostępów do platformy"
+      description="Dziękujemy za zakup kursu. Poniżej znajdziesz listę linków do założenia kont:"
+      links={[
+        'https://exmple.org/link1',
+        'https://exmple.org/link2',
+        'https://exmple.org/link3',
+        'https://exmple.org/link4345',
+      ]}
     />
   ),
 };

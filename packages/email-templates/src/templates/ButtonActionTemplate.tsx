@@ -1,18 +1,14 @@
 import React from 'react';
 import {
   Mjml,
-  MjmlHead,
-  MjmlTitle,
-  MjmlPreview,
   MjmlBody,
   MjmlSection,
   MjmlColumn,
   MjmlButton,
   MjmlText,
-  MjmlFont,
-  MjmlAttributes,
-  MjmlAll,
 } from 'mjml-react';
+import { EmailHead } from './shared/EmailHead';
+import { EmailFooter } from './shared/EmailFooter';
 
 export interface ButtonActionTemplateProps {
   unsubscribeLink?: string;
@@ -26,17 +22,7 @@ export function ButtonActionTemplate(props: ButtonActionTemplateProps) {
   const { unsubscribeLink, header, description, buttonText, buttonUrl } = props;
   return (
     <Mjml>
-      <MjmlHead>
-        <MjmlFont
-          name="Nunito Sans"
-          href="https://fonts.googleapis.com/css?family=Nunito+Sans:400,400i,600,700,800&display=swap"
-        />
-        <MjmlTitle>Fullstack.pl</MjmlTitle>
-        <MjmlPreview>{header}</MjmlPreview>
-        <MjmlAttributes>
-          <MjmlAll padding="0" fontFamily="Nunito Sans, sans-serif" />
-        </MjmlAttributes>
-      </MjmlHead>
+      <EmailHead preview={header} />
       <MjmlBody width={600} backgroundColor="#171347">
         <MjmlSection backgroundColor="#171347" padding="30px 10px">
           <MjmlColumn>
@@ -73,31 +59,7 @@ export function ButtonActionTemplate(props: ButtonActionTemplateProps) {
             </MjmlButton>
           </MjmlColumn>
         </MjmlSection>
-        <MjmlSection backgroundColor="#2b303a" padding="15px 40px 10px">
-          <MjmlColumn>
-            {unsubscribeLink && (
-              <MjmlText color="#a0aec0" fontSize={14} paddingBottom={20}>
-                Otrzymujesz tę wiadomość, ponieważ zapisałeś się do newslettera.
-                Jeśli nie chcesz już otrzymywać ode mnie żadnych maili kliknij{' '}
-                <a
-                  href={unsubscribeLink}
-                  target="_blank"
-                  style={{
-                    color: '#a0aec0',
-                  }}
-                >
-                  tutaj.
-                </a>
-              </MjmlText>
-            )}
-            <MjmlText align="center" color="#718096" fontSize={12}>
-              topkoder - Łukasz Sentkiewicz ul. Strzelców 50/30 Gdynia 81-586
-              NIP: 5862243134.
-              <br />
-              Copyright © 2020, wszelkie prawa zastrzeżone.
-            </MjmlText>
-          </MjmlColumn>
-        </MjmlSection>
+        <EmailFooter unsubscribeLink={unsubscribeLink} />
       </MjmlBody>
     </Mjml>
   );

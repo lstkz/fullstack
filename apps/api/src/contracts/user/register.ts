@@ -10,9 +10,7 @@ import { activateCourse } from '../activation/activateCourse';
 
 async function _checkCodeUsed(code: string) {
   const [activationCode, usedActivationCode] = await Promise.all([
-    CourseActivationCodeEntity.getByKeyOrNull({
-      code,
-    }),
+    CourseActivationCodeEntity.getByCodeOrNull(code),
     UsedCourseActivationCodeEntity.getByKeyOrNull({
       code,
     }),

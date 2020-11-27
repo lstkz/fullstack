@@ -11,9 +11,9 @@ export const activateCourse = createContract('activation.activateCourse')
     activationCode: S.string(),
   })
   .fn(async (userId, activationCode) => {
-    const courseActivationCode = await CourseActivationCodeEntity.getByKey({
-      code: activationCode,
-    });
+    const courseActivationCode = await CourseActivationCodeEntity.getByCodeOrNull(
+      activationCode
+    );
     const t = createTransaction();
     const usedCourseActivationCode = new UsedCourseActivationCodeEntity({
       code: activationCode,

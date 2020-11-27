@@ -1,5 +1,8 @@
 import { User } from 'shared';
-import type { ButtonActionTemplateProps } from 'email-templates';
+import type {
+  ButtonActionTemplateProps,
+  MultiLinksTemplateProps,
+} from 'email-templates';
 
 export interface AppUser extends User {}
 
@@ -8,10 +11,15 @@ export interface SendEmailEvent {
   payload: {
     to: string;
     subject: string;
-    template: {
-      name: 'ButtonAction';
-      params: ButtonActionTemplateProps;
-    };
+    template:
+      | {
+          name: 'ButtonAction';
+          params: ButtonActionTemplateProps;
+        }
+      | {
+          name: 'MultiLinks';
+          params: MultiLinksTemplateProps;
+        };
   };
 }
 

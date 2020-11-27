@@ -47,7 +47,8 @@ it('buy course and register', async () => {
   let code: string = '';
   const sendEmailMock: any = (params: SES.Types.SendEmailRequest) => ({
     promise: () => {
-      code = /register\?code=([^"]+)/.exec(params.Message.Body.Html!.Data)![1];
+      const CODE_REGEX = /register\?code=([^"]+)/;
+      code = CODE_REGEX.exec(params.Message.Body.Html!.Data)![1];
       return Promise.resolve();
     },
   });
@@ -87,4 +88,41 @@ it('buy course and register', async () => {
     },
   });
   expect(loginRet.user.email).toEqual('user@example.com');
+});
+
+fit('buy multiple courses', async () => {
+  let codes: string[] = [];
+  const sendEmailMock: any = (params: SES.Types.SendEmailRequest) => ({
+    promise: () => {
+      let m: RegExpExecArray | null;
+      const CODE_REGEX = /register\?code=(.*?)"/g;
+      do {
+        m = CODE_REGEX.exec(params.Message.Body.Html!.Data);
+        if (m) {
+          codes.push(m![1]);
+        }
+      } while (m);
+      return Promise.resolve();
+    },
+  });
+  jest.spyOn(ses, 'sendEmail').mockImplementation(sendEmailMock);
+
+  await execContract(createOrder, {
+    values: {
+      quantity: 3,
+      requestUnitPriceNet: 1000,
+      group: 100,
+      product: {
+        type: 'course',
+        courseId: 'promoCourse',
+      },
+      customer: getCustomerData(),
+    },
+  });
+  const options = mockedCreateTPayTransaction.mock.calls[0][0];
+  await execContract(tpayHook, {
+    values: getTPayHookData(options.crc),
+  });
+
+  expect(codes).toHaveLength(3);
 });

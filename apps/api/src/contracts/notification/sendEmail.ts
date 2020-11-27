@@ -1,11 +1,12 @@
 import { S } from 'schema';
-import { ButtonActionTemplate } from 'email-templates';
+import { ButtonActionTemplate, MultiLinksTemplate } from 'email-templates';
 import { createContract, createEventBinding } from '../../lib';
 import { renderTemplate, sendSESEmail } from '../../common/email';
 import { safeKeys } from '../../common/helper';
 
-const templates = {
+const templates: Record<string, (props: any) => JSX.Element> = {
   ButtonAction: ButtonActionTemplate,
+  MultiLinks: MultiLinksTemplate,
 };
 
 export const sendEmail = createContract('notification.sendConfirmEmail')
@@ -21,7 +22,7 @@ export const sendEmail = createContract('notification.sendConfirmEmail')
   .fn(async (to, subject, template) => {
     const html = await renderTemplate(
       templates[template.name],
-      template.params as any
+      template.params
     );
 
     await sendSESEmail({

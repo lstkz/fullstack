@@ -11,11 +11,13 @@ beforeEach(async () => {
       code: 'a123',
       courseId: 'c1',
       orderId: 'o1',
+      index: 1,
     }).insert(),
     new CourseActivationCodeEntity({
       code: 'b123',
       courseId: 'c1',
       orderId: 'o2',
+      index: 1,
     }).insert(),
   ]);
 });
