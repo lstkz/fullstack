@@ -1,5 +1,6 @@
 import http from 'http';
 import util from 'util';
+import qs from 'querystring';
 import { handler } from './handler';
 import chokidar from 'chokidar';
 import { s3 } from './lib';
@@ -27,10 +28,22 @@ function _getBody(req: http.IncomingMessage) {
       })
       .on('end', () => {
         const str = Buffer.concat(body).toString();
-        try {
-          resolve(JSON.parse(str));
-        } catch (e) {
-          reject(new Error('Invalid JSON'));
+        if (
+          req.headers['content-type'] === 'application/x-www-form-urlencoded'
+        ) {
+          try {
+            resolve({
+              values: { ...qs.parse(str) },
+            });
+          } catch (e) {
+            reject(new Error('Invalid urlencoded content'));
+          }
+        } else {
+          try {
+            resolve(JSON.parse(str));
+          } catch (e) {
+            reject(new Error('Invalid JSON'));
+          }
         }
       })
       .on('error', reject);
@@ -73,11 +86,14 @@ const server = http.createServer(async (req, res) => {
     if (Array.isArray(token)) {
       throw new Error('x-token must not be an array');
     }
-
     const ret = await handler(exec[1], body, token);
 
-    res.setHeader('Content-Type', 'application/json');
-    res.write(JSON.stringify(ret || {}, null, 2));
+    if (ret === 'TRUE' || ret === 'FALSE') {
+      res.write(ret);
+    } else {
+      res.setHeader('Content-Type', 'application/json');
+      res.write(JSON.stringify(ret || {}, null, 2));
+    }
     res.end();
   } catch (e) {
     const serialized = util.inspect(e, { depth: null });
