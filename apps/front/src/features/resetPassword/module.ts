@@ -7,28 +7,17 @@ import {
 } from './resetPassword-form';
 import { api } from 'src/services/api';
 import { getErrorMessage } from 'src/common/helper';
-import { RouterActions } from 'typeless-router';
 
 // --- Epic ---
 handle
   .epic()
-  .onMany([ResetPasswordActions.showModal, ResetPasswordActions.reset], () =>
-    ResetPasswordFormActions.reset()
-  )
-  .on(ResetPasswordFormActions.setSubmitSucceeded, ({}, { action$ }) => {
+  .on(ResetPasswordActions.$mounted, () => ResetPasswordFormActions.reset())
+  .on(ResetPasswordFormActions.setSubmitSucceeded, () => {
     return Rx.concatObs(
       Rx.of(ResetPasswordActions.setSubmitting(true)),
       Rx.of(ResetPasswordActions.setError(null)),
       api.user_resetPassword(getResetPasswordFormState().values.email).pipe(
-        Rx.mergeMap(() =>
-          Rx.mergeObs(
-            action$.pipe(
-              Rx.waitForType(RouterActions.locationChange),
-              Rx.map(() => ResetPasswordActions.reset())
-            ),
-            Rx.of(ResetPasswordActions.setDone())
-          )
-        ),
+        Rx.map(() => ResetPasswordActions.setDone()),
         Rx.catchLog(e => {
           return Rx.of(ResetPasswordActions.setError(getErrorMessage(e)));
         })
@@ -39,7 +28,6 @@ handle
 
 // --- Reducer ---
 const initialState: ResetPasswordState = {
-  isModalOpen: false,
   isSubmitting: false,
   isDone: false,
   error: null,
@@ -47,15 +35,8 @@ const initialState: ResetPasswordState = {
 
 handle
   .reducer(initialState)
-  .on(ResetPasswordActions.reset, state => {
+  .on(ResetPasswordActions.$init, state => {
     Object.assign(state, initialState);
-  })
-  .on(ResetPasswordActions.showModal, state => {
-    Object.assign(state, initialState);
-    state.isModalOpen = true;
-  })
-  .on(ResetPasswordActions.hideModal, state => {
-    state.isModalOpen = false;
   })
   .on(ResetPasswordActions.setSubmitting, (state, { isSubmitting }) => {
     state.isSubmitting = isSubmitting;

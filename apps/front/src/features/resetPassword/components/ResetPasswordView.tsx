@@ -1,71 +1,37 @@
 import React from 'react';
-import { Button } from 'src/components/Button';
 import { Link } from '../../../components/Link';
 import {
   ResetPasswordFormProvider,
   ResetPasswordFormActions,
 } from '../resetPassword-form';
-import { FormInput } from '../../../components/FormInput';
 import { FullPageForm } from '../../../components/FullPageForm';
 import { createUrl } from '../../../common/url';
 import { useActions } from 'typeless';
-import { getResetPasswordState, ResetPasswordActions } from '../interface';
+import { getResetPasswordState } from '../interface';
 import { Alert } from 'src/components/Alert';
 import { PasswordResetSuccess } from './PasswordResetSuccess';
-import { RegisterActions } from 'src/features/register/interface';
+import { useResetPasswordModule } from '../module';
+import styled from 'styled-components';
+import { Button } from 'src/new-components/Button';
+import { FormInput } from 'src/new-components/FormInput';
 
-interface ResetPasswordViewProps {
-  isModal?: boolean;
-}
+const BottomWrapper = styled.div`
+  text-align: right;
+  font-size: 0.8rem;
+  margin-top: 1rem;
+`;
 
-export function ResetPasswordView(props?: ResetPasswordViewProps) {
-  const { isModal } = props || {};
+export function ResetPasswordView() {
+  useResetPasswordModule();
   const { submit } = useActions(ResetPasswordFormActions);
-  const { hideModal } = useActions(ResetPasswordActions);
-  const { showModal: showRegisterModal } = useActions(RegisterActions);
-  const {
-    isSubmitting,
-    error,
-    isDone,
-    isModalOpen,
-  } = getResetPasswordState.useState();
+  const { isSubmitting, error, isDone } = getResetPasswordState.useState();
 
   if (isDone) {
-    return <PasswordResetSuccess isModal={isModal} />;
+    return <PasswordResetSuccess />;
   }
 
   return (
-    <FullPageForm
-      modal={
-        isModal
-          ? {
-              onClose: hideModal,
-              isOpen: isModalOpen,
-            }
-          : null
-      }
-      testId="reset-password-form"
-      title="Reset Password"
-      subTitle="We will send you an email that will allow you to reset your password."
-      bottom={
-        <>
-          Not registered?{' '}
-          <Link
-            onClick={e => {
-              if (isModal) {
-                hideModal();
-                showRegisterModal();
-                e.preventDefault();
-              }
-            }}
-            testId="register-link"
-            href={createUrl({ name: 'register' })}
-          >
-            Create account
-          </Link>
-        </>
-      }
-    >
+    <FullPageForm small testId="reset-password-form" title="Resetuj Hasło">
       <ResetPasswordFormProvider>
         <form
           onSubmit={e => {
@@ -83,7 +49,7 @@ export function ResetPasswordView(props?: ResetPasswordViewProps) {
             testId="email-input"
             id="email"
             name="email"
-            label="Email address"
+            label="Adres e-mail"
             placeholder="name@example.com"
           />
           <Button
@@ -93,10 +59,15 @@ export function ResetPasswordView(props?: ResetPasswordViewProps) {
             loading={isSubmitting}
             htmlType="submit"
           >
-            RESET PASSWORD
+            Resetuj Hasło
           </Button>
         </form>
       </ResetPasswordFormProvider>
+      <BottomWrapper>
+        <Link testId="login-link" href={createUrl({ name: 'login' })}>
+          Wróć do logowania
+        </Link>
+      </BottomWrapper>
     </FullPageForm>
   );
 }
