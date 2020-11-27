@@ -50,10 +50,6 @@ export const apiMapping: ApiMapping = {
     import(
       /* webpackChunkName: "subscription.unsubscribe"*/ '../contracts/subscription/unsubscribe'
     ).then(x => x['unsubscribeRpc']),
-  'user.authGithub': () =>
-    import(
-      /* webpackChunkName: "user.authGithub"*/ '../contracts/user/authGithub'
-    ).then(x => x['authGithubRpc']),
   'user.authGoogle': () =>
     import(
       /* webpackChunkName: "user.authGoogle"*/ '../contracts/user/authGoogle'
@@ -70,6 +66,22 @@ export const apiMapping: ApiMapping = {
     import(/* webpackChunkName: "user.getMe"*/ '../contracts/user/getMe').then(
       x => x['getMeRpc']
     ),
+  'user.githubLogin': () =>
+    import(
+      /* webpackChunkName: "user.githubLogin"*/ '../contracts/user/githubLogin'
+    ).then(x => x['githubLoginRpc']),
+  'user.githubRegister': () =>
+    import(
+      /* webpackChunkName: "user.githubRegister"*/ '../contracts/user/githubRegister'
+    ).then(x => x['githubRegisterRpc']),
+  'user.googleLogin': () =>
+    import(
+      /* webpackChunkName: "user.googleLogin"*/ '../contracts/user/googleLogin'
+    ).then(x => x['googleLoginRpc']),
+  'user.googleRegister': () =>
+    import(
+      /* webpackChunkName: "user.googleRegister"*/ '../contracts/user/googleRegister'
+    ).then(x => x['googleRegisterRpc']),
   'user.login': () =>
     import(/* webpackChunkName: "user.login"*/ '../contracts/user/login').then(
       x => x['loginRpc']
