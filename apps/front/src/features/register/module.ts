@@ -1,11 +1,6 @@
 import * as Rx from 'src/rx';
 import * as R from 'remeda';
-import {
-  RegisterActions,
-  RegisterState,
-  handle,
-  getRegisterState,
-} from './interface';
+import { RegisterActions, RegisterState, handle } from './interface';
 import {
   RegisterFormActions,
   getRegisterFormState,
@@ -15,7 +10,8 @@ import { api } from 'src/services/api';
 import { GlobalActions } from '../global/interface';
 import { getErrorMessage, handleAuth } from 'src/common/helper';
 import { AuthData } from 'shared';
-import { isRoute } from 'src/common/url';
+import { parseQueryString } from 'src/common/url';
+import { getRouterState, RouterActions } from 'typeless-router';
 
 // --- Epic ---
 
@@ -23,8 +19,6 @@ function authWith(
   action$: Rx.Observable<any>,
   fn: () => Rx.Observable<AuthData>
 ) {
-  const { isModalOpen } = getRegisterState();
-
   return Rx.concatObs(
     Rx.of(RegisterActions.setSubmitting(true)),
     Rx.of(RegisterActions.setError(null)),
@@ -32,8 +26,6 @@ function authWith(
       Rx.mergeMap(authData =>
         handleAuth({
           authData,
-          isModalOpen,
-          hideModal: RegisterActions.hideModal,
           reset: RegisterActions.reset,
           action$,
         })
@@ -46,40 +38,43 @@ function authWith(
   );
 }
 
-function getIsActive() {
-  return getRegisterState().isModalOpen || isRoute('register');
+function _getActivationCode() {
+  const qs = parseQueryString(getRouterState().location?.search);
+  return qs.code;
 }
 
 handle
   .epic()
-  .onMany([RegisterActions.showModal, RegisterActions.reset], () =>
-    RegisterFormActions.reset()
-  )
+  .on(RegisterActions.$mounted, () => {
+    if (!_getActivationCode()) {
+      return RouterActions.push('/');
+    }
+    return Rx.EMPTY;
+  })
+  .on(RegisterActions.reset, () => RegisterFormActions.reset())
   .on(RegisterFormActions.setSubmitSucceeded, ({}, { action$ }) => {
+    const activationCode = _getActivationCode();
     const values = R.omit(getRegisterFormState().values, ['confirmPassword']);
     return authWith(action$, () =>
       api.user_register({
-        activationCode: '',
+        activationCode,
         ...values,
       })
     );
   })
   .on(GlobalActions.githubCallback, ({ code }, { action$ }) => {
-    if (!getIsActive()) {
-      return Rx.empty();
-    }
-    return authWith(action$, () => api.user_authGithub(true, code));
+    return authWith(action$, () =>
+      api.user_githubRegister(code, _getActivationCode())
+    );
   })
   .on(GlobalActions.googleCallback, ({ token }, { action$ }) => {
-    if (!getIsActive()) {
-      return Rx.empty();
-    }
-    return authWith(action$, () => api.user_authGoogle(true, token));
+    return authWith(action$, () =>
+      api.user_googleRegister(token, _getActivationCode())
+    );
   });
 
 // --- Reducer ---
 const initialState: RegisterState = {
-  isModalOpen: false,
   isSubmitting: false,
   error: null,
 };
@@ -88,13 +83,6 @@ handle
   .reducer(initialState)
   .on(RegisterActions.reset, state => {
     Object.assign(state, initialState);
-  })
-  .on(RegisterActions.showModal, state => {
-    Object.assign(state, initialState);
-    state.isModalOpen = true;
-  })
-  .on(RegisterActions.hideModal, state => {
-    state.isModalOpen = false;
   })
   .on(RegisterActions.setSubmitting, (state, { isSubmitting }) => {
     state.isSubmitting = isSubmitting;

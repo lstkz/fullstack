@@ -24,6 +24,12 @@ interface ButtonProps {
   testId?: string;
 }
 
+const Text = styled.span`
+  &:not(:first-child) {
+    margin-left: 0.75em;
+  }
+`;
+
 const _Button = (props: ButtonProps, ref: any) => {
   const {
     className,
@@ -33,6 +39,7 @@ const _Button = (props: ButtonProps, ref: any) => {
     loading,
     disabled,
     testId,
+    icon,
   } = props;
 
   return (
@@ -44,8 +51,9 @@ const _Button = (props: ButtonProps, ref: any) => {
       type={htmlType || 'button'}
       ref={ref}
     >
+      {icon}
       {loading && <SpinnerBoarder size="sm" />}
-      {children}
+      <Text>{children}</Text>
     </button>
   );
 };
@@ -107,6 +115,7 @@ const buttonCss = css`
   border-radius: 0.375rem;
   margin: 0;
   font-family: inherit;
+  ${props => props.block && 'width: 100%;'}
   ${(props: ButtonProps) => {
     if (!props.type) {
       return null;
@@ -116,6 +125,26 @@ const buttonCss = css`
         return _buttonVariant(NewTheme.primary, NewTheme.primary);
       case 'secondary':
         return _buttonVariant(NewTheme.secondary, NewTheme.secondary);
+      case 'neutral':
+        return css`
+          border-width: 2px;
+          ${_buttonVariant(
+            NewTheme.neutral,
+            NewTheme.gray_300,
+            'white',
+            NewTheme.primary,
+            'white',
+            NewTheme.primary
+          )};
+          &:hover {
+            border-color: ${NewTheme.primary_light};
+          }
+          &:focus {
+            border-color: ${NewTheme.primary_light};
+            box-shadow: 0 0 0 0.2rem
+              ${Color(NewTheme.primary).setAlpha(0.25).toRgbString()};
+          }
+        `;
       default: {
         return _buttonVariant(NewTheme[props.type], NewTheme[props.type]);
       }
@@ -148,10 +177,7 @@ const buttonCss = css`
       default:
         return null;
     }
-  }}
-  ${SpinnerBoarder} {
-    margin-right: 0.75rem;
-  }
+  }} 
 
   ${props =>
     (props.disabled || props.loading) &&

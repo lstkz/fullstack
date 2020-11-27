@@ -50,10 +50,6 @@ export const apiMapping: ApiMapping = {
     import(
       /* webpackChunkName: "subscription.unsubscribe"*/ '../contracts/subscription/unsubscribe'
     ).then(x => x['unsubscribeRpc']),
-  'user.authGoogle': () =>
-    import(
-      /* webpackChunkName: "user.authGoogle"*/ '../contracts/user/authGoogle'
-    ).then(x => x['authGoogleRpc']),
   'user.confirmEmail': () =>
     import(
       /* webpackChunkName: "user.confirmEmail"*/ '../contracts/user/confirmEmail'
