@@ -26,6 +26,8 @@ const _Logo = (props: LogoProps) => {
 };
 
 export const Logo = styled(_Logo)`
+  display: flex;
+  align-items: center;
   a {
     display: flex;
     &:hover {

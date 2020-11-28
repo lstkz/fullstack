@@ -4,6 +4,7 @@ import styled, { css } from 'styled-components';
 import { NewTheme } from 'src/NewTheme';
 import { SpinnerBoarder } from './SpinnerBoarder';
 import { spacerStyle } from './_spacer';
+import { Link } from 'src/components/Link';
 
 interface ButtonProps {
   children?: React.ReactNode;
@@ -40,7 +41,28 @@ const _Button = (props: ButtonProps, ref: any) => {
     disabled,
     testId,
     icon,
+    href,
   } = props;
+  const inner = (
+    <>
+      {icon}
+      {loading && <SpinnerBoarder size="sm" />}
+      <Text>{children}</Text>
+    </>
+  );
+  if (href) {
+    return (
+      <Link
+        testId={testId}
+        onClick={onClick as any}
+        className={className}
+        href={href}
+        innerRef={ref}
+      >
+        {inner}
+      </Link>
+    );
+  }
 
   return (
     <button
@@ -51,9 +73,7 @@ const _Button = (props: ButtonProps, ref: any) => {
       type={htmlType || 'button'}
       ref={ref}
     >
-      {icon}
-      {loading && <SpinnerBoarder size="sm" />}
-      <Text>{children}</Text>
+      {inner}
     </button>
   );
 };

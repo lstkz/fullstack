@@ -13,7 +13,7 @@ import { Button } from 'src/new-components/Button';
 import { Col, Row } from 'src/new-components/Grid';
 import { Heading } from 'src/new-components/Heading';
 import { ProgressBar } from 'src/new-components/ProgressBar';
-import { MEDIA_MD, NewTheme } from 'src/NewTheme';
+import { NewTheme } from 'src/NewTheme';
 import styled from 'styled-components';
 
 interface CourseInfoProps {
@@ -43,9 +43,7 @@ const Footer = styled.div`
   margin-top: 1rem;
   font-size: 0.75rem;
   font-weight: 300;
-  color: #718096;
-  /* display: flex;
-  justify-content: center; */
+  color: ${NewTheme.gray_600};
 
   svg {
     color: ${NewTheme.primary};

@@ -7,6 +7,7 @@ import { Header } from './Header';
 interface DashboardProps {
   className?: string;
   children: React.ReactNode;
+  noHeader?: boolean;
 }
 
 const Content = styled.div`
