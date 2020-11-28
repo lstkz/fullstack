@@ -7,7 +7,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import * as React from 'react';
 import { Course } from 'shared';
 import { createUrl } from 'src/common/url';
-import { Link } from 'src/components/Link';
+import { Link } from 'src/new-components/Link';
 import { TsIcon } from 'src/icons/TsIcon';
 import { Button } from 'src/new-components/Button';
 import { Col, Row } from 'src/new-components/Grid';

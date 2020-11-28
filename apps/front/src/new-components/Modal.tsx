@@ -5,7 +5,7 @@ import { VoidLink } from './VoidLink';
 import { FocusContainer } from './FocusContainer';
 import { modalGlobalContext } from './ModalGlobalContext';
 import { MEDIA_MD, NewTheme } from 'src/NewTheme';
-import { Portal } from 'src/components/Portal';
+import { Portal } from 'src/new-components/Portal';
 
 interface ModalContentProps {
   bgColor?: 'primary' | 'success' | 'danger' | 'warning';

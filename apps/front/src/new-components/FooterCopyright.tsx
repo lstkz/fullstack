@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Link } from 'src/components/Link';
+import { Link } from 'src/new-components/Link';
 import { MEDIA_MD, NewTheme } from 'src/NewTheme';
 import styled from 'styled-components';
 import { Divider } from './Divider';

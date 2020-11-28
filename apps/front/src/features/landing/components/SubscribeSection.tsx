@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { createUrl } from 'src/common/url';
-import { Container } from 'src/components/Container';
-import { Link } from 'src/components/Link';
+import { Container } from 'src/new-components/Container';
+import { Link } from 'src/new-components/Link';
 import { Button } from 'src/new-components/Button';
 import { Heading } from 'src/new-components/Heading';
 import { InputGroup } from 'src/new-components/InputGroup';

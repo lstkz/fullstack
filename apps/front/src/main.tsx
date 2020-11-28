@@ -15,7 +15,7 @@ addTypelessExt();
 
 (window as any)._registry = registry;
 const render = (scrollY?: number) => {
-  const App = require('./components/App').App;
+  const App = require('./new-components/App').App;
   ReactDOM.unmountComponentAtNode(MOUNT_NODE);
   try {
     ReactDOM.render(
@@ -47,7 +47,7 @@ const render = (scrollY?: number) => {
 };
 
 if (module.hot) {
-  module.hot.accept('./components/App', () => {
+  module.hot.accept('./new-components/App', () => {
     const scrollY = window.scrollY;
     startHmr();
     render(scrollY);

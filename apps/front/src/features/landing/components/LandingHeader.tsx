@@ -1,6 +1,6 @@
 import * as React from 'react';
-import { Container } from 'src/components/Container';
-import { Logo } from 'src/components/Logo';
+import { Container } from 'src/new-components/Container';
+import { Logo } from 'src/new-components/Logo';
 import { Button } from 'src/new-components/Button';
 import { NewTheme } from 'src/NewTheme';
 import styled from 'styled-components';

@@ -1,12 +1,12 @@
 import React from 'react';
-import { Link } from '../../../components/Link';
+import { Link } from '../../../new-components/Link';
 import { RegisterFormProvider, RegisterFormActions } from '../register-form';
 import { useActions } from 'typeless';
-import { FullPageForm } from '../../../components/FullPageForm';
-import { SocialFormButtons } from '../../../components/SocialFormButtons';
+import { FullPageForm } from '../../../new-components/FullPageForm';
+import { SocialFormButtons } from '../../../new-components/SocialFormButtons';
 import { createUrl } from '../../../common/url';
 import { getRegisterState } from '../interface';
-import { Alert } from 'src/components/Alert';
+import { Alert } from 'src/new-components/Alert';
 import { Button } from 'src/new-components/Button';
 import { FormInput } from 'src/new-components/FormInput';
 import { useRegisterModule } from '../module';

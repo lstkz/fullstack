@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Container } from 'src/components/Container';
+import { Container } from 'src/new-components/Container';
 import { ChartIcon } from 'src/icons/ChartIcon';
 import { CodeIcon } from 'src/icons/CodeIcon';
 import { GroupIcon } from 'src/icons/GroupIcon';

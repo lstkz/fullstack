@@ -1,9 +1,9 @@
 import * as React from 'react';
 import { isMenuHighlighted } from 'src/common/helper';
 import { createUrl } from 'src/common/url';
-import { Container } from 'src/components/Container';
-import { Link } from 'src/components/Link';
-import { Logo } from 'src/components/Logo';
+import { Container } from 'src/new-components/Container';
+import { Link } from 'src/new-components/Link';
+import { Logo } from 'src/new-components/Logo';
 import { GlobalActions } from 'src/features/global/interface';
 import { useUser } from 'src/hooks/useUser';
 import { NewTheme } from 'src/NewTheme';

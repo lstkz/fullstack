@@ -1,7 +1,7 @@
 import { faTrophy, faAward, faRocket } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import * as React from 'react';
-import { Container } from 'src/components/Container';
+import { Container } from 'src/new-components/Container';
 import { Col, Row } from 'src/new-components/Grid';
 import { Heading } from 'src/new-components/Heading';
 import { Icon } from 'src/new-components/Icon';

@@ -2,7 +2,7 @@ import * as React from 'react';
 import styled, { keyframes, css } from 'styled-components';
 import { Theme } from 'src/Theme';
 
-const ripple = keyframes`  
+const ripple = keyframes`
   0% {
     top: 36px;
     left: 36px;

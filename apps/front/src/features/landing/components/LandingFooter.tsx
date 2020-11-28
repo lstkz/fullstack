@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Container } from 'src/components/Container';
+import { Container } from 'src/new-components/Container';
 import { FooterCopyright } from 'src/new-components/FooterCopyright';
 import { Heading } from 'src/new-components/Heading';
 import { spacerStyle } from 'src/new-components/_spacer';

@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Container } from 'src/components/Container';
+import { Container } from 'src/new-components/Container';
 import { Col, Row } from 'src/new-components/Grid';
 import { MEDIA_MD, NewTheme } from 'src/NewTheme';
 import styled from 'styled-components';

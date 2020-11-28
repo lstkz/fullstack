@@ -1,14 +1,14 @@
 import React from 'react';
-import { Link } from '../../../components/Link';
+import { Link } from '../../../new-components/Link';
 import {
   ResetPasswordFormProvider,
   ResetPasswordFormActions,
 } from '../resetPassword-form';
-import { FullPageForm } from '../../../components/FullPageForm';
+import { FullPageForm } from '../../../new-components/FullPageForm';
 import { createUrl } from '../../../common/url';
 import { useActions } from 'typeless';
 import { getResetPasswordState } from '../interface';
-import { Alert } from 'src/components/Alert';
+import { Alert } from 'src/new-components/Alert';
 import { PasswordResetSuccess } from './PasswordResetSuccess';
 import { useResetPasswordModule } from '../module';
 import styled from 'styled-components';

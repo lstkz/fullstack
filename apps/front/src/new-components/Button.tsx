@@ -4,7 +4,7 @@ import styled, { css } from 'styled-components';
 import { NewTheme } from 'src/NewTheme';
 import { SpinnerBoarder } from './SpinnerBoarder';
 import { spacerStyle } from './_spacer';
-import { Link } from 'src/components/Link';
+import { Link } from 'src/new-components/Link';
 
 interface ButtonProps {
   children?: React.ReactNode;

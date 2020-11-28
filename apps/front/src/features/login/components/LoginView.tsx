@@ -3,13 +3,13 @@ import { LoginFormProvider, LoginFormActions } from '../login-form';
 import { createUrl } from '../../../common/url';
 import { useActions } from 'typeless';
 import { getLoginState } from '../interface';
-import { Alert } from 'src/components/Alert';
-import { SocialFormButtons } from 'src/components/SocialFormButtons';
+import { Alert } from 'src/new-components/Alert';
+import { SocialFormButtons } from 'src/new-components/SocialFormButtons';
 import { useLoginModule } from '../module';
-import { FullPageForm } from 'src/components/FullPageForm';
+import { FullPageForm } from 'src/new-components/FullPageForm';
 import { FormInput } from 'src/new-components/FormInput';
 import { Button } from 'src/new-components/Button';
-import { Link } from 'src/components/Link';
+import { Link } from 'src/new-components/Link';
 import styled from 'styled-components';
 
 const ForgotWrapper = styled.div`

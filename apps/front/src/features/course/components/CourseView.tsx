@@ -1,5 +1,5 @@
 import React from 'react';
-import { Container } from 'src/components/Container';
+import { Container } from 'src/new-components/Container';
 import { Badge } from 'src/new-components/Badge';
 import { Dashboard } from 'src/new-components/Dashboard';
 import { Col, Row } from 'src/new-components/Grid';

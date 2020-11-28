@@ -6,9 +6,9 @@ import {
   ChangePasswordFormActions,
 } from '../changePassword-form';
 import { useActions } from 'typeless';
-import { FullPageForm } from '../../../components/FullPageForm';
+import { FullPageForm } from '../../../new-components/FullPageForm';
 import { getChangePasswordState } from '../interface';
-import { Alert } from 'src/components/Alert';
+import { Alert } from 'src/new-components/Alert';
 import { FormInput } from 'src/new-components/FormInput';
 import { Button } from 'src/new-components/Button';
 

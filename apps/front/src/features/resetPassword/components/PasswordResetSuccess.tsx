@@ -1,6 +1,6 @@
 import * as React from 'react';
 import styled from 'styled-components';
-import { FullPageForm } from 'src/components/FullPageForm';
+import { FullPageForm } from 'src/new-components/FullPageForm';
 import { MailSuccessIcon } from 'src/icons/MailSuccessIcon';
 import { NewTheme } from 'src/NewTheme';
 

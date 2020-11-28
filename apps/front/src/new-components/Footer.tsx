@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Container } from 'src/components/Container';
+import { Container } from 'src/new-components/Container';
 import { NewTheme } from 'src/NewTheme';
 import styled from 'styled-components';
 import { FooterCopyright } from './FooterCopyright';

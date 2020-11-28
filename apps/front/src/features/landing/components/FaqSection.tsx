@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Container } from 'src/components/Container';
+import { Container } from 'src/new-components/Container';
 import { Accordion, AccordionItem } from 'src/new-components/AccordionItem';
 import { Row, Col } from 'src/new-components/Grid';
 import { Heading } from 'src/new-components/Heading';
