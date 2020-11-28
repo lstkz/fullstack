@@ -1,6 +1,6 @@
 import * as React from 'react';
-import { Heading } from 'src/new-components/Heading';
-import { Spacer, spacerStyle } from 'src/new-components/_spacer';
+import { Heading } from 'src/components/Heading';
+import { Spacer, spacerStyle } from 'src/components/_spacer';
 import styled from 'styled-components';
 
 interface MediaProps {

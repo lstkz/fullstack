@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { NewTheme } from 'src/NewTheme';
+import { Theme } from 'src/Theme';
 import styled from 'styled-components';
 
 interface ProgressBarProps {
@@ -9,7 +9,7 @@ interface ProgressBarProps {
 }
 
 const Title = styled.div`
-  color: ${NewTheme.gray_600};
+  color: ${Theme.gray_600};
   font-size: 0.675rem;
   font-weight: 400;
   text-transform: uppercase;
@@ -27,7 +27,7 @@ const ProgressBg = styled.div`
   overflow: hidden;
   line-height: 0;
   font-size: 0.75rem;
-  background-color: ${NewTheme.gray_200};
+  background-color: ${Theme.gray_200};
   border-radius: 50rem;
   flex: 1 0 auto;
 `;
@@ -40,7 +40,7 @@ const Progress = styled.div`
   color: #fff;
   text-align: center;
   white-space: nowrap;
-  background-color: ${NewTheme.primary};
+  background-color: ${Theme.primary};
   transition: width 0.6s ease;
 `;
 
@@ -48,7 +48,7 @@ const Value = styled.div`
   text-align: right;
   font-weight: 600;
   font-size: 0.875rem;
-  color: ${NewTheme.primary};
+  color: ${Theme.primary};
   display: flex;
   margin-left: 1rem;
 `;

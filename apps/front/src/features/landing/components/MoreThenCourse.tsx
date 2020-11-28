@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Container } from 'src/new-components/Container';
+import { Container } from 'src/components/Container';
 import styled from 'styled-components';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
@@ -11,11 +11,11 @@ import {
   faExclamation,
 } from '@fortawesome/free-solid-svg-icons';
 import { Illustration1 } from './Illustration1';
-import { Icon } from 'src/new-components/Icon';
-import { Heading } from 'src/new-components/Heading';
+import { Icon } from 'src/components/Icon';
+import { Heading } from 'src/components/Heading';
 import { IconList } from './IconList';
-import { Col, Row } from 'src/new-components/Grid';
-import { MEDIA_MD } from 'src/NewTheme';
+import { Col, Row } from 'src/components/Grid';
+import { MEDIA_MD } from 'src/Theme';
 
 interface MoreThenCourseProps {
   className?: string;

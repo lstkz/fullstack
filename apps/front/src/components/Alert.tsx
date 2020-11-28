@@ -5,7 +5,7 @@ import React from 'react';
 interface AlertProps {
   className?: string;
   children: React.ReactNode;
-  type: 'success' | 'error';
+  type: 'error';
   testId?: string;
 }
 
@@ -33,12 +33,6 @@ export const Alert = styled(_Alert)`
         return css`
           background: ${Theme.red};
           color: white;
-        `;
-      }
-      case 'success': {
-        return css`
-          background: ${Theme.lightGreen2};
-          color: ${Theme.textDark};
         `;
       }
     }

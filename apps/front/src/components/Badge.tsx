@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { NewTheme } from 'src/NewTheme';
+import { Theme } from 'src/Theme';
 import styled, { css } from 'styled-components';
 
 interface BadgeProps {
@@ -54,11 +54,11 @@ export const Badge = styled(_Badge)`
     switch (props.type) {
       case 'secondary':
         return css`
-          background: ${NewTheme.secondary};
+          background: ${Theme.secondary};
         `;
       default: {
         return css`
-          background: ${NewTheme[props.type]};
+          background: ${Theme[props.type]};
           color: white;
         `;
       }

@@ -1,8 +1,8 @@
 import * as React from 'react';
-import { Container } from 'src/new-components/Container';
-import { Logo } from 'src/new-components/Logo';
-import { Button } from 'src/new-components/Button';
-import { NewTheme } from 'src/NewTheme';
+import { Container } from 'src/components/Container';
+import { Logo } from 'src/components/Logo';
+import { Button } from 'src/components/Button';
+import { Theme } from 'src/Theme';
 import styled from 'styled-components';
 
 interface LandingHeaderProps {
@@ -40,5 +40,5 @@ const _LandingHeader = (props: LandingHeaderProps) => {
 export const LandingHeader = styled(_LandingHeader)`
   display: block;
   padding: 0.75rem 1rem;
-  background: ${NewTheme.section_dark};
+  background: ${Theme.section_dark};
 `;

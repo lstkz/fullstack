@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { NewTheme } from 'src/NewTheme';
+import { Theme } from 'src/Theme';
 
 export const MenuItem = styled.div<{ red?: boolean }>`
   a {
@@ -8,7 +8,7 @@ export const MenuItem = styled.div<{ red?: boolean }>`
     padding: 0.25rem 1rem;
     clear: both;
     font-weight: 400;
-    color: ${props => (props.red ? NewTheme.red : NewTheme.gray_700)};
+    color: ${props => (props.red ? Theme.red : Theme.gray_700)};
     text-align: inherit;
     white-space: nowrap;
     background-color: transparent;
@@ -20,7 +20,7 @@ export const MenuSeparator = styled.div`
   height: 0;
   margin: 0.5rem 0;
   overflow: hidden;
-  border-top: 1px solid ${NewTheme.gray_200};
+  border-top: 1px solid ${Theme.gray_200};
 `;
 
 export const DropdownPopup = styled.div`
@@ -29,12 +29,12 @@ export const DropdownPopup = styled.div`
   padding: 0.35rem 0;
   margin: 0.125rem 0 0;
   font-size: 0.875rem;
-  color: ${NewTheme.gray_600};
+  color: ${Theme.gray_600};
   text-align: left;
   list-style: none;
   background-color: #fff;
   background-clip: padding-box;
-  border: 1px solid ${NewTheme.gray_200};
+  border: 1px solid ${Theme.gray_200};
   border-radius: 0.5rem;
   box-shadow: 0 0 1.25rem rgba(31, 45, 61, 0.05);
 `;

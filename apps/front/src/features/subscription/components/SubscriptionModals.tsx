@@ -1,7 +1,7 @@
 import { faCheckCircle, faEnvelope } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React from 'react';
-import { SimpleModal } from 'src/new-components/SimpleModal';
+import { SimpleModal } from 'src/components/SimpleModal';
 import { useActions } from 'typeless';
 import { getSubscriptionState, SubscriptionActions } from '../interface';
 

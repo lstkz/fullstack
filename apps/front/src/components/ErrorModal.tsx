@@ -1,7 +1,7 @@
 import React from 'react';
 import { getGlobalState, GlobalActions } from 'src/features/global/interface';
 import { useActions } from 'typeless';
-import { SimpleModal } from 'src/new-components/SimpleModal';
+import { SimpleModal } from 'src/components/SimpleModal';
 import { faExclamationCircle } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 

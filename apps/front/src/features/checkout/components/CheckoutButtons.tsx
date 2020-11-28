@@ -1,9 +1,9 @@
 import * as React from 'react';
 import { createUrl } from 'src/common/url';
-import { Link } from 'src/new-components/Link';
-import { Button } from 'src/new-components/Button';
-import { FormCheckbox } from 'src/new-components/FormCheckbox';
-import { Spacer } from 'src/new-components/_spacer';
+import { Link } from 'src/components/Link';
+import { Button } from 'src/components/Button';
+import { FormCheckbox } from 'src/components/FormCheckbox';
+import { Spacer } from 'src/components/_spacer';
 import styled from 'styled-components';
 import { getCheckoutState } from '../interface';
 

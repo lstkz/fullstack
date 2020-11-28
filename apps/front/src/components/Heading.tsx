@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { NewTheme } from 'src/NewTheme';
+import { Theme } from 'src/Theme';
 import styled from 'styled-components';
 import { SpacerProps, spacerStyle } from './_spacer';
 
@@ -47,7 +47,7 @@ export const Heading = styled(_Heading)`
   font-weight: 600;
   line-height: 1.5;
   font-size: ${props => fontSize[props.type]}rem;
-  color: ${NewTheme.headings_color};
+  color: ${Theme.headings_color};
   margin: 0;
   ${props => props.white && `color: white;`}
   ${props => props.center && `text-align: center;`}

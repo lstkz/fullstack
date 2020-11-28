@@ -1,10 +1,10 @@
 import React from 'react';
-import { Container } from 'src/new-components/Container';
-import { Dashboard } from 'src/new-components/Dashboard';
-import { FormInput } from 'src/new-components/FormInput';
-import { Col, Row } from 'src/new-components/Grid';
-import { Heading } from 'src/new-components/Heading';
-import { SpinnerBoarder } from 'src/new-components/SpinnerBoarder';
+import { Container } from 'src/components/Container';
+import { Dashboard } from 'src/components/Dashboard';
+import { FormInput } from 'src/components/FormInput';
+import { Col, Row } from 'src/components/Grid';
+import { Heading } from 'src/components/Heading';
+import { SpinnerBoarder } from 'src/components/SpinnerBoarder';
 import styled from 'styled-components';
 import { useActions } from 'typeless';
 import {

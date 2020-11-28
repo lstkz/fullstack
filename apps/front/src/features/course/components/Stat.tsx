@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { NewTheme } from 'src/NewTheme';
+import { Theme } from 'src/Theme';
 import styled from 'styled-components';
 
 interface StatProps {
@@ -20,7 +20,7 @@ const Left = styled.div`
   height: 3rem;
   font-size: 1.125rem;
   box-shadow: 0 0 1.25rem rgba(31, 45, 61, 0.05);
-  color: ${NewTheme.primary};
+  color: ${Theme.primary};
   background-color: white;
 `;
 const Right = styled.div`
@@ -30,12 +30,12 @@ const Right = styled.div`
 const Title = styled.div`
   font-size: 0.75rem;
   font-weight: 300;
-  color: ${NewTheme.gray_600};
+  color: ${Theme.gray_600};
 `;
 
 const Value = styled.div`
   font-weight: 700;
-  color: ${NewTheme.headings_color};
+  color: ${Theme.headings_color};
 `;
 
 const _Stat = (props: StatProps) => {
@@ -55,6 +55,6 @@ export const Stat = styled(_Stat)`
   display: flex;
   padding: 0.5rem;
   align-items: center;
-  background-color: ${NewTheme.secondary};
+  background-color: ${Theme.secondary};
   border-radius: 0.75rem;
 `;

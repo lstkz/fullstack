@@ -1,7 +1,7 @@
 import * as React from 'react';
 import Color from 'tinycolor2';
 import styled, { css } from 'styled-components';
-import { NewTheme } from 'src/NewTheme';
+import { Theme } from 'src/Theme';
 
 interface IconProps {
   className?: string;
@@ -48,15 +48,15 @@ export const Icon = styled(_Icon)`
   ${props => {
     switch (props.type) {
       case 'primary':
-        return _iconVariant(NewTheme.primary, 40);
+        return _iconVariant(Theme.primary, 40);
       case 'danger':
-        return _iconVariant(NewTheme.danger, 25);
+        return _iconVariant(Theme.danger, 25);
       case 'warning':
-        return _iconVariant(NewTheme.warning, 25);
+        return _iconVariant(Theme.warning, 25);
       case 'success':
-        return _iconVariant(NewTheme.success, 34);
+        return _iconVariant(Theme.success, 34);
       case 'secondary':
-        return _iconVariant(NewTheme.secondary, 10);
+        return _iconVariant(Theme.secondary, 10);
       default:
         return null;
     }

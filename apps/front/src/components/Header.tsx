@@ -1,12 +1,12 @@
 import * as React from 'react';
 import { isMenuHighlighted } from 'src/common/helper';
 import { createUrl } from 'src/common/url';
-import { Container } from 'src/new-components/Container';
-import { Link } from 'src/new-components/Link';
-import { Logo } from 'src/new-components/Logo';
+import { Container } from 'src/components/Container';
+import { Link } from 'src/components/Link';
+import { Logo } from 'src/components/Logo';
 import { GlobalActions } from 'src/features/global/interface';
 import { useUser } from 'src/hooks/useUser';
-import { NewTheme } from 'src/NewTheme';
+import { Theme } from 'src/Theme';
 import styled from 'styled-components';
 import { useActions } from 'typeless';
 import { getRouterState } from 'typeless-router';
@@ -36,11 +36,11 @@ const NavItem = styled.div<{ active?: boolean }>`
   padding: 0 25px;
   height: 100%;
   border-bottom: 4px solid
-    ${props => (props.active ? NewTheme.primary : 'transparent')};
+    ${props => (props.active ? Theme.primary : 'transparent')};
   a {
     text-decoration: none;
     font-weight: ${props => (props.active ? 500 : null)};
-    color: ${props => (props.active ? 'white' : NewTheme.gray_300)};
+    color: ${props => (props.active ? 'white' : Theme.gray_300)};
     &:hover {
       color: white;
     }
@@ -58,7 +58,7 @@ const Caret = styled.div`
   height: 0;
   border-left: 5px solid transparent;
   border-right: 5px solid transparent;
-  border-top: 5px solid ${NewTheme.gray_200};
+  border-top: 5px solid ${Theme.gray_200};
   margin-left: 5px;
 `;
 
@@ -82,7 +82,7 @@ const UserInfo = styled(VoidLink)`
 
   &:focus {
     outline: none;
-    border-color: ${NewTheme.gray_200};
+    border-color: ${Theme.gray_200};
   }
 `;
 
@@ -169,5 +169,5 @@ const _Header = (props: HeaderProps) => {
 export const Header = styled(_Header)`
   display: block;
   padding: 0 1rem;
-  background: ${NewTheme.dark};
+  background: ${Theme.dark};
 `;

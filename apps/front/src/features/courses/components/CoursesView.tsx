@@ -1,7 +1,7 @@
 import React from 'react';
-import { Container } from 'src/new-components/Container';
-import { Loader } from 'src/new-components/Loader';
-import { Dashboard } from 'src/new-components/Dashboard';
+import { Container } from 'src/components/Container';
+import { Loader } from 'src/components/Loader';
+import { Dashboard } from 'src/components/Dashboard';
 import styled from 'styled-components';
 import { getCoursesState } from '../interface';
 import { useCoursesModule } from '../module';

@@ -1,10 +1,10 @@
 import React from 'react';
 import Color from 'tinycolor2';
 import styled, { css } from 'styled-components';
-import { NewTheme } from 'src/NewTheme';
+import { Theme } from 'src/Theme';
 import { SpinnerBoarder } from './SpinnerBoarder';
 import { spacerStyle } from './_spacer';
-import { Link } from 'src/new-components/Link';
+import { Link } from 'src/components/Link';
 
 interface ButtonProps {
   children?: React.ReactNode;
@@ -83,7 +83,7 @@ function _darken(color: string, percent: number) {
 }
 
 function _yiq(color: string) {
-  return Color(color).isDark() ? 'white' : NewTheme.gray_900;
+  return Color(color).isDark() ? 'white' : Theme.gray_900;
 }
 
 function _buttonVariant(
@@ -142,31 +142,31 @@ const buttonCss = css`
     }
     switch (props.type) {
       case 'primary':
-        return _buttonVariant(NewTheme.primary, NewTheme.primary);
+        return _buttonVariant(Theme.primary, Theme.primary);
       case 'secondary':
-        return _buttonVariant(NewTheme.secondary, NewTheme.secondary);
+        return _buttonVariant(Theme.secondary, Theme.secondary);
       case 'neutral':
         return css`
           border-width: 2px;
           ${_buttonVariant(
-            NewTheme.neutral,
-            NewTheme.gray_300,
+            Theme.neutral,
+            Theme.gray_300,
             'white',
-            NewTheme.primary,
+            Theme.primary,
             'white',
-            NewTheme.primary
+            Theme.primary
           )};
           &:hover {
-            border-color: ${NewTheme.primary_light};
+            border-color: ${Theme.primary_light};
           }
           &:focus {
-            border-color: ${NewTheme.primary_light};
+            border-color: ${Theme.primary_light};
             box-shadow: 0 0 0 0.2rem
-              ${Color(NewTheme.primary).setAlpha(0.25).toRgbString()};
+              ${Color(Theme.primary).setAlpha(0.25).toRgbString()};
           }
         `;
       default: {
-        return _buttonVariant(NewTheme[props.type], NewTheme[props.type]);
+        return _buttonVariant(Theme[props.type], Theme[props.type]);
       }
     }
   }}

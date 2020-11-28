@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { NewTheme } from 'src/NewTheme';
+import { Theme } from 'src/Theme';
 import Color from 'tinycolor2';
 import styled, { css } from 'styled-components';
 import { Small } from './Small';
@@ -20,14 +20,14 @@ export interface InputProps extends BaseProps {
 }
 
 const Label = styled.label`
-  color: ${NewTheme.gray_600};
+  color: ${Theme.gray_600};
   font-size: 0.875rem;
   font-weight: 500;
   margin-bottom: 0.5rem;
 `;
 
 export const InputFeedback = styled(Small)`
-  color: ${NewTheme.gray_600};
+  color: ${Theme.gray_600};
   margin-top: 0.5rem;
   text-align: left;
 `;
@@ -67,15 +67,15 @@ export const Input = styled(_Input)`
     font-size: 1rem;
     font-weight: 400;
     line-height: 1.5;
-    color: ${NewTheme.gray_700};
+    color: ${Theme.gray_700};
     background-color: #fff;
     background-clip: padding-box;
-    border: 1px solid ${NewTheme.gray_300};
+    border: 1px solid ${Theme.gray_300};
     border-radius: 0.375rem;
     box-shadow: inset 0 1px 1px rgba(31, 45, 61, 0.075);
     transition: all 0.2s ease;
     &::placeholder {
-      color: ${NewTheme.gray_500};
+      color: ${Theme.gray_500};
     }
 
     &:focus {
@@ -83,10 +83,9 @@ export const Input = styled(_Input)`
       background-color: #fff;
       border-color: rgba(0, 138, 255, 0.5);
       outline: 0;
-      box-shadow: 0 0 20px
-        ${Color(NewTheme.primary).setAlpha(0.1).toRgbString()};
+      box-shadow: 0 0 20px ${Color(Theme.primary).setAlpha(0.1).toRgbString()};
       &::placeholder {
-        color: ${NewTheme.gray_400};
+        color: ${Theme.gray_400};
       }
     }
 
@@ -108,11 +107,11 @@ export const Input = styled(_Input)`
       switch (props.state) {
         case 'error': {
           return css`
-            border-color: ${NewTheme.danger};
+            border-color: ${Theme.danger};
             &:focus {
-              border-color: ${NewTheme.danger};
+              border-color: ${Theme.danger};
               box-shadow: 0 0 20px
-                ${Color(NewTheme.danger).setAlpha(0.1).toRgbString()};
+                ${Color(Theme.danger).setAlpha(0.1).toRgbString()};
             }
           `;
         }

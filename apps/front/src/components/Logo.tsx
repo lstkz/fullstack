@@ -35,7 +35,7 @@ export const Logo = styled(_Logo)`
     }
   }
   h1 {
-    color: ${props => (props.type === 'dark' ? Theme.textDark : 'white')};
+    color: ${props => (props.type === 'dark' ? Theme.headings_color : 'white')};
     margin: 0;
     padding: 0;
     font-size: 30px;

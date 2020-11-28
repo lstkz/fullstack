@@ -1,11 +1,11 @@
 import { faCheckCircle } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React from 'react';
-import { Container } from 'src/new-components/Container';
-import { Dashboard } from 'src/new-components/Dashboard';
-import { Heading } from 'src/new-components/Heading';
-import { SpinnerBoarder } from 'src/new-components/SpinnerBoarder';
-import { NewTheme } from 'src/NewTheme';
+import { Container } from 'src/components/Container';
+import { Dashboard } from 'src/components/Dashboard';
+import { Heading } from 'src/components/Heading';
+import { SpinnerBoarder } from 'src/components/SpinnerBoarder';
+import { Theme } from 'src/Theme';
 import styled from 'styled-components';
 import { getCheckOrderState } from '../interface';
 import { useCheckOrderModule } from '../module';
@@ -32,7 +32,7 @@ const Text = styled.div`
 
 const CheckWrapper = styled.div`
   text-align: center;
-  color: ${NewTheme.green};
+  color: ${Theme.green};
 `;
 
 export function CheckOrderView() {

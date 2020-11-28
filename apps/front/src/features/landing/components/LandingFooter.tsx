@@ -1,9 +1,9 @@
 import * as React from 'react';
-import { Container } from 'src/new-components/Container';
-import { FooterCopyright } from 'src/new-components/FooterCopyright';
-import { Heading } from 'src/new-components/Heading';
-import { spacerStyle } from 'src/new-components/_spacer';
-import { NewTheme } from 'src/NewTheme';
+import { Container } from 'src/components/Container';
+import { FooterCopyright } from 'src/components/FooterCopyright';
+import { Heading } from 'src/components/Heading';
+import { spacerStyle } from 'src/components/_spacer';
+import { Theme } from 'src/Theme';
 import styled from 'styled-components';
 import { SectionShape } from './SectionShape';
 
@@ -26,7 +26,7 @@ const _LandingFooter = (props: LandingFooterProps) => {
   const { className } = props;
   return (
     <div className={className}>
-      <SectionShape position="top" color={NewTheme.section_secondary} inverse />
+      <SectionShape position="top" color={Theme.section_secondary} inverse />
       <Container>
         <Heading white type={3}>
           Masz Pytania?
@@ -44,7 +44,7 @@ const _LandingFooter = (props: LandingFooterProps) => {
 export const LandingFooter = styled(_LandingFooter)`
   display: block;
   position: relative;
-  background: ${NewTheme.dark};
+  background: ${Theme.dark};
   padding-top: 6rem;
-  color: ${NewTheme.gray_600};
+  color: ${Theme.gray_600};
 `;

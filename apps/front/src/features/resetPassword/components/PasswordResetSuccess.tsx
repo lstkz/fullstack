@@ -1,12 +1,12 @@
 import * as React from 'react';
 import styled from 'styled-components';
-import { FullPageForm } from 'src/new-components/FullPageForm';
+import { FullPageForm } from 'src/components/FullPageForm';
 import { MailSuccessIcon } from 'src/icons/MailSuccessIcon';
-import { NewTheme } from 'src/NewTheme';
+import { Theme } from 'src/Theme';
 
 const Content = styled.div`
   border-radius: 5px;
-  background: ${NewTheme.success};
+  background: ${Theme.success};
   text-align: center;
   padding: 15px 45px 30px;
   color: white;

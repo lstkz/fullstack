@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { isConfirmKey } from 'src/common/helper';
-import { NewTheme } from 'src/NewTheme';
+import { Theme } from 'src/Theme';
 import styled from 'styled-components';
 import Color from 'tinycolor2';
 import { InputFeedback } from './Input';
@@ -19,7 +19,7 @@ const Icon = styled.div`
   border-radius: 0.375rem;
   width: 1rem;
   height: 1rem;
-  background-color: ${NewTheme.gray_200};
+  background-color: ${Theme.gray_200};
   transition: background-color 0.15s ease-in-out, border-color 0.15s ease-in-out,
     box-shadow 0.15s ease-in-out;
   margin-right: 0.75rem;
@@ -68,7 +68,7 @@ export const Checkbox = styled(_Checkbox)`
   align-items: center;
   &[aria-checked='true'] {
     ${Icon} {
-      background: ${NewTheme.primary}
+      background: ${Theme.primary}
         url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' width='8' height='8' viewBox='0 0 8 8'%3e%3cpath fill='%23FFF' d='M6.564.75l-3.59 3.612-1.538-1.55L0 4.26l2.974 2.99L8 2.193z'/%3e%3c/svg%3e")
         no-repeat center center;
     }
@@ -80,14 +80,12 @@ export const Checkbox = styled(_Checkbox)`
     outline: none;
     ${Icon} {
       box-shadow: 0 0 0 0.15rem
-        ${Color(NewTheme.primary).setAlpha(0.25).toRgbString()};
+        ${Color(Theme.primary).setAlpha(0.25).toRgbString()};
     }
   }
   &:active {
     ${Icon} {
-      background-color: ${Color(NewTheme.primary_light)
-        .lighten(15)
-        .toHexString()};
+      background-color: ${Color(Theme.primary_light).lighten(15).toHexString()};
     }
   }
 `;

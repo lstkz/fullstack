@@ -7,7 +7,7 @@ import { useRouterModule } from '../features/router';
 import { getGlobalState } from 'src/features/global/interface';
 import { useMappedState } from 'typeless';
 import { useSubscriptionModule } from 'src/features/subscription/module';
-import { GlobalStyles } from 'src/new-components/GlobalStyles';
+import { GlobalStyles } from 'src/components/GlobalStyles';
 
 export function App() {
   useGlobalModule();

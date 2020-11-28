@@ -5,9 +5,9 @@ import { GoogleIcon } from 'src/icons/GoogleIcon';
 import { GITHUB_CLIENT_ID, GOOGLE_CLIENT_ID } from 'src/config';
 import { useActions } from 'typeless';
 import { GlobalActions } from 'src/features/global/interface';
-import { spacerStyle } from 'src/new-components/_spacer';
-import { Row, Col } from 'src/new-components/Grid';
-import { Button } from 'src/new-components/Button';
+import { spacerStyle } from 'src/components/_spacer';
+import { Row, Col } from 'src/components/Grid';
+import { Button } from 'src/components/Button';
 
 const Or = styled.div`
   font-size: 0.75rem;

@@ -1,7 +1,7 @@
 import React from 'react';
 import styled, { css } from 'styled-components';
 import { SpacerProps, spacerStyle } from './_spacer';
-import { MEDIA_LG, MEDIA_MD } from 'src/NewTheme';
+import { MEDIA_LG, MEDIA_MD } from 'src/Theme';
 
 interface RowProps extends SpacerProps {
   children?: React.ReactNode;

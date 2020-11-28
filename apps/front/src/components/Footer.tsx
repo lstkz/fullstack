@@ -1,6 +1,6 @@
 import * as React from 'react';
-import { Container } from 'src/new-components/Container';
-import { NewTheme } from 'src/NewTheme';
+import { Container } from 'src/components/Container';
+import { Theme } from 'src/Theme';
 import styled from 'styled-components';
 import { FooterCopyright } from './FooterCopyright';
 
@@ -22,6 +22,6 @@ const _Footer = (props: FooterProps) => {
 export const Footer = styled(_Footer)`
   display: block;
   position: relative;
-  background: ${NewTheme.dark};
-  color: ${NewTheme.gray_600};
+  background: ${Theme.dark};
+  color: ${Theme.gray_600};
 `;

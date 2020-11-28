@@ -1,19 +1,19 @@
 import React from 'react';
-import { Link } from '../../../new-components/Link';
+import { Link } from '../../../components/Link';
 import {
   ResetPasswordFormProvider,
   ResetPasswordFormActions,
 } from '../resetPassword-form';
-import { FullPageForm } from '../../../new-components/FullPageForm';
+import { FullPageForm } from '../../../components/FullPageForm';
 import { createUrl } from '../../../common/url';
 import { useActions } from 'typeless';
 import { getResetPasswordState } from '../interface';
-import { Alert } from 'src/new-components/Alert';
+import { Alert } from 'src/components/Alert';
 import { PasswordResetSuccess } from './PasswordResetSuccess';
 import { useResetPasswordModule } from '../module';
 import styled from 'styled-components';
-import { Button } from 'src/new-components/Button';
-import { FormInput } from 'src/new-components/FormInput';
+import { Button } from 'src/components/Button';
+import { FormInput } from 'src/components/FormInput';
 
 const BottomWrapper = styled.div`
   text-align: right;

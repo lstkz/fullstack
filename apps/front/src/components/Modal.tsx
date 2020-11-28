@@ -4,8 +4,8 @@ import { CSSTransition } from 'react-transition-group';
 import { VoidLink } from './VoidLink';
 import { FocusContainer } from './FocusContainer';
 import { modalGlobalContext } from './ModalGlobalContext';
-import { MEDIA_MD, NewTheme } from 'src/NewTheme';
-import { Portal } from 'src/new-components/Portal';
+import { MEDIA_MD, Theme } from 'src/Theme';
+import { Portal } from 'src/components/Portal';
 
 interface ModalContentProps {
   bgColor?: 'primary' | 'success' | 'danger' | 'warning';
@@ -66,7 +66,7 @@ const ModalHeader = styled.div`
   align-items: flex-start;
   justify-content: space-between;
   padding: 1.25rem;
-  border-bottom: 1px solid ${NewTheme.gray_200};
+  border-bottom: 1px solid ${Theme.gray_200};
   border-top-left-radius: calc(0.75rem - 1px);
   border-top-right-radius: calc(0.75rem - 1px);
 `;
@@ -77,7 +77,7 @@ const ModalFooter = styled.div`
   align-items: center;
   justify-content: flex-end;
   padding: 1.25rem;
-  border-top: 1px solid ${NewTheme.gray_200};
+  border-top: 1px solid ${Theme.gray_200};
   border-bottom-right-radius: calc(0.75rem - 1px);
   border-bottom-left-radius: calc(0.75rem - 1px);
   > * {
@@ -106,7 +106,7 @@ const ModalContent = styled.div<ModalContentProps>`
     props.bgColor &&
     css`
       color: white;
-      background: ${NewTheme[props.bgColor]};
+      background: ${Theme[props.bgColor]};
       ${ModalHeader},
       ${ModalFooter} {
         border-color: rgba(255, 255, 255, 0.075);
@@ -136,7 +136,7 @@ const Close = styled(VoidLink)`
     cursor: pointer;
   }
   &:focus {
-    border-color: ${NewTheme.gray_200};
+    border-color: ${Theme.gray_200};
   }
 `;
 

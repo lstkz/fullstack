@@ -7,13 +7,13 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import * as React from 'react';
 import { Course } from 'shared';
 import { createUrl } from 'src/common/url';
-import { Link } from 'src/new-components/Link';
+import { Link } from 'src/components/Link';
 import { TsIcon } from 'src/icons/TsIcon';
-import { Button } from 'src/new-components/Button';
-import { Col, Row } from 'src/new-components/Grid';
-import { Heading } from 'src/new-components/Heading';
-import { ProgressBar } from 'src/new-components/ProgressBar';
-import { NewTheme } from 'src/NewTheme';
+import { Button } from 'src/components/Button';
+import { Col, Row } from 'src/components/Grid';
+import { Heading } from 'src/components/Heading';
+import { ProgressBar } from 'src/components/ProgressBar';
+import { Theme } from 'src/Theme';
 import styled from 'styled-components';
 
 interface CourseInfoProps {
@@ -31,10 +31,10 @@ const Wrapper = styled<WrapperProps, 'div'>('div')`
   display: block;
   background-color: #fff;
   background-clip: border-box;
-  border: 1px solid ${NewTheme.gray_200};
+  border: 1px solid ${Theme.gray_200};
   border-radius: 0.75rem;
   padding: 1.75rem 1.75rem 0;
-  color: ${NewTheme.gray_600};
+  color: ${Theme.gray_600};
 `;
 
 const Footer = styled.div`
@@ -43,10 +43,10 @@ const Footer = styled.div`
   margin-top: 1rem;
   font-size: 0.75rem;
   font-weight: 300;
-  color: ${NewTheme.gray_600};
+  color: ${Theme.gray_600};
 
   svg {
-    color: ${NewTheme.primary};
+    color: ${Theme.primary};
   }
   &:before {
     content: '';

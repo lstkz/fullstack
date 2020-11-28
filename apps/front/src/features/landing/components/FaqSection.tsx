@@ -1,9 +1,9 @@
 import * as React from 'react';
-import { Container } from 'src/new-components/Container';
-import { Accordion, AccordionItem } from 'src/new-components/AccordionItem';
-import { Row, Col } from 'src/new-components/Grid';
-import { Heading } from 'src/new-components/Heading';
-import { NewTheme } from 'src/NewTheme';
+import { Container } from 'src/components/Container';
+import { Accordion, AccordionItem } from 'src/components/AccordionItem';
+import { Row, Col } from 'src/components/Grid';
+import { Heading } from 'src/components/Heading';
+import { Theme } from 'src/Theme';
 import styled from 'styled-components';
 import { SectionShape } from './SectionShape';
 
@@ -74,7 +74,7 @@ const _FaqSection = (props: FaqSectionProps) => {
             </Accordion>
           </Col>
         </Row>
-        <SectionShape position="bottom" color={NewTheme.section_secondary} />
+        <SectionShape position="bottom" color={Theme.section_secondary} />
       </Container>
     </div>
   );
@@ -83,7 +83,7 @@ const _FaqSection = (props: FaqSectionProps) => {
 export const FaqSection = styled(_FaqSection)`
   position: relative;
   display: block;
-  background: ${NewTheme.primary};
+  background: ${Theme.primary};
   padding: 7.5rem 0;
   color: white;
 `;

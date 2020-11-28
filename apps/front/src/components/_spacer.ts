@@ -1,4 +1,4 @@
-import { MEDIA_LG, MEDIA_MD } from 'src/NewTheme';
+import { MEDIA_LG, MEDIA_MD } from 'src/Theme';
 import styled, { css } from 'styled-components';
 
 const spacerBase = 1;

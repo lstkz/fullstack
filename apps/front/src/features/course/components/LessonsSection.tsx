@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Heading } from 'src/new-components/Heading';
+import { Heading } from 'src/components/Heading';
 import styled from 'styled-components';
 import { LessonItem } from './LessonItem';
 
