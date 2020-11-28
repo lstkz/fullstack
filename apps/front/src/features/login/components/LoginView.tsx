@@ -7,8 +7,8 @@ import { Alert } from 'src/components/Alert';
 import { SocialFormButtons } from 'src/components/SocialFormButtons';
 import { useLoginModule } from '../module';
 import { FullPageForm } from 'src/components/FullPageForm';
-import { FormInput } from 'src/new-components/FormInput';
-import { Button } from 'src/new-components/Button';
+import { FormInput } from 'src/components/FormInput';
+import { Button } from 'src/components/Button';
 import { Link } from 'src/components/Link';
 import styled from 'styled-components';
 

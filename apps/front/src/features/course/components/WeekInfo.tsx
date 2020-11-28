@@ -5,10 +5,10 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import * as React from 'react';
-import { Col, Row } from 'src/new-components/Grid';
-import { Heading } from 'src/new-components/Heading';
-import { spacerStyle } from 'src/new-components/_spacer';
-import { NewTheme } from 'src/NewTheme';
+import { Col, Row } from 'src/components/Grid';
+import { Heading } from 'src/components/Heading';
+import { spacerStyle } from 'src/components/_spacer';
+import { Theme } from 'src/Theme';
 import styled from 'styled-components';
 import { Stat } from './Stat';
 
@@ -55,7 +55,7 @@ export const WeekInfo = styled(_WeekInfo)`
   box-shadow: 0 0 1.25rem rgba(31, 45, 61, 0.05);
   background-color: #fff;
   background-clip: border-box;
-  border: 1px solid ${NewTheme.gray_200};
+  border: 1px solid ${Theme.gray_200};
   border-radius: 0.75rem;
   padding: 1.75rem;
   ${spacerStyle}

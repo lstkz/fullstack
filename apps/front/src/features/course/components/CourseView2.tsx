@@ -1,8 +1,8 @@
 import React from 'react';
 import { Container } from 'src/components/Container';
-import { Dashboard } from 'src/new-components/Dashboard';
-import { Col, Row } from 'src/new-components/Grid';
-import { Heading } from 'src/new-components/Heading';
+import { Dashboard } from 'src/components/Dashboard';
+import { Col, Row } from 'src/components/Grid';
+import { Heading } from 'src/components/Heading';
 import { useCourseModule } from '../module';
 import { LessonsSection } from './LessonsSection';
 import { TasksSection } from './TasksSection';

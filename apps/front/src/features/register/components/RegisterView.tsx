@@ -7,8 +7,8 @@ import { SocialFormButtons } from '../../../components/SocialFormButtons';
 import { createUrl } from '../../../common/url';
 import { getRegisterState } from '../interface';
 import { Alert } from 'src/components/Alert';
-import { Button } from 'src/new-components/Button';
-import { FormInput } from 'src/new-components/FormInput';
+import { Button } from 'src/components/Button';
+import { FormInput } from 'src/components/FormInput';
 import { useRegisterModule } from '../module';
 
 export function RegisterView() {

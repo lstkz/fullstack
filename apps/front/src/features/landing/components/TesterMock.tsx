@@ -5,10 +5,10 @@ import {
 import * as R from 'remeda';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import * as React from 'react';
-import { Button } from 'src/new-components/Button';
-import { Heading } from 'src/new-components/Heading';
-import { SpinnerBoarder } from 'src/new-components/SpinnerBoarder';
-import { NewTheme } from 'src/NewTheme';
+import { Button } from 'src/components/Button';
+import { Heading } from 'src/components/Heading';
+import { SpinnerBoarder } from 'src/components/SpinnerBoarder';
+import { Theme } from 'src/Theme';
 import styled, { css } from 'styled-components';
 
 interface TesterMockProps {
@@ -17,7 +17,7 @@ interface TesterMockProps {
 
 const SubHeading = styled.div`
   font-size: 0.8rem;
-  color: ${NewTheme.gray_100};
+  color: ${Theme.gray_100};
 `;
 
 const Title = styled.div`
@@ -44,11 +44,11 @@ const Item = styled.div<{ idx: number; color: 'success' | 'danger' }>`
     props.color === 'success'
       ? css`
           color: white;
-          background: ${NewTheme.success};
+          background: ${Theme.success};
         `
       : css`
           color: white;
-          background: ${NewTheme.danger};
+          background: ${Theme.danger};
         `}
   .beforeAnim & {
     transition: none;

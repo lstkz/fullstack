@@ -4,10 +4,10 @@ import { ChartIcon } from 'src/icons/ChartIcon';
 import { CodeIcon } from 'src/icons/CodeIcon';
 import { GroupIcon } from 'src/icons/GroupIcon';
 import { MoneyBagIcon } from 'src/icons/MoneyBagIcon';
-import { Col, Row } from 'src/new-components/Grid';
-import { Heading } from 'src/new-components/Heading';
-import { spacerStyle } from 'src/new-components/_spacer';
-import { NewTheme } from 'src/NewTheme';
+import { Col, Row } from 'src/components/Grid';
+import { Heading } from 'src/components/Heading';
+import { spacerStyle } from 'src/components/_spacer';
+import { Theme } from 'src/Theme';
 import styled from 'styled-components';
 import { Illustration3 } from './Illustration3';
 import { Media } from './Media';
@@ -90,7 +90,7 @@ const _TargetSection = (props: TargetSectionProps) => {
 
 export const TargetSection = styled(_TargetSection)`
   display: block;
-  background: ${NewTheme.dark};
+  background: ${Theme.dark};
   padding: 6rem 0;
   position: relative;
 `;

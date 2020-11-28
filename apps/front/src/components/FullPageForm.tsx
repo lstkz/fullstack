@@ -1,7 +1,7 @@
 import * as React from 'react';
 import styled from 'styled-components';
-import { Heading } from 'src/new-components/Heading';
-import { NewTheme } from 'src/NewTheme';
+import { Heading } from 'src/components/Heading';
+import { Theme } from 'src/Theme';
 
 interface AuthFormProps {
   className?: string;
@@ -21,7 +21,7 @@ const Wrapper = styled.div<{ small?: boolean }>`
 
 const SubHeader = styled.div`
   margin-top: 0.25rem;
-  color: ${NewTheme.gray_600};
+  color: ${Theme.gray_600};
 `;
 
 const Top = styled.div`

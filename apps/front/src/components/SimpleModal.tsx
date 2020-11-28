@@ -1,8 +1,8 @@
 import React from 'react';
-import { Button } from 'src/new-components/Button';
-import { Heading } from 'src/new-components/Heading';
-import { Modal, ModalProps } from 'src/new-components/Modal';
-import { spacerStyle } from 'src/new-components/_spacer';
+import { Button } from 'src/components/Button';
+import { Heading } from 'src/components/Heading';
+import { Modal, ModalProps } from 'src/components/Modal';
+import { spacerStyle } from 'src/components/_spacer';
 import styled from 'styled-components';
 
 interface SimpleModalProps

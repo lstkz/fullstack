@@ -12,8 +12,8 @@ import { Alert } from 'src/components/Alert';
 import { PasswordResetSuccess } from './PasswordResetSuccess';
 import { useResetPasswordModule } from '../module';
 import styled from 'styled-components';
-import { Button } from 'src/new-components/Button';
-import { FormInput } from 'src/new-components/FormInput';
+import { Button } from 'src/components/Button';
+import { FormInput } from 'src/components/FormInput';
 
 const BottomWrapper = styled.div`
   text-align: right;

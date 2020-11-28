@@ -1,10 +1,10 @@
 import * as React from 'react';
-import { Badge } from 'src/new-components/Badge';
-import { Button } from 'src/new-components/Button';
-import { Col, Row } from 'src/new-components/Grid';
-import { Heading } from 'src/new-components/Heading';
-import { spacerStyle } from 'src/new-components/_spacer';
-import { NewTheme } from 'src/NewTheme';
+import { Badge } from 'src/components/Badge';
+import { Button } from 'src/components/Button';
+import { Col, Row } from 'src/components/Grid';
+import { Heading } from 'src/components/Heading';
+import { spacerStyle } from 'src/components/_spacer';
+import { Theme } from 'src/Theme';
 import styled from 'styled-components';
 
 interface TaskItemProps {
@@ -64,5 +64,5 @@ export const TaskItem = styled(_TaskItem)`
   border: 1px solid #eaecf3;
   border-radius: 0.75rem;
   padding: 1rem 1.25rem;
-  color: ${NewTheme.gray_600};
+  color: ${Theme.gray_600};
 `;

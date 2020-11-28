@@ -232,7 +232,7 @@ export const RouteResolver = () => {
           ref={loaderRef}
           progress={0}
           height={3}
-          color={Theme.blue}
+          color={Theme.primary}
         />
       </LoaderWrapper>
       <div

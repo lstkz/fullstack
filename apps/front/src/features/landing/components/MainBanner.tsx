@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { Container } from 'src/components/Container';
-import { Col, Row } from 'src/new-components/Grid';
-import { MEDIA_MD, NewTheme } from 'src/NewTheme';
+import { Col, Row } from 'src/components/Grid';
+import { MEDIA_MD, Theme } from 'src/Theme';
 import styled from 'styled-components';
 import { SectionShape } from './SectionShape';
 import { TesterMock } from './TesterMock';
@@ -38,7 +38,7 @@ const Slogan = styled.h2`
 const SloganDiff = styled.div`
   font-size: 2.5rem;
   font-weight: 600;
-  color: ${NewTheme.primary};
+  color: ${Theme.primary};
 `;
 
 const Desc = styled.div`
@@ -76,7 +76,7 @@ const SecondaryImage = styled.div`
   border-top-right-radius: 0.375rem;
   height: 330px;
   width: 240px;
-  background: ${NewTheme.primary};
+  background: ${Theme.primary};
   position: absolute;
   bottom: 0;
   left: 0;
@@ -124,7 +124,7 @@ const _MainBanner = (props: MainBannerProps) => {
 export const MainBanner = styled(_MainBanner)`
   position: relative;
   display: block;
-  background: ${NewTheme.section_dark};
+  background: ${Theme.section_dark};
   color: white;
   overflow: hidden;
   ${Container} {

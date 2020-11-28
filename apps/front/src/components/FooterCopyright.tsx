@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { Link } from 'src/components/Link';
-import { MEDIA_MD, NewTheme } from 'src/NewTheme';
+import { MEDIA_MD, Theme } from 'src/Theme';
 import styled from 'styled-components';
 import { Divider } from './Divider';
 import { Col, Row } from './Grid';
@@ -17,7 +17,7 @@ const Links = styled.ul`
   margin: 0;
   justify-content: center;
   a {
-    color: ${NewTheme.gray_500};
+    color: ${Theme.gray_500};
     display: block;
     padding: 0.25rem 1rem;
     &:hover {

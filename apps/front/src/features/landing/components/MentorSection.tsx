@@ -2,11 +2,11 @@ import { faTrophy, faAward, faRocket } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import * as React from 'react';
 import { Container } from 'src/components/Container';
-import { Col, Row } from 'src/new-components/Grid';
-import { Heading } from 'src/new-components/Heading';
-import { Icon } from 'src/new-components/Icon';
-import { SpacerProps, spacerStyle } from 'src/new-components/_spacer';
-import { NewTheme } from 'src/NewTheme';
+import { Col, Row } from 'src/components/Grid';
+import { Heading } from 'src/components/Heading';
+import { Icon } from 'src/components/Icon';
+import { SpacerProps, spacerStyle } from 'src/components/_spacer';
+import { Theme } from 'src/Theme';
 import styled from 'styled-components';
 import { IconList } from './IconList';
 
@@ -24,7 +24,7 @@ const Image = styled.div<{ empty?: boolean } & SpacerProps>`
   width: 100%;
   ${props => props.empty && 'padding-bottom: 100%;'}
   border-radius: 0.375rem;
-  background: ${NewTheme.gray_400};
+  background: ${Theme.gray_400};
   img {
     max-width: 100%;
     max-height: 100%;

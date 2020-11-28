@@ -4,13 +4,7 @@ import * as PopperJS from 'popper.js';
 import { Manager, Reference, Popper } from 'react-popper';
 import { Transition } from 'react-spring/renderprops';
 
-const DropdownWrapper = styled.div`
-  box-shadow: 0px 1px 3px #00000017;
-  border-radius: 4px;
-  background-color: #fff;
-  text-align: left;
-  z-index: 100;
-`;
+const DropdownWrapper = styled.div``;
 
 interface MenuDropdownProps {
   children: React.ReactElement;

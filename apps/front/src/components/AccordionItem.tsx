@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { NewTheme } from 'src/NewTheme';
+import { Theme } from 'src/Theme';
 import styled from 'styled-components';
 import { Heading } from './Heading';
 import { spacerStyle } from './_spacer';
@@ -66,7 +66,7 @@ const Header = styled.div`
     transform: translateY(-50%);
     font-family: 'Nunito Sans', sans-serif;
     font-weight: 700;
-    color: ${NewTheme.gray_600};
+    color: ${Theme.gray_600};
   }
   &[aria-expanded='true']:after {
     content: '-';
@@ -78,7 +78,7 @@ const Content = styled.div`
   min-height: 1px;
   padding: 1.75rem;
   padding-top: 0;
-  color: ${NewTheme.gray_600};
+  color: ${Theme.gray_600};
   overflow: hidden;
 `;
 

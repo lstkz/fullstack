@@ -1,4 +1,4 @@
-import { NewTheme } from 'src/NewTheme';
+import { Theme } from 'src/Theme';
 import { createGlobalStyle } from 'styled-components';
 
 export const GlobalStyles = createGlobalStyle`
@@ -8,10 +8,10 @@ body {
   font-weight: 400;
   line-height: 1.7;
   background: white;
-  color: ${NewTheme.body_color};
+  color: ${Theme.body_color};
 }
 a {
-  color: ${NewTheme.primary};
+  color: ${Theme.primary};
   &:hover {
       text-decoration: none;
   }

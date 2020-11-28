@@ -1,28 +1,23 @@
 import * as React from 'react';
-import styled from 'styled-components';
-import { Theme } from 'src/Theme';
-import { Logo } from './Logo';
-import { Container } from './Container';
-import { Link } from './Link';
+import { isMenuHighlighted } from 'src/common/helper';
 import { createUrl } from 'src/common/url';
-import { MenuDropdown } from './MenuDropdown';
-import { Dropdown, MenuItem, MenuSeparator } from './DropdownPopup';
-import { VoidLink } from './VoidLink';
-import { useActions } from 'typeless';
+import { Container } from 'src/components/Container';
+import { Link } from 'src/components/Link';
+import { Logo } from 'src/components/Logo';
 import { GlobalActions } from 'src/features/global/interface';
 import { useUser } from 'src/hooks/useUser';
+import { Theme } from 'src/Theme';
+import styled from 'styled-components';
+import { useActions } from 'typeless';
 import { getRouterState } from 'typeless-router';
-import { Button } from 'src/components/Button';
-import { isMenuHighlighted } from 'src/common/helper';
+import { Button } from './Button';
+import { DropdownPopup, MenuItem, MenuSeparator } from './DropdownPopup';
+import { MenuDropdown } from './MenuDropdown';
+import { VoidLink } from './VoidLink';
 
 interface HeaderProps {
   className?: string;
 }
-
-const Brand = styled.div`
-  display: flex;
-  align-items: center;
-`;
 
 const Inner = styled.div`
   display: flex;
@@ -30,20 +25,22 @@ const Inner = styled.div`
 `;
 
 const Nav = styled.div`
-  margin: 0 auto;
+  margin-right: auto;
+  margin-left: auto;
   display: flex;
 `;
+
 const NavItem = styled.div<{ active?: boolean }>`
   display: flex;
   align-items: center;
   padding: 0 25px;
   height: 100%;
   border-bottom: 4px solid
-    ${props => (props.active ? Theme.green : 'transparent')};
+    ${props => (props.active ? Theme.primary : 'transparent')};
   a {
     text-decoration: none;
     font-weight: ${props => (props.active ? 500 : null)};
-    color: ${props => (props.active ? 'white' : Theme.grayLight)};
+    color: ${props => (props.active ? 'white' : Theme.gray_300)};
     &:hover {
       color: white;
     }
@@ -61,7 +58,7 @@ const Caret = styled.div`
   height: 0;
   border-left: 5px solid transparent;
   border-right: 5px solid transparent;
-  border-top: 5px solid ${Theme.grayLight};
+  border-top: 5px solid ${Theme.gray_200};
   margin-left: 5px;
 `;
 
@@ -81,6 +78,12 @@ const UserInfo = styled(VoidLink)`
       border-top-color: white;
     }
   }
+  border: 1px dotted transparent;
+
+  &:focus {
+    outline: none;
+    border-color: ${Theme.gray_200};
+  }
 `;
 
 const Buttons = styled.div`
@@ -88,7 +91,7 @@ const Buttons = styled.div`
   align-items: center;
   margin-left: auto;
   ${Button} + ${Button} {
-    margin-left: 20px;
+    margin-left: 1rem;
   }
 `;
 
@@ -102,12 +105,10 @@ const _Header = (props: HeaderProps) => {
     <div className={className}>
       <Container>
         <Inner>
-          <Brand>
-            <Logo type="light" />
-          </Brand>
+          <Logo type="light" landing />
           <Nav>
             <NavItem active={isMenuHighlighted(pathname, 'courses')}>
-              <Link href={createUrl({ name: 'courses' })}>Courses</Link>
+              <Link href={createUrl({ name: 'courses' })}>Kursy</Link>
             </NavItem>
           </Nav>
           {user ? (
@@ -115,22 +116,22 @@ const _Header = (props: HeaderProps) => {
               <MenuDropdown
                 testId="header-menu"
                 dropdown={
-                  <Dropdown>
+                  <DropdownPopup>
                     <MenuItem>
                       <Link
                         testId="settings-link"
                         href={createUrl({ name: 'settings' })}
                       >
-                        Settings
+                        Ustawienia
                       </Link>
                     </MenuItem>
                     <MenuSeparator />
                     <MenuItem red>
                       <VoidLink data-test="logout-btn" onClick={logout}>
-                        Logout
+                        Wyloguj się
                       </VoidLink>
                     </MenuItem>
-                  </Dropdown>
+                  </DropdownPopup>
                 }
               >
                 <UserInfo>
@@ -145,15 +146,17 @@ const _Header = (props: HeaderProps) => {
                 testId="header-login-btn"
                 type="secondary"
                 href={createUrl({ name: 'login' })}
+                size="small"
               >
-                LOGIN
+                Zaloguj się
               </Button>
               <Button
                 testId="header-register-btn"
                 type="primary"
                 href={createUrl({ name: 'register' })}
+                size="small"
               >
-                JOIN NOW
+                Załóż konto
               </Button>
             </Buttons>
           )}
@@ -165,5 +168,6 @@ const _Header = (props: HeaderProps) => {
 
 export const Header = styled(_Header)`
   display: block;
-  background: ${Theme.text};
+  padding: 0 1rem;
+  background: ${Theme.dark};
 `;

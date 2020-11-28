@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { NewTheme } from 'src/NewTheme';
+import { Theme } from 'src/Theme';
 import styled, { css } from 'styled-components';
 import { VoidLink } from './VoidLink';
 
@@ -66,7 +66,7 @@ const TabTitle = styled.li<{ active: boolean }>`
   }
   ${VoidLink} {
     border-radius: 0.375rem;
-    color: ${NewTheme.gray_700};
+    color: ${Theme.gray_700};
     font-size: 0.875rem;
     display: block;
     padding: 0.25rem 3rem;
@@ -76,7 +76,7 @@ const TabTitle = styled.li<{ active: boolean }>`
       css`
         font-weight: 600;
         color: #fff;
-        background-color: ${NewTheme.primary};
+        background-color: ${Theme.primary};
       `}
   }
 `;
@@ -92,7 +92,7 @@ export const Tabs = styled(_Tabs)`
     flex-wrap: wrap;
     list-style: none;
     padding: 1rem 1.5rem;
-    border-bottom: 1px solid ${NewTheme.gray_300};
+    border-bottom: 1px solid ${Theme.gray_300};
   }
 
   ${props =>

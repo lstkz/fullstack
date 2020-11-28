@@ -2,26 +2,26 @@ import * as React from 'react';
 import { createUrl } from 'src/common/url';
 import { Container } from 'src/components/Container';
 import { Link } from 'src/components/Link';
-import { Button } from 'src/new-components/Button';
-import { Heading } from 'src/new-components/Heading';
-import { InputGroup } from 'src/new-components/InputGroup';
-import { MEDIA_MD, NewTheme } from 'src/NewTheme';
+import { Button } from 'src/components/Button';
+import { Heading } from 'src/components/Heading';
+import { InputGroup } from 'src/components/InputGroup';
+import { MEDIA_MD, Theme } from 'src/Theme';
 import styled from 'styled-components';
 import {
   SubscribeFormActions,
   SubscribeFormProvider,
 } from '../../subscription/subscribe-form';
-import { FormInput } from 'src/new-components/FormInput';
+import { FormInput } from 'src/components/FormInput';
 import { useActions } from 'typeless';
-import { FormInputError } from 'src/new-components/FormInputError';
+import { FormInputError } from 'src/components/FormInputError';
 import { getSubscriptionState } from 'src/features/subscription/interface';
 
 const Desc = styled.div`
-  color: ${NewTheme.text_muted_color};
+  color: ${Theme.text_muted_color};
 `;
 
 const Text = styled.div`
-  color: ${NewTheme.text_muted_color};
+  color: ${Theme.text_muted_color};
   font-size: 0.8rem;
 `;
 
@@ -91,7 +91,7 @@ const _SubscribeSection = (props: SubscribeSectionProps) => {
 
 export const SubscribeSection = styled(_SubscribeSection)`
   display: block;
-  background: ${NewTheme.section_secondary};
+  background: ${Theme.section_secondary};
   padding: 4.5rem 0;
   text-align: center;
   ${MEDIA_MD} {

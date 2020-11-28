@@ -1,16 +1,20 @@
-import * as React from 'react';
+import React from 'react';
+import Color from 'tinycolor2';
 import styled, { css } from 'styled-components';
-import { useActions } from 'typeless';
-import { RouterActions } from 'typeless-router';
-import { Theme } from '../Theme';
-import { Spinner } from './Spinner';
+import { Theme } from 'src/Theme';
+import { SpinnerBoarder } from './SpinnerBoarder';
+import { spacerStyle } from './_spacer';
+import { Link } from 'src/components/Link';
 
 interface ButtonProps {
   children?: React.ReactNode;
   className?: string;
   block?: boolean;
+  soft?: boolean;
+  outline?: boolean;
   loading?: boolean;
-  type: 'primary' | 'secondary' | 'danger';
+  type: 'primary' | 'secondary' | 'danger' | 'dark' | 'neutral';
+  size?: 'extra-small' | 'small' | 'default' | 'large' | 'extra-large';
   href?: string;
   icon?: React.ReactNode;
   disabled?: boolean;
@@ -18,193 +22,195 @@ interface ButtonProps {
   onClick?: (
     e: React.MouseEvent<HTMLAnchorElement | HTMLDivElement, MouseEvent>
   ) => void;
-  'data-dropdown-toggle'?: boolean;
   testId?: string;
 }
 
-const Icon = styled.span`
-  margin-right: 10px;
-  display: inline-flex;
-  align-items: center;
-  svg {
-    vertical-align: middle;
-    border-style: none;
+const Text = styled.span`
+  &:not(:first-child) {
+    margin-left: 0.75em;
   }
 `;
 
 const _Button = (props: ButtonProps, ref: any) => {
   const {
     className,
-    href,
     onClick,
     children,
-    icon,
     htmlType,
     loading,
     disabled,
     testId,
+    icon,
+    href,
   } = props;
-  const { push } = href ? useActions(RouterActions) : { push: null! };
   const inner = (
     <>
-      {loading && <Spinner />}
-      {icon && <Icon>{icon}</Icon>}
-      <span>{children}</span>
+      {icon}
+      {loading && <SpinnerBoarder size="sm" />}
+      <Text>{children}</Text>
     </>
   );
   if (href) {
     return (
-      <a
-        data-test={testId}
-        data-dropdown-toggle={props['data-dropdown-toggle']}
-        className={className + (disabled ? ' disabled' : '')}
-        href={href}
-        ref={ref}
-        onClick={e => {
-          if (disabled) {
-            e.preventDefault();
-            return;
-          }
-          if (onClick) {
-            onClick(e);
-            if (e.isDefaultPrevented()) {
-              return;
-            }
-          }
-          e.preventDefault();
-          if (href) {
-            const [pathname, search] = href.split('?');
-            push({
-              pathname,
-              search,
-            });
-          }
-        }}
-      >
-        {inner}
-      </a>
-    );
-  } else {
-    return (
-      <button
-        data-test={testId}
-        data-dropdown-toggle={props['data-dropdown-toggle']}
-        disabled={loading || disabled}
+      <Link
+        testId={testId}
         onClick={onClick as any}
         className={className}
-        type={htmlType || 'button'}
-        ref={ref}
+        href={href}
+        innerRef={ref}
       >
         {inner}
-      </button>
+      </Link>
     );
   }
+
+  return (
+    <button
+      data-test={testId}
+      disabled={loading || disabled}
+      onClick={onClick as any}
+      className={className}
+      type={htmlType || 'button'}
+      ref={ref}
+    >
+      {inner}
+    </button>
+  );
 };
 
-export const Button = styled(React.forwardRef(_Button))`
+function _darken(color: string, percent: number) {
+  return Color(color).darken(percent).toHexString();
+}
+
+function _yiq(color: string) {
+  return Color(color).isDark() ? 'white' : Theme.gray_900;
+}
+
+function _buttonVariant(
+  bg: string,
+  border: string,
+  hoverBg: string = _darken(bg, 7.5),
+  hoverBorder: string = _darken(bg, 10),
+  activeBg: string = _darken(bg, 10),
+  activeBorder: string = _darken(bg, 12.5)
+) {
+  return css`
+    color: ${_yiq(bg)};
+    border-color: ${border};
+    background: ${bg};
+    &:hover {
+      color: ${_yiq(hoverBg)};
+      border-color: ${hoverBorder};
+      background: ${hoverBg};
+    }
+    &:focus {
+      box-shadow: 0 0 0 0.2rem ${Color(bg).setAlpha(0.25).toRgbString()};
+    }
+    &.disabled,
+    &:disabled {
+      color: ${_yiq(bg)};
+      background-color: ${bg};
+      border-color: ${border};
+      box-shadow: none;
+    }
+    &:not(:disabled):not(.disabled):active,
+    &:not(:disabled):not(.disabled).active {
+      color: ${_yiq(activeBg)};
+      border-color: ${activeBorder};
+      background: ${activeBg};
+    }
+  `;
+}
+
+const buttonCss = css`
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  padding: 0 25px;
-  height: 40px;
-  user-select: none;
-  transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out,
-    border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
-  text-align: center;
-  vertical-align: middle;
-  color: #8492a6;
+  font-weight: 600;
+  transition: all 0.2s ease;
   border: 1px solid transparent;
-  border-radius: 5px;
-  background-color: transparent;
-  position: relative;
-  white-space: nowrap;
-  // transition: all 0.2s ease;
-  width: ${props => (props.block ? '100%' : null)};
-  font: inherit;
-  outline: none;
-  && {
-    text-decoration: none;
-  }
-
-  ${Spinner} {
-    margin-right: 10px;
-  }
-
-  &:not(:disabled),
-  &:not(.disabled) {
-    cursor: pointer;
-  }
-
-  &.disabled,
-  &:disabled {
-    opacity: 0.65;
-    cursor: not-allowed;
-  }
-
-  &[data-dropdown-toggle] {
-    &::after {
-      font-family: 'Font Awesome 5 Free';
-      font-weight: 700;
-      font-style: normal;
-      font-variant: normal;
-      display: inline-block;
-      margin-left: 10.2px;
-      content: '\f107';
-      text-rendering: auto;
-      -webkit-font-smoothing: antialiased;
+  padding: 0.75rem 1.75rem;
+  font-size: 1rem;
+  line-height: 1.5;
+  border-radius: 0.375rem;
+  margin: 0;
+  font-family: inherit;
+  ${props => props.block && 'width: 100%;'}
+  ${(props: ButtonProps) => {
+    if (!props.type) {
+      return null;
     }
-  }
-
-  ${props => {
     switch (props.type) {
       case 'primary':
-        return css`
-          color: #fff;
-          background: ${Theme.primaryGradient};
-          &:hover {
-            background: ${Theme.primaryGradientHover};
-          }
-          &:focus {
-            background: ${Theme.primaryGradientActive};
-            box-shadow: 0 0 0 3px rgb(35, 122, 210, 0.5);
-          }
-          &.disabled,
-          &:disabled {
-            background: ${Theme.primaryGradient};
-            box-shadow: none;
-          }
-        `;
+        return _buttonVariant(Theme.primary, Theme.primary);
       case 'secondary':
+        return _buttonVariant(Theme.secondary, Theme.secondary);
+      case 'neutral':
         return css`
-          color: ${Theme.textDark};
-          background: white;
-          border-color: ${Theme.border};
+          border-width: 2px;
+          ${_buttonVariant(
+            Theme.neutral,
+            Theme.gray_300,
+            'white',
+            Theme.primary,
+            'white',
+            Theme.primary
+          )};
           &:hover {
-            background: ${Theme.bgLightGray2};
+            border-color: ${Theme.primary_light};
           }
           &:focus {
-            background: ${Theme.bgLightGray3};
-            box-shadow: 0 0 0 3px rgba(216, 217, 219, 0.5);
+            border-color: ${Theme.primary_light};
+            box-shadow: 0 0 0 0.2rem
+              ${Color(Theme.primary).setAlpha(0.25).toRgbString()};
           }
         `;
-      case 'danger':
-        return css`
-          color: white;
-          background: ${Theme.dangerGradient};
-          &:hover {
-            background: ${Theme.dangerGradientHover};
-          }
-          &:focus {
-            background: ${Theme.dangerGradientActive};
-            box-shadow: 0 0 0 3px rgb(210, 35, 35, 0.5);
-          }
-          &.disabled,
-          &:disabled {
-            background: ${Theme.dangerGradient};
-            box-shadow: none;
-          }
-        `;
+      default: {
+        return _buttonVariant(Theme[props.type], Theme[props.type]);
+      }
     }
-    return null;
   }}
+
+  ${props => {
+    switch (props.size) {
+      case 'large': {
+        return css`
+          padding: 1rem 1.875rem;
+          font-size: 1rem;
+          border-radius: 0.5rem;
+        `;
+      }
+      case 'small': {
+        return css`
+          padding: 0.5rem 1.25rem;
+          font-size: 0.875rem;
+          border-radius: 0.375rem;
+        `;
+      }
+      case 'extra-small': {
+        return css`
+          padding: 0.25rem 0.75rem;
+          font-size: 0.875rem;
+          border-radius: 0.375rem;
+        `;
+      }
+      default:
+        return null;
+    }
+  }} 
+
+  ${props =>
+    (props.disabled || props.loading) &&
+    css`
+      opacity: 0.65;
+      box-shadow: none;
+      cursor: default;
+    `}
+`;
+
+export const Button = styled(React.forwardRef(_Button))`
+  outline: none;
+  cursor: pointer;
+  ${buttonCss}
+  ${spacerStyle}
 `;

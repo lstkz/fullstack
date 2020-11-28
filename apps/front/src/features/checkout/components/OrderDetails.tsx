@@ -1,8 +1,8 @@
 import * as React from 'react';
-import { Button } from 'src/new-components/Button';
-import { Col, Row } from 'src/new-components/Grid';
-import { Heading } from 'src/new-components/Heading';
-import { MEDIA_MD, NewTheme } from 'src/NewTheme';
+import { Button } from 'src/components/Button';
+import { Col, Row } from 'src/components/Grid';
+import { Heading } from 'src/components/Heading';
+import { MEDIA_MD, Theme } from 'src/Theme';
 import styled from 'styled-components';
 import { useActions } from 'typeless';
 import { CheckoutActions, getCheckoutState } from '../interface';
@@ -13,7 +13,7 @@ interface OrderDetailsProps {
 
 const Header = styled.div`
   padding: 1rem 1.5rem;
-  border-bottom: 1px solid ${NewTheme.gray_200};
+  border-bottom: 1px solid ${Theme.gray_200};
 `;
 
 const Body = styled.div`
@@ -28,7 +28,7 @@ const Text = styled.div<{ right?: boolean }>`
 
 const BigText = styled.div<{ right?: boolean }>`
   font-weight: 600;
-  color: ${NewTheme.headings_color};
+  color: ${Theme.headings_color};
   font-size: 1.1rem;
   ${props => props.right && `text-align: right;`}
 `;
@@ -40,7 +40,7 @@ const Price = styled.div`
 `;
 
 const BorderRow = styled(Row)`
-  border-top: 1px solid ${NewTheme.gray_200};
+  border-top: 1px solid ${Theme.gray_200};
   padding-top: 1rem;
   margin-top: 1rem;
 `;
@@ -169,7 +169,7 @@ export const OrderDetails = styled(_OrderDetails)`
   box-shadow: 0 0 1.25rem rgba(31, 45, 61, 0.05);
   background-color: #fff;
   background-clip: border-box;
-  border: 1px solid ${NewTheme.gray_200};
+  border: 1px solid ${Theme.gray_200};
   border-radius: 0.375rem;
   ${MEDIA_MD} {
     position: sticky;

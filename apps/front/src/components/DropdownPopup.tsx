@@ -3,28 +3,38 @@ import { Theme } from 'src/Theme';
 
 export const MenuItem = styled.div<{ red?: boolean }>`
   a {
-    color: ${props => (props.red ? Theme.red2 : Theme.text)};
-    width: 100%;
-    height: 100%;
     display: block;
+    width: 100%;
+    padding: 0.25rem 1rem;
+    clear: both;
+    font-weight: 400;
+    color: ${props => (props.red ? Theme.red : Theme.gray_700)};
+    text-align: inherit;
+    white-space: nowrap;
+    background-color: transparent;
+    border: 0;
   }
 `;
 
 export const MenuSeparator = styled.div`
-  mix-blend-mode: multiply;
-  border-top: 1px solid ${Theme.bgLightGray5};
-  width: 100%;
   height: 0;
+  margin: 0.5rem 0;
+  overflow: hidden;
+  border-top: 1px solid ${Theme.gray_200};
 `;
 
-export const Dropdown = styled.div`
-  background: white;
-  box-shadow: 0px 1px 3px #00000017;
-  border-radius: 5px;
-  padding: 14px 20px;
-  min-width: 150px;
-
-  & > * + * {
-    margin-top: 10px;
-  }
+export const DropdownPopup = styled.div`
+  font-size: 0.875rem;
+  min-width: 12rem;
+  padding: 0.35rem 0;
+  margin: 0.125rem 0 0;
+  font-size: 0.875rem;
+  color: ${Theme.gray_600};
+  text-align: left;
+  list-style: none;
+  background-color: #fff;
+  background-clip: padding-box;
+  border: 1px solid ${Theme.gray_200};
+  border-radius: 0.5rem;
+  box-shadow: 0 0 1.25rem rgba(31, 45, 61, 0.05);
 `;

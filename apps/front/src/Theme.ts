@@ -1,58 +1,85 @@
-import { BaseTheme } from 'ui';
+import Color from 'tinycolor2';
 
-export const Theme = {
-  ...BaseTheme,
+function darken(color: string) {
+  return Color(color).darken(10).toHexString();
+}
+function lighten(color: string) {
+  return Color(color).lighten(10).toHexString();
+}
 
-  primary: '#F7646C',
-  primary50: 'rgba(247, 100, 108, 0.5)',
-  textDark: '#333645',
-  textLight: '#666',
-
-  bgLightGray2: '#F2F3F5',
-  bgLightGray3: '#F2F3F8',
-  bgLightGray4: '#F2F3F6',
-  bgLightGray5: '#f3f4f7',
-  bgLightGray6: '#E1E2E6',
-  bgLightGray7: '#FAFBFD',
-  bgLightGray8: '#EAECF0',
-  bgLightGray9: '#F7F9FE',
-  bgLightGray10: '#FAFBFF',
-  bgLightGray11: '#F8F9FB',
-  bgSelectedMenu: '#4c5767',
-  gray: '#8590A3',
-  gray2: '#8C929D',
-  gray3: '#E2E6F5',
-  gray4: '#ccc',
-  lightGreen: '#F2FCEB',
-  lightGreen2: '#E6F5D8',
-  green: '#00CC8A',
-  green2: '#86C640',
-  lightBlue: '#F0F8FF',
-  lightYellow: '#FFF4D8',
-  red: '#FF2C4D',
-  red2: '#FF5973',
-  lightRed: '#FFDFE3',
-  pink: '#FF59B2',
-  pink2: '#DA73ED',
-  lightPink: '#EDD7F8',
-  shadow: '#8590A31A',
-  blueTag: '#4AB3FF',
-  blueTagBg: '#DBF0FF',
-  pinkTag: '#DA73ED',
-  pinkTagBg: '#EDD7F8',
-  orangeTag: '#FFAC28',
-  orangeTagBg: '#FFF4D8',
-  loaderPrimary: '#DDDEE4',
-  loaderSecondary: '#ccc',
-  httpGetLight: '#DBF0FF',
-  httpGetDark: '#33A9FF',
-  httpPostDark: '#86C640',
-  httpPostLight: '#E6F5D8',
-  httpPutDark: '#FFAC28',
-  httpPutLight: '#FFF4D8',
-  httpDeleteDark: '#FF2C4D',
-  httpDeleteLight: '#FFDFE3',
+const BaseColors = {
+  blue: '#008aff',
+  indigo: '#6e00ff',
+  purple: '#510FA8',
+  pink: '#f074ad',
+  red: '#f25767',
+  orange: '#FFBE3D',
+  yellow: '#ffc431',
+  green: '#5cc9a7',
+  teal: '#50b5ff',
+  cyan: '#4bd6e5',
+  white: '#FFF',
+  gray_100: '#FAFBFE',
+  gray_200: '#eaecf3',
+  gray_300: '#E2E8F0',
+  gray_400: '#CBD5E0',
+  gray_500: '#A0AEC0',
+  gray_600: '#718096',
+  gray_700: '#4A5568',
+  gray_800: '#2D3748',
+  gray_900: '#273444',
+  black: '#1F2D3D',
 };
 
-export const MOBILE_MAX_WIDTH = 991;
-export const MOBILE = '@media (max-width: 991px)';
+const BaseThemeColors = {
+  primary: BaseColors.blue,
+  secondary: BaseColors.gray_200,
+  neutral: BaseColors.white,
+  success: BaseColors.green,
+  info: BaseColors.teal,
+  warning: BaseColors.orange,
+  danger: BaseColors.red,
+  light: BaseColors.gray_200,
+  dark: '#171347',
+};
+
+const BodyColors = {
+  body_bg: BaseColors.white,
+  body_color: BaseColors.gray_600,
+};
+
+export const Theme = {
+  ...BaseColors,
+  ...BaseThemeColors,
+  ...BodyColors,
+  headings_color: '#152c5b',
+  text_muted_color: BaseColors.gray_600,
+
+  primary_dark: darken(BaseThemeColors.primary),
+  primary_light: lighten(BaseThemeColors.primary),
+  secondary_dark: darken(BaseThemeColors.secondary),
+  secondary_light: lighten(BaseThemeColors.secondary),
+  neutral_dark: darken(BaseThemeColors.neutral),
+  neutral_light: lighten(BaseThemeColors.neutral),
+  success_dark: darken(BaseThemeColors.success),
+  success_light: lighten(BaseThemeColors.success),
+  info_dark: darken(BaseThemeColors.info),
+  info_light: lighten(BaseThemeColors.info),
+  warning_dark: darken(BaseThemeColors.warning),
+  warning_light: lighten(BaseThemeColors.warning),
+  danger_dark: darken(BaseThemeColors.danger),
+  danger_light: lighten(BaseThemeColors.danger),
+  light_dark: darken(BaseThemeColors.light),
+  light_light: lighten(BaseThemeColors.light),
+  dark_dark: darken(BaseThemeColors.dark),
+  dark_light: lighten(BaseThemeColors.dark),
+
+  section_primary: BodyColors.body_bg,
+  section_secondary: BaseColors.gray_100,
+  section_light: BaseColors.gray_400,
+  section_dark: Color(BaseThemeColors.dark).darken(7).toHexString(),
+};
+
+export const MOBILE_MAX_WIDTH = 765;
+export const MEDIA_MD = '@media (min-width: 768px)';
+export const MEDIA_LG = '@media (min-width: 1200px)';

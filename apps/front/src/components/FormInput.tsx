@@ -2,14 +2,13 @@ import React, { useContext } from 'react';
 import { FormContext } from 'typeless-form';
 import { Input, InputProps } from './Input';
 
-interface ReduxFormControlProps extends InputProps {
+interface FormInputProps extends InputProps {
   name: string;
-  langSuffix?: boolean;
-  readOnlyText?: boolean;
+  noFeedback?: boolean;
 }
 
-export const FormInput = (props: ReduxFormControlProps) => {
-  const { langSuffix, name, readOnlyText, ...rest } = props;
+export const FormInput = (props: FormInputProps) => {
+  const { name, noFeedback, ...rest } = props;
   const data = useContext(FormContext);
   if (!data) {
     throw new Error(`${name} cannot be used without FormContext`);
@@ -20,13 +19,10 @@ export const FormInput = (props: ReduxFormControlProps) => {
   if (rest.type !== 'file') {
     inputProps.value = value == null ? '' : value;
   }
-  if (readOnlyText) {
-    return value == null ? '' : value;
-  }
   return (
     <Input
       data-error={hasError ? true : undefined}
-      feedback={hasError ? data.errors[name] : null}
+      feedback={noFeedback ? '' : hasError ? data.errors[name] : null}
       state={hasError ? 'error' : undefined}
       onBlur={() => data.actions.blur(name)}
       onChange={e => {
@@ -37,6 +33,7 @@ export const FormInput = (props: ReduxFormControlProps) => {
       }}
       {...inputProps}
       {...rest}
+      id={rest.id ?? name}
     />
   );
 };

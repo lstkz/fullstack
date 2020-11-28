@@ -1,13 +1,13 @@
 import * as React from 'react';
 import Color from 'tinycolor2';
-import { Heading } from 'src/new-components/Heading';
-import { SpinnerBoarder } from 'src/new-components/SpinnerBoarder';
-import { MEDIA_MD, NewTheme } from 'src/NewTheme';
+import { Heading } from 'src/components/Heading';
+import { SpinnerBoarder } from 'src/components/SpinnerBoarder';
+import { MEDIA_MD, Theme } from 'src/Theme';
 import styled, { css } from 'styled-components';
 import { useActions } from 'typeless';
 import { CheckoutFormActions, getCheckoutFormState } from '../checkout-form';
 import { getCheckoutState } from '../interface';
-import { FormInputError } from 'src/new-components/FormInputError';
+import { FormInputError } from 'src/components/FormInputError';
 
 interface PaymentOptionsProps {
   className?: string;
@@ -23,7 +23,7 @@ const SpinnerWrapper = styled.div`
 const Item = styled.button<{ selected?: boolean }>`
   padding: 0.5rem;
   box-shadow: 0 0 1.25rem rgba(31, 45, 61, 0.05);
-  border: 1px solid ${NewTheme.gray_200};
+  border: 1px solid ${Theme.gray_200};
   border-radius: 0.375rem;
   box-shadow: 0 0 1.25rem rgba(31, 45, 61, 0.05);
   display: flex;
@@ -36,12 +36,12 @@ const Item = styled.button<{ selected?: boolean }>`
   &:focus {
     outline: none;
     box-shadow: 0 0 0 0.2rem
-      ${Color(NewTheme.primary).setAlpha(0.25).toRgbString()};
+      ${Color(Theme.primary).setAlpha(0.25).toRgbString()};
   }
   ${props =>
     props.selected &&
     css`
-      border-color: ${NewTheme.primary};
+      border-color: ${Theme.primary};
     `}
 
   img {

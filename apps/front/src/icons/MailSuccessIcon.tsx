@@ -1,5 +1,5 @@
 import React from 'react';
-import { NewTheme } from 'src/NewTheme';
+import { Theme } from 'src/Theme';
 
 export function MailSuccessIcon() {
   return (
@@ -14,12 +14,12 @@ export function MailSuccessIcon() {
           cy={8}
           r={8}
           transform="translate(507 303)"
-          fill={NewTheme.white}
+          fill={Theme.white}
         />
         <path
           d="M510.5 310.704l2.954 2.954 5.157-5.157"
           fill="none"
-          stroke={NewTheme.success}
+          stroke={Theme.success}
           strokeLinecap="round"
           strokeWidth={1.5}
         />

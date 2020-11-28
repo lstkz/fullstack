@@ -1,14 +1,14 @@
 import React from 'react';
 import { Container } from 'src/components/Container';
-import { Dashboard } from 'src/new-components/Dashboard';
-import { Heading } from 'src/new-components/Heading';
-import { NewTheme } from 'src/NewTheme';
+import { Dashboard } from 'src/components/Dashboard';
+import { Heading } from 'src/components/Heading';
+import { Theme } from 'src/Theme';
 import styled from 'styled-components';
 
 const Content = styled.div`
   padding: 3rem 0;
   h3 {
-    color: ${NewTheme.headings_color};
+    color: ${Theme.headings_color};
     font-size: 1.25rem;
     font-weight: 600;
     margin-bottom: 0.25rem;

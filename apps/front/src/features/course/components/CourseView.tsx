@@ -1,12 +1,12 @@
 import React from 'react';
 import { Container } from 'src/components/Container';
-import { Badge } from 'src/new-components/Badge';
-import { Dashboard } from 'src/new-components/Dashboard';
-import { Col, Row } from 'src/new-components/Grid';
-import { Heading } from 'src/new-components/Heading';
-import { Tab, Tabs } from 'src/new-components/Tabs';
-import { spacerStyle } from 'src/new-components/_spacer';
-import { NewTheme } from 'src/NewTheme';
+import { Badge } from 'src/components/Badge';
+import { Dashboard } from 'src/components/Dashboard';
+import { Col, Row } from 'src/components/Grid';
+import { Heading } from 'src/components/Heading';
+import { Tab, Tabs } from 'src/components/Tabs';
+import { spacerStyle } from 'src/components/_spacer';
+import { Theme } from 'src/Theme';
 import styled from 'styled-components';
 import { useCourseModule } from '../module';
 import { LessonsSection } from './LessonsSection';
@@ -15,7 +15,7 @@ const Content = styled.div`
   box-shadow: 0 0 1.25rem rgba(31, 45, 61, 0.05);
   background-color: #fff;
   background-clip: border-box;
-  border: 1px solid ${NewTheme.gray_200};
+  border: 1px solid ${Theme.gray_200};
   border-radius: 0.75rem;
   ${spacerStyle}
 `;
