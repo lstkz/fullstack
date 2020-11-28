@@ -1,10 +1,19 @@
+import {
+  faCode,
+  faGraduationCap,
+  faHourglassHalf,
+} from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import * as React from 'react';
 import { Course } from 'shared';
 import { createUrl } from 'src/common/url';
-import { Button } from 'src/components/Button';
-import { MediaCard } from 'src/components/MediaCard';
-import { Title } from 'src/components/Title';
-import { Colored } from 'src/components/Colored';
+import { Link } from 'src/components/Link';
+import { TsIcon } from 'src/icons/TsIcon';
+import { Button } from 'src/new-components/Button';
+import { Col, Row } from 'src/new-components/Grid';
+import { Heading } from 'src/new-components/Heading';
+import { ProgressBar } from 'src/new-components/ProgressBar';
+import { MEDIA_MD, NewTheme } from 'src/NewTheme';
 import styled from 'styled-components';
 
 interface CourseInfoProps {
@@ -12,41 +21,85 @@ interface CourseInfoProps {
   course: Course;
 }
 
-function formatRemaining(date: Date) {
-  const diff = date.getTime() - Date.now();
-  if (diff <= 0) {
-    return '';
-  }
-  const seconds = Math.floor(diff / 1000);
-  const minutes = Math.floor(seconds / 60);
-  const hours = Math.floor(minutes / 60);
-  const days = Math.floor(hours / 24);
-  if (days > 1) {
-    const form = days < 10 ? 'y' : 'o';
-    return `Pozostał${form} ${days} dni!`;
-  }
-  if (hours > 1) {
-    if (hours < 5) {
-      return `Pozostały ${hours} godziny!`;
-    }
-    return `Pozostało ${hours} godzin!`;
-  }
-  if (minutes > 1) {
-    if (minutes < 5) {
-      return `Pozostały ${minutes} minuty!`;
-    }
-    return `Pozostało ${minutes} minut!`;
-  }
-  return `Koniec za ${seconds}s!`;
-}
+interface WrapperProps {}
 
-const PromoWrapper = styled.div`
-  width: 100%;
+const Stat = styled.div`
+  margin: 0 0.5rem;
+`;
+
+const Wrapper = styled<WrapperProps, 'div'>('div')`
+  display: block;
+  background-color: #fff;
+  background-clip: border-box;
+  border: 1px solid ${NewTheme.gray_200};
+  border-radius: 0.75rem;
+  padding: 1.75rem 1.75rem 0;
+  color: ${NewTheme.gray_600};
+`;
+
+const Footer = styled.div`
+  padding: 1rem 0;
+  position: relative;
+  margin-top: 1rem;
+  font-size: 0.75rem;
+  font-weight: 300;
+  color: #718096;
+  /* display: flex;
+  justify-content: center; */
+
+  svg {
+    color: ${NewTheme.primary};
+  }
+  &:before {
+    content: '';
+    display: block;
+    width: 80%;
+    position: absolute;
+    top: 0;
+    left: 50%;
+    margin-left: -40%;
+    height: 1px;
+    background: radial-gradient(
+      ellipse at center,
+      #d1dbe7 0,
+      rgba(255, 255, 255, 0) 75%
+    );
+  }
+`;
+
+const StatsCol = styled(Col)`
+  display: flex;
+  align-items: flex-end;
+`;
+
+const Col1 = styled(Col)``;
+
+const ButtonCol = styled(Col)`
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+`;
+
+const Icon = styled.div`
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 1rem;
+  svg {
+    width: 2rem;
+    height: 2rem;
+  }
+`;
+
+const Title = styled.div`
+  display: flex;
+  align-items: center;
+  margin-bottom: 1rem;
 `;
 
 export const CourseInfo = (props: CourseInfoProps) => {
   const { course } = props;
-  const isPromo = Date.now() < new Date(course.promoEnds).getTime();
   const [, setTick] = React.useState(0);
   React.useEffect(() => {
     let nextTick = 1;
@@ -58,64 +111,54 @@ export const CourseInfo = (props: CourseInfoProps) => {
     };
   }, []);
 
-  const renderBuyButton = () => {
-    const btn = (
-      <Button
-        block
-        testId="show-btn"
-        type="primary"
-        href={createUrl({ name: 'buy-course', id: course.id })}
-      >
-        KUP za {isPromo ? course.promoPrice : course.price} PLN
-      </Button>
-    );
-    if (isPromo) {
-      return (
-        <PromoWrapper>
-          {btn}
-          <div>
-            <Colored color="red">
-              {formatRemaining(new Date(course.promoEnds))}
-              <br />
-              Później <strong>{course.price}</strong> PLN
-            </Colored>
-          </div>
-        </PromoWrapper>
-      );
-    }
-    return <>{btn}</>;
-  };
-
   return (
-    <MediaCard
-      testId={`course_${course.id}`}
-      title={
-        <>
-          <Title
-            href={createUrl({
-              name: 'course',
-              id: course.id,
-            })}
-            testId="title"
-          >
-            {course.name}
+    <Wrapper>
+      <Row>
+        <Col1 md={10}>
+          <Title>
+            <Icon>
+              <TsIcon />
+            </Icon>
+            <Link
+              href={createUrl({
+                name: 'course',
+                id: course.id,
+              })}
+              testId="title"
+            >
+              <Heading type={5}>{course.name}</Heading>
+            </Link>
           </Title>
-        </>
-      }
-      description={course.description}
-      button={
-        course.hasAccess ? (
+          <div>{course.description}</div>
+        </Col1>
+        <ButtonCol md={2}>
           <Button
             testId="show-btn"
-            type="primary"
+            type="secondary"
             href={createUrl({ name: 'course', id: course.id })}
           >
-            POKAŻ
+            Pokaż
           </Button>
-        ) : (
-          renderBuyButton()
-        )
-      }
-    />
+        </ButtonCol>
+      </Row>
+      <Footer>
+        <Row>
+          <StatsCol md={6}>
+            <Stat>
+              <FontAwesomeIcon icon={faGraduationCap} /> 20 lekcji
+            </Stat>
+            <Stat>
+              <FontAwesomeIcon icon={faCode} /> 30 zadań
+            </Stat>
+            <Stat>
+              <FontAwesomeIcon icon={faHourglassHalf} /> 20 godzin praktyki
+            </Stat>
+          </StatsCol>
+          <Col md={6}>
+            <ProgressBar title="Postęp" progress={25} />
+          </Col>
+        </Row>
+      </Footer>
+    </Wrapper>
   );
 };
