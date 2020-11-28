@@ -4,6 +4,7 @@ import { createUrl } from 'src/common/url';
 import { Container } from 'src/components/Container';
 import { Link } from 'src/components/Link';
 import { Logo } from 'src/components/Logo';
+import { IS_REAL_PROD } from 'src/config';
 import { GlobalActions } from 'src/features/global/interface';
 import { useUser } from 'src/hooks/useUser';
 import { Theme } from 'src/Theme';
@@ -106,59 +107,65 @@ const _Header = (props: HeaderProps) => {
       <Container>
         <Inner>
           <Logo type="light" landing />
-          <Nav>
-            <NavItem active={isMenuHighlighted(pathname, 'courses')}>
-              <Link href={createUrl({ name: 'courses' })}>Kursy</Link>
-            </NavItem>
-          </Nav>
-          {user ? (
-            <UserInfoWrapper>
-              <MenuDropdown
-                testId="header-menu"
-                dropdown={
-                  <DropdownPopup>
-                    <MenuItem>
-                      <Link
-                        testId="settings-link"
-                        href={createUrl({ name: 'settings' })}
-                      >
-                        Ustawienia
-                      </Link>
-                    </MenuItem>
-                    <MenuSeparator />
-                    <MenuItem red>
-                      <VoidLink data-test="logout-btn" onClick={logout}>
-                        Wyloguj się
-                      </VoidLink>
-                    </MenuItem>
-                  </DropdownPopup>
-                }
-              >
-                <UserInfo>
-                  <Username data-test="current-email">{user.email}</Username>
-                  <Caret />
-                </UserInfo>
-              </MenuDropdown>
-            </UserInfoWrapper>
-          ) : (
-            <Buttons>
-              <Button
-                testId="header-login-btn"
-                type="secondary"
-                href={createUrl({ name: 'login' })}
-                size="small"
-              >
-                Zaloguj się
-              </Button>
-              <Button
-                testId="header-register-btn"
-                type="primary"
-                href={createUrl({ name: 'register' })}
-                size="small"
-              >
-                Załóż konto
-              </Button>
-            </Buttons>
+          {!IS_REAL_PROD && (
+            <>
+              <Nav>
+                <NavItem active={isMenuHighlighted(pathname, 'courses')}>
+                  <Link href={createUrl({ name: 'courses' })}>Kursy</Link>
+                </NavItem>
+              </Nav>
+              {user ? (
+                <UserInfoWrapper>
+                  <MenuDropdown
+                    testId="header-menu"
+                    dropdown={
+                      <DropdownPopup>
+                        <MenuItem>
+                          <Link
+                            testId="settings-link"
+                            href={createUrl({ name: 'settings' })}
+                          >
+                            Ustawienia
+                          </Link>
+                        </MenuItem>
+                        <MenuSeparator />
+                        <MenuItem red>
+                          <VoidLink data-test="logout-btn" onClick={logout}>
+                            Wyloguj się
+                          </VoidLink>
+                        </MenuItem>
+                      </DropdownPopup>
+                    }
+                  >
+                    <UserInfo>
+                      <Username data-test="current-email">
+                        {user.email}
+                      </Username>
+                      <Caret />
+                    </UserInfo>
+                  </MenuDropdown>
+                </UserInfoWrapper>
+              ) : (
+                <Buttons>
+                  <Button
+                    testId="header-login-btn"
+                    type="secondary"
+                    href={createUrl({ name: 'login' })}
+                    size="small"
+                  >
+                    Zaloguj się
+                  </Button>
+                  <Button
+                    testId="header-register-btn"
+                    type="primary"
+                    href={createUrl({ name: 'register' })}
+                    size="small"
+                  >
+                    Załóż konto
+                  </Button>
+                </Buttons>
+              )}
+            </>
           )}
         </Inner>
       </Container>
