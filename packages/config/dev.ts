@@ -21,4 +21,9 @@ export const config: AppConfig = {
     port: 3000,
   },
   emailSender: 'lukasz@fullstack.pl',
+  bugsnag: {
+    apiKey: -1,
+    workerKey: -1,
+    frontKey: -1,
+  },
 };

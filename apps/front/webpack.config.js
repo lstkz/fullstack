@@ -88,6 +88,7 @@ module.exports = {
     }),
     new webpack.DefinePlugin({
       'process.env': {
+        BUGSNAG_API_KEY: '-1',
         NODE_ENV: JSON.stringify(getSetting('NODE_ENV')),
         GITHUB_CLIENT_ID: JSON.stringify(getSetting('GITHUB_CLIENT_ID')),
         GOOGLE_CLIENT_ID: JSON.stringify(getSetting('GOOGLE_CLIENT_ID')),

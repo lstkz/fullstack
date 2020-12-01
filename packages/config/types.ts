@@ -20,4 +20,9 @@ export interface AppConfig {
     port: number;
   };
   emailSender: string;
+  bugsnag: {
+    apiKey: string | -1;
+    workerKey: string | -1;
+    frontKey: string | -1;
+  };
 }

@@ -22,4 +22,6 @@ export const PROTECTED_BASE_URL = process.env.PROTECTED_BASE_URL;
 
 export const API_URL = process.env.API_URL;
 
+export const BUGSNAG_API_KEY = process.env.BUGSNAG_API_KEY;
+
 export const IS_REAL_PROD = location.hostname === 'fullstack.pl';

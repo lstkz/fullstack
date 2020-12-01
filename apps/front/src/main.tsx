@@ -7,20 +7,23 @@ import { GlobalStyle } from 'ui';
 import Bugsnag from '@bugsnag/js';
 import BugsnagPluginReact from '@bugsnag/plugin-react';
 import { addTypelessExt } from './common/typeless-ext';
+import { BUGSNAG_API_KEY } from './config';
 
 const MOUNT_NODE = document.getElementById('root')!;
 
 setGlobalExport();
 addTypelessExt();
 
-Bugsnag.start({
-  apiKey: '00087e6f9f3e1435f7a0bcfd52c92766',
-  plugins: [new BugsnagPluginReact()],
-});
+if (BUGSNAG_API_KEY && BUGSNAG_API_KEY !== '-1') {
+  Bugsnag.start({
+    apiKey: BUGSNAG_API_KEY,
+    plugins: [new BugsnagPluginReact()],
+  });
+}
 
-const ErrorBoundary = Bugsnag.getPlugin('react')!.createErrorBoundary(
-  React as any
-);
+const ErrorBoundary =
+  Bugsnag.getPlugin('react')?.createErrorBoundary(React as any) ??
+  (({ children }: { children: React.ReactElement }) => children);
 
 (window as any)._registry = registry;
 const render = (scrollY?: number) => {

@@ -5,6 +5,7 @@ import { HttpError, AppError } from '../common/errors';
 import { logger } from '../common/logger';
 import Bugsnag from '@bugsnag/js';
 import { ContractError } from 'contract';
+import { config } from 'config';
 
 function _getTargetError(e: any) {
   return e.original instanceof Error ? e.original : e;
@@ -25,10 +26,13 @@ function _getPublicErrorMessage(e: any) {
   return target.message;
 }
 
-const bugsnagClient = Bugsnag.start({
-  apiKey: '6816a716164ca75105bb501e82ac8f6b',
-  plugins: [],
-});
+const bugsnagClient =
+  config.bugsnag.apiKey === -1
+    ? null
+    : Bugsnag.start({
+        apiKey: config.bugsnag.apiKey,
+        plugins: [],
+      });
 
 function getRequestInfo(req: Request) {
   const connection = req.connection;
@@ -59,6 +63,41 @@ function getRequestInfo(req: Request) {
   return request;
 }
 
+function reportBugsnag(err: Error) {
+  if (!bugsnagClient) {
+    return;
+  }
+  const bugsnagEvent = Bugsnag.Event.create(
+    err,
+    false,
+    {
+      severity: 'error',
+      unhandled: true,
+      severityReason: {
+        type: 'unhandledErrorMiddleware',
+        attributes: {
+          framework: 'Express/Connect',
+        },
+      },
+    },
+    'express',
+    0
+  );
+  bugsnagEvent.addMetadata('request', getRequestInfo(req as any));
+  if (err instanceof ContractError) {
+    bugsnagEvent.addMetadata('entries', err.entries);
+  }
+  bugsnagClient._notify(
+    bugsnagEvent,
+    () => {},
+    err => {
+      if (err) {
+        logger.error('Failed to send event to Bugsnag');
+      }
+    }
+  );
+}
+
 export const errorHandlerMiddleware: ErrorRequestHandler = (
   err: Error,
   req,
@@ -79,36 +118,7 @@ export const errorHandlerMiddleware: ErrorRequestHandler = (
           : undefined,
     });
   } else {
-    const bugsnagEvent = Bugsnag.Event.create(
-      err,
-      false,
-      {
-        severity: 'error',
-        unhandled: true,
-        severityReason: {
-          type: 'unhandledErrorMiddleware',
-          attributes: {
-            framework: 'Express/Connect',
-          },
-        },
-      },
-      'express',
-      0
-    );
-    bugsnagEvent.addMetadata('request', getRequestInfo(req as any));
-    if (err instanceof ContractError) {
-      bugsnagEvent.addMetadata('entries', err.entries);
-    }
-    bugsnagClient._notify(
-      bugsnagEvent,
-      () => {},
-      err => {
-        if (err) {
-          logger.error('Failed to send event to Bugsnag');
-        }
-      }
-    );
-
+    reportBugsnag(err);
     res.json({
       error: 'Internal server error',
     });
