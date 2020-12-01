@@ -1,5 +1,5 @@
 import * as R from 'remeda';
-import amqplib, { ConsumeMessage } from 'amqplib';
+import amqplib from 'amqplib';
 
 export interface AmpqMessage<T = any> {
   id: string;
