@@ -20,5 +20,5 @@ export const config: AppConfig = {
   api: {
     port: 3000,
   },
-  emailSender: 'lukasz@fullstack.pl';
+  emailSender: 'lukasz@fullstack.pl',
 };

@@ -18,6 +18,7 @@ export const subscribe = createContract('subscription.subscribe')
   })
   .returns<SubscriptionResult>()
   .fn(async (name, email) => {
+    throw new Error('api error');
     const existing = await SubscriptionCollection.findOne({
       email_lowered: email.toLowerCase(),
     });

@@ -244,23 +244,19 @@ export function createCollection<T>(
   return ret;
 }
 
-// export function getAllCollection(): Array<DbCollection<any>> {
-//   return Object.values(Collections);
-//   // return R.pipe(
-//   //   [
+export function getAllCollection(): Array<DbCollection<any>> {
+  return R.pipe(
+    fs.readdirSync(Path.join(__dirname, './collections')),
+    R.map(name => Object.values(require('./collections/' + name))),
+    R.flatten
+  ) as any;
+}
 
-//   //   ]
-//   //   fs.readdirSync(Path.join(__dirname, './collections')),
-//   //   R.map(name => Object.values(require('./collections/' + name))),
-//   //   R.flatten
-//   // ) as any;
-// }
-
-// export function createCollections() {
-//   return Promise.all(
-//     getAllCollection().map(async (collection: any) => {
-//       await collection.createCollection();
-//       await collection.initIndex();
-//     })
-//   );
-// }
+export function createCollections() {
+  return Promise.all(
+    getAllCollection().map(async (collection: any) => {
+      await collection.createCollection();
+      await collection.initIndex();
+    })
+  );
+}

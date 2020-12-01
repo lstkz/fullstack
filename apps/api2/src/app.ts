@@ -3,6 +3,7 @@ import Path from 'path';
 import http from 'http';
 import bodyParser from 'body-parser';
 import compression from 'compression';
+import cors from 'cors';
 import { logger } from './common/logger';
 import { connect, createCollections } from './db';
 import { domainMiddleware } from './middlewares/domainMiddleware';
@@ -16,10 +17,11 @@ connect().then(async () => {
   const app = express();
   app.use(domainMiddleware);
   app.use(compression());
+  app.use(cors());
   app.use(bodyParser.json());
   const apiRouter = express.Router();
   loadRoutes(apiRouter);
-  app.use('/api', apiRouter);
+  app.use('/rpc', apiRouter);
   app.use(express.static(Path.join(__dirname, '../../front/build')));
 
   app.use(errorHandlerMiddleware);

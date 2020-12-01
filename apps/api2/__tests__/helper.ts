@@ -1,9 +1,8 @@
-import { connect } from '../src/db';
-import * as Collections from '../src/collections';
+import { connect, getAllCollection } from '../src/db';
 
 export function createCollections() {
   return Promise.all(
-    Object.values(Collections).map(async (collection: any) => {
+    getAllCollection().map(async (collection: any) => {
       await collection.createCollection();
       await collection.initIndex();
     })
@@ -18,6 +17,6 @@ export async function initDb() {
 
 export async function resetDb() {
   await Promise.all(
-    Object.values(Collections).map(collection => collection.deleteMany({}))
+    getAllCollection().map(collection => collection.deleteMany({}))
   );
 }
