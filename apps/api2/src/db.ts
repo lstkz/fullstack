@@ -25,7 +25,6 @@ import {
   WithId,
   ClientSession,
 } from 'mongodb';
-
 const dbSessionStorage = new AsyncLocalStorage<ClientSession>();
 
 let client: MongoClient | null = null;
@@ -71,7 +70,7 @@ function getClient() {
   return client;
 }
 
-interface DbCollection<TSchema> {
+export interface DbCollection<TSchema> {
   // aggregate<T>(
   //   pipeline?: object[],
   //   options?: CollectionAggregationOptions
@@ -137,14 +136,16 @@ export function createCollection<T>(
   collectionName: string,
   indexes?: IndexSpecification[]
 ): DbCollection<T> {
-  const _getCollection = () => {
+  const _getDb = () => {
     const client = getClient();
-    const db = client.db(
+    return client.db(
       process.env.JEST_WORKER_ID
-        ? `jest-${process.env.JEST_WORKER_ID}`
+        ? `jest-${config.mongodb.dbName}-${process.env.JEST_WORKER_ID}`
         : config.mongodb.dbName
     );
-    return db.collection<T>(collectionName);
+  };
+  const _getCollection = () => {
+    return _getDb().collection<T>(collectionName);
   };
 
   const exec = async (
@@ -232,20 +233,34 @@ export function createCollection<T>(
     }
     return _getCollection().createIndexes(indexes);
   };
+  (ret as any).createCollection = () => {
+    return _getDb()
+      .createCollection(collectionName)
+      .catch(() => {
+        // ignore
+      });
+  };
 
   return ret;
 }
 
-export function getAllCollection(): Array<DbCollection<unknown>> {
-  return R.pipe(
-    fs.readdirSync(Path.join(__dirname, './collections')),
-    R.map(name => Object.values(require('./collections/' + name))),
-    R.flatten
-  ) as any;
-}
+// export function getAllCollection(): Array<DbCollection<any>> {
+//   return Object.values(Collections);
+//   // return R.pipe(
+//   //   [
 
-export function initIndexes() {
-  return Promise.all(
-    getAllCollection().map((collection: any) => collection.initIndex())
-  );
-}
+//   //   ]
+//   //   fs.readdirSync(Path.join(__dirname, './collections')),
+//   //   R.map(name => Object.values(require('./collections/' + name))),
+//   //   R.flatten
+//   // ) as any;
+// }
+
+// export function createCollections() {
+//   return Promise.all(
+//     getAllCollection().map(async (collection: any) => {
+//       await collection.createCollection();
+//       await collection.initIndex();
+//     })
+//   );
+// }

@@ -1,10 +1,8 @@
+import { config } from 'config';
 import { Ampq } from './ampq/Ampq';
 
-const ampq = new Ampq({
-  hosts: ['3.123.142.151'],
-  username: 'mq',
-  password: 'aOrIgjBzsS3GFa',
-  prefetchLimit: 100,
+export const ampq = new Ampq({
+  ...config.rabbit,
   eventQueueSuffix: 'app',
 });
 
@@ -36,14 +34,12 @@ async function start() {
     if (n < 2) {
       ampq.publishTask({
         type: 'sample-1',
-        content: { foo: n++ },
+        payload: { foo: n++ },
       });
       ampq.publishEvent({
         type: 'sample-1',
-        content: { foo: n++ },
+        payload: { foo: n++ },
       });
     }
   }, 1000);
 }
-
-start();

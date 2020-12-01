@@ -30,9 +30,8 @@ export default function loadRoutes(router: Router) {
           });
           req.user = {
             id: user._id.toHexString(),
-            username: user.username,
-            isAdmin: user.isAdmin ?? false,
-            bankroll: user.bankroll,
+            email: user.email,
+            isVerified: user.isVerified,
           };
           next();
         } catch (e) {

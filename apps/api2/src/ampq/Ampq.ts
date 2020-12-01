@@ -4,12 +4,12 @@ import amqplib from 'amqplib';
 export interface AmpqMessage<T = any> {
   id: string;
   type: string;
-  content: T;
+  payload: T;
 }
 
 export interface AmpqPublishMessage<T = any> {
   type: string;
-  content: T;
+  payload: T;
 }
 
 type OnMessageFn = (message: AmpqMessage) => Promise<void> | void;
@@ -138,7 +138,7 @@ export class Ampq {
       try {
         const ampqMessage: AmpqPublishMessage = {
           type: msg.type,
-          content: msg.content,
+          payload: msg.payload,
         };
         const options = {
           messageId: R.randomString(20),
@@ -276,7 +276,7 @@ export class Ampq {
         await onMessage({
           id: uniqueMessageId,
           type: publishMsg.type,
-          content: publishMsg.content,
+          payload: publishMsg.payload,
         });
       } catch (e) {
         this.logError(
