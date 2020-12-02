@@ -27,4 +27,13 @@ export const config: AppConfig = {
     workerKey: -1,
     frontKey: -1,
   },
+  github: {
+    clientId: '0bbe36b537a9d82deecd',
+    clientSecret: '7577122012742594d0b522b66915b37eaa89e555',
+  },
+  google: {
+    clientId:
+      '931928292425-72gnjpafb3kja4poun2kb4n2mfc8tj7b.apps.googleusercontent.com',
+    clientSecret: 'qAloPu3PpycwNblek9uPD-DT',
+  },
 };

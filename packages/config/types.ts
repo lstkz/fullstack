@@ -26,4 +26,12 @@ export interface AppConfig {
     workerKey: string | -1;
     frontKey: string | -1;
   };
+  github: {
+    clientId: string;
+    clientSecret: string;
+  };
+  google: {
+    clientId: string;
+    clientSecret: string;
+  };
 }
