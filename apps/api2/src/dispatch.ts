@@ -1,10 +1,10 @@
 import { getBindings } from './common/bindings';
 import { randomUniqString } from './common/helper';
+import { ampq } from './lib';
 import { AppEvent, AppTask } from './types';
-import { ampq } from './worker';
 
 export async function dispatchEvent(event: AppEvent) {
-  if (process.env.IS_AWS) {
+  if (process.env.NODE_ENV !== 'test') {
     await ampq.publishEvent(event);
   } else {
     // const { eventMapping } = await import('./generated/event-mapping');
@@ -20,7 +20,7 @@ export async function dispatchEvent(event: AppEvent) {
 }
 
 export async function dispatchTask(task: AppTask) {
-  if (process.env.IS_AWS) {
+  if (process.env.NODE_ENV !== 'test') {
     await ampq.publishTask(task);
   } else {
     const bindings = getBindings('task');

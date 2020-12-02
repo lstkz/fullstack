@@ -3,6 +3,7 @@ import { StringSchema } from 'schema';
 import AWS from 'aws-sdk';
 import { AppEvent, AppEventType, AppTask, AppTaskType } from './types';
 import { config } from 'config';
+import { Ampq } from './ampq/Ampq';
 
 export interface CreateRpcBindingOptions {
   verified?: true;
@@ -97,3 +98,8 @@ declare module 'schema/src/StringSchema' {
 StringSchema.prototype.objectId = function objectId(this: StringSchema) {
   return this.regex(/^[a-f0-9]{24}$/);
 };
+
+export const ampq = new Ampq({
+  ...config.rabbit,
+  eventQueueSuffix: 'app',
+});

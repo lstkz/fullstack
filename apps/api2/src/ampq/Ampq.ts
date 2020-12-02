@@ -1,5 +1,6 @@
 import * as R from 'remeda';
 import amqplib from 'amqplib';
+import { reportError, reportInfo } from '../common/bugsnag';
 
 export interface AmpqMessage<T = any> {
   id: string;
@@ -65,6 +66,8 @@ interface ProcessMessageOptions {
   retryQueue: string;
 }
 
+type AmpqMode = 'publish' | 'subscribe' | 'both';
+
 export class Ampq {
   private connection: amqplib.Connection | null = null;
   private channel: amqplib.Channel | null = null;
@@ -73,12 +76,16 @@ export class Ampq {
   private taskHandlers: Map<string, AmpqHandler> = new Map();
   private isReconnecting = false;
   private hostNameIndex = 0;
+  private mode: AmpqMode = 'both';
 
   constructor(private options: AmpqOptions) {
     this.hostNameIndex = Math.round(Math.random() * 100) % options.hosts.length;
   }
 
-  async connect() {
+  async connect(mode?: AmpqMode) {
+    if (mode) {
+      this.mode = mode;
+    }
     this.isConnectCalled = true;
     const { hosts, port, username, password } = this.options;
     const nextIndex = ++this.hostNameIndex % hosts.length;
@@ -91,7 +98,14 @@ export class Ampq {
       password,
     });
     this.connection.on('error', e => {
-      this.logError('connection error', e);
+      reportError({
+        error: e,
+        source: 'worker',
+        data: {
+          info: 'connection error',
+        },
+        isHandled: true,
+      });
     });
     this.connection.on('close', () => {
       if (!this.isReconnecting) {
@@ -131,7 +145,13 @@ export class Ampq {
     retry = 0
   ) {
     if (retry === 1 || (retry > 0 && retry % 100 === 0)) {
-      this.logError(`Trying to retry publish (retry = ${retry})`, msg);
+      reportInfo({
+        message: `Trying to retry publish (retry = ${retry})`,
+        source: 'worker',
+        data: {
+          msg,
+        },
+      });
     }
     let success = false;
     if (this.channel) {
@@ -151,7 +171,14 @@ export class Ampq {
         }
         success = true;
       } catch (e) {
-        this.logError('Error when publish message', e);
+        reportError({
+          error: e,
+          source: 'worker',
+          data: {
+            info: 'Error when publish message',
+          },
+          isHandled: true,
+        });
       }
     }
     if (!success) {
@@ -167,7 +194,14 @@ export class Ampq {
       await this.connect();
       this.isReconnecting = false;
     } catch (e) {
-      this.logError('Reconnect error', e);
+      reportError({
+        error: e,
+        source: 'worker',
+        data: {
+          info: 'Reconnect error',
+        },
+        isHandled: true,
+      });
       setTimeout(() => this.tryReconnect(), 1000);
     }
   }
@@ -187,9 +221,10 @@ export class Ampq {
     await channel.assertQueue(TASKS_QUEUE, { durable: true });
     await channel.assertExchange(EVENTS_EXCHANGE, 'fanout', { durable: true });
     await channel.prefetch(this.options.prefetchLimit);
-
-    await this.setupEventHandlers(channel);
-    await this.setupTaskHandlers(channel);
+    if (this.mode !== 'publish') {
+      await this.setupEventHandlers(channel);
+      await this.setupTaskHandlers(channel);
+    }
   }
   private getEventsQueueName() {
     return `${EVENTS_EXCHANGE}:${this.options.eventQueueSuffix}`;
@@ -259,7 +294,13 @@ export class Ampq {
       const retryCount = msg.properties.headers['x-retry'] ?? 0;
       const messageId = msg.properties.messageId;
       if (!messageId) {
-        this.logError('no messageId ignoring', { msg });
+        reportInfo({
+          source: 'worker',
+          message: 'no messageId ignoring',
+          data: {
+            msg,
+          },
+        });
         channel.ack(msg);
         return;
       }
@@ -268,7 +309,15 @@ export class Ampq {
       try {
         publishMsg = JSON.parse(msg.content.toString('utf8'));
       } catch (e) {
-        this.logError('no messageId ignoring', { msg });
+        reportError({
+          error: e,
+          source: 'worker',
+          data: {
+            info: 'Invalid json, ignoring message',
+            msg,
+          },
+          isHandled: true,
+        });
         channel.ack(msg);
         return;
       }
@@ -279,11 +328,15 @@ export class Ampq {
           payload: publishMsg.payload,
         });
       } catch (e) {
-        this.logError(
-          `failed to process a message from ${queueName} queue (retry ${retryCount})`,
-          publishMsg,
-          e
-        );
+        reportError({
+          error: e,
+          source: 'worker',
+          data: {
+            info: `failed to process a message from ${queueName} queue (retry ${retryCount})`,
+            publishMsg,
+          },
+          isHandled: true,
+        });
         channel.sendToQueue(retryQueue, msg.content, {
           expiration: _getRequeueDelay(retryCount),
           headers: {
@@ -296,11 +349,11 @@ export class Ampq {
         channel.ack(msg);
       }
     } catch (e) {
-      this.logError('Unexpected error when processing', { msg });
+      reportError({
+        error: e,
+        source: 'worker',
+        data: msg,
+      });
     }
-  }
-
-  private logError(...params: any[]) {
-    console.error('[AMPQ]', ...params);
   }
 }
