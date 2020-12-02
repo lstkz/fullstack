@@ -27,9 +27,6 @@ export const login = createContract('user.login')
     if (!user) {
       throw new AppError(INVALID_CRED);
     }
-    if (!user.isVerified) {
-      throw new AppError('User is not verified');
-    }
     const hash = await createPasswordHash(values.password, user.salt);
     if (user.password !== hash) {
       throw new AppError(INVALID_CRED);

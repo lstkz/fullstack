@@ -1,9 +1,7 @@
 import { confirmSubscription } from '../../src/contracts/subscription/confirmSubscription';
-import { disconnect } from '../../src/db';
-import { initDb } from '../helper';
+import { setupDb } from '../helper';
 
-beforeAll(initDb);
-afterAll(disconnect);
+setupDb();
 
 it('should throw an error if invalid code', async () => {
   await expect(confirmSubscription('foo')).rejects.toThrow('Invalid code');

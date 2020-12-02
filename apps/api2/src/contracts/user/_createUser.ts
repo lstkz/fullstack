@@ -1,7 +1,9 @@
 import { randomSalt, createPasswordHash } from '../../common/helper';
 import { _generateAuthData } from './_generateAuthData';
 import { UserCollection, UserModel } from '../../collections/User';
-import { ObjectID } from 'mongodb';
+import { MongoError, ObjectID } from 'mongodb';
+import { DUPLICATED_UNIQUE_VALUE_ERROR_CODE } from '../../common/mongo';
+import { AppError } from '../../common/errors';
 
 interface CreateUserValues {
   userId?: ObjectID;
@@ -24,7 +26,17 @@ export async function _createUser(values: CreateUserValues) {
     isVerified: values.isVerified,
     githubId: values.githubId,
   };
-
-  await UserCollection.insertOne(user);
+  if (!user.githubId) {
+    delete user.githubId;
+  }
+  try {
+    await UserCollection.insertOne(user);
+  } catch (e) {
+    if (e instanceof MongoError) {
+      if (e.code === DUPLICATED_UNIQUE_VALUE_ERROR_CODE) {
+        throw new AppError('Email is already registered');
+      }
+    }
+  }
   return user;
 }

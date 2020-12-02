@@ -1,10 +1,8 @@
 import { SubscriptionCollection } from '../../src/collections/Subscription';
 import { unsubscribe } from '../../src/contracts/subscription/unsubscribe';
-import { disconnect } from '../../src/db';
-import { initDb, resetDb } from '../helper';
+import { resetDb, setupDb } from '../helper';
 
-beforeAll(initDb);
-afterAll(disconnect);
+setupDb();
 
 beforeEach(async () => {
   await resetDb();

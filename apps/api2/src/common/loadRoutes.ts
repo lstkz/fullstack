@@ -5,7 +5,6 @@ import { BadRequestError, ForbiddenError, UnauthorizedError } from './errors';
 import { logger } from './logger';
 import { Handler } from '../types';
 import { AccessTokenCollection } from '../collections/AccessToken';
-import { ObjectID } from 'mongodb';
 import { UserCollection } from '../collections/User';
 import { getBindings } from './bindings';
 
@@ -25,9 +24,7 @@ export default function loadRoutes(router: Router) {
           if (!tokenEntity) {
             return next(new UnauthorizedError('invalid token'));
           }
-          const user = await UserCollection.findOneOrThrow({
-            _id: ObjectID.createFromHexString(tokenEntity.userId),
-          });
+          const user = await UserCollection.findByIdOrThrow(tokenEntity.userId);
           req.user = {
             id: user._id.toHexString(),
             email: user.email,

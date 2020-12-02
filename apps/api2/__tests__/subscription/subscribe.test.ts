@@ -2,14 +2,12 @@ import { SES } from 'aws-sdk';
 import { SubscriptionCollection } from '../../src/collections/Subscription';
 import { confirmSubscription } from '../../src/contracts/subscription/confirmSubscription';
 import { subscribe } from '../../src/contracts/subscription/subscribe';
-import { disconnect } from '../../src/db';
 import { ses } from '../../src/lib';
-import { initDb, resetDb } from '../helper';
+import { resetDb, setupDb } from '../helper';
 
 let body = '';
 
-beforeAll(initDb);
-afterAll(disconnect);
+setupDb();
 
 beforeEach(async () => {
   await resetDb();
