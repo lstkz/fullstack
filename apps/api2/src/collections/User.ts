@@ -1,4 +1,5 @@
 import { ObjectID } from 'mongodb';
+import { safeExtend } from '../common/helper';
 import { createCollection } from '../db';
 
 export interface UserModel {
@@ -12,18 +13,25 @@ export interface UserModel {
   githubId?: number;
 }
 
-export const UserCollection = createCollection<UserModel>('user', [
-  {
-    key: {
-      email_lowered: 1,
+export const UserCollection = safeExtend(
+  createCollection<UserModel>('user', [
+    {
+      key: {
+        email_lowered: 1,
+      },
+      unique: true,
     },
-    unique: true,
-  },
-  {
-    key: {
-      githubId: 1,
+    {
+      key: {
+        githubId: 1,
+      },
+      unique: true,
+      sparse: true,
     },
-    unique: true,
-    sparse: true,
-  },
-]);
+  ]),
+  {
+    findOneByEmail(email: string) {
+      return UserCollection.findOne({ email_lowered: email });
+    },
+  }
+);

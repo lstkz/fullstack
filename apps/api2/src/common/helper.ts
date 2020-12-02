@@ -1,5 +1,6 @@
 import crypto from 'crypto';
 import cryptoAsync from 'mz/crypto';
+import { Response } from 'node-fetch';
 
 const SECURITY = {
   SALT_LENGTH: 64,
@@ -50,6 +51,10 @@ export function safeAssign<T>(obj: T, values: Partial<T>) {
   return Object.assign(obj, values);
 }
 
+export function safeExtend<T, U>(obj: T, values: U): T & U {
+  return Object.assign(obj, values);
+}
+
 export function safeKeys<T>(obj: T): Array<keyof T> {
   return Object.keys(obj) as any;
 }
@@ -73,4 +78,46 @@ export async function createPasswordHash(password: string, salt: string) {
     'sha1'
   );
   return hash.toString('hex');
+}
+
+export function getDuration(n: number, type: 's' | 'm' | 'h' | 'd') {
+  const seconds = 1000;
+  const minutes = seconds * 60;
+  const hours = minutes * 60;
+  const days = 24 * hours;
+  switch (type) {
+    case 's': {
+      return n * seconds;
+    }
+    case 'm': {
+      return n * minutes;
+    }
+    case 'h': {
+      return n * hours;
+    }
+    case 'd': {
+      return n * days;
+    }
+  }
+}
+
+export async function getResponseBody<T = any>(opName: string, res: Response) {
+  if (res.status !== 200) {
+    const msg = `${opName} failed with code: ${res.status}`;
+    console.error(msg, {
+      responseText: await res.text(),
+    });
+    throw new Error(msg);
+  }
+  const body = await res.json();
+  if (body.error) {
+    const msg = `${opName} failed with code: ${
+      body.error_description || body.error
+    }`;
+    console.error(msg, {
+      body,
+    });
+    throw new Error(msg);
+  }
+  return body as T;
 }

@@ -70,7 +70,32 @@ function getClient() {
   return client;
 }
 
-export interface DbCollection<TSchema> {
+type ExtractId<T> = T extends { _id: infer U } ? U : never;
+
+interface CustomDbCollection<TSchema> {
+  findAll<T = TSchema>(
+    query: FilterQuery<TSchema>,
+    options?: FindOneOptions<T extends TSchema ? TSchema : T>
+  ): Promise<T[]>;
+  findById<T = TSchema>(
+    id: ExtractId<T>,
+    options?: FindOneOptions<T extends TSchema ? TSchema : T>
+  ): Promise<T | null>;
+  findByIdOrThrow<T = TSchema>(
+    id: ExtractId<T>,
+    options?: FindOneOptions<T extends TSchema ? TSchema : T>
+  ): Promise<T>;
+  findOneOrThrow<T = TSchema>(
+    filter: FilterQuery<TSchema>,
+    options?: FindOneOptions<T extends TSchema ? TSchema : T>
+  ): Promise<T>;
+  deleteById<T = TSchema>(
+    id: ExtractId<T>,
+    options?: CommonOptions
+  ): Promise<DeleteWriteOpResultObject>;
+}
+
+export interface DbCollection<TSchema> extends CustomDbCollection<TSchema> {
   // aggregate<T>(
   //   pipeline?: object[],
   //   options?: CollectionAggregationOptions
@@ -91,18 +116,10 @@ export interface DbCollection<TSchema> {
     query: FilterQuery<TSchema>,
     options?: FindOneOptions<T extends TSchema ? TSchema : T>
   ): Promise<Cursor<T>>;
-  findAll<T = TSchema>(
-    query: FilterQuery<TSchema>,
-    options?: FindOneOptions<T extends TSchema ? TSchema : T>
-  ): Promise<T[]>;
   findOne<T = TSchema>(
     filter: FilterQuery<TSchema>,
     options?: FindOneOptions<T extends TSchema ? TSchema : T>
   ): Promise<T | null>;
-  findOneOrThrow<T = TSchema>(
-    filter: FilterQuery<TSchema>,
-    options?: FindOneOptions<T extends TSchema ? TSchema : T>
-  ): Promise<T>;
   findOneAndDelete(
     filter: FilterQuery<TSchema>,
     options?: FindOneAndDeleteOption<TSchema>
@@ -149,7 +166,7 @@ export function createCollection<T>(
   };
 
   const exec = async (
-    name: Exclude<keyof DbCollection<any>, 'findOneOrThrow' | 'findAll'>,
+    name: Exclude<keyof DbCollection<any>, keyof CustomDbCollection<any>>,
     n: 2 | 3,
     args: any[]
   ) => {
@@ -187,6 +204,22 @@ export function createCollection<T>(
     findOne(...args) {
       return exec('findOne', 2, args);
     },
+    findById(id, options) {
+      return this.findOne(
+        {
+          _id: id,
+        } as any,
+        options
+      );
+    },
+    findByIdOrThrow(id, options) {
+      return this.findOneOrThrow(
+        {
+          _id: id,
+        } as any,
+        options
+      );
+    },
     async findOneOrThrow(...args) {
       const ret = exec('findOne', 2, args);
       if (!ret) {
@@ -210,6 +243,14 @@ export function createCollection<T>(
     },
     deleteOne(...args) {
       return exec('deleteOne', 2, args);
+    },
+    deleteById(id, options) {
+      return this.deleteOne(
+        {
+          _id: id as any,
+        },
+        options
+      );
     },
     async update(model: any, fields, options) {
       if (model._id == null) {

@@ -1,7 +1,7 @@
 import { ContractMeta, initialize } from 'contract';
-import { StringSchema } from 'schema';
+import { ObjectSchema, StringSchema } from 'schema';
 import AWS from 'aws-sdk';
-import { AppEvent, AppEventType, AppTask, AppTaskType } from './types';
+import { AppEvent, AppEventType, AppTask, AppTaskType, AppUser } from './types';
 import { config } from 'config';
 import { Ampq } from './ampq/Ampq';
 import { ObjectID } from 'mongodb';
@@ -96,10 +96,20 @@ declare module 'schema/src/StringSchema' {
   }
 }
 
+declare module 'schema/src/ObjectSchema' {
+  interface ObjectSchema<TReq, TNull, TKeys> {
+    appUser(): ObjectSchema<TReq, TNull, AppUser>;
+  }
+}
+
 StringSchema.prototype.objectId = function objectId(this: StringSchema) {
   return this.regex(/^[a-f0-9]{24}$/)
     .input(value => (value?.toHexString ? value.toHexString() : value))
     .output<ObjectID>(value => ObjectID.createFromHexString(value));
+};
+
+ObjectSchema.prototype.appUser = function appUser(this: ObjectSchema) {
+  return this.as<AppUser>().unknown();
 };
 
 export const ampq = new Ampq({

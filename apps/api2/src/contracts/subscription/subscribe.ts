@@ -18,9 +18,7 @@ export const subscribe = createContract('subscription.subscribe')
   })
   .returns<SubscriptionResult>()
   .fn(async (name, email) => {
-    const existing = await SubscriptionCollection.findOne({
-      email_lowered: email.toLowerCase(),
-    });
+    const existing = await SubscriptionCollection.findOneByEmail(email);
     if (existing) {
       return {
         result: 'already-subscribed',

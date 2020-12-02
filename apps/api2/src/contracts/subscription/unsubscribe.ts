@@ -13,9 +13,7 @@ export const unsubscribe = createContract('subscription.unsubscribe')
     source: S.string(),
   })
   .fn(async (email, code, source) => {
-    const sub = await SubscriptionCollection.findOne({
-      email_lowered: email.toLocaleLowerCase(),
-    });
+    const sub = await SubscriptionCollection.findOneByEmail(email);
     if (!sub) {
       return;
     }
@@ -23,10 +21,8 @@ export const unsubscribe = createContract('subscription.unsubscribe')
       throw new AppError('Invalid code');
     }
     await withTransaction(async () => {
-      const result = await SubscriptionCollection.findOneAndDelete({
-        _id: sub._id,
-      });
-      if (result.value) {
+      const result = await SubscriptionCollection.deleteById(sub._id);
+      if (result.deletedCount) {
         await SubscriptionRemovedCollection.insertOne({
           email,
           source,

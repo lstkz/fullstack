@@ -12,9 +12,9 @@ export const confirmSubscription = createContract(
     code: S.string(),
   })
   .fn(async code => {
-    const subscriptionRequest = await SubscriptionRequestCollection.findOne({
-      _id: code,
-    });
+    const subscriptionRequest = await SubscriptionRequestCollection.findById(
+      code
+    );
     if (!subscriptionRequest) {
       throw new AppError('Invalid code');
     }
