@@ -33,7 +33,7 @@ it('should login successfully', async () => {
   const ret = await execContract(githubLogin, {
     code: 'abc',
   });
-  expect(ret.user.id).toContain(getId(1));
+  expect(ret.user.id.toString()).toEqual(getId(1).toString());
 });
 
 it('should throw an error if not registered', async () => {

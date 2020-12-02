@@ -1,9 +1,9 @@
 import { S } from 'schema';
-import uuid from 'uuid';
 import {
   AccessTokenCollection,
   AccessTokenModel,
 } from '../../collections/AccessToken';
+import { randomUniqString } from '../../common/helper';
 import { createContract } from '../../lib';
 
 export const createToken = createContract('user.createToken')
@@ -15,7 +15,7 @@ export const createToken = createContract('user.createToken')
   .returns<string>()
   .fn(async (userId, fixedToken) => {
     const token: AccessTokenModel = {
-      _id: fixedToken || uuid(),
+      _id: fixedToken ?? randomUniqString(),
       userId: userId,
     };
     await AccessTokenCollection.insertOne(token);
