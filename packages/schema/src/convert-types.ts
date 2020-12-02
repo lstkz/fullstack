@@ -10,12 +10,12 @@ import { OrSchema } from './OrSchema';
 export type Pick<T, K extends keyof T> = { [P in K]: T[P] };
 
 export type NonNeverNames<T> = {
-  [K in keyof T]: T[K] extends (null | undefined) ? never : K;
+  [K in keyof T]: T[K] extends null | undefined ? never : K;
 }[keyof T];
 
 export type FilterNever<T> = Pick<T, NonNeverNames<T>>;
 
-export type CheckNull<TNull, T> = TNull extends true ? (T | null) : T;
+export type CheckNull<TNull, T> = TNull extends true ? T | null : T;
 
 export type CheckREQ<TReq, TNull, T> = TReq extends true
   ? CheckNull<TNull, T>
@@ -30,9 +30,10 @@ export type PrimitiveSchema<TReg, TNull> =
 
 export type ExtractPrimitive<T> = T extends StringSchema<
   infer TReq,
-  infer TNull
+  infer TNull,
+  infer TOutput
 >
-  ? CheckREQ<TReq, TNull, string>
+  ? CheckREQ<TReq, TNull, TOutput>
   : T extends NumberSchema<infer TReq, infer TNull>
   ? CheckREQ<TReq, TNull, number>
   : T extends BooleanSchema<infer TReq, infer TNull>

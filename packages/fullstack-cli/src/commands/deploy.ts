@@ -82,7 +82,7 @@ export function init() {
           }
         )
       );
-      const stack = await getStack(env.STACK_NAME || process.env.STACK_NAME!);
-      await uploadS3('front/build', getStackOutput(stack, 'appDeployBucket'));
+      // const stack = await getStack(env.STACK_NAME || process.env.STACK_NAME!);
+      // await uploadS3('front/build', getStackOutput(stack, 'appDeployBucket'));
     });
 }

@@ -3,9 +3,7 @@
   "version": "1.0.0",
   "description": "",
   "main": "app.js",
-  "engines": {
-    "node": "12.x"
-  },
+  "engines": {},
   "scripts": {
     "tsc": "tsc --noEmit",
     "dev": "NODE_ENV=development nodemon",

@@ -25,7 +25,7 @@ export function getLambdaSharedEnv(options: GetLambdaSharedEnvOptions) {
     TOPIC_ARN: mainTopic.getSNSTopic().topicArn,
     TABLE: mainTable.getDynamoTable().tableName,
     S3_BUCKET_NAME: mainBucket.getS3Bucket().bucketName,
-    SES_REGION: process.env.SES_REGION,
+    SES_REGION: process.env.SES_REGION ?? '',
 
     API_BASE_URL: _get('API_BASE_URL'),
     APP_BASE_URL: _get('APP_BASE_URL'),
@@ -37,7 +37,7 @@ export function getLambdaSharedEnv(options: GetLambdaSharedEnvOptions) {
     TPAY_CUSTOMER_ID: _get('TPAY_CUSTOMER_ID'),
     TPAY_API_KEY: _get('TPAY_API_KEY'),
     TPAY_PASSWORD: _get('TPAY_PASSWORD'),
-    TPAY_CODE: process.env.TPAY_CODE,
+    TPAY_CODE: process.env.TPAY_CODE ?? '',
     TPAY_RESULT_EMAIL: _get('TPAY_RESULT_EMAIL'),
 
     GITHUB_CLIENT_ID: _get('GITHUB_CLIENT_ID'),

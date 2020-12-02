@@ -37,6 +37,24 @@ module.exports = function generate(plop) {
       },
     ],
   });
+  plop.setGenerator('collection', {
+    prompts: [
+      {
+        type: 'input',
+        name: 'name',
+        message: 'choose feature name in PascalCase (e.g. SolutionVote)',
+        basePath: '.',
+      },
+    ],
+    actions: [
+      {
+        type: 'addMany',
+        destination: path.join(__dirname, 'apps/api2/src/collections'),
+        base: '.blueprints/collection',
+        templateFiles: '.blueprints/collection/**/**',
+      },
+    ],
+  });
   plop.setGenerator('contract', {
     prompts: [
       {

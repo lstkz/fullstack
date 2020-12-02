@@ -4,14 +4,26 @@ import { setGlobalExport } from './global-exports';
 import { Hmr, startHmr, TypelessContext } from 'typeless';
 import { registry } from './registry';
 import { GlobalStyle } from 'ui';
-import { initErrorReporter } from './errorReporter';
+import Bugsnag from '@bugsnag/js';
+import BugsnagPluginReact from '@bugsnag/plugin-react';
 import { addTypelessExt } from './common/typeless-ext';
+import { BUGSNAG_API_KEY } from './config';
 
 const MOUNT_NODE = document.getElementById('root')!;
 
 setGlobalExport();
-initErrorReporter();
 addTypelessExt();
+
+if (BUGSNAG_API_KEY && BUGSNAG_API_KEY !== '-1') {
+  Bugsnag.start({
+    apiKey: BUGSNAG_API_KEY,
+    plugins: [new BugsnagPluginReact()],
+  });
+}
+
+const ErrorBoundary =
+  Bugsnag.getPlugin('react')?.createErrorBoundary(React as any) ??
+  (({ children }: { children: React.ReactElement }) => children);
 
 (window as any)._registry = registry;
 const render = (scrollY?: number) => {
@@ -19,14 +31,16 @@ const render = (scrollY?: number) => {
   ReactDOM.unmountComponentAtNode(MOUNT_NODE);
   try {
     ReactDOM.render(
-      <Hmr>
-        <TypelessContext.Provider value={{ registry }}>
-          <>
-            <GlobalStyle />
-            <App />
-          </>
-        </TypelessContext.Provider>
-      </Hmr>,
+      <ErrorBoundary>
+        <Hmr>
+          <TypelessContext.Provider value={{ registry }}>
+            <>
+              <GlobalStyle />
+              <App />
+            </>
+          </TypelessContext.Provider>
+        </Hmr>
+      </ErrorBoundary>,
       MOUNT_NODE,
       () => {
         if (scrollY != null) {
