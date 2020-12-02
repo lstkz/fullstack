@@ -2,10 +2,11 @@ import { AnySchema } from './AnySchema';
 
 const emailReg = /^[a-zA-Z0-9._\-+]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
 
-export class StringSchema<TReq = true, TNull = false> extends AnySchema<
-  TReq,
-  TNull
-> {
+export class StringSchema<
+  TReq = true,
+  TNull = false,
+  TOutput = string
+> extends AnySchema<TReq, TNull, TOutput> {
   readonly schema = 'string';
 
   constructor() {
@@ -27,6 +28,59 @@ export class StringSchema<TReq = true, TNull = false> extends AnySchema<
         return null;
       },
     });
+  }
+
+  input(convert: (input: any) => string) {
+    this.validators.push({
+      type: 'string.input',
+      priority: -1,
+      validate: (value, path) => {
+        if (typeof value === 'string') {
+          return null;
+        }
+        try {
+          return {
+            value: convert(value),
+          };
+        } catch (e) {
+          return {
+            stop: true,
+            error: {
+              type: 'string.input',
+              message: e.message,
+              path,
+              value,
+            },
+          };
+        }
+      },
+    });
+    return (this as any) as StringSchema<TReq, TNull, TOutput>;
+  }
+
+  output<T>(convert: (input: string) => T) {
+    this.validators.push({
+      type: 'string.output',
+      priority: 100,
+      validate: (value, path) => {
+        try {
+          return {
+            value: convert(value),
+          };
+        } catch (e) {
+          return {
+            stop: true,
+            error: {
+              type: 'string.output',
+              message: e.message,
+              path,
+              value,
+            },
+          };
+        }
+      },
+    });
+    return (this as any) as StringSchema<TReq, TNull, T>;
   }
 
   min(min: number) {

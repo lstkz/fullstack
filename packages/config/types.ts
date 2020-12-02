@@ -18,6 +18,7 @@ export interface AppConfig {
   };
   api: {
     port: number;
+    eventQueueSuffix: string;
   };
   emailSender: string;
   bugsnag: {

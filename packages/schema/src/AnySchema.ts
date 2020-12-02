@@ -1,6 +1,6 @@
 import { Validator } from './types';
 
-export class AnySchema<TReq = true, TNull = false> {
+export class AnySchema<TReq = true, TNull = false, TOutput = any> {
   validators: Validator[] = [];
 
   constructor() {

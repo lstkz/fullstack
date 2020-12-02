@@ -19,6 +19,7 @@ export const config: AppConfig = {
   },
   api: {
     port: 3000,
+    eventQueueSuffix: 'app',
   },
   emailSender: 'lukasz@fullstack.pl',
   bugsnag: {

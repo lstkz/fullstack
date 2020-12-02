@@ -4,6 +4,7 @@ import AWS from 'aws-sdk';
 import { AppEvent, AppEventType, AppTask, AppTaskType } from './types';
 import { config } from 'config';
 import { Ampq } from './ampq/Ampq';
+import { ObjectID } from 'mongodb';
 
 export interface CreateRpcBindingOptions {
   verified?: true;
@@ -90,16 +91,18 @@ export const { createContract } = initialize({
 });
 
 declare module 'schema/src/StringSchema' {
-  interface StringSchema {
-    objectId(): this;
+  interface StringSchema<TReq, TNull, TOutput> {
+    objectId(): StringSchema<TReq, TNull, ObjectID>;
   }
 }
 
 StringSchema.prototype.objectId = function objectId(this: StringSchema) {
-  return this.regex(/^[a-f0-9]{24}$/);
+  return this.regex(/^[a-f0-9]{24}$/)
+    .input(value => (value?.toHexString ? value.toHexString() : value))
+    .output<ObjectID>(value => ObjectID.createFromHexString(value));
 };
 
 export const ampq = new Ampq({
   ...config.rabbit,
-  eventQueueSuffix: 'app',
+  eventQueueSuffix: config.api.eventQueueSuffix,
 });
