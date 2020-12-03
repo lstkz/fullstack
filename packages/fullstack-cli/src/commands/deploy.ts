@@ -10,10 +10,10 @@ import {
   getAppRoot,
   getStack,
   getStackOutput,
-  initConfig,
 } from '../helper';
 import { build as buildApp } from './build';
 import mime from 'mime-types';
+import { getPasswordEnv } from 'config';
 
 const s3 = new AWS.S3();
 
@@ -55,7 +55,6 @@ export function init() {
     .option('--stage', 'deploy to stage')
     .option('--no-build', 'skip build')
     .action(async ({ stage, build }) => {
-      initConfig(stage);
       if (build) {
         const buildOptions = { stage };
         await Promise.all([buildApp('front', buildOptions)]);
@@ -73,8 +72,7 @@ export function init() {
             env: {
               ...process.env,
               STACK_NAME: stackName,
-              CONFIG_NAME: process.env.CONFIG_NAME!,
-              PROD_CONFIG_PASSWORD: process.env.PROD_CONFIG_PASSWORD!,
+              ...getPasswordEnv(stage ? 'stage' : undefined),
             },
             ...getSpawnOptions('deploy'),
           }

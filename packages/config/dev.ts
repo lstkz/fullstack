@@ -37,6 +37,8 @@ export const config: AppConfig = {
     clientSecret: 'qAloPu3PpycwNblek9uPD-DT',
   },
   deploy: {
+    apiCertArn: -1,
+    zone: -1,
     api: {
       cpu: 256,
       memory: 512,

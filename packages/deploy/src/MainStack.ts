@@ -3,9 +3,12 @@ import * as ecs from '@aws-cdk/aws-ecs';
 import * as ec2 from '@aws-cdk/aws-ec2';
 import * as ecsPatterns from '@aws-cdk/aws-ecs-patterns';
 import * as s3 from '@aws-cdk/aws-s3';
+import * as elb from '@aws-cdk/aws-elasticloadbalancingv2';
+import * as acm from '@aws-cdk/aws-certificatemanager';
+import * as route53 from '@aws-cdk/aws-route53';
 import Path from 'path';
 import { createWebDist } from './createWebDist';
-import { config } from 'config';
+import { config, getPasswordEnv } from 'config';
 
 if (!process.env.STACK_NAME) {
   throw new Error('STACK_NAME is not set');
@@ -28,14 +31,9 @@ function createMainBucket(stack: cdk.Stack) {
 }
 
 function getDockerEnv() {
-  const passProp = (process.env.CONFIG_NAME + '_CONFIG_PASSWORD').toUpperCase();
-  if (!process.env[passProp]) {
-    throw new Error(`${passProp} is not set`);
-  }
   return {
     NODE_ENV: 'production',
-    CONFIG_NAME: process.env.CONFIG_NAME!,
-    [passProp]: process.env[passProp]!,
+    ...getPasswordEnv(),
   };
 }
 
@@ -58,6 +56,12 @@ function createApiTask(
   apiContainer.addPortMappings({
     containerPort: config.api.port,
   });
+  if (config.deploy.apiCertArn === -1) {
+    throw new Error('Api Cert must be set');
+  }
+  if (config.deploy.zone === -1) {
+    throw new Error('zone must be set');
+  }
   new ecsPatterns.ApplicationLoadBalancedFargateService(stack, 'ApiService', {
     cluster,
     memoryLimitMiB: config.deploy.api.memory,
@@ -65,6 +69,18 @@ function createApiTask(
     taskDefinition: apiTask,
     desiredCount: config.deploy.api.count,
     assignPublicIp: true,
+    targetProtocol: elb.ApplicationProtocol.HTTPS,
+    domainName: config.apiBaseUrl.replace('https://', ''),
+    domainZone: route53.HostedZone.fromHostedZoneAttributes(
+      stack,
+      'zone',
+      config.deploy.zone
+    ),
+    certificate: acm.Certificate.fromCertificateArn(
+      stack,
+      'ApiCert',
+      config.deploy.apiCertArn
+    ),
   });
 }
 

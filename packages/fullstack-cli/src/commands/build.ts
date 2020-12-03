@@ -1,15 +1,11 @@
 import { spawn } from 'child_process';
 import program from 'commander';
-import {
-  validateApp,
-  getSpawnOptions,
-  cpToPromise,
-  initConfig,
-} from '../helper';
+import { getConfig } from 'config';
+import { validateApp, getSpawnOptions, cpToPromise } from '../helper';
 
 export function build(app: string, { stage }: { stage?: boolean }) {
   validateApp(app);
-  const config = initConfig(stage);
+  const config = getConfig(stage ? 'stage' : undefined);
   return cpToPromise(
     spawn('yarn', ['run', 'build'], {
       env: {
