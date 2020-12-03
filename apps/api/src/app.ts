@@ -22,6 +22,10 @@ Promise.all([connect(), ampq.connect('publish')])
     app.use(compression());
     app.use(cors());
     app.use(bodyParser.json());
+    app.get('/', (req, res) => {
+      res.send('Fullstack API 💪');
+      res.end();
+    });
     const apiRouter = express.Router();
     loadRoutes(apiRouter);
     app.use('/rpc', apiRouter);

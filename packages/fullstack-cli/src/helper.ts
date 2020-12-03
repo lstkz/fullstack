@@ -3,6 +3,8 @@ import fs from 'fs';
 import AWS from 'aws-sdk';
 import dotenv from 'dotenv';
 import { ChildProcess } from 'child_process';
+import Path from 'path';
+import type { AppConfig } from 'config/types';
 import { libs, rootPath, apps, rootApps } from './config';
 
 function isLib(app: string) {
@@ -128,4 +130,15 @@ export function walk(dir: string) {
     }
   });
   return results;
+}
+
+export function initConfig(stage?: boolean): AppConfig {
+  if (stage) {
+    process.env.CONFIG_NAME = 'stage';
+    process.env.STAGE_CONFIG_PASSWORD = fs.readFileSync(
+      Path.join(__dirname, '../../config/stage.key.txt'),
+      'utf8'
+    )!;
+  }
+  return require('config').config;
 }

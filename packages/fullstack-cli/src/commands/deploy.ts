@@ -10,6 +10,7 @@ import {
   getAppRoot,
   getStack,
   getStackOutput,
+  initConfig,
 } from '../helper';
 import { build as buildApp } from './build';
 import mime from 'mime-types';
@@ -51,26 +52,15 @@ async function uploadS3(name: string, bucketName: string) {
 export function init() {
   program
     .command('deploy')
-    .option('--prod', 'deploy to production')
     .option('--stage', 'deploy to stage')
     .option('--no-build', 'skip build')
-    .action(async ({ prod, stage, build }) => {
+    .action(async ({ stage, build }) => {
+      initConfig(stage);
       if (build) {
-        const buildOptions = { prod, stage };
+        const buildOptions = { stage };
         await Promise.all([buildApp('front', buildOptions)]);
       }
-      const env: Record<string, string> = {
-        STACK_NAME: process.env.STACK_NAME ?? 'fs-dev-new',
-        CONFIG_NAME: process.env.CONFIG_NAME!,
-        PROD_CONFIG_PASSWORD: process.env.PROD_CONFIG_PASSWORD!,
-      };
-      if (stage) {
-        env.CONFIG_NAME = 'stage';
-        env.STAGE_CONFIG_PASSWORD = fs.readFileSync(
-          Path.join(__dirname, '../../../config/stage.key.txt'),
-          'utf8'
-        )!;
-      }
+      const stackName = process.env.STACK_NAME ?? 'fs-dev-new';
       await cpToPromise(
         spawn(
           'cdk',
@@ -82,13 +72,15 @@ export function init() {
           {
             env: {
               ...process.env,
-              ...env,
+              STACK_NAME: stackName,
+              CONFIG_NAME: process.env.CONFIG_NAME!,
+              PROD_CONFIG_PASSWORD: process.env.PROD_CONFIG_PASSWORD!,
             },
             ...getSpawnOptions('deploy'),
           }
         )
       );
-      const stack = await getStack(env.STACK_NAME);
+      const stack = await getStack(stackName);
       await uploadS3('front/build', getStackOutput(stack, 'appDeployBucket'));
     });
 }

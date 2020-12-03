@@ -28,11 +28,14 @@ function createMainBucket(stack: cdk.Stack) {
 }
 
 function getDockerEnv() {
+  const passProp = (process.env.CONFIG_NAME + '_CONFIG_PASSWORD').toUpperCase();
+  if (!process.env[passProp]) {
+    throw new Error(`${passProp} is not set`);
+  }
   return {
+    NODE_ENV: 'production',
     CONFIG_NAME: process.env.CONFIG_NAME!,
-    [process.env.CONFIG_NAME + '_CONFIG_PASSWORD']: process.env[
-      process.env.CONFIG_NAME + '_CONFIG_PASSWORD'
-    ]!,
+    [passProp]: process.env[passProp]!,
   };
 }
 
@@ -46,7 +49,7 @@ function createApiTask(
     image: dockerImage,
     memoryLimitMiB: config.deploy.api.memory,
     cpu: config.deploy.api.cpu,
-    command: ['yarn', 'run', 'fs', 'start', 'api', '--prod'],
+    command: ['yarn', 'run', 'start:api'],
     logging: ecs.LogDriver.awsLogs({
       streamPrefix: 'api',
     }),
@@ -75,7 +78,7 @@ function createWorkerTask(
     image: dockerImage,
     memoryLimitMiB: config.deploy.worker.memory,
     cpu: config.deploy.worker.cpu,
-    command: ['yarn', 'run', 'fs', 'start', 'worker', '--prod'],
+    command: ['yarn', 'run', 'start:worker'],
     logging: ecs.LogDriver.awsLogs({
       streamPrefix: 'worker',
     }),

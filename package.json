@@ -1,13 +1,16 @@
 {
   "name": "fullstack-dev",
   "private": true,
-  "scripts": {},
+  "scripts": {
+    "start:api": "cd apps/api && yarn run start:api",
+    "start:worker": "cd apps/api && yarn run start:worker"
+  },
   "engines": {
     "node": "14.x"
   },
   "workspaces": [
     "packages/*",
-    "apps/api2",
+    "apps/api",
     "apps/front",
     "courses"
   ],

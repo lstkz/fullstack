@@ -5,7 +5,7 @@
   "main": "app.js",
   "engines": {},
   "scripts": {
-    "start": "ts-node -T src/app",
+    "start:api": "ts-node -T src/app",
     "start:worker": "ts-node -T src/worker",
     "tsc": "tsc --noEmit",
     "dev": "(NODE_ENV=development ts-node-dev --transpile-only src/app &); (NODE_ENV=development ts-node-dev --transpile-only src/worker)",
@@ -41,6 +41,7 @@
     "mz": "^2.7.0",
     "remeda": "^0.0.27",
     "ts-jest": "^26.4.4",
+    "ts-node": "^9.0.0",
     "ts-node-dev": "next"
   }
 }

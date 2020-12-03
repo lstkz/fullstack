@@ -4,19 +4,21 @@ import {
   validateApp,
   getSpawnOptions,
   cpToPromise,
-  getEnvSettings,
+  initConfig,
 } from '../helper';
 
-export function build(
-  app: string,
-  { prod, stage }: { prod?: boolean; stage?: boolean }
-) {
+export function build(app: string, { stage }: { stage?: boolean }) {
   validateApp(app);
+  const config = initConfig(stage);
   return cpToPromise(
     spawn('yarn', ['run', 'build'], {
       env: {
         ...process.env,
-        ...getEnvSettings({ prod, stage }),
+        BUGSNAG_API_KEY: config.bugsnag.frontKey.toString(),
+        GITHUB_CLIENT_ID: config.github.clientId,
+        GOOGLE_CLIENT_ID: config.google.clientId,
+        API_URL: config.apiBaseUrl,
+        PROTECTED_BASE_URL: '/',
       },
       ...getSpawnOptions(app),
     })
@@ -26,10 +28,9 @@ export function build(
 export function init() {
   program
     .command('build <app>')
-    .option('--prod', 'use prod settings')
     .option('--stage', 'use stage settings')
-    .action(async (app, { prod, stage }) => {
+    .action(async (app, { stage }) => {
       validateApp(app);
-      await build(app, { prod, stage });
+      await build(app, { stage });
     });
 }

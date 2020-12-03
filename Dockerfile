@@ -11,7 +11,6 @@ COPY packages/contract/package.json packages/contract/package.json
 COPY packages/deploy/package.json packages/deploy/package.json
 COPY packages/email-templates/package.json packages/email-templates/package.json
 COPY packages/fullstack-cli/package.json packages/fullstack-cli/package.json
-COPY packages/fullstack-cli/src/bin.js packages/fullstack-cli/src/bin.js
 COPY packages/schema/package.json packages/schema/package.json
 COPY packages/shared/package.json packages/shared/package.json
 COPY packages/ui/package.json packages/ui/package.json
