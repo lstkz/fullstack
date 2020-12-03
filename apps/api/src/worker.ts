@@ -8,7 +8,7 @@ async function start() {
     ampq.addTaskHandler({
       type: binding.type,
       onMessage: message => {
-        binding.handler(message.id, message.payload);
+        return binding.handler(message.id, message.payload);
       },
     });
   });
@@ -16,7 +16,7 @@ async function start() {
     ampq.addEventHandler({
       type: binding.type,
       onMessage: message => {
-        binding.handler(message.id, message.payload);
+        return binding.handler(message.id, message.payload);
       },
     });
   });

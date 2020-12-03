@@ -3,9 +3,9 @@ import * as ecs from '@aws-cdk/aws-ecs';
 import * as ec2 from '@aws-cdk/aws-ec2';
 import * as ecsPatterns from '@aws-cdk/aws-ecs-patterns';
 import * as s3 from '@aws-cdk/aws-s3';
-import * as elb from '@aws-cdk/aws-elasticloadbalancingv2';
 import * as acm from '@aws-cdk/aws-certificatemanager';
 import * as route53 from '@aws-cdk/aws-route53';
+import * as iam from '@aws-cdk/aws-iam';
 import Path from 'path';
 import { createWebDist } from './createWebDist';
 import { config, getPasswordEnv } from 'config';
@@ -69,7 +69,6 @@ function createApiTask(
     taskDefinition: apiTask,
     desiredCount: config.deploy.api.count,
     assignPublicIp: true,
-    targetProtocol: elb.ApplicationProtocol.HTTPS,
     domainName: config.apiBaseUrl.replace('https://', ''),
     domainZone: route53.HostedZone.fromHostedZoneAttributes(
       stack,
@@ -100,6 +99,10 @@ function createWorkerTask(
     }),
     environment: getDockerEnv(),
   });
+  const workerPolicy = new iam.PolicyStatement();
+  workerPolicy.addAllResources();
+  workerPolicy.addActions('ses:sendEmail');
+  workerTask.addToTaskRolePolicy(workerPolicy);
   new ecs.FargateService(stack, 'WorkerService', {
     cluster,
     taskDefinition: workerTask,
