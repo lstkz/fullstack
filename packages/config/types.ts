@@ -34,4 +34,16 @@ export interface AppConfig {
     clientId: string;
     clientSecret: string;
   };
+  deploy: {
+    api: {
+      cpu: number;
+      memory: number;
+      count: number;
+    };
+    worker: {
+      cpu: number;
+      memory: number;
+      count: number;
+    };
+  };
 }

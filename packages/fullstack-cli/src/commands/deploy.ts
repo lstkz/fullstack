@@ -5,7 +5,6 @@ import Path from 'path';
 import fs from 'mz/fs';
 import {
   getSpawnOptions,
-  getEnvSettings,
   cpToPromise,
   walk,
   getAppRoot,
@@ -58,13 +57,20 @@ export function init() {
     .action(async ({ prod, stage, build }) => {
       if (build) {
         const buildOptions = { prod, stage };
-        await Promise.all([
-          buildApp('api', buildOptions),
-          buildApp('front', buildOptions),
-        ]);
+        await Promise.all([buildApp('front', buildOptions)]);
       }
-      const env = getEnvSettings({ prod, stage });
-
+      const env: Record<string, string> = {
+        STACK_NAME: process.env.STACK_NAME ?? 'fs-dev-new',
+        CONFIG_NAME: process.env.CONFIG_NAME!,
+        PROD_CONFIG_PASSWORD: process.env.PROD_CONFIG_PASSWORD!,
+      };
+      if (stage) {
+        env.CONFIG_NAME = 'stage';
+        env.STAGE_CONFIG_PASSWORD = fs.readFileSync(
+          Path.join(__dirname, '../../../config/stage.key.txt'),
+          'utf8'
+        )!;
+      }
       await cpToPromise(
         spawn(
           'cdk',
@@ -82,7 +88,7 @@ export function init() {
           }
         )
       );
-      // const stack = await getStack(env.STACK_NAME || process.env.STACK_NAME!);
-      // await uploadS3('front/build', getStackOutput(stack, 'appDeployBucket'));
+      const stack = await getStack(env.STACK_NAME);
+      await uploadS3('front/build', getStackOutput(stack, 'appDeployBucket'));
     });
 }
