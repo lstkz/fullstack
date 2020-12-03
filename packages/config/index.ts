@@ -7,6 +7,10 @@ type ConfigType = 'stage' | 'prod';
 
 function getPassword(type: ConfigType) {
   const prop = `${type}_CONFIG_PASSWORD`.toUpperCase();
+  const keyFile = Path.join(__dirname, `${type}.key.txt`);
+  if (fs.existsSync(keyFile)) {
+    return fs.readFileSync(keyFile, 'utf-8').trim();
+  }
   const password = process.env[prop];
   if (!password) {
     throw new Error('Password config not defined: ' + prop);
