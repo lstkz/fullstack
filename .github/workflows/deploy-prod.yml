@@ -48,3 +48,5 @@ jobs:
           fs deploy
         env:
           STACK_NAME: fullstack-production
+          CONFIG_NAME: prod
+          PROD_CONFIG_PASSWORD: ${{ secrets.PROD_CONFIG_PASSWORD }}
