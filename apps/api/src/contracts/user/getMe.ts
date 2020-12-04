@@ -1,17 +1,15 @@
 import { S } from 'schema';
 import { User } from 'shared';
-import { UserEntity } from '../../entities/UserEntity';
 import { createContract, createRpcBinding } from '../../lib';
 
 export const getMe = createContract('user.getMe')
-  .params('userId')
+  .params('user')
   .schema({
-    userId: S.string(),
+    user: S.object().appUser(),
   })
   .returns<User>()
-  .fn(async userId => {
-    const user = await UserEntity.getByKey({ userId });
-    return user.toUser();
+  .fn(async user => {
+    return user;
   });
 
 export const getMeRpc = createRpcBinding({

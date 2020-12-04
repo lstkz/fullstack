@@ -1,7 +1,6 @@
 import crypto from 'crypto';
+import cryptoAsync from 'mz/crypto';
 import { Response } from 'node-fetch';
-import * as R from 'remeda';
-import { AppError } from './errors';
 
 const SECURITY = {
   SALT_LENGTH: 64,
@@ -9,43 +8,69 @@ const SECURITY = {
   PASSWORD_LENGTH: 64,
 };
 
-async function randomBytes(size: number) {
-  return new Promise<Buffer>((resolve, reject) => {
-    crypto.randomBytes(size, (err, buf) => {
-      if (err) {
-        reject(err);
-      } else {
-        resolve(buf);
-      }
-    });
-  });
+export function renameId<T extends { _id: any }>(
+  obj: T
+): Omit<T, '_id'> & { id: string } {
+  const ret: any = { ...obj };
+  ret.id = ret._id.toString();
+  delete ret._id;
+  return ret;
 }
 
-async function pbkdf2(
-  password: crypto.BinaryLike,
-  salt: crypto.BinaryLike,
-  iterations: number,
-  keylen: number,
-  digest: string
-) {
-  return new Promise<Buffer>((resolve, reject) => {
-    crypto.pbkdf2(password, salt, iterations, keylen, digest, (err, buf) => {
-      if (err) {
-        reject(err);
-      } else {
-        resolve(buf);
-      }
-    });
-  });
+export function randomInt() {
+  return crypto.randomBytes(4).readUInt32BE(0);
+}
+
+export function randomUniqString() {
+  return randomString(15);
+}
+
+export async function hashPassword(password: string, salt: string) {
+  const buffer = await cryptoAsync.pbkdf2(
+    password,
+    salt,
+    process.env.NODE_ENV === 'production' ? 100000 : 100,
+    512,
+    'sha512'
+  );
+  return buffer.toString('hex');
+}
+
+export function randomString(len: number) {
+  const charSet =
+    'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+  let randomString = '';
+  for (let i = 0; i < len; i++) {
+    let randomPoz = randomInt() % charSet.length;
+    randomString += charSet[randomPoz];
+  }
+  return randomString;
+}
+
+export function safeAssign<T>(obj: T, values: Partial<T>) {
+  return Object.assign(obj, values);
+}
+
+export function safeExtend<T, U>(obj: T, values: U): T & U {
+  return Object.assign(obj, values);
+}
+
+export function safeKeys<T>(obj: T): Array<keyof T> {
+  return Object.keys(obj) as any;
+}
+
+export function randomItem<T>(items: T[]) {
+  const idx = randomInt() % items.length;
+  return items[idx];
 }
 
 export async function randomSalt() {
-  const buffer = await randomBytes(SECURITY.SALT_LENGTH);
+  const buffer = await cryptoAsync.randomBytes(SECURITY.SALT_LENGTH);
   return buffer.toString('hex');
 }
 
 export async function createPasswordHash(password: string, salt: string) {
-  const hash = await pbkdf2(
+  const hash = await cryptoAsync.pbkdf2(
     password,
     salt,
     SECURITY.ITERATIONS,
@@ -53,43 +78,6 @@ export async function createPasswordHash(password: string, salt: string) {
     'sha1'
   );
   return hash.toString('hex');
-}
-
-export function randomString(length: number) {
-  const chars = 'abcdefghijklmnopqrstuwxyzABCDEFGHIJKLMNOPQRSTUWXYZ0123456789';
-  const randomBytes = crypto.randomBytes(length);
-  const result = new Array(length);
-  let cursor = 0;
-  for (let i = 0; i < length; i++) {
-    cursor += randomBytes[i];
-    result[i] = chars[cursor % chars.length];
-  }
-  return result.join('');
-}
-
-export function randomUniqString() {
-  return randomString(15);
-}
-
-export async function getResponseBody<T = any>(opName: string, res: Response) {
-  if (res.status !== 200) {
-    const msg = `${opName} failed with code: ${res.status}`;
-    console.error(msg, {
-      responseText: await res.text(),
-    });
-    throw new Error(msg);
-  }
-  const body = await res.json();
-  if (body.error) {
-    const msg = `${opName} failed with code: ${
-      body.error_description || body.error
-    }`;
-    console.error(msg, {
-      body,
-    });
-    throw new Error(msg);
-  }
-  return body as T;
 }
 
 export function getDuration(n: number, type: 's' | 'm' | 'h' | 'd') {
@@ -113,93 +101,23 @@ export function getDuration(n: number, type: 's' | 'm' | 'h' | 'd') {
   }
 }
 
-export function safeAssign<T extends V, V>(target: T, values: V) {
-  Object.assign(target, values);
-  return target;
-}
-
-export function safeKeys<T>(obj: T): Array<keyof T> {
-  return Object.keys(obj) as any;
-}
-
-function getEncHash(data: string) {
-  return crypto.createHash('md5').update(data).digest('hex').substr(0, 10);
-}
-
-export function encLastKey(key: any | undefined | null) {
-  if (!key) {
-    return null;
+export async function getResponseBody<T = any>(opName: string, res: Response) {
+  if (res.status !== 200) {
+    const msg = `${opName} failed with code: ${res.status}`;
+    console.error(msg, {
+      responseText: await res.text(),
+    });
+    throw new Error(msg);
   }
-  const data = Buffer.from(JSON.stringify(key)).toString('base64');
-  return data + '.' + getEncHash(data);
-}
-
-export function decLastKey(key: string | undefined | null): any | null {
-  if (!key) {
-    return null;
+  const body = await res.json();
+  if (body.error) {
+    const msg = `${opName} failed with code: ${
+      body.error_description || body.error
+    }`;
+    console.error(msg, {
+      body,
+    });
+    throw new Error(msg);
   }
-  const [data, hash] = key.split('.');
-  if (!hash) {
-    throw new AppError('Invalid lastKey');
-  }
-  const expectedHash = getEncHash(data);
-  if (hash !== expectedHash) {
-    throw new AppError('Invalid lastKey');
-  }
-  return JSON.parse(Buffer.from(data, 'base64').toString('utf8'));
-}
-
-export function normalizeTags(tags: string[]) {
-  return R.uniq(tags.map(x => x.toLowerCase().trim()));
-}
-
-export function rethrowTransactionCanceled(
-  msg: string = 'Conflict. Please try again.'
-) {
-  return (e: any) => {
-    if (e.code === 'TransactionCanceledException') {
-      throw new AppError(msg);
-    }
-
-    throw e;
-  };
-}
-export function ignoreTransactionCanceled() {
-  return (e: any) => {
-    if (e.code === 'TransactionCanceledException') {
-      return;
-    }
-
-    throw e;
-  };
-}
-
-export function doFn<T>(fn: () => T) {
-  return fn();
-}
-
-export function differenceBy<T, K, R>(
-  items: T[],
-  other: K[],
-  fn: (item: T | K) => R
-) {
-  const set = new Set(other.map(fn));
-  return items.filter(x => !set.has(fn(x)));
-}
-
-export function intersectionBy<T, K, R>(
-  items: T[],
-  other: K[],
-  fn: (item: T | K) => R
-) {
-  const set = new Set(other.map(fn));
-  return items.filter(x => set.has(fn(x)));
-}
-
-export function md5(str: string) {
-  return crypto.createHash('md5').update(str).digest('hex');
-}
-
-export function roundCurrency(n: number) {
-  return Math.round(n * 100) / 100;
+  return body as T;
 }

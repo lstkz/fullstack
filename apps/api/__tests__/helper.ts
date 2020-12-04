@@ -1,64 +1,26 @@
-import { dynamodb } from '../src/lib';
-import { Converter } from 'aws-sdk/clients/dynamodb';
-import { TABLE_NAME } from '../src/config';
-import { esClearIndex, exIndexBulk } from '../src/common/elastic';
 import { ContractMeta } from 'contract';
+import { ObjectID } from 'mongodb';
 import { Convert } from 'schema';
-import { handler } from '../src/handler';
+import loadRoutes from '../src/common/loadRoutes';
+import {
+  connect,
+  createCollections,
+  disconnect,
+  getAllCollection,
+} from '../src/db';
+import { Handler } from '../src/types';
+
+export async function initDb() {
+  await connect();
+  await createCollections();
+}
 
 export async function resetDb() {
-  const deleteNext = async () => {
-    const ret = await dynamodb
-      .scan({
-        TableName: TABLE_NAME,
-      })
-      .promise();
-
-    if (!ret.Count) {
-      return;
-    }
-
-    await Promise.all(
-      (ret.Items || []).map(item =>
-        dynamodb
-          .deleteItem({
-            TableName: TABLE_NAME,
-            Key: {
-              pk: item.pk,
-              sk: item.sk,
-            },
-          })
-          .promise()
-      )
-    );
-
-    await deleteNext();
-  };
-
-  await deleteNext();
-}
-
-export async function esReIndexFromDynamo(entityType: string) {
-  const ret = await dynamodb
-    .scan(
-      {
-        TableName: TABLE_NAME,
-        FilterExpression: `entityType = :entityType`,
-        ExpressionAttributeValues: {
-          ':entityType': { S: entityType },
-        },
-      },
-      undefined
-    )
-    .promise();
-  await esClearIndex(entityType);
-  await exIndexBulk(
-    ret!.Items!.map(item => ({
-      type: 'index',
-      entity: Converter.unmarshall(item) as any,
-    }))
+  await Promise.all(
+    getAllCollection().map(collection => collection.deleteMany({}))
   );
 }
+
 type ExtractParams<T> = T extends ContractMeta<infer S>
   ? Omit<
       Convert<
@@ -66,12 +28,66 @@ type ExtractParams<T> = T extends ContractMeta<infer S>
           [P in keyof S]: Convert<S[P]>;
         }
       >,
-      'userId'
+      'user'
     >
   : never;
+
+let routeMap: Record<string, Handler[]> = null!;
 
 export function execContract<
   T extends ((...args: any[]) => any) & ContractMeta<any>
 >(contract: T, params: ExtractParams<T>, accessToken?: string): ReturnType<T> {
-  return handler(contract.getSignature(), params, accessToken) as any;
+  if (!routeMap) {
+    routeMap = {};
+    loadRoutes({
+      post(url: string, handlers: Handler[]) {
+        const signature = url.substr(1);
+        routeMap[signature] = handlers;
+      },
+    } as any);
+  }
+  const handlers = routeMap[contract.getSignature()];
+  if (!handlers) {
+    throw new Error('Signature not found: ' + contract.getSignature());
+  }
+  return new Promise<any>((resolve, reject) => {
+    const req: any = {
+      body: params,
+      headers: {},
+      header(str: string) {
+        if (str === 'x-token') {
+          return accessToken;
+        }
+        return undefined;
+      },
+    };
+    const res: any = {
+      json: resolve,
+    };
+    let i = 0;
+    const processNext = (err?: any) => {
+      if (err) {
+        reject(err);
+        return;
+      }
+      const handler = handlers[i];
+      if (!handler) {
+        reject(new Error('No next handler'));
+        return;
+      }
+      i++;
+      handler(req, res, processNext);
+    };
+    processNext();
+  }) as any;
+}
+
+export function getId(nr: number) {
+  return ObjectID.createFromHexString(nr.toString().padStart(24, '0'));
+}
+
+export function setupDb() {
+  beforeAll(initDb);
+  beforeEach(resetDb);
+  afterAll(disconnect);
 }

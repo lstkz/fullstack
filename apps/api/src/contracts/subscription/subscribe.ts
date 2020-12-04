@@ -1,11 +1,14 @@
 import { S } from 'schema';
 import { SubscriptionResult } from 'shared';
-import { SubscriptionEntity } from '../../entities/SubscriptionEntity';
-import { SubscriptionRequestEntity } from '../../entities/SubscriptionRequestEntity';
 import { createContract, createRpcBinding } from '../../lib';
 import { randomUniqString } from '../../common/helper';
-import { APP_BASE_URL } from '../../config';
-import { dispatch } from '../../dispatch';
+import { config } from 'config';
+import { SubscriptionCollection } from '../../collections/Subscription';
+import {
+  SubscriptionRequestCollection,
+  SubscriptionRequestModel,
+} from '../../collections/SubscriptionRequest';
+import { dispatchTask } from '../../dispatch';
 
 export const subscribe = createContract('subscription.subscribe')
   .params('name', 'email')
@@ -15,9 +18,7 @@ export const subscribe = createContract('subscription.subscribe')
   })
   .returns<SubscriptionResult>()
   .fn(async (name, email) => {
-    const existing = await SubscriptionEntity.getByKeyOrNull({
-      email: email,
-    });
+    const existing = await SubscriptionCollection.findOneByEmail(email);
     if (existing) {
       return {
         result: 'already-subscribed',
@@ -25,19 +26,21 @@ export const subscribe = createContract('subscription.subscribe')
     }
     const subId = randomUniqString();
     const unsubscribeCode = randomUniqString();
-    const subscriptionRequest = new SubscriptionRequestEntity({
-      id: subId,
-      name,
+    const subscriptionRequest: SubscriptionRequestModel = {
+      _id: subId,
       email,
       unsubscribeCode,
-    });
-    const confirmLink = `${APP_BASE_URL}?confirm-email=${subId}`;
-    const unsubscribeLink = `${APP_BASE_URL}?unsubscribe=${unsubscribeCode}&source=request&email=${encodeURIComponent(
+    };
+    const confirmLink = `${config.appBaseUrl}?confirm-email=${subId}`;
+    const unsubscribeLink = `${
+      config.appBaseUrl
+    }?unsubscribe=${unsubscribeCode}&source=request&email=${encodeURIComponent(
       email
     )}`;
 
-    await dispatch({
-      type: 'SendEmailEvent',
+    await SubscriptionRequestCollection.insertOne(subscriptionRequest);
+    await dispatchTask({
+      type: 'SendEmail',
       payload: {
         to: email,
         subject: '👋 Potwierdź subskrypcję',
@@ -54,8 +57,6 @@ export const subscribe = createContract('subscription.subscribe')
         },
       },
     });
-
-    await subscriptionRequest.insert();
 
     return {
       result: 'ok',

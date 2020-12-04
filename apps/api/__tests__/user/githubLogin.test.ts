@@ -1,7 +1,7 @@
 import { mocked } from 'ts-jest/utils';
 import { exchangeCode, getUserData } from '../../src/common/github';
 import { _createUser } from '../../src/contracts/user/_createUser';
-import { execContract, resetDb } from '../helper';
+import { execContract, getId, setupDb } from '../helper';
 import { githubLogin } from '../../src/contracts/user/githubLogin';
 
 jest.mock('../../src/common/github');
@@ -9,15 +9,15 @@ jest.mock('../../src/common/github');
 const mockedExchangeCode = mocked(exchangeCode);
 const mockedGetUserData = mocked(getUserData);
 
-beforeAll(() => {
+setupDb();
+
+beforeAll(async () => {
   mockedExchangeCode.mockImplementation(async () => '123');
 });
 
-beforeEach(resetDb);
-
 it('should login successfully', async () => {
   await _createUser({
-    userId: '1',
+    userId: getId(1),
     email: 'user1@example.com',
     password: 'pass',
     githubId: 123,
@@ -33,7 +33,7 @@ it('should login successfully', async () => {
   const ret = await execContract(githubLogin, {
     code: 'abc',
   });
-  expect(ret.user.id).toEqual('1');
+  expect(ret.user.id.toString()).toEqual(getId(1).toString());
 });
 
 it('should throw an error if not registered', async () => {

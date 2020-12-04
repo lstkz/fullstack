@@ -1,8 +1,7 @@
 import React from 'react';
 import { render } from 'mjml-react';
-
-import { EMAIL_SENDER } from '../config';
 import { ses } from '../lib';
+import { config } from 'config';
 
 interface SendEmailOptions {
   to: string;
@@ -14,7 +13,7 @@ export async function sendSESEmail(options: SendEmailOptions) {
   const { body, subject, to } = options;
   await ses
     .sendEmail({
-      Source: EMAIL_SENDER,
+      Source: config.emailSender,
       Destination: {
         ToAddresses: [to],
       },

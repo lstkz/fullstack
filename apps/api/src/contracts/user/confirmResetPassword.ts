@@ -1,12 +1,13 @@
 import { S } from 'schema';
-import { createContract, createRpcBinding, createTransaction } from '../../lib';
+import { createContract, createRpcBinding } from '../../lib';
 import { _createUser } from './_createUser';
 import { AppError } from '../../common/errors';
 import { createPasswordHash } from '../../common/helper';
 import { _generateAuthData } from './_generateAuthData';
-import { ResetPasswordCodeEntity } from '../../entities/ResetPasswordCodeEntity';
-import { UserEntity } from '../../entities/UserEntity';
 import { AuthData } from 'shared';
+import { ResetPasswordCodeCollection } from '../../collections/ResetPasswordCode';
+import { UserCollection } from '../../collections/User';
+import { withTransaction } from '../../db';
 
 export const confirmResetPassword = createContract('user.confirmResetPassword')
   .params('code', 'newPassword')
@@ -16,20 +17,20 @@ export const confirmResetPassword = createContract('user.confirmResetPassword')
   })
   .returns<AuthData>()
   .fn(async (code, newPassword) => {
-    const resetCode = await ResetPasswordCodeEntity.getByKeyOrNull({ code });
+    const resetCode = await ResetPasswordCodeCollection.findById(code);
     if (!resetCode) {
       throw new AppError('Invalid or used reset code');
     }
-    if (resetCode.expireAt < Date.now()) {
+    if (resetCode.expireAt.getTime() < Date.now()) {
       throw new AppError('Expired code. Please request password reset again.');
     }
-    const user = await UserEntity.getByKey({ userId: resetCode.userId });
+    const user = await UserCollection.findByIdOrThrow(resetCode.userId);
     const hashedPassword = await createPasswordHash(newPassword, user.salt);
     user.password = hashedPassword;
-    const t = createTransaction();
-    t.update(user, ['password']);
-    t.delete(resetCode);
-    await t.commit();
+    await withTransaction(async () => {
+      await UserCollection.update(user, ['password']);
+      await ResetPasswordCodeCollection.deleteById(code);
+    });
     return _generateAuthData(user);
   });
 

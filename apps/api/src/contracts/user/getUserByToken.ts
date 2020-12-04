@@ -1,8 +1,9 @@
 import { createContract } from '../../lib';
 import { S } from 'schema';
-import { TokenEntity } from '../../entities/TokenEntity';
-import { UserEntity } from '../../entities/UserEntity';
 import { User } from 'shared';
+import { AccessTokenCollection } from '../../collections/AccessToken';
+import { UserCollection } from '../../collections/User';
+import { mapUser } from '../../common/mapper';
 
 export const getUserByToken = createContract('user.getUserByToken')
   .params('token')
@@ -11,10 +12,10 @@ export const getUserByToken = createContract('user.getUserByToken')
   })
   .returns<User | null>()
   .fn(async token => {
-    const tokenEntity = await TokenEntity.getByKeyOrNull({ token });
+    const tokenEntity = await AccessTokenCollection.findById(token);
     if (!tokenEntity) {
       return null;
     }
-    const user = await UserEntity.getByKey({ userId: tokenEntity.userId });
-    return user.toUser();
+    const user = await UserCollection.findByIdOrThrow(tokenEntity.userId);
+    return mapUser(user);
   });

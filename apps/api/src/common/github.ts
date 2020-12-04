@@ -1,6 +1,6 @@
+import { config } from 'config';
 import fetch from 'node-fetch';
 import { getResponseBody } from './helper';
-import { GITHUB_CLIENT_ID, GITHUB_CLIENT_SECRET } from '../config';
 
 const BASE_URL = `https://api.github.com`;
 
@@ -20,8 +20,8 @@ export async function exchangeCode(code: string) {
     method: 'POST',
     headers: getHeaders(),
     body: JSON.stringify({
-      client_id: GITHUB_CLIENT_ID,
-      client_secret: GITHUB_CLIENT_SECRET,
+      client_id: config.github.clientId,
+      client_secret: config.github.clientSecret,
       code,
     }),
   });

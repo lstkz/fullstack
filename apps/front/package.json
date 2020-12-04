@@ -7,9 +7,8 @@
   "sideEffects": false,
   "scripts": {
     "test": "tsc",
-    "dev": "NODE_ENV=development webpack serve",
-    "start": "NODE_ENV=production node server",
-    "build": "NODE_ENV=production webpack"
+    "dev": "ts-node -T --project ./node.tsconfig.json scripts/dev",
+    "build": "ts-node -T --project ./node.tsconfig.json scripts/build"
   },
   "license": "UNLICENCED",
   "dependencies": {

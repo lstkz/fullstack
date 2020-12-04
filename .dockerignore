@@ -1,0 +1,15 @@
+**/node_modules
+**/dist
+**/.cache
+**/build
+**/coverage
+**/.env*
+**/*.log
+**/cdk.out
+*/config/prod.ts
+*/config/*.key.txt
+*/config/stage.ts
+.env
+.env-prod
+.env-stage
+.DS_Store

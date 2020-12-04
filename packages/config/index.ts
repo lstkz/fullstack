@@ -3,10 +3,15 @@ import * as Path from 'path';
 import { decrypt, encrypt } from './cipher';
 import { AppConfig } from './types';
 
-type ConfigType = 'stage' | 'prod';
+type EncryptedConfigType = 'stage' | 'prod';
+type ConfigType = 'dev' | EncryptedConfigType;
 
 function getPassword(type: ConfigType) {
   const prop = `${type}_CONFIG_PASSWORD`.toUpperCase();
+  const keyFile = Path.join(__dirname, `${type}.key.txt`);
+  if (fs.existsSync(keyFile)) {
+    return fs.readFileSync(keyFile, 'utf-8').trim();
+  }
   const password = process.env[prop];
   if (!password) {
     throw new Error('Password config not defined: ' + prop);
@@ -14,8 +19,12 @@ function getPassword(type: ConfigType) {
   return password;
 }
 
-function getConfig(): AppConfig {
-  const type = (process.env.CONFIG_NAME || 'dev') as ConfigType | 'dev';
+function getType(configType?: ConfigType) {
+  return configType || ((process.env.CONFIG_NAME || 'dev') as ConfigType);
+}
+
+export function getConfig(configType?: ConfigType): AppConfig {
+  const type = getType(configType);
   if (!['dev', 'stage', 'prod'].includes(type)) {
     throw new Error('Invalid config name: ' + type);
   }
@@ -25,6 +34,24 @@ function getConfig(): AppConfig {
   const password = getPassword(type);
   const encrypted = fs.readFileSync(getEncryptedPath(type), 'utf8');
   return decrypt(encrypted, password);
+}
+
+export function getPasswordEnv(configType?: ConfigType) {
+  const type = getType(configType);
+  if (type === 'dev') {
+    return {
+      CONFIG_NAME: 'dev',
+    };
+  }
+  const password = getPassword(type);
+  return {
+    CONFIG_NAME: type,
+    [`${type.toUpperCase()}_CONFIG_PASSWORD`]: password,
+  };
+}
+
+export function getMaybeStagePasswordEnv(stage?: boolean) {
+  return getPasswordEnv(stage ? 'stage' : undefined);
 }
 
 export function encryptConfig(type: ConfigType) {

@@ -1,10 +1,11 @@
-import { execContract, resetDb } from '../helper';
+import { execContract, getId, setupDb } from '../helper';
 import { login } from '../../src/contracts/user/login';
 import { registerSampleUsers } from '../seed-data';
 import { _createUser } from '../../src/contracts/user/_createUser';
 
+setupDb();
+
 beforeEach(async () => {
-  await resetDb();
   await registerSampleUsers();
 });
 
@@ -43,19 +44,18 @@ it('login successfully', async () => {
   expect(user.email).toEqual('user1@example.com');
 });
 
-it('should return an error if not verified', async () => {
+it('should log in as non-verified', async () => {
   await _createUser({
-    userId: '3',
+    userId: getId(3),
     email: 'user3@example.com',
     password: 'password3',
     isVerified: false,
   });
-  await expect(
-    execContract(login, {
-      values: {
-        email: 'user3@example.com',
-        password: 'password3',
-      },
-    })
-  ).rejects.toThrow('User is not verified');
+  const { user } = await execContract(login, {
+    values: {
+      email: 'user3@example.com',
+      password: 'password3',
+    },
+  });
+  expect(user.email).toEqual('user3@example.com');
 });

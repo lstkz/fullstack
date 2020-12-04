@@ -34,4 +34,25 @@ export interface AppConfig {
     clientId: string;
     clientSecret: string;
   };
+  deploy: {
+    apiCertArn: string | -1;
+    zone:
+      | {
+          hostedZoneId: string;
+          zoneName: string;
+        }
+      | -1;
+    appDomain: string | -1;
+    appCertArn: string | -1;
+    api: {
+      cpu: number;
+      memory: number;
+      count: number;
+    };
+    worker: {
+      cpu: number;
+      memory: number;
+      count: number;
+    };
+  };
 }

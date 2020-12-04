@@ -1,21 +1,23 @@
 import { S } from 'schema';
-import uuid from 'uuid';
-import { TokenEntity } from '../../entities/TokenEntity';
+import {
+  AccessTokenCollection,
+  AccessTokenModel,
+} from '../../collections/AccessToken';
+import { randomUniqString } from '../../common/helper';
 import { createContract } from '../../lib';
 
 export const createToken = createContract('user.createToken')
   .params('userId', 'fixedToken')
   .schema({
-    userId: S.string(),
+    userId: S.string().objectId(),
     fixedToken: S.string().nullable().optional(),
   })
   .returns<string>()
   .fn(async (userId, fixedToken) => {
-    const token = new TokenEntity({
-      userId,
-      token: fixedToken || uuid(),
-    });
-    await token.insert();
-
-    return token.token;
+    const token: AccessTokenModel = {
+      _id: fixedToken ?? randomUniqString(),
+      userId: userId,
+    };
+    await AccessTokenCollection.insertOne(token);
+    return token._id;
   });

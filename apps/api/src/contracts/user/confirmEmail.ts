@@ -2,9 +2,9 @@ import { S } from 'schema';
 import { createContract, createRpcBinding } from '../../lib';
 import { AppError } from '../../common/errors';
 import { _generateAuthData } from './_generateAuthData';
-import { ConfirmCodeEntity } from '../../entities/ConfirmCodeEntity';
-import { UserEntity } from '../../entities/UserEntity';
 import { AuthData } from 'shared';
+import { ConfirmCodeCollection } from '../../collections/ConfirmCode';
+import { UserCollection } from '../../collections/User';
 
 export const confirmEmail = createContract('user.confirmEmail')
   .params('code')
@@ -13,16 +13,13 @@ export const confirmEmail = createContract('user.confirmEmail')
   })
   .returns<AuthData>()
   .fn(async code => {
-    const confirmCode = await ConfirmCodeEntity.getByKeyOrNull({ code });
+    const confirmCode = await ConfirmCodeCollection.findById(code);
     if (!confirmCode) {
       throw new AppError('Invalid code');
     }
-    if (confirmCode.expiresAt < Date.now()) {
-      throw new AppError('Expires code');
-    }
-    const user = await UserEntity.getByKey({ userId: confirmCode.userId });
+    const user = await UserCollection.findByIdOrThrow(confirmCode.userId);
     user.isVerified = true;
-    await user.update(['isVerified']);
+    await UserCollection.update(user, ['isVerified']);
     return _generateAuthData(user);
   });
 

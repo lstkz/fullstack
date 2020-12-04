@@ -36,4 +36,20 @@ export const config: AppConfig = {
       '931928292425-72gnjpafb3kja4poun2kb4n2mfc8tj7b.apps.googleusercontent.com',
     clientSecret: 'qAloPu3PpycwNblek9uPD-DT',
   },
+  deploy: {
+    apiCertArn: -1,
+    zone: -1,
+    appDomain: -1,
+    appCertArn: -1,
+    api: {
+      cpu: 256,
+      memory: 512,
+      count: 1,
+    },
+    worker: {
+      cpu: 256,
+      memory: 512,
+      count: 1,
+    },
+  },
 };

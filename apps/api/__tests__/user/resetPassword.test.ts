@@ -1,12 +1,19 @@
-import { execContract, resetDb } from '../helper';
+import { execContract, initDb, resetDb } from '../helper';
 import { SES } from 'aws-sdk';
 import { login } from '../../src/contracts/user/login';
 import { confirmResetPassword } from '../../src/contracts/user/confirmResetPassword';
 import { ses } from '../../src/lib';
 import { resetPassword } from '../../src/contracts/user/resetPassword';
 import { registerSampleUsers } from '../seed-data';
+import { disconnect } from '../../src/db';
 
 let resetCode: string = '';
+
+beforeAll(initDb);
+
+beforeEach(resetDb);
+
+afterAll(disconnect);
 
 beforeEach(async () => {
   await resetDb();

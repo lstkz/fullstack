@@ -1,16 +1,17 @@
+import { SubscriptionCollection } from '../../src/collections/Subscription';
 import { unsubscribe } from '../../src/contracts/subscription/unsubscribe';
-import { SubscriptionEntity } from '../../src/entities/SubscriptionEntity';
-import { resetDb } from '../helper';
+import { resetDb, setupDb } from '../helper';
+
+setupDb();
 
 beforeEach(async () => {
   await resetDb();
-  const sub = new SubscriptionEntity({
-    createdAt: 1,
-    name: 'john',
+  await SubscriptionCollection.insertOne({
+    createdAt: new Date(1),
     unsubscribeCode: 'abc',
     email: 'john@example.org',
+    email_lowered: 'john@example.org',
   });
-  await sub.insert();
 });
 
 it('should ignore if email not found', async () => {
@@ -27,8 +28,8 @@ it('should throw error if code not found', async () => {
 
 it('should unsubscribe', async () => {
   await unsubscribe('john@example.org', 'abc', '123');
-  const sub = await SubscriptionEntity.getByKeyOrNull({
-    email: 'john@example.org',
+  const sub = await SubscriptionCollection.findOne({
+    email_lowered: 'john@example.org',
   });
   expect(sub).toBeNull();
 });

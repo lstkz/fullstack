@@ -4,8 +4,8 @@ import { _createUser } from './_createUser';
 import { _generateAuthData } from './_generateAuthData';
 import { AppError } from '../../common/errors';
 import { createPasswordHash } from '../../common/helper';
-import { UserEntity } from '../../entities/UserEntity';
 import { AuthData } from 'shared';
+import { UserCollection } from '../../collections/User';
 
 const INVALID_CRED = 'Invalid credentials or user not found';
 
@@ -23,13 +23,9 @@ export const login = createContract('user.login')
     if (email === 'simulateError' && values.password === 'simulateError') {
       throw new Error('Simulate internal error');
     }
-    const userId = await UserEntity.getUserIdByEmailOrNull(email);
-    if (!userId) {
+    const user = await UserCollection.findOneByEmail(email);
+    if (!user) {
       throw new AppError(INVALID_CRED);
-    }
-    const user = await UserEntity.getByKey({ userId });
-    if (!user.isVerified) {
-      throw new AppError('User is not verified');
     }
     const hash = await createPasswordHash(values.password, user.salt);
     if (user.password !== hash) {

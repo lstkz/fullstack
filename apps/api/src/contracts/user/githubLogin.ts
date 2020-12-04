@@ -1,9 +1,8 @@
 import { S } from 'schema';
 import { AuthData } from 'shared';
+import { UserCollection } from '../../collections/User';
 import { AppError } from '../../common/errors';
 import { exchangeCode, getUserData } from '../../common/github';
-import { GithubUserEntity } from '../../entities/GithubUserEntity';
-import { UserEntity } from '../../entities/UserEntity';
 import { createContract, createRpcBinding } from '../../lib';
 import { _generateAuthData } from './_generateAuthData';
 
@@ -16,13 +15,12 @@ export const githubLogin = createContract('user.githubLogin')
   .fn(async code => {
     const accessToken = await exchangeCode(code);
     const githubData = await getUserData(accessToken);
-    const githubUser = await GithubUserEntity.getByKeyOrNull({
+    const user = await UserCollection.findOne({
       githubId: githubData.id,
     });
-    if (!githubUser) {
+    if (!user) {
       throw new AppError('User is not registered');
     }
-    const user = await UserEntity.getByKey({ userId: githubUser.userId });
     return _generateAuthData(user);
   });
 

@@ -1,9 +1,9 @@
 import { S } from 'schema';
+import { SubscriptionCollection } from '../../collections/Subscription';
+import { SubscriptionRemovedCollection } from '../../collections/SubscriptionRemoved';
 import { AppError } from '../../common/errors';
-import { randomUniqString } from '../../common/helper';
-import { SubscriptionEntity } from '../../entities/SubscriptionEntity';
-import { SubscriptionRemovedEntity } from '../../entities/SubscriptionRemovedEntity';
-import { createContract, createRpcBinding, createTransaction } from '../../lib';
+import { withTransaction } from '../../db';
+import { createContract, createRpcBinding } from '../../lib';
 
 export const unsubscribe = createContract('subscription.unsubscribe')
   .params('email', 'code', 'source')
@@ -13,25 +13,23 @@ export const unsubscribe = createContract('subscription.unsubscribe')
     source: S.string(),
   })
   .fn(async (email, code, source) => {
-    const sub = await SubscriptionEntity.getByKeyOrNull({
-      email,
-    });
+    const sub = await SubscriptionCollection.findOneByEmail(email);
     if (!sub) {
       return;
     }
     if (sub.unsubscribeCode !== code) {
       throw new AppError('Invalid code');
     }
-    const t = createTransaction();
-    t.delete(sub);
-    const subRemoved = new SubscriptionRemovedEntity({
-      id: randomUniqString(),
-      email,
-      source,
-      createdAt: Date.now(),
+    await withTransaction(async () => {
+      const result = await SubscriptionCollection.deleteById(sub._id);
+      if (result.deletedCount) {
+        await SubscriptionRemovedCollection.insertOne({
+          email,
+          source,
+          createdAt: new Date(),
+        });
+      }
     });
-    t.insert(subRemoved);
-    await t.commit();
   });
 
 export const unsubscribeRpc = createRpcBinding({

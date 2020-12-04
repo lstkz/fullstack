@@ -1,6 +1,6 @@
 import { S } from 'schema';
 import { ButtonActionTemplate, MultiLinksTemplate } from 'email-templates';
-import { createContract, createEventBinding } from '../../lib';
+import { createContract, createTaskBinding } from '../../lib';
 import { renderTemplate, sendSESEmail } from '../../common/email';
 import { safeKeys } from '../../common/helper';
 
@@ -19,12 +19,12 @@ export const sendEmail = createContract('notification.sendConfirmEmail')
       params: S.object().unknown(),
     }),
   })
+  .returns<void>()
   .fn(async (to, subject, template) => {
     const html = await renderTemplate(
       templates[template.name],
       template.params
     );
-
     await sendSESEmail({
       to: to,
       subject: subject,
@@ -32,13 +32,9 @@ export const sendEmail = createContract('notification.sendConfirmEmail')
     });
   });
 
-export const sendEmailEvent = createEventBinding({
-  type: 'SendEmailEvent',
-  handler(event) {
-    return sendEmail(
-      event.payload.to,
-      event.payload.subject,
-      event.payload.template
-    );
+export const sendEmailTask = createTaskBinding({
+  type: 'SendEmail',
+  async handler(messageId, task) {
+    await sendEmail(task.to, task.subject, task.template);
   },
 });

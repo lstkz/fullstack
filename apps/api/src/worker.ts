@@ -1,0 +1,37 @@
+import { ampq } from './lib';
+import { reportError } from './common/bugsnag';
+import { getBindings } from './common/bindings';
+import { logger } from './common/logger';
+
+async function start() {
+  getBindings('task').forEach(binding => {
+    ampq.addTaskHandler({
+      type: binding.type,
+      onMessage: message => {
+        return binding.handler(message.id, message.payload);
+      },
+    });
+  });
+  getBindings('event').forEach(binding => {
+    ampq.addEventHandler({
+      type: binding.type,
+      onMessage: message => {
+        return binding.handler(message.id, message.payload);
+      },
+    });
+  });
+
+  await ampq.connect('both');
+  logger.info('Worker started');
+}
+
+start().catch(e => {
+  reportError({
+    error: e,
+    source: 'worker',
+    data: {
+      info: 'Error when starting a worker',
+    },
+  });
+  process.exit(1);
+});

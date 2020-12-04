@@ -1,7 +1,7 @@
 import { S } from 'schema';
+import { SubscriptionCollection } from '../../collections/Subscription';
+import { SubscriptionRequestCollection } from '../../collections/SubscriptionRequest';
 import { AppError } from '../../common/errors';
-import { SubscriptionEntity } from '../../entities/SubscriptionEntity';
-import { SubscriptionRequestEntity } from '../../entities/SubscriptionRequestEntity';
 import { createContract, createRpcBinding } from '../../lib';
 
 export const confirmSubscription = createContract(
@@ -12,25 +12,24 @@ export const confirmSubscription = createContract(
     code: S.string(),
   })
   .fn(async code => {
-    const subscriptionRequest = await SubscriptionRequestEntity.getByKeyOrNull({
-      id: code,
-    });
+    const subscriptionRequest = await SubscriptionRequestCollection.findById(
+      code
+    );
     if (!subscriptionRequest) {
       throw new AppError('Invalid code');
     }
-    let subscription = await SubscriptionEntity.getByKeyOrNull({
-      email: subscriptionRequest.email,
+    let subscription = await SubscriptionCollection.findOne({
+      email_lowered: subscriptionRequest.email.toLocaleLowerCase(),
     });
     if (subscription) {
       return;
     }
-    subscription = new SubscriptionEntity({
-      createdAt: Date.now(),
+    await SubscriptionCollection.insertOne({
+      createdAt: new Date(),
       email: subscriptionRequest.email,
-      name: subscriptionRequest.name,
+      email_lowered: subscriptionRequest.email.toLowerCase(),
       unsubscribeCode: subscriptionRequest.unsubscribeCode,
     });
-    await subscription.insert();
   });
 
 export const confirmSubscriptionRpc = createRpcBinding({
