@@ -1,3 +1,4 @@
+// eslint-disable-next-line no-undef
 module.exports = {
   root: true,
   parser: '@typescript-eslint/parser',
@@ -5,6 +6,7 @@ module.exports = {
     ecmaVersion: 2018,
     sourceType: 'module',
     project: './tsconfig.json',
+    // eslint-disable-next-line no-undef
     tsconfigRootDir: __dirname,
   },
   plugins: ['@typescript-eslint'],

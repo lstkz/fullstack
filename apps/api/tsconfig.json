@@ -13,9 +13,9 @@
   "include": [
     "__tests__/**/*",
     "src/**/*",
-    "webpack.config.js",
     "scripts/**/*",
-    "jest.config.js"
+    "jest.config.js",
+    ".eslintrc.js",
   ],
   "exclude": ["dist"]
 }

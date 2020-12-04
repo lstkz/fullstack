@@ -9,5 +9,12 @@ export interface UserSubscriptionModel {
 }
 
 export const UserSubscriptionCollection = createCollection<UserSubscriptionModel>(
-  'userSubscription'
+  'userSubscription',
+  [
+    {
+      key: {
+        userId: 1,
+      },
+    },
+  ]
 );
