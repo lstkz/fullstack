@@ -39,6 +39,8 @@ export const config: AppConfig = {
   deploy: {
     apiCertArn: -1,
     zone: -1,
+    appDomain: -1,
+    appCertArn: -1,
     api: {
       cpu: 256,
       memory: 512,

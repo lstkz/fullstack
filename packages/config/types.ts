@@ -42,6 +42,8 @@ export interface AppConfig {
           zoneName: string;
         }
       | -1;
+    appDomain: string | -1;
+    appCertArn: string | -1;
     api: {
       cpu: number;
       memory: number;

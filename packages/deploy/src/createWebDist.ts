@@ -1,6 +1,7 @@
 import * as cdk from '@aws-cdk/core';
 import * as s3 from '@aws-cdk/aws-s3';
 import * as cf from '@aws-cdk/aws-cloudfront';
+import { config } from 'config';
 
 export function createWebDist(stack: cdk.Stack, mainBucket: s3.Bucket) {
   const cfIdentity = new cf.OriginAccessIdentity(
@@ -37,10 +38,10 @@ export function createWebDist(stack: cdk.Stack, mainBucket: s3.Bucket) {
     ],
     viewerProtocolPolicy: cf.ViewerProtocolPolicy.REDIRECT_TO_HTTPS,
     aliasConfiguration:
-      process.env.DOMAIN_CERT && process.env.DOMAIN
+      config.deploy.appCertArn !== -1 && config.deploy.appDomain !== -1
         ? {
-            acmCertRef: process.env.DOMAIN_CERT,
-            names: process.env.DOMAIN.split(','),
+            acmCertRef: config.deploy.appCertArn,
+            names: [config.deploy.appDomain],
           }
         : undefined,
     originConfigs: [
