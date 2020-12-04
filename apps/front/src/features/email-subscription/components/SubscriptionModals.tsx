@@ -3,11 +3,14 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React from 'react';
 import { SimpleModal } from 'src/components/SimpleModal';
 import { useActions } from 'typeless';
-import { getSubscriptionState, SubscriptionActions } from '../interface';
+import {
+  getEmailSubscriptionState,
+  EmailSubscriptionActions,
+} from '../interface';
 
 export function SubscriptionModals() {
-  const { visibleModal } = getSubscriptionState.useState();
-  const { hideModal } = useActions(SubscriptionActions);
+  const { visibleModal } = getEmailSubscriptionState.useState();
+  const { hideModal } = useActions(EmailSubscriptionActions);
   return (
     <>
       <SimpleModal

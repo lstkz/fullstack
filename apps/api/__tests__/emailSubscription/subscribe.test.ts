@@ -1,7 +1,7 @@
 import { SES } from 'aws-sdk';
-import { SubscriptionCollection } from '../../src/collections/Subscription';
-import { confirmSubscription } from '../../src/contracts/subscription/confirmSubscription';
-import { subscribe } from '../../src/contracts/subscription/subscribe';
+import { EmailSubscriptionCollection } from '../../src/collections/EmailSubscription';
+import { confirmSubscription } from '../../src/contracts/emailSubscription/confirmEmailSubscription';
+import { subscribe } from '../../src/contracts/emailSubscription/subscribe';
 import { ses } from '../../src/lib';
 import { resetDb, setupDb } from '../helper';
 
@@ -27,12 +27,12 @@ it('subscribe and confirm email', async () => {
   });
   expect(body).toBeTruthy();
   const code = /confirm-email=([^"]+)/.exec(body)![1];
-  let sub = await SubscriptionCollection.findOne({
+  let sub = await EmailSubscriptionCollection.findOne({
     email_lowered: 'john@example.org',
   });
   expect(sub).toBeNull();
   await confirmSubscription(code);
-  sub = await SubscriptionCollection.findOne({
+  sub = await EmailSubscriptionCollection.findOne({
     email_lowered: 'john@example.org',
   });
   expect(sub).not.toBeNull();

@@ -87,7 +87,7 @@ export const ses = new AWS.SES({
 });
 
 export const { createContract } = initialize({
-  debug: false,
+  debug: process.env.NODE_ENV === 'development',
 });
 
 declare module 'schema/src/StringSchema' {

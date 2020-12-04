@@ -49,7 +49,7 @@ module.exports = function generate(plop) {
     actions: [
       {
         type: 'addMany',
-        destination: path.join(__dirname, 'apps/api2/src/collections'),
+        destination: path.join(__dirname, 'apps/api/src/collections'),
         base: '.blueprints/collection',
         templateFiles: '.blueprints/collection/**/**',
       },

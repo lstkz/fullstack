@@ -1,4 +1,4 @@
-import { confirmSubscription } from '../../src/contracts/subscription/confirmSubscription';
+import { confirmSubscription } from '../../src/contracts/emailSubscription/confirmEmailSubscription';
 import { setupDb } from '../helper';
 
 setupDb();

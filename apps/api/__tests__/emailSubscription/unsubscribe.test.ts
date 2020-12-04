@@ -1,12 +1,12 @@
-import { SubscriptionCollection } from '../../src/collections/Subscription';
-import { unsubscribe } from '../../src/contracts/subscription/unsubscribe';
+import { EmailSubscriptionCollection } from '../../src/collections/EmailSubscription';
+import { unsubscribe } from '../../src/contracts/emailSubscription/unsubscribe';
 import { resetDb, setupDb } from '../helper';
 
 setupDb();
 
 beforeEach(async () => {
   await resetDb();
-  await SubscriptionCollection.insertOne({
+  await EmailSubscriptionCollection.insertOne({
     createdAt: new Date(1),
     unsubscribeCode: 'abc',
     email: 'john@example.org',
@@ -28,7 +28,7 @@ it('should throw error if code not found', async () => {
 
 it('should unsubscribe', async () => {
   await unsubscribe('john@example.org', 'abc', '123');
-  const sub = await SubscriptionCollection.findOne({
+  const sub = await EmailSubscriptionCollection.findOne({
     email_lowered: 'john@example.org',
   });
   expect(sub).toBeNull();
