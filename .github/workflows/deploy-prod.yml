@@ -30,10 +30,10 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-yarn-
 
-      - name: Use Node.js 12
+      - name: Use Node.js 14
         uses: actions/setup-node@v1
         with:
-          node-version: 12.x
+          node-version: 14.x
 
       - name: install yarn
         run: yarn install --frozen-lockfile
@@ -48,26 +48,3 @@ jobs:
           fs deploy
         env:
           STACK_NAME: fullstack-production
-          NODE_ENV: production
-          ES_URL: ${{ secrets.PROD_ES_URL }}
-          ES_USERNAME: ${{ secrets.PROD_ES_USERNAME }}
-          ES_PASSWORD: ${{ secrets.PROD_ES_PASSWORD }}
-          SES_REGION: eu-west-1
-          TOPIC_ARN: dummy
-          DOMAIN: fullstack.pl
-          DOMAIN_CERT: arn:aws:acm:us-east-1:761975498781:certificate/02c0ca60-e3bc-4cab-a15c-2443541e2a3c
-          FIX_INDEX_LAMBDA_ARN: arn:aws:lambda:us-east-1:761975498781:function:fix-index:1
-          API_URL: "https://api.fullstack.pl"
-          API_BASE_URL: "https://api.fullstack.pl"
-          APP_BASE_URL: "https://fullstack.pl"
-          PROTECTED_BASE_URL: /
-          TPAY_CUSTOMER_ID: ${{ secrets.TPAY_CUSTOMER_ID }}
-          TPAY_API_KEY: ${{ secrets.TPAY_API_KEY }}
-          TPAY_PASSWORD: ${{ secrets.TPAY_PASSWORD }}
-          TPAY_CODE: ${{ secrets.TPAY_CODE }}
-          TPAY_RESULT_EMAIL: ${{ secrets.TPAY_RESULT_EMAIL }}
-          GITHUB_CLIENT_ID: ${{ secrets.PROD_GITHUB_CLIENT_ID }}
-          GITHUB_CLIENT_SECRET: ${{ secrets.PROD_GITHUB_CLIENT_SECRET }}
-          GOOGLE_CLIENT_ID: ${{ secrets.PROD_GOOGLE_CLIENT_ID }}
-          GOOGLE_CLIENT_SECRET: ${{ secrets.PROD_GOOGLE_CLIENT_SECRET }}
-          LANDING_PAGE_ONLY: true

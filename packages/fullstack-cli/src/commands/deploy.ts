@@ -13,7 +13,7 @@ import {
 } from '../helper';
 import { build as buildApp } from './build';
 import mime from 'mime-types';
-import { getPasswordEnv } from 'config';
+import { getMaybeStagePasswordEnv } from 'config';
 
 const s3 = new AWS.S3();
 
@@ -72,7 +72,7 @@ export function init() {
             env: {
               ...process.env,
               STACK_NAME: stackName,
-              ...getPasswordEnv(stage ? 'stage' : undefined),
+              ...getMaybeStagePasswordEnv(stage),
             },
             ...getSpawnOptions('deploy'),
           }

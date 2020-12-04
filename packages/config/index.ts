@@ -50,6 +50,10 @@ export function getPasswordEnv(configType?: ConfigType) {
   };
 }
 
+export function getMaybeStagePasswordEnv(stage?: boolean) {
+  return getPasswordEnv(stage ? 'stage' : undefined);
+}
+
 export function encryptConfig(type: ConfigType) {
   const config = require('./' + type).config;
   if (!config) {
