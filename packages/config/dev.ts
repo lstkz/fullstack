@@ -52,4 +52,11 @@ export const config: AppConfig = {
       count: 1,
     },
   },
+  tpay: {
+    apiKey: '111',
+    code: '222',
+    customerId: 123,
+    password: '444',
+    resultEmail: 'sirmims@gmail.com',
+  },
 };

@@ -301,3 +301,19 @@ export function createCollections() {
     })
   );
 }
+
+export function createFlagTransaction(uniqueId: string) {
+  const FlagCollection = require('./collections/Flag')
+    .FlagCollection as DbCollection<any>;
+  return async (stepName: string, fn: () => Promise<void>) => {
+    await withTransaction(async () => {
+      const flagId = `${uniqueId}:${stepName}`;
+      const existing = await FlagCollection.findById(flagId);
+      if (existing) {
+        return;
+      }
+      await fn();
+      await FlagCollection.insertOne({ _id: flagId });
+    });
+  };
+}

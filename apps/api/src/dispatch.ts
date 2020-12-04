@@ -7,15 +7,12 @@ export async function dispatchEvent(event: AppEvent) {
   if (process.env.NODE_ENV !== 'test') {
     await ampq.publishEvent(event);
   } else {
-    // const { eventMapping } = await import('./generated/event-mapping');
-    // const handlerMap = eventMapping[event.type] || {};
-    // const keys = Object.keys(handlerMap);
-    // await Promise.all(
-    //   keys.map(async key => {
-    //     const { options } = await handlerMap[key]();
-    //     await options.handler(event as any);
-    //   })
-    // );
+    const bindings = getBindings('event');
+    const target = bindings.find(x => x.type === event.type);
+    if (!target) {
+      return;
+    }
+    await target.handler(randomUniqString(), event.payload);
   }
 }
 

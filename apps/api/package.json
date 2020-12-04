@@ -11,7 +11,8 @@
     "dev": "(NODE_ENV=development ts-node-dev --transpile-only src/app &); (NODE_ENV=development ts-node-dev --transpile-only src/worker)",
     "test": "yarn run tsc && yarn run jest",
     "build": "rm dist/*; yarn run webpack --progress --color",
-    "jest": "jest"
+    "jest": "jest",
+    "lint": "eslint . --ext .ts"
   },
   "keywords": [],
   "author": "",
@@ -32,6 +33,7 @@
     "compression": "^1.7.4",
     "config": "*",
     "cors": "^2.8.5",
+    "date-fns": "^2.16.1",
     "email-templates": "*",
     "express": "^4.17.1",
     "jest": "^26.6.3",
