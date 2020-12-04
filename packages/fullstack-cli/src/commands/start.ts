@@ -1,26 +1,33 @@
 import { spawn } from 'child_process';
 import program from 'commander';
-import { validateApp, getSpawnOptions, getEnvSettings } from '../helper';
+import { validateApp, getSpawnOptions } from '../helper';
 
 export function init() {
   program
     .command('start <app>')
     .option('-p, --prod', 'start in production mode')
-    .option('-b, --build', 'build app before starting')
-    .action(async (app, { prod, build }) => {
+    .action(async (app, { prod }) => {
       let isWorker = app === 'worker';
+      let isApi = app === 'api';
       if (isWorker) {
         app = 'api';
       }
       validateApp(app);
-      const env = getEnvSettings({});
       spawn(
         'yarn',
-        ['run', prod ? (isWorker ? 'start:worker' : 'start') : 'dev'],
+        [
+          'run',
+          prod
+            ? isWorker
+              ? 'start:worker'
+              : isApi
+              ? 'start:api'
+              : 'start'
+            : 'dev',
+        ],
         {
           env: {
             ...process.env,
-            ...env,
           },
           ...getSpawnOptions(app),
         }
