@@ -48,3 +48,21 @@ export interface TPayGroup {
   img: string;
   main_bank_id: number;
 }
+
+export interface PriceDefinition {
+  net: number;
+  vat: number;
+  vatRate: number;
+  total: number;
+}
+
+export type SubscriptionPlanType = 'monthly' | 'annual';
+
+export interface SubscriptionPlan {
+  id: string;
+  name: string;
+  type: SubscriptionPlanType;
+  price: PriceDefinition;
+  pricePerMonth: number;
+  savings: number;
+}

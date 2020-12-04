@@ -1,22 +1,26 @@
-import { Course, TPayGroup } from 'shared';
+import { SubscriptionPlan, SubscriptionPlanType, TPayGroup } from 'shared';
 import { RouteConfig } from 'src/types';
 import { createModule } from 'typeless';
-import { CheckoutSymbol } from './symbol';
+import { SubscriptionSymbol } from './symbol';
 
 // --- Actions ---
-export const [handle, CheckoutActions, getCheckoutState] = createModule(
-  CheckoutSymbol
+export const [handle, SubscriptionActions, getSubscriptionState] = createModule(
+  SubscriptionSymbol
 )
   .withActions({
     $mounted: null,
     $init: null,
-    setCount: (count: number) => ({ payload: { count } }),
-    courseLoaded: (course: Course) => ({ payload: { course } }),
     groupsLoaded: (tpayGroups: TPayGroup[]) => ({
       payload: { tpayGroups },
     }),
     setIsSubmitting: (isSubmitting: boolean) => ({ payload: { isSubmitting } }),
     setIsDone: (isDone: boolean) => ({ payload: { isDone } }),
+    subscriptionPlansLoaded: (subscriptionPlans: SubscriptionPlan[]) => ({
+      payload: { subscriptionPlans },
+    }),
+    changePlanType: (planType: SubscriptionPlanType) => ({
+      payload: { planType },
+    }),
   })
   .withState<CheckoutState>();
 
@@ -25,17 +29,16 @@ export const [handle, CheckoutActions, getCheckoutState] = createModule(
 export const routeConfig: RouteConfig = {
   type: 'route',
   auth: 'any',
-  path: '/checkout/:courseId',
+  path: '/subscription',
   component: () =>
-    import('./components/CheckoutView').then(x => x.CheckoutView),
+    import('./components/SubscriptionView').then(x => x.SubscriptionView),
 };
 
 // --- Types ---
 export interface CheckoutState {
   isDone: boolean;
+  planType: SubscriptionPlanType;
   isSubmitting: boolean;
-  count: number;
-  course: Course | null;
   tpayGroups: TPayGroup[] | null;
-  priceNet: number;
+  subscriptionPlans: SubscriptionPlan[];
 }

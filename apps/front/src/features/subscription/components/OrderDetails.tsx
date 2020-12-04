@@ -1,11 +1,11 @@
 import * as React from 'react';
-import { Button } from 'src/components/Button';
 import { Col, Row } from 'src/components/Grid';
 import { Heading } from 'src/components/Heading';
+import { Select } from 'src/components/Select';
 import { MEDIA_MD, Theme } from 'src/Theme';
 import styled from 'styled-components';
 import { useActions } from 'typeless';
-import { CheckoutActions, getCheckoutState } from '../interface';
+import { SubscriptionActions, getSubscriptionState } from '../interface';
 
 interface OrderDetailsProps {
   className?: string;
@@ -45,26 +45,6 @@ const BorderRow = styled(Row)`
   margin-top: 1rem;
 `;
 
-const AmountWrapper = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: flex-end;
-  height: 2rem;
-  ${Price} {
-    margin: 0 0.5rem;
-  }
-  ${Button} {
-    padding: 0;
-    width: 1.5rem;
-    height: 1.5rem;
-  }
-`;
-
-const CenteredCol = styled(Col)`
-  display: flex;
-  align-items: center;
-`;
-
 function _round(n: number) {
   return Math.round(n * 100) / 100;
 }
@@ -81,64 +61,41 @@ function _formatPrice(n: number) {
 
 const _OrderDetails = (props: OrderDetailsProps) => {
   const { className } = props;
-  const { setCount } = useActions(CheckoutActions);
-  const { count, priceNet } = getCheckoutState.useState();
-  const totalNetto = priceNet * count;
-  const totalVat = _round(totalNetto * 0.23);
-  const total = totalNetto + totalVat;
+  const { changePlanType } = useActions(SubscriptionActions);
+  const { subscriptionPlans, planType } = getSubscriptionState.useState();
 
   const leftSize = 8;
   const rightSize = 12 - leftSize;
+
+  const options = React.useMemo(() => {
+    return subscriptionPlans.map(item => {
+      let name = `${item.name} - ${item.pricePerMonth}zł na miesiąc`;
+      return {
+        value: item.id,
+        label: name,
+      };
+    });
+  }, [subscriptionPlans]);
+  const selectedPlan = subscriptionPlans.find(x => x.id === planType)!;
+
   return (
     <div className={className}>
       <Header>
-        <Heading type={6}>Zamówienie</Heading>
+        <Heading type={6}>Wybierz plan</Heading>
       </Header>
       <Body>
-        <Row>
-          <Col sm={leftSize}>
-            <Text>Typescript i podstawy algorytmiki</Text>
-          </Col>
-          <Col sm={rightSize}>
-            <Price>{_formatPrice(priceNet)}</Price>
-          </Col>
-        </Row>
-        <Row mt={2}>
-          <CenteredCol sm={leftSize}>
-            <Text>Ilość</Text>
-          </CenteredCol>
-          <Col sm={rightSize}>
-            <AmountWrapper>
-              <Button
-                size="extra-small"
-                type="secondary"
-                onClick={() => {
-                  if (count > 1) {
-                    setCount(count - 1);
-                  }
-                }}
-              >
-                -
-              </Button>
-              <Price>{count}</Price>
-              <Button
-                size="extra-small"
-                type="secondary"
-                onClick={() => {
-                  setCount(count + 1);
-                }}
-              >
-                +
-              </Button>
-            </AmountWrapper>
-          </Col>
-        </Row>
+        <Select
+          onChange={opt => changePlanType(opt!.value as any)}
+          valueColor={Theme.headings_color}
+          value={options.find(x => x.value === planType)}
+          options={options}
+        />
         <BorderRow>
           <Col sm={leftSize}>
             <Text>Cena netto:</Text>
           </Col>
           <Col sm={rightSize}>
-            <Price>{_formatPrice(totalNetto)}</Price>
+            <Price>{_formatPrice(selectedPlan.price.net)}</Price>
           </Col>
         </BorderRow>
         <BorderRow>
@@ -146,7 +103,7 @@ const _OrderDetails = (props: OrderDetailsProps) => {
             <Text>VAT (23%):</Text>
           </Col>
           <Col sm={rightSize}>
-            <Price>{_formatPrice(totalVat)}</Price>
+            <Price>{_formatPrice(selectedPlan.price.vat)}</Price>
           </Col>
         </BorderRow>
         <BorderRow>
@@ -154,7 +111,7 @@ const _OrderDetails = (props: OrderDetailsProps) => {
             <BigText>Do zapłaty:</BigText>
           </Col>
           <Col sm={rightSize}>
-            <BigText right>{_formatPrice(total)}</BigText>
+            <BigText right>{_formatPrice(selectedPlan.price.total)}</BigText>
           </Col>
         </BorderRow>
       </Body>

@@ -53,10 +53,10 @@ export const config: AppConfig = {
     },
   },
   tpay: {
-    apiKey: '111',
-    code: '222',
-    customerId: 123,
-    password: '444',
+    apiKey: '75f86137a6635df826e3efe2e66f7c9a946fdde1',
+    code: 'demo',
+    customerId: 1010,
+    password: 'p@$$w0rd#@!',
     resultEmail: 'sirmims@gmail.com',
   },
 };

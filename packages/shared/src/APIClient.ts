@@ -3,7 +3,13 @@ import { ajax, AjaxRequest } from 'rxjs/ajax';
 import { map } from 'rxjs/operators';
 
 // IMPORTS
-import { SubscriptionResult, AuthData, User } from './types';
+import {
+  SubscriptionResult,
+  TPayGroup,
+  SubscriptionPlan,
+  AuthData,
+  User,
+} from './types';
 // IMPORTS END
 
 export class APIClient {
@@ -31,6 +37,47 @@ export class APIClient {
     source: string
   ): Rx.Observable<unknown> {
     return this.call('emailSubscription.unsubscribe', { email, code, source });
+  }
+  subscription_getTPayGroups(): Rx.Observable<TPayGroup[]> {
+    return this.call('subscription.getTPayGroups', {});
+  }
+  subscription_purchase(values: {
+    subscriptionPlanId: string;
+    tpayGroup: number;
+    customer: {
+      firstName: string;
+      lastName: string;
+      address: string;
+      postalCode: string;
+      city: string;
+      companyName?: string | undefined;
+      companyVat?: string | undefined;
+    };
+  }): Rx.Observable<{ paymentUrl: string }> {
+    return this.call('subscription.purchase', { values });
+  }
+  subscription_tpayHook(
+    values: {
+      id: string;
+      tr_id: string;
+      tr_date: string;
+      tr_crc: string;
+      tr_amount: string;
+      tr_paid: string;
+      tr_desc: string;
+      tr_status: 'TRUE' | 'FALSE';
+      tr_error: string;
+      tr_email: string;
+      test_mode: string;
+      md5sum: string;
+    } & { [key: string]: any }
+  ): Rx.Observable<'TRUE' | 'FALSE'> {
+    return this.call('subscription.tpayHook', { values });
+  }
+  subscriptionPlan_getAllSubscriptionPlans(): Rx.Observable<
+    SubscriptionPlan[]
+  > {
+    return this.call('subscriptionPlan.getAllSubscriptionPlans', {});
   }
   user_confirmEmail(code: string): Rx.Observable<AuthData> {
     return this.call('user.confirmEmail', { code });
