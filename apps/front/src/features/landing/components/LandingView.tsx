@@ -1,6 +1,6 @@
 import React from 'react';
 import { useLandingModule } from '../module';
-import { useSubscribeForm } from '../../subscription/subscribe-form';
+import { useEmailSubscribeForm } from '../../email-subscription/emailSubscribe-form';
 import { FaqSection } from './FaqSection';
 import { LandingFooter } from './LandingFooter';
 import { LandingHeader } from './LandingHeader';
@@ -11,7 +11,7 @@ import { SubscribeSection } from './SubscribeSection';
 import { TargetSection } from './TargetSection';
 
 export function LandingView() {
-  useSubscribeForm();
+  useEmailSubscribeForm();
   useLandingModule();
   return (
     <>

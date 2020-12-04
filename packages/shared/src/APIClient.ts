@@ -3,7 +3,7 @@ import { ajax, AjaxRequest } from 'rxjs/ajax';
 import { map } from 'rxjs/operators';
 
 // IMPORTS
-import { Course, TPayGroup, SubscriptionResult, AuthData, User } from './types';
+import { SubscriptionResult, AuthData, User } from './types';
 // IMPORTS END
 
 export class APIClient {
@@ -16,102 +16,21 @@ export class APIClient {
   }
 
   // SIGNATURES
-  course_getAllCourses(): Rx.Observable<Course[]> {
-    return this.call('course.getAllCourses', {});
+  emailSubscription_confirmSubscription(code: string): Rx.Observable<unknown> {
+    return this.call('emailSubscription.confirmSubscription', { code });
   }
-  course_getCourse(courseId: string): Rx.Observable<Course> {
-    return this.call('course.getCourse', { courseId });
-  }
-  course_updateCourse(
-    course: {
-      name: string;
-      description: string;
-      price: number;
-      promoPrice: number;
-      promoEnds: Date;
-      id: string;
-    },
-    lessons: {
-      name: string;
-      id: number;
-      week: number;
-      sources: { resolution: number; s3Key: string }[];
-    }[],
-    tasks: {
-      name: string;
-      id: number;
-      week: number;
-      detailsS3Key: string;
-      sourceS3Key: string;
-    }[]
-  ): Rx.Observable<unknown> {
-    return this.call('course.updateCourse', { course, lessons, tasks });
-  }
-  errorReporting_reportFrontendError(content: {
-    [key: string]: any;
-  }): Rx.Observable<unknown> {
-    return this.call('errorReporting.reportFrontendError', { content });
-  }
-  order_checkOrderStatus(
-    orderId: string
-  ): Rx.Observable<{ status: 'NOT_PAID' | 'PAID' }> {
-    return this.call('order.checkOrderStatus', { orderId });
-  }
-  order_createOrder(values: {
-    quantity: number;
-    product: { courseId: string; type: 'course' };
-    customer: {
-      email: string;
-      firstName: string;
-      lastName: string;
-      address: string;
-      postalCode: string;
-      city: string;
-      companyName?: string | undefined;
-      companyVat?: string | undefined;
-    };
-    requestUnitPriceNet: number;
-    group: number;
-    subscribeNewsletter?: boolean | undefined;
-  }): Rx.Observable<{ paymentUrl: string }> {
-    return this.call('order.createOrder', { values });
-  }
-  order_getTPayGroups(): Rx.Observable<TPayGroup[]> {
-    return this.call('order.getTPayGroups', {});
-  }
-  order_tpayHook(
-    values: {
-      id: string;
-      tr_id: string;
-      tr_date: string;
-      tr_crc: string;
-      tr_amount: string;
-      tr_paid: string;
-      tr_desc: string;
-      tr_status: 'TRUE' | 'FALSE';
-      tr_error: string;
-      tr_email: string;
-      test_mode: string;
-      md5sum: string;
-    } & { [key: string]: any }
-  ): Rx.Observable<unknown> {
-    return this.call('order.tpayHook', { values });
-  }
-  subscription_confirmSubscription(code: string): Rx.Observable<unknown> {
-    return this.call('subscription.confirmSubscription', { code });
-  }
-  subscription_subscribe(
+  emailSubscription_subscribe(
     name: string | null | undefined,
     email: string
   ): Rx.Observable<SubscriptionResult> {
-    return this.call('subscription.subscribe', { name, email });
+    return this.call('emailSubscription.subscribe', { name, email });
   }
-  subscription_unsubscribe(
+  emailSubscription_unsubscribe(
     email: string,
     code: string,
     source: string
   ): Rx.Observable<unknown> {
-    return this.call('subscription.unsubscribe', { email, code, source });
+    return this.call('emailSubscription.unsubscribe', { email, code, source });
   }
   user_confirmEmail(code: string): Rx.Observable<AuthData> {
     return this.call('user.confirmEmail', { code });
@@ -128,20 +47,14 @@ export class APIClient {
   user_githubLogin(code: string): Rx.Observable<AuthData> {
     return this.call('user.githubLogin', { code });
   }
-  user_githubRegister(
-    code: string,
-    activationCode: string
-  ): Rx.Observable<AuthData> {
-    return this.call('user.githubRegister', { code, activationCode });
+  user_githubRegister(code: string): Rx.Observable<AuthData> {
+    return this.call('user.githubRegister', { code });
   }
   user_googleLogin(accessToken: string): Rx.Observable<AuthData> {
     return this.call('user.googleLogin', { accessToken });
   }
-  user_googleRegister(
-    accessToken: string,
-    activationCode: string
-  ): Rx.Observable<AuthData> {
-    return this.call('user.googleRegister', { accessToken, activationCode });
+  user_googleRegister(accessToken: string): Rx.Observable<AuthData> {
+    return this.call('user.googleRegister', { accessToken });
   }
   user_login(values: {
     email: string;
@@ -152,7 +65,6 @@ export class APIClient {
   user_register(values: {
     email: string;
     password: string;
-    activationCode: string;
   }): Rx.Observable<AuthData> {
     return this.call('user.register', { values });
   }

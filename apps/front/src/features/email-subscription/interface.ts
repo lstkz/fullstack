@@ -1,12 +1,14 @@
 import { createModule } from 'typeless';
-import { SubscriptionSymbol } from './symbol';
+import { EmailSubscriptionSymbol } from './symbol';
 
 // --- Actions ---
-export const [handle, SubscriptionActions, getSubscriptionState] = createModule(
-  SubscriptionSymbol
-)
+export const [
+  handle,
+  EmailSubscriptionActions,
+  getEmailSubscriptionState,
+] = createModule(EmailSubscriptionSymbol)
   .withActions({
-    showModal: (visibleModal: SubscriptionModal) => ({
+    showModal: (visibleModal: EmailSubscriptionModal) => ({
       payload: {
         visibleModal,
       },
@@ -19,16 +21,16 @@ export const [handle, SubscriptionActions, getSubscriptionState] = createModule(
     }),
     $mounted: null,
   })
-  .withState<SubscriptionState>();
+  .withState<EmailSubscriptionState>();
 
-export type SubscriptionModal =
+export type EmailSubscriptionModal =
   | 'confirm'
   | 'confirmed'
   | 'already-subscribed'
   | 'unsubscribed';
 
 // --- Types ---
-export interface SubscriptionState {
-  visibleModal: null | SubscriptionModal;
+export interface EmailSubscriptionState {
+  visibleModal: null | EmailSubscriptionModal;
   isSubmitting: boolean;
 }

@@ -8,13 +8,13 @@ import { InputGroup } from 'src/components/InputGroup';
 import { MEDIA_MD, Theme } from 'src/Theme';
 import styled from 'styled-components';
 import {
-  SubscribeFormActions,
-  SubscribeFormProvider,
-} from '../../subscription/subscribe-form';
+  EmailSubscribeFormActions,
+  EmailSubscribeFormProvider,
+} from '../../email-subscription/emailSubscribe-form';
 import { FormInput } from 'src/components/FormInput';
 import { useActions } from 'typeless';
 import { FormInputError } from 'src/components/FormInputError';
-import { getSubscriptionState } from 'src/features/subscription/interface';
+import { getEmailSubscriptionState } from 'src/features/email-subscription/interface';
 
 const Desc = styled.div`
   color: ${Theme.text_muted_color};
@@ -36,10 +36,10 @@ const FormWrapper = styled.div`
 
 const _SubscribeSection = (props: SubscribeSectionProps) => {
   const { className } = props;
-  const { isSubmitting } = getSubscriptionState.useState();
-  const { submit } = useActions(SubscribeFormActions);
+  const { isSubmitting } = getEmailSubscriptionState.useState();
+  const { submit } = useActions(EmailSubscribeFormActions);
   return (
-    <SubscribeFormProvider>
+    <EmailSubscribeFormProvider>
       <form
         onSubmit={e => {
           e.preventDefault();
@@ -85,7 +85,7 @@ const _SubscribeSection = (props: SubscribeSectionProps) => {
           </Text>
         </Container>
       </form>
-    </SubscribeFormProvider>
+    </EmailSubscribeFormProvider>
   );
 };
 

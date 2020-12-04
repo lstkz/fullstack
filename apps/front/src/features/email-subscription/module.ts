@@ -3,13 +3,20 @@ import { parseQueryString } from 'src/common/url';
 import * as Rx from 'src/rx';
 import { api } from 'src/services/api';
 import { RouterActions } from 'typeless-router';
-import { SubscriptionActions, SubscriptionState, handle } from './interface';
-import { getSubscribeFormState, SubscribeFormActions } from './subscribe-form';
+import {
+  EmailSubscriptionActions,
+  EmailSubscriptionState,
+  handle,
+} from './interface';
+import {
+  getEmailSubscribeFormState,
+  EmailSubscribeFormActions,
+} from './emailSubscribe-form';
 
 // --- Epic ---
 handle
   .epic()
-  .on(SubscriptionActions.$mounted, () => {
+  .on(EmailSubscriptionActions.$mounted, () => {
     const qs = parseQueryString(location.search);
     if (qs['confirm-email']) {
       const code = qs['confirm-email'];
@@ -19,8 +26,8 @@ handle
             pathname: location.pathname,
           })
         ),
-        api.subscription_confirmSubscription(code).pipe(
-          Rx.map(() => SubscriptionActions.showModal('confirmed')),
+        api.emailSubscription_confirmSubscription(code).pipe(
+          Rx.map(() => EmailSubscriptionActions.showModal('confirmed')),
           handleAppError()
         )
       );
@@ -31,45 +38,47 @@ handle
             pathname: location.pathname,
           })
         ),
-        api.subscription_unsubscribe(qs.email, qs.unsubscribe, qs.source).pipe(
-          Rx.map(() => SubscriptionActions.showModal('unsubscribed')),
-          handleAppError()
-        )
+        api
+          .emailSubscription_unsubscribe(qs.email, qs.unsubscribe, qs.source)
+          .pipe(
+            Rx.map(() => EmailSubscriptionActions.showModal('unsubscribed')),
+            handleAppError()
+          )
       );
     }
     return Rx.empty();
   })
-  .on(SubscribeFormActions.setSubmitSucceeded, () => {
-    const { email } = getSubscribeFormState().values;
+  .on(EmailSubscribeFormActions.setSubmitSucceeded, () => {
+    const { email } = getEmailSubscribeFormState().values;
     return Rx.concatObs(
-      Rx.of(SubscriptionActions.setIsSubmitting(true)),
-      api.subscription_subscribe(null, email).pipe(
+      Rx.of(EmailSubscriptionActions.setIsSubmitting(true)),
+      api.emailSubscription_subscribe(null, email).pipe(
         Rx.map(ret =>
-          SubscriptionActions.showModal(
+          EmailSubscriptionActions.showModal(
             ret.result === 'ok' ? 'confirm' : 'already-subscribed'
           )
         ),
         handleAppError()
       ),
-      Rx.of(SubscriptionActions.setIsSubmitting(false))
+      Rx.of(EmailSubscriptionActions.setIsSubmitting(false))
     );
   });
 
 // --- Reducer ---
-const initialState: SubscriptionState = {
+const initialState: EmailSubscriptionState = {
   visibleModal: null,
   isSubmitting: false,
 };
 
 handle
   .reducer(initialState)
-  .on(SubscriptionActions.showModal, (state, { visibleModal }) => {
+  .on(EmailSubscriptionActions.showModal, (state, { visibleModal }) => {
     state.visibleModal = visibleModal;
   })
-  .on(SubscriptionActions.hideModal, state => {
+  .on(EmailSubscriptionActions.hideModal, state => {
     state.visibleModal = null;
   })
-  .on(SubscriptionActions.setIsSubmitting, (state, { isSubmitting }) => {
+  .on(EmailSubscriptionActions.setIsSubmitting, (state, { isSubmitting }) => {
     state.isSubmitting = isSubmitting;
   });
 

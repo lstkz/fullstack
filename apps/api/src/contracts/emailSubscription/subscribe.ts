@@ -3,14 +3,14 @@ import { SubscriptionResult } from 'shared';
 import { createContract, createRpcBinding } from '../../lib';
 import { randomUniqString } from '../../common/helper';
 import { config } from 'config';
-import { SubscriptionCollection } from '../../collections/Subscription';
+import { EmailSubscriptionCollection } from '../../collections/EmailSubscription';
 import {
-  SubscriptionRequestCollection,
-  SubscriptionRequestModel,
-} from '../../collections/SubscriptionRequest';
+  EmailSubscriptionRequestCollection,
+  EmailSubscriptionRequestModel,
+} from '../../collections/EmailSubscriptionRequest';
 import { dispatchTask } from '../../dispatch';
 
-export const subscribe = createContract('subscription.subscribe')
+export const subscribe = createContract('emailSubscription.subscribe')
   .params('name', 'email')
   .schema({
     name: S.string().max(50).optional().nullable(),
@@ -18,7 +18,7 @@ export const subscribe = createContract('subscription.subscribe')
   })
   .returns<SubscriptionResult>()
   .fn(async (name, email) => {
-    const existing = await SubscriptionCollection.findOneByEmail(email);
+    const existing = await EmailSubscriptionCollection.findOneByEmail(email);
     if (existing) {
       return {
         result: 'already-subscribed',
@@ -26,7 +26,7 @@ export const subscribe = createContract('subscription.subscribe')
     }
     const subId = randomUniqString();
     const unsubscribeCode = randomUniqString();
-    const subscriptionRequest: SubscriptionRequestModel = {
+    const subscriptionRequest: EmailSubscriptionRequestModel = {
       _id: subId,
       email,
       unsubscribeCode,
@@ -38,7 +38,7 @@ export const subscribe = createContract('subscription.subscribe')
       email
     )}`;
 
-    await SubscriptionRequestCollection.insertOne(subscriptionRequest);
+    await EmailSubscriptionRequestCollection.insertOne(subscriptionRequest);
     await dispatchTask({
       type: 'SendEmail',
       payload: {
@@ -65,6 +65,6 @@ export const subscribe = createContract('subscription.subscribe')
 
 export const subscribeRpc = createRpcBinding({
   public: true,
-  signature: 'subscription.subscribe',
+  signature: 'emailSubscription.subscribe',
   handler: subscribe,
 });

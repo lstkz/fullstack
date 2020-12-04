@@ -2,7 +2,7 @@ import { ObjectID } from 'mongodb';
 import { safeExtend } from '../common/helper';
 import { createCollection } from '../db';
 
-export interface SubscriptionModel {
+export interface EmailSubscriptionModel {
   _id: ObjectID;
   email: string;
   email_lowered: string;
@@ -10,8 +10,8 @@ export interface SubscriptionModel {
   unsubscribeCode: string;
 }
 
-export const SubscriptionCollection = safeExtend(
-  createCollection<SubscriptionModel>('subscription', [
+export const EmailSubscriptionCollection = safeExtend(
+  createCollection<EmailSubscriptionModel>('emailSubscription', [
     {
       key: {
         email_lowered: 1,
@@ -21,7 +21,7 @@ export const SubscriptionCollection = safeExtend(
   ]),
   {
     findOneByEmail(email: string) {
-      return SubscriptionCollection.findOne({
+      return EmailSubscriptionCollection.findOne({
         email_lowered: email.toLowerCase(),
       });
     },

@@ -1,18 +1,18 @@
 import { createForm } from 'typeless-form';
 import { S } from 'schema';
-import { SubscribeFormSymbol } from '../landing/symbol';
+import { SubscribeFormSymbol } from './symbol';
 import { validate } from '../../common/helper';
 
-export interface SubscribeFormValues {
+export interface EmailSubscribeFormValues {
   email: string;
 }
 
 export const [
-  useSubscribeForm,
-  SubscribeFormActions,
-  getSubscribeFormState,
-  SubscribeFormProvider,
-] = createForm<SubscribeFormValues>({
+  useEmailSubscribeForm,
+  EmailSubscribeFormActions,
+  getEmailSubscribeFormState,
+  EmailSubscribeFormProvider,
+] = createForm<EmailSubscribeFormValues>({
   symbol: SubscribeFormSymbol,
   validator: (errors, values) => {
     validate(
