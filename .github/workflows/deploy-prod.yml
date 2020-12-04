@@ -1,8 +1,9 @@
 name: deploy-prod
 on:
-  push:
-    # pull_request:
-    branches: [master_master]
+  pull_request:
+    branches: [master]
+  # push:
+  #   branches: [master_master]
 
 jobs:
   deploy:
@@ -40,8 +41,7 @@ jobs:
 
       - name: deploy
         run: |
-          npm i -g aws-cdk@1.70.0
-          touch .env
+          npm i -g aws-cdk@1.75.0
           cd packages/fullstack-cli
           npm i -g .
           cd ../..
