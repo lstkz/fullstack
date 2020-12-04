@@ -53,7 +53,7 @@ jobs:
 
       - name: test api
         run: |
-          cd apps/api2
+          cd apps/api
           yarn test
 
   front:
