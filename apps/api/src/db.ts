@@ -30,7 +30,7 @@ const dbSessionStorage = new AsyncLocalStorage<ClientSession>();
 let client: MongoClient | null = null;
 
 export async function disconnect() {
-  client?.close();
+  await client?.close();
 }
 
 export async function connect() {
