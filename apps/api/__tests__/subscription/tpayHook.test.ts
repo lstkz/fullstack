@@ -11,6 +11,12 @@ setupDb();
 
 const mockedDispatchEvent = mocked(dispatchEvent);
 
+type ExtractType<T> = T extends (arg: infer U) => any ? U : never;
+
+function execHookContract(values: ExtractType<typeof tpayHook>) {
+  return execContract(tpayHook, values as any);
+}
+
 beforeEach(async () => {
   await SubscriptionOrderCollection.insertOne({
     _id: 'order-abc',
@@ -31,33 +37,28 @@ beforeEach(async () => {
 
 it('should throw an error if md5sum invalid', async () => {
   await expect(
-    execContract(tpayHook, {
-      values: { ...getTPayHookData(), md5sum: 'abc' },
-    })
+    execHookContract({ ...getTPayHookData(), md5sum: 'abc' })
   ).rejects.toThrow('Invalid md5sum');
 });
 
 it('should throw an error if not fully paid', async () => {
   await expect(
-    execContract(tpayHook, {
-      values: { ...getTPayHookData(), tr_paid: '20' },
+    execHookContract({
+      ...getTPayHookData(),
+      tr_paid: '20',
     })
   ).rejects.toThrow('Not fully paid');
 });
 
 it('should ignore if status is FALSE', async () => {
-  await execContract(tpayHook, {
-    values: { ...getTPayHookData(), tr_status: 'FALSE' },
-  });
+  await execHookContract({ ...getTPayHookData(), tr_status: 'FALSE' });
   const order = await SubscriptionOrderCollection.findByIdOrThrow('order-abc');
   expect(order.status).toEqual('NOT_PAID');
   expect(mockedDispatchEvent).not.toHaveBeenCalled();
 });
 
 it('should ignore if tr_error is defined', async () => {
-  await execContract(tpayHook, {
-    values: { ...getTPayHookData(), tr_error: 'some error' },
-  });
+  await execHookContract({ ...getTPayHookData(), tr_error: 'some error' });
   const order = await SubscriptionOrderCollection.findByIdOrThrow('order-abc');
   expect(order.status).toEqual('NOT_PAID');
   expect(mockedDispatchEvent).not.toHaveBeenCalled();
@@ -65,12 +66,8 @@ it('should ignore if tr_error is defined', async () => {
 
 it('should process successfully', async () => {
   await Promise.all([
-    execContract(tpayHook, {
-      values: getTPayHookData(),
-    }),
-    execContract(tpayHook, {
-      values: getTPayHookData(),
-    }),
+    execHookContract(getTPayHookData()),
+    execHookContract(getTPayHookData()),
   ]);
   const order = await SubscriptionOrderCollection.findByIdOrThrow('order-abc');
   expect(order.status).toEqual('PAID');
