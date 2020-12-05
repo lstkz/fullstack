@@ -1,13 +1,17 @@
 import { Request, Response, NextFunction } from 'express';
-import { User } from 'shared';
 import type {
   ButtonActionTemplateProps,
   MultiLinksTemplateProps,
 } from 'email-templates';
+import { ObjectID } from 'mongodb';
 
 export type Handler = (req: Request, res: Response, next: NextFunction) => void;
 
-export interface AppUser extends User {}
+export interface AppUser {
+  _id: ObjectID;
+  email: string;
+  isVerified: boolean;
+}
 
 declare module 'express' {
   interface Request {
@@ -31,6 +35,10 @@ export interface SendEmailTask {
         };
   };
 }
+export interface OrderCreatedEvent {
+  type: 'OrderCreated';
+  payload: { orderId: string };
+}
 
 export interface OrderPaidEvent {
   type: 'OrderPaid';
@@ -43,7 +51,7 @@ export interface UserRegisteredEvent {
 }
 
 export type AppTask = SendEmailTask;
-export type AppEvent = OrderPaidEvent | UserRegisteredEvent;
+export type AppEvent = OrderCreatedEvent | OrderPaidEvent | UserRegisteredEvent;
 
 type ExtractType<T> = T extends { type: infer S } ? S : never;
 

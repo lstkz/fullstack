@@ -1,3 +1,6 @@
+import { config } from 'config';
+import { SubscriptionPlanCollection } from '../src/collections/SubscriptionPlan';
+import { md5 } from '../src/common/helper';
 import { createToken } from '../src/contracts/user/createToken';
 import { _createUser } from '../src/contracts/user/_createUser';
 import { getId } from './helper';
@@ -16,5 +19,63 @@ export async function registerSampleUsers(isVerified = true) {
       password: 'password2',
       isVerified: isVerified,
     }).then(() => createToken(getId(2), 'user2_token')),
+  ]);
+}
+
+export function getCustomerData() {
+  return {
+    firstName: 'John',
+    lastName: 'Doe',
+    address: 'address',
+    postalCode: 'postalCode',
+    city: 'city',
+  };
+}
+
+export function getTPayHookData(crc = 'order-abc') {
+  const amount = Number(120).toFixed(2);
+  const tr_id = 't-123';
+  return {
+    id: config.tpay.customerId.toFixed(),
+    tr_id: tr_id,
+    tr_date: 'date',
+    tr_crc: crc,
+    tr_amount: amount,
+    tr_paid: amount,
+    tr_desc: 'foo',
+    tr_status: 'TRUE' as const,
+    tr_error: 'none',
+    tr_email: 'john@',
+    test_mode: '0',
+    md5sum: md5(
+      `${config.tpay.customerId}${tr_id}${amount}${crc}${config.tpay.code}`
+    ),
+  };
+}
+
+export function getPrice() {
+  return {
+    net: 100,
+    vatRate: 23,
+    vat: 23,
+    total: 123,
+  };
+}
+
+export async function createSubscriptionPlans() {
+  await SubscriptionPlanCollection.insertMany([
+    {
+      _id: 'p1',
+      name: 'plan',
+      price: {
+        net: 100,
+        vatRate: 23,
+        vat: 23,
+        total: 123,
+      },
+      pricePerMonth: 100,
+      savings: 0,
+      type: 'monthly',
+    },
   ]);
 }

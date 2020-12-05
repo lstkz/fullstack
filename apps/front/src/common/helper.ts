@@ -138,7 +138,7 @@ export function toggleMapValue<
   T extends Record<string, string | undefined>,
   K extends string
 >(map: T, value: K): T {
-  let copy = { ...map };
+  const copy = { ...map };
   if (copy[value]) {
     delete copy[value];
   } else {

@@ -8,13 +8,14 @@ import { CoursesActions, CoursesState, handle } from './interface';
 handle
   .epic()
   .on(GlobalActions.auth, () => CoursesActions.load())
-  .on(CoursesActions.$mounted, () => CoursesActions.load());
-// .on(CoursesActions.load, () => {
-//   return api.course_getAllCourses().pipe(
-//     Rx.map(ret => CoursesActions.loaded(ret)),
-//     handleAppError()
-//   );
-// });
+  .on(CoursesActions.$mounted, () => CoursesActions.load())
+  .on(CoursesActions.load, () => {
+    return CoursesActions.loaded([]);
+    // return api.course_getAllCourses().pipe(
+    //   Rx.map(ret => CoursesActions.loaded(ret)),
+    //   handleAppError()
+    // );
+  });
 
 // --- Reducer ---
 const initialState: CoursesState = {

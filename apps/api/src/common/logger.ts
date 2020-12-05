@@ -10,6 +10,8 @@ export const logger = {
     }
   },
   info(...args: any) {
-    console.log('INFO:', ...args);
+    if (process.env.NODE_ENV !== 'test') {
+      console.log('INFO:', ...args);
+    }
   },
 };

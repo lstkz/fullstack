@@ -109,7 +109,7 @@ export class Ampq {
     });
     this.connection.on('close', () => {
       if (!this.isReconnecting) {
-        this.tryReconnect();
+        void this.tryReconnect();
       }
     });
     await this.initChannels();

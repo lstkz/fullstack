@@ -30,7 +30,7 @@ const dbSessionStorage = new AsyncLocalStorage<ClientSession>();
 let client: MongoClient | null = null;
 
 export async function disconnect() {
-  client?.close();
+  await client?.close();
 }
 
 export async function connect() {
@@ -300,4 +300,20 @@ export function createCollections() {
       await collection.initIndex();
     })
   );
+}
+
+export function createFlagTransaction(uniqueId: string) {
+  const FlagCollection = require('./collections/Flag')
+    .FlagCollection as DbCollection<any>;
+  return async (stepName: string, fn: () => Promise<void>) => {
+    await withTransaction(async () => {
+      const flagId = `${uniqueId}:${stepName}`;
+      const existing = await FlagCollection.findById(flagId);
+      if (existing) {
+        return;
+      }
+      await fn();
+      await FlagCollection.insertOne({ _id: flagId });
+    });
+  };
 }

@@ -7,6 +7,7 @@
   "sideEffects": false,
   "scripts": {
     "test": "tsc",
+    "lint": "eslint . --ext .ts --ext .tsx",
     "dev": "ts-node -T --project ./node.tsconfig.json scripts/dev",
     "build": "ts-node -T --project ./node.tsconfig.json scripts/build"
   },
@@ -35,6 +36,7 @@
     "html-webpack-plugin": "next",
     "popper.js": "^1.16.1",
     "react": "^16.9.0",
+    "react-confetti": "^6.0.0",
     "react-content-loader": "^4.3.4",
     "react-dom": "^16.9.0",
     "react-image-crop": "^8.6.2",
@@ -44,6 +46,7 @@
     "react-spring": "^8.0.27",
     "react-tooltip": "^3.11.1",
     "react-top-loading-bar": "^1.2.0",
+    "react-use": "^15.3.4",
     "remeda": "^0.0.27",
     "rxjs": "^6.3.3",
     "schema": "*",

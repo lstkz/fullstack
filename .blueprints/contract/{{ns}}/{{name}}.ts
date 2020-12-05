@@ -1,15 +1,15 @@
 import { S } from 'schema';
-import { createContract, createRpcBinding, createTransaction } from '../../lib';
+import { createContract, createRpcBinding } from '../../lib';
 
 
 export const {{name}} = createContract('{{ns}}.{{name}}')
-  .params('userId', 'values')
+  .params('user', 'values')
   .schema({
-    userId: S.string(),
+    user: S.object().appUser(),
     values: S.object().keys({
     })
   })
-  .fn(async (userId, values) => {
+  .fn(async (user, values) => {
 
   });
 

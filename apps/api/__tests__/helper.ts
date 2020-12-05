@@ -63,6 +63,7 @@ export function execContract<
     };
     const res: any = {
       json: resolve,
+      send: resolve,
     };
     let i = 0;
     const processNext = (err?: any) => {

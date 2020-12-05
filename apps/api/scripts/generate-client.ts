@@ -43,8 +43,8 @@ function normalizeReturnType(returnType: string) {
 function parseArgs(str: string) {
   let isParamName = true;
   let token = '';
-  let names: string[] = [];
-  let values: string[] = [];
+  const names: string[] = [];
+  const values: string[] = [];
   for (let i = 0; i < str.length; i++) {
     const c = str[i];
     if (isParamName) {
@@ -194,10 +194,10 @@ function generateDocumentation(
 ): void {
   console.log(fileNames);
   // Build a program using the set of root file names in fileNames
-  let program = ts.createProgram(fileNames, options);
+  const program = ts.createProgram(fileNames, options);
 
   // Get the checker, we will use it to find more about classes
-  let checker = program.getTypeChecker();
+  const checker = program.getTypeChecker();
 
   // Visit every sourceFile in the program
   for (const sourceFile of program.getSourceFiles()) {

@@ -29,7 +29,7 @@ function authWith(fn: () => Rx.Observable<AuthData>) {
 handle
   .epic()
   .on(LoginActions.$mounted, () => LoginFormActions.reset())
-  .on(LoginFormActions.setSubmitSucceeded, ({}) => {
+  .on(LoginFormActions.setSubmitSucceeded, () => {
     return authWith(() => api.user_login(getLoginFormState().values));
   })
   .on(GlobalActions.githubCallback, ({ code }) => {

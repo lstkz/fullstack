@@ -52,4 +52,12 @@ export const config: AppConfig = {
       count: 1,
     },
   },
+  tpay: {
+    apiRedirectBaseUrl: 'https://8c329d2a4b5f.eu.ngrok.io',
+    apiKey: '75f86137a6635df826e3efe2e66f7c9a946fdde1',
+    code: 'demo',
+    customerId: 1010,
+    password: 'p@$$w0rd#@!',
+    resultEmail: 'sirmims@gmail.com',
+  },
 };

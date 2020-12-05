@@ -30,6 +30,7 @@
     "noImplicitThis": true,
     "noUnusedLocals": true,
     "downlevelIteration": true,
-    "noUnusedParameters": false
+    "noUnusedParameters": false,
+    "skipLibCheck": true
   }
 }

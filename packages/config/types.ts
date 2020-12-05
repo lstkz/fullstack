@@ -34,6 +34,14 @@ export interface AppConfig {
     clientId: string;
     clientSecret: string;
   };
+  tpay: {
+    resultEmail: string;
+    apiKey: string;
+    code: string;
+    customerId: number;
+    password: string;
+    apiRedirectBaseUrl?: string;
+  };
   deploy: {
     apiCertArn: string | -1;
     zone:

@@ -41,7 +41,7 @@ export function randomString(len: number) {
     'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
   let randomString = '';
   for (let i = 0; i < len; i++) {
-    let randomPoz = randomInt() % charSet.length;
+    const randomPoz = randomInt() % charSet.length;
     randomString += charSet[randomPoz];
   }
   return randomString;
@@ -120,4 +120,8 @@ export async function getResponseBody<T = any>(opName: string, res: Response) {
     throw new Error(msg);
   }
   return body as T;
+}
+
+export function md5(str: string) {
+  return crypto.createHash('md5').update(str).digest('hex');
 }

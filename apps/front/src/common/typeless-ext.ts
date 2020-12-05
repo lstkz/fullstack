@@ -22,7 +22,7 @@ declare module 'typeless/dist/Epic' {
   }
 }
 
-const paramReg = /\:([a-zA-Z0-9_\-]+)/g;
+const paramReg = /:([a-zA-Z0-9_-]+)/g;
 
 function getRouteParams(currentPath: string | undefined, regPaths: RegExp[]) {
   if (!currentPath) {

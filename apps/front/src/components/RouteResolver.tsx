@@ -28,7 +28,7 @@ const routes = R.flatMap(reqs, req =>
 function matchesRoute(routePath: string | string[], currentPath: string) {
   const routePaths = Array.isArray(routePath) ? routePath : [routePath];
   return routePaths.some(path => {
-    const paramReg = /\:[a-zA-Z0-9_\-]+/g;
+    const paramReg = /:[a-zA-Z0-9_-]+/g;
     const mappedPath = path.replace(paramReg, '([a-zA-Z0-9_\\-]+)');
     const reg = new RegExp(`^${mappedPath}$`);
     return reg.test(currentPath);
@@ -222,8 +222,6 @@ export const RouteResolver = () => {
     // not found route
     // you can display 404 or redirect to default routes
     replace(user ? '/courses' : '/login');
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [location, user]);
   return (
     <>

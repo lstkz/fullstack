@@ -7,7 +7,7 @@ import { resetPassword } from '../../src/contracts/user/resetPassword';
 import { registerSampleUsers } from '../seed-data';
 import { disconnect } from '../../src/db';
 
-let resetCode: string = '';
+let resetCode = '';
 
 beforeAll(initDb);
 

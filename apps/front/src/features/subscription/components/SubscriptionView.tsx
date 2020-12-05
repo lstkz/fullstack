@@ -8,11 +8,11 @@ import { SpinnerBoarder } from 'src/components/SpinnerBoarder';
 import styled from 'styled-components';
 import { useActions } from 'typeless';
 import {
-  CheckoutFormActions,
-  CheckoutFormProvider,
-  useCheckoutForm,
-} from '../checkout-form';
-import { getCheckoutState } from '../interface';
+  SubscriptionFormActions,
+  SubscriptionFormProvider,
+  useSubscriptionForm,
+} from '../subscription-form';
+import { getSubscriptionState } from '../interface';
 import { useCheckoutModule } from '../module';
 import { CheckoutButtons } from './CheckoutButtons';
 import { OrderDetails } from './OrderDetails';
@@ -25,12 +25,12 @@ const Loader = styled.div`
   justify-content: center;
 `;
 
-export function CheckoutView() {
-  useCheckoutForm();
+export function SubscriptionView() {
+  useSubscriptionForm();
   useCheckoutModule();
-  const { submit } = useActions(CheckoutFormActions);
-  const { course } = getCheckoutState.useState();
-  if (!course) {
+  const { submit } = useActions(SubscriptionFormActions);
+  const { subscriptionPlans } = getSubscriptionState.useState();
+  if (!subscriptionPlans.length) {
     return (
       <Dashboard>
         <Loader>
@@ -41,7 +41,7 @@ export function CheckoutView() {
   }
 
   return (
-    <CheckoutFormProvider>
+    <SubscriptionFormProvider>
       <form
         onSubmit={e => {
           e.preventDefault();
@@ -55,7 +55,6 @@ export function CheckoutView() {
                 <Heading mb={1} type={5}>
                   Szczegóły płatności
                 </Heading>
-                <FormInput name="email" label="Email" />
                 <Row>
                   <Col md={6}>
                     <FormInput name="firstName" label="Imię" />
@@ -96,6 +95,6 @@ export function CheckoutView() {
           </Container>
         </Dashboard>
       </form>
-    </CheckoutFormProvider>
+    </SubscriptionFormProvider>
   );
 }

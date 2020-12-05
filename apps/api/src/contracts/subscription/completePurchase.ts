@@ -1,0 +1,51 @@
+import { ObjectID } from 'mongodb';
+import * as DateFns from 'date-fns';
+import { S } from 'schema';
+import { SubscriptionOrderCollection } from '../../collections/SubscriptionOrder';
+import { SubscriptionPlanCollection } from '../../collections/SubscriptionPlan';
+import { UserCollection } from '../../collections/User';
+import {
+  UserSubscriptionCollection,
+  UserSubscriptionModel,
+} from '../../collections/UserSubscription';
+import { createContract, createEventBinding } from '../../lib';
+import { createFlagTransaction } from '../../db';
+
+export const completePurchase = createContract('subscription.completePurchase')
+  .params('orderId')
+  .schema({
+    orderId: S.string(),
+  })
+  .fn(async orderId => {
+    const withFlagTransaction = createFlagTransaction(
+      `completePurchase:${orderId}`
+    );
+    const order = await SubscriptionOrderCollection.findByIdOrThrow(orderId);
+    const plan = await SubscriptionPlanCollection.findByIdOrThrow(order.planId);
+    await withFlagTransaction('createUserSubscription', async () => {
+      const user = await UserCollection.findByIdOrThrow(order.userId);
+      const userSubscription: UserSubscriptionModel = {
+        _id: new ObjectID(),
+        name: plan.name,
+        orderId,
+        userId: user._id,
+      };
+      await UserSubscriptionCollection.insertOne(userSubscription);
+      user.hasSubscription = true;
+      user.subscriptionExpiration = DateFns.addMonths(
+        Date.now(),
+        plan.type === 'annual' ? 12 : 1
+      );
+      await UserCollection.update(user, [
+        'hasSubscription',
+        'subscriptionExpiration',
+      ]);
+    });
+  });
+
+export const completeCourseOrderEvent = createEventBinding({
+  type: 'OrderPaid',
+  handler: async (_, event) => {
+    await completePurchase(event.orderId);
+  },
+});

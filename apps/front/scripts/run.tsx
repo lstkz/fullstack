@@ -28,6 +28,6 @@ export function runScript(
   });
 
   p.addListener('exit', code => {
-    process.exit(code);
+    process.exit(code ?? 0);
   });
 }

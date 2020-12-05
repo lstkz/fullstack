@@ -11,6 +11,8 @@ export interface UserModel {
   isVerified: boolean;
   isAdmin?: boolean;
   githubId?: number;
+  hasSubscription?: boolean;
+  subscriptionExpiration?: Date;
 }
 
 export const UserCollection = safeExtend(

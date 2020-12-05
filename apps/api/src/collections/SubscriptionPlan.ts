@@ -1,9 +1,11 @@
+import { PriceDefinition, SubscriptionPlanType } from 'shared';
 import { createCollection } from '../db';
 
 export interface SubscriptionPlanModel {
+  _id: string;
   name: string;
-  type: 'monthly' | 'annual';
-  totalPrice: number;
+  type: SubscriptionPlanType;
+  price: PriceDefinition;
   pricePerMonth: number;
   savings: number;
 }

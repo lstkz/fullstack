@@ -24,7 +24,18 @@ export function LoginView() {
   const { isSubmitting, error } = getLoginState.useState();
 
   return (
-    <FullPageForm testId="login-form" title="Logowanie">
+    <FullPageForm
+      testId="login-form"
+      title="Logowanie"
+      bottom={
+        <>
+          Nie masz już konto?{' '}
+          <Link testId="register-link" href={createUrl({ name: 'register' })}>
+            Zarejestruj się
+          </Link>
+        </>
+      }
+    >
       <LoginFormProvider>
         <form
           onSubmit={e => {

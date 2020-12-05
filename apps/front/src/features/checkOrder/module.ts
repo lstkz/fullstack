@@ -1,29 +1,29 @@
-// import { getRouteParams } from 'src/common/url';
-// import * as Rx from 'src/rx';
-// import { api } from 'src/services/api';
-// import { ActionLike } from 'typeless';
-// import { RouterActions } from 'typeless-router';
+import { handleAppError } from 'src/common/helper';
+import { getRouteParams } from 'src/common/url';
+import * as Rx from 'src/rx';
+import { api } from 'src/services/api';
+import { ActionLike } from 'typeless';
+import { RouterActions } from 'typeless-router';
 import { CheckOrderActions, CheckOrderState, handle } from './interface';
 
 // --- Epic ---
-handle.epic();
+handle.epic().on(CheckOrderActions.$mounted, (_, { action$ }) => {
+  const { orderId } = getRouteParams('check-order');
+  const check: () => Rx.Observable<ActionLike> = () =>
+    api.subscription_checkStatus(orderId).pipe(
+      Rx.mergeMap(ret => {
+        if (ret.status === 'PAID') {
+          return Rx.of(CheckOrderActions.done());
+        }
+        return Rx.of(null).pipe(Rx.delay(1000), Rx.mergeMap(check));
+      })
+    );
 
-// .on(CheckOrderActions.$mounted, ({}, { action$ }) => {
-//   const { orderId } = getRouteParams('check-order');
-//   const check: () => Rx.Observable<ActionLike> = () =>
-//     api.order_checkOrderStatus(orderId).pipe(
-//       Rx.mergeMap(ret => {
-//         if (ret.status === 'PAID') {
-//           return Rx.of(CheckOrderActions.done());
-//         }
-//         return Rx.of(null).pipe(Rx.delay(1000), Rx.mergeMap(check));
-//       })
-//     );
-
-//   return check().pipe(
-//     Rx.takeUntil(action$.pipe(Rx.waitForType(RouterActions.locationChange)))
-//   );
-// });
+  return check().pipe(
+    Rx.takeUntil(action$.pipe(Rx.waitForType(RouterActions.locationChange))),
+    handleAppError()
+  );
+});
 
 // --- Reducer ---
 const initialState: CheckOrderState = {

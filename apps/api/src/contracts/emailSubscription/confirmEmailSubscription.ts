@@ -18,7 +18,7 @@ export const confirmSubscription = createContract(
     if (!subscriptionRequest) {
       throw new AppError('Invalid code');
     }
-    let subscription = await EmailSubscriptionCollection.findOne({
+    const subscription = await EmailSubscriptionCollection.findOne({
       email_lowered: subscriptionRequest.email.toLocaleLowerCase(),
     });
     if (subscription) {

@@ -5,8 +5,11 @@ import { SpinnerBoarder } from 'src/components/SpinnerBoarder';
 import { MEDIA_MD, Theme } from 'src/Theme';
 import styled, { css } from 'styled-components';
 import { useActions } from 'typeless';
-import { CheckoutFormActions, getCheckoutFormState } from '../checkout-form';
-import { getCheckoutState } from '../interface';
+import {
+  SubscriptionFormActions,
+  getSubscriptionFormState,
+} from '../subscription-form';
+import { getSubscriptionState } from '../interface';
 import { FormInputError } from 'src/components/FormInputError';
 
 interface PaymentOptionsProps {
@@ -61,11 +64,11 @@ const Grid = styled.div`
 
 const _PaymentOptions = (props: PaymentOptionsProps) => {
   const { className } = props;
-  const { tpayGroups } = getCheckoutState.useState();
-  const { change } = useActions(CheckoutFormActions);
+  const { tpayGroups } = getSubscriptionState.useState();
+  const { change } = useActions(SubscriptionFormActions);
   const {
     values: { groupId },
-  } = getCheckoutFormState.useState();
+  } = getSubscriptionFormState.useState();
   return (
     <div className={className} id="groupId">
       <Heading mb={2} type={5} id="payment-options-label">

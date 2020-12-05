@@ -11,6 +11,7 @@ export interface CreateRpcBindingOptions {
   injectUser?: boolean;
   public?: true;
   admin?: true;
+  wrapAsValues?: true;
   signature: string;
   handler: ((...args: any[]) => any) & ContractMeta<any>;
 }
