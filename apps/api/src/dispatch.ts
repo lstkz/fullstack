@@ -8,11 +8,10 @@ export async function dispatchEvent(event: AppEvent) {
     await ampq.publishEvent(event);
   } else {
     const bindings = getBindings('event');
-    const target = bindings.find(x => x.type === event.type);
-    if (!target) {
-      return;
-    }
-    await target.handler(randomUniqString(), event.payload);
+    const targets = bindings.filter(x => x.type === event.type);
+    await Promise.all(
+      targets.map(target => target.handler(randomUniqString(), event.payload))
+    );
   }
 }
 

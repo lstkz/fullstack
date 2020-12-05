@@ -69,7 +69,9 @@ export const purchase = createContract('subscription.purchase')
       merchant_description: 'Fullstack.pl',
       online: 1,
       result_email: config.tpay.resultEmail,
-      result_url: `${config.apiBaseUrl}/rpc/subscription.tpayHook`,
+      result_url: `${
+        config.tpay.apiRedirectBaseUrl || config.apiBaseUrl
+      }/rpc/subscription.tpayHook`,
       return_error_url: `${config.appBaseUrl}`,
       return_url: `${config.appBaseUrl}/check-order/${orderId}`,
     });

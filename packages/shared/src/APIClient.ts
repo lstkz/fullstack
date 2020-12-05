@@ -38,12 +38,15 @@ export class APIClient {
   ): Rx.Observable<unknown> {
     return this.call('emailSubscription.unsubscribe', { email, code, source });
   }
+  subscription_checkStatus(
+    orderId: string
+  ): Rx.Observable<{ status: 'NOT_PAID' | 'PAID' }> {
+    return this.call('subscription.checkStatus', { orderId });
+  }
   subscription_getTPayGroups(): Rx.Observable<TPayGroup[]> {
     return this.call('subscription.getTPayGroups', {});
   }
   subscription_purchase(values: {
-    subscriptionPlanId: string;
-    tpayGroup: number;
     customer: {
       firstName: string;
       lastName: string;
@@ -53,6 +56,8 @@ export class APIClient {
       companyName?: string | undefined;
       companyVat?: string | undefined;
     };
+    subscriptionPlanId: string;
+    tpayGroup: number;
   }): Rx.Observable<{ paymentUrl: string }> {
     return this.call('subscription.purchase', { values });
   }

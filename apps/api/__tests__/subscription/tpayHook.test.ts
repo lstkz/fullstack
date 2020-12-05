@@ -2,7 +2,7 @@ import { mocked } from 'ts-jest/utils';
 import { SubscriptionOrderCollection } from '../../src/collections/SubscriptionOrder';
 import { tpayHook } from '../../src/contracts/subscription/tpayHook';
 import { dispatchEvent } from '../../src/dispatch';
-import { execContract, getId, resetDb, setupDb } from '../helper';
+import { execContract, getId, setupDb } from '../helper';
 import { getCustomerData, getPrice, getTPayHookData } from '../seed-data';
 
 jest.mock('../../src/dispatch');
@@ -12,7 +12,6 @@ setupDb();
 const mockedDispatchEvent = mocked(dispatchEvent);
 
 beforeEach(async () => {
-  await resetDb();
   await SubscriptionOrderCollection.insertOne({
     _id: 'order-abc',
     createdAt: new Date(),

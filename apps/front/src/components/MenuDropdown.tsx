@@ -4,7 +4,9 @@ import * as PopperJS from 'popper.js';
 import { Manager, Reference, Popper } from 'react-popper';
 import { Transition } from 'react-spring/renderprops';
 
-const DropdownWrapper = styled.div``;
+const DropdownWrapper = styled.div`
+  z-index: 2;
+`;
 
 interface MenuDropdownProps {
   children: React.ReactElement;

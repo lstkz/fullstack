@@ -40,6 +40,7 @@ export interface AppConfig {
     code: string;
     customerId: number;
     password: string;
+    apiRedirectBaseUrl?: string;
   };
   deploy: {
     apiCertArn: string | -1;

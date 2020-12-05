@@ -73,6 +73,7 @@ export const tpayHook = createContract('subscription.tpayHook')
 
 export const tpayHookRpc = createRpcBinding({
   public: true,
+  wrapAsValues: true,
   signature: 'subscription.tpayHook',
   handler: tpayHook,
 });

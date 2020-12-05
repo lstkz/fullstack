@@ -6,9 +6,12 @@ import { Dashboard } from 'src/components/Dashboard';
 import { Heading } from 'src/components/Heading';
 import { SpinnerBoarder } from 'src/components/SpinnerBoarder';
 import { Theme } from 'src/Theme';
+import { useWindowSize } from 'react-use';
+import Confetti from 'react-confetti';
 import styled from 'styled-components';
 import { getCheckOrderState } from '../interface';
 import { useCheckOrderModule } from '../module';
+import { Button } from 'src/components/Button';
 
 const Center = styled.div`
   display: flex;
@@ -38,6 +41,7 @@ const CheckWrapper = styled.div`
 export function CheckOrderView() {
   useCheckOrderModule();
   const { isDone } = getCheckOrderState.useState();
+  const { width, height } = useWindowSize();
 
   const renderContent = () => {
     if (!isDone) {
@@ -54,14 +58,19 @@ export function CheckOrderView() {
     }
     return (
       <>
+        <Confetti width={width} height={height} recycle={false} />
         <Heading type={3} center mt={5}>
           Płatność zakończona pomyślnie
         </Heading>
-        <Text>Na podanego maila został wysłany link do aktywacji konta.</Text>
+        <Text>Masz teraz dostęp do wszystkich zasobów platformy.</Text>
         <CheckWrapper>
           <FontAwesomeIcon icon={faCheckCircle} size="6x" />
         </CheckWrapper>
-        <Center></Center>
+        <Center>
+          <Button type="primary" href="/modules">
+            Zobacz dostępne moduły
+          </Button>
+        </Center>
       </>
     );
   };

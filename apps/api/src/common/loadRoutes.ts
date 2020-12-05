@@ -26,7 +26,7 @@ export default function loadRoutes(router: Router) {
           }
           const user = await UserCollection.findByIdOrThrow(tokenEntity.userId);
           req.user = {
-            id: user._id.toHexString(),
+            _id: user._id,
             email: user.email,
             isVerified: user.isVerified,
           };
@@ -63,6 +63,11 @@ export default function loadRoutes(router: Router) {
         next(new BadRequestError('Body must be an object'));
         return;
       }
+      if (options.wrapAsValues) {
+        req.body = {
+          values: req.body,
+        };
+      }
       const params = options.handler.getParams();
       if (options.injectUser) {
         params.shift();
@@ -82,7 +87,11 @@ export default function loadRoutes(router: Router) {
       }
       Promise.resolve(options.handler(...values))
         .then(ret => {
-          res.json(ret);
+          if (ret === 'TRUE' || ret === 'FALSE') {
+            res.send(ret);
+          } else {
+            res.json(ret);
+          }
         })
         .catch(next);
     });
