@@ -69,7 +69,7 @@ const _OrderDetails = (props: OrderDetailsProps) => {
 
   const options = React.useMemo(() => {
     return subscriptionPlans.map(item => {
-      let name = `${item.name} - ${item.pricePerMonth}zł na miesiąc`;
+      const name = `${item.name} - ${item.pricePerMonth}zł na miesiąc`;
       return {
         value: item.id,
         label: name,

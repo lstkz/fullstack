@@ -44,7 +44,7 @@ export default function loadRoutes(router: Router) {
           next(new UnauthorizedError('Bearer token required'));
           return;
         }
-        if (!req.user.isAdmin && options.admin) {
+        if (options.admin) {
           next(new ForbiddenError('Admin only'));
           return;
         }

@@ -9,7 +9,7 @@ export const [handle, GlobalActions, getGlobalState] = createModule(
   .withActions({
     $mounted: null,
     logout: null,
-    auth: (authData: AuthData, noRedirect: boolean = false) => ({
+    auth: (authData: AuthData, noRedirect = false) => ({
       payload: { ...authData, noRedirect },
     }),
     loggedIn: (user: User | null) => ({

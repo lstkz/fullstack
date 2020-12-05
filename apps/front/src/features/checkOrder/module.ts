@@ -7,7 +7,7 @@ import { RouterActions } from 'typeless-router';
 import { CheckOrderActions, CheckOrderState, handle } from './interface';
 
 // --- Epic ---
-handle.epic().on(CheckOrderActions.$mounted, ({}, { action$ }) => {
+handle.epic().on(CheckOrderActions.$mounted, (_, { action$ }) => {
   const { orderId } = getRouteParams('check-order');
   const check: () => Rx.Observable<ActionLike> = () =>
     api.subscription_checkStatus(orderId).pipe(

@@ -17,5 +17,5 @@
     "jest.config.js",
     ".eslintrc.js",
   ],
-  "exclude": ["dist"]
+  "exclude": ["dist", "**/@types/react-select"]
 }

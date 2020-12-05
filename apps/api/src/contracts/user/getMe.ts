@@ -9,7 +9,11 @@ export const getMe = createContract('user.getMe')
   })
   .returns<User>()
   .fn(async user => {
-    return user;
+    return {
+      id: user._id.toHexString(),
+      email: user.email,
+      isVerified: user.isVerified,
+    };
   });
 
 export const getMeRpc = createRpcBinding({

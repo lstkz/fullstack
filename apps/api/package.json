@@ -9,7 +9,7 @@
     "start:worker": "ts-node -T src/worker",
     "tsc": "tsc --noEmit",
     "dev": "(NODE_ENV=development ts-node-dev --transpile-only src/app &); (NODE_ENV=development ts-node-dev --transpile-only src/worker)",
-    "test": "yarn run tsc && yarn run jest",
+    "test": "yarn run tsc && yarn run lint && yarn run jest",
     "build": "rm dist/*; yarn run webpack --progress --color",
     "jest": "jest",
     "lint": "eslint . --ext .ts"

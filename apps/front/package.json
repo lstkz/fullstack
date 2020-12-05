@@ -7,6 +7,7 @@
   "sideEffects": false,
   "scripts": {
     "test": "tsc",
+    "lint": "eslint . --ext .ts --ext .tsx",
     "dev": "ts-node -T --project ./node.tsconfig.json scripts/dev",
     "build": "ts-node -T --project ./node.tsconfig.json scripts/build"
   },

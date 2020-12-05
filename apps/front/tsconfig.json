@@ -7,6 +7,6 @@
   },
   "references": [],
 
-  "include": ["src"],
+  "include": ["src", "scripts"],
   "exclude": ["tests", "dist", "build"]
 }

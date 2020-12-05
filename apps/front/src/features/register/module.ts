@@ -30,7 +30,7 @@ function authWith(fn: () => Rx.Observable<AuthData>) {
 handle
   .epic()
   .on(RegisterActions.$mounted, () => RegisterFormActions.reset())
-  .on(RegisterFormActions.setSubmitSucceeded, ({}) => {
+  .on(RegisterFormActions.setSubmitSucceeded, () => {
     const values = R.omit(getRegisterFormState().values, ['confirmPassword']);
     return authWith(() =>
       api.user_register({
