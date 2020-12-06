@@ -2,14 +2,22 @@ import React from 'react';
 import { GlobalStyles } from 'src/components/GlobalStyles';
 import _NextApp, { AppContext, AppProps } from 'next/app';
 import Head from 'next/head';
-
 import { config } from '@fortawesome/fontawesome-svg-core';
 import '@fortawesome/fontawesome-svg-core/styles.css';
 import { ErrorModalModule } from 'src/features/ErrorModalModule';
 import { SubscriptionModalsModule } from 'src/features/SubscriptionModalsModule';
+import { AuthModule } from 'src/features/AuthModule';
+import { API_URL } from 'src/config';
+import { readCookieFromString } from 'src/common/cookie';
+import { APIClient, User } from 'shared';
+
 config.autoAddCss = false;
 
-function App({ Component, pageProps }: AppProps) {
+interface GlobalProps {
+  initialUser: User | null;
+}
+
+function App({ Component, pageProps, initialUser }: AppProps & GlobalProps) {
   return (
     <>
       <Head>
@@ -31,18 +39,36 @@ function App({ Component, pageProps }: AppProps) {
         <link rel="icon" type="image/png" href="/favicon-32x32.png?2" />
       </Head>
       <GlobalStyles />
-      <SubscriptionModalsModule>
-        <ErrorModalModule>
-          <Component {...pageProps} />
-        </ErrorModalModule>
-      </SubscriptionModalsModule>
+      <AuthModule initialUser={initialUser}>
+        <SubscriptionModalsModule>
+          <ErrorModalModule>
+            <Component {...pageProps} />
+          </ErrorModalModule>
+        </SubscriptionModalsModule>
+      </AuthModule>
       <div id="portals" />
     </>
   );
 }
 
-App.getInitialProps = ({ ctx }: AppContext) => {
-  return {};
+App.getInitialProps = async ({ ctx }: AppContext) => {
+  if (ctx.req) {
+    const token = readCookieFromString(
+      ctx.req.headers['cookie'] ?? '',
+      'token'
+    );
+    if (token) {
+      const api = new APIClient(API_URL, () => token);
+      const user = await api.user_getMe().catch(e => {
+        console.error(e);
+        return null;
+      });
+      return {
+        initialUser: user,
+      };
+    }
+  }
+  return { initialUser: null };
 };
 
 export default App;

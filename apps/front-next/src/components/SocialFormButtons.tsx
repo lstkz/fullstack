@@ -3,8 +3,6 @@ import React from 'react';
 import { GithubIcon } from 'src/icons/GithubIcon';
 import { GoogleIcon } from 'src/icons/GoogleIcon';
 import { GITHUB_CLIENT_ID, GOOGLE_CLIENT_ID } from 'src/config';
-import { useActions } from 'typeless';
-import { GlobalActions } from 'src/features/global/interface';
 import { spacerStyle } from 'src/components/_spacer';
 import { Row, Col } from 'src/components/Grid';
 import { Button } from 'src/components/Button';
@@ -57,7 +55,12 @@ function popupCenter(url: string, title: string, w: number, h: number) {
 }
 
 export function SocialFormButtons() {
-  const { githubCallback, googleCallback } = useActions(GlobalActions);
+  const githubCallback = () => {
+    throw new Error('Not implemented');
+  };
+  const googleCallback = () => {
+    throw new Error('Not implemented');
+  };
   React.useEffect(() => {
     (window as any).githubCallback = githubCallback;
     (window as any).googleCallback = googleCallback;

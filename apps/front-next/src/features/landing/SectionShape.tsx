@@ -32,4 +32,12 @@ export const SectionShape = styled(_SectionShape)`
     fill: ${props => props.color};
     display: block;
   }
+  margin: 0;
+  display: flex;
+  display: block;
+  padding-right: 0;
+  align-items: center;
+  justify-content: center;
+  justify-content: center;
+  align-items: center;
 `;

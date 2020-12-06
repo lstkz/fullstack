@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import * as PopperJS from 'popper.js';
 import { Manager, Reference, Popper } from 'react-popper';
-import { Transition } from 'react-spring/renderprops';
+// import { Transition } from 'react-spring/renderprops';
 
 const DropdownWrapper = styled.div`
   z-index: 2;
@@ -53,7 +53,37 @@ export function MenuDropdown(props: MenuDropdownProps) {
           })
         }
       </Reference>
-      <Transition
+      <Popper
+        modifiers={{
+          preventOverflow: {
+            enabled: true,
+            boundariesElement:
+              typeof document === 'undefined' ? undefined : document.body,
+          },
+        }}
+        placement={placement || 'bottom-start'}
+      >
+        {({ ref, style, placement: _placement }) =>
+          isOpen && (
+            <DropdownWrapper
+              ref={ref}
+              style={{ ...style }}
+              data-placement={_placement}
+              onClick={e => {
+                if (isClickable(e.target as any)) {
+                  return;
+                }
+                e.nativeEvent.stopPropagation();
+                e.nativeEvent.stopImmediatePropagation();
+              }}
+            >
+              {dropdown}
+            </DropdownWrapper>
+          )
+        }
+      </Popper>
+
+      {/* <Transition
         items={isOpen}
         config={(_, state) =>
           state === 'leave' ? { duration: 0 } : { duration: 200 }
@@ -93,7 +123,7 @@ export function MenuDropdown(props: MenuDropdownProps) {
             </Popper>
           ))
         }
-      </Transition>
+      </Transition> */}
     </Manager>
   );
 }

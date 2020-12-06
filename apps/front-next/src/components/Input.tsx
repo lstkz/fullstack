@@ -6,7 +6,7 @@ import { Small } from './Small';
 
 type BaseProps = Pick<
   React.InputHTMLAttributes<HTMLInputElement>,
-  'value' | 'placeholder' | 'onChange' | 'type' | 'id'
+  'value' | 'placeholder' | 'onChange' | 'type' | 'id' | 'autoComplete'
 >;
 
 export interface InputProps extends BaseProps {

@@ -1,6 +1,3 @@
-import React from 'react';
-import { LandingView } from 'src/features/landing/components/LandingView';
+import { LandingView } from 'src/features/landing/LandingView';
 
-export default function LandingPage() {
-  return <LandingView />;
-}
+export default LandingView;

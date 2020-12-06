@@ -127,7 +127,6 @@ export const MainBanner = styled(_MainBanner)`
   display: block;
   background: ${Theme.section_dark};
   color: white;
-  overflow: hidden;
   ${Container} {
     padding: 0.75rem 1rem 0;
     border-top: 1px solid rgba(255, 255, 255, 0.2);
