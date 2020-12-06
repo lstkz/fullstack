@@ -211,5 +211,11 @@ declare module 'styled-components' {
   const createGlobalStyle: any;
   export { createGlobalStyle };
 
+  export class ServerStyleSheet {
+    collectStyles(arg: any);
+    getStyleElement(): any;
+    seal(): any;
+  }
+
   export default styled;
 }

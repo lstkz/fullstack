@@ -109,7 +109,7 @@ const _TesterMock = (props: TesterMockProps) => {
     }, 500);
   };
 
-  React.useLayoutEffect(() => {
+  React.useEffect(() => {
     animate();
     return () => {
       clearTimeout(loadTimeout.current);
@@ -141,7 +141,7 @@ const _TesterMock = (props: TesterMockProps) => {
           </LoaderWrapper>
         ) : (
           items.map((color, i) => (
-            <Item color={color} idx={i}>
+            <Item color={color} idx={i} key={i}>
               <FontAwesomeIcon
                 icon={color === 'danger' ? faTimesCircle : faCheckCircle}
               />

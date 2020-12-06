@@ -1,7 +1,7 @@
+import Link from 'next/Link';
 import * as React from 'react';
 import { createUrl } from 'src/common/url';
 import { Container } from 'src/components/Container';
-import { Link } from 'src/components/Link';
 import { Logo } from 'src/components/Logo';
 import { IS_REAL_PROD } from 'src/config';
 import { Theme } from 'src/Theme';
@@ -118,7 +118,7 @@ const _Header = (props: HeaderProps) => {
                       <DropdownPopup>
                         <MenuItem>
                           <Link
-                            testId="settings-link"
+                            data-test="settings-link"
                             href={createUrl({ name: 'settings' })}
                           >
                             Ustawienia

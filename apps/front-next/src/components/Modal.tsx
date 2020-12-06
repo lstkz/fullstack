@@ -195,7 +195,7 @@ export function Modal(props: ModalProps) {
     };
   }, [isOpen]);
 
-  React.useLayoutEffect(() => {
+  React.useEffect(() => {
     if (isOpen) {
       modalRef.current?.focus();
     }

@@ -113,7 +113,7 @@ const _MainBanner = (props: MainBannerProps) => {
               <TesterMock />
             </SecondaryImage>
             <MainImage>
-              <Image src="./assets/main-image.png" layout="fill" />
+              <img src={require('./assets/main-image.png')} />
             </MainImage>
           </Right>
         </Row>

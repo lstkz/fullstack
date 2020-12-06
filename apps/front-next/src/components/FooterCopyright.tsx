@@ -1,5 +1,5 @@
+import Link from 'next/Link';
 import * as React from 'react';
-import { Link } from 'src/components/Link';
 import { MEDIA_MD, Theme } from 'src/Theme';
 import styled from 'styled-components';
 import { Divider } from './Divider';

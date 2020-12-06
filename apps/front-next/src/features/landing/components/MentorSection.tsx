@@ -5,7 +5,6 @@ import { Container } from 'src/components/Container';
 import { Col, Row } from 'src/components/Grid';
 import { Heading } from 'src/components/Heading';
 import { Icon } from 'src/components/Icon';
-import Image from 'next/image';
 import { SpacerProps, spacerStyle } from 'src/components/_spacer';
 import { Theme } from 'src/Theme';
 import styled from 'styled-components';
@@ -21,7 +20,7 @@ const RightCol = styled(Col)`
   justify-content: center;
 `;
 
-const ImageWrapper = styled.div<{ empty?: boolean } & SpacerProps>`
+const Image = styled.div<{ empty?: boolean } & SpacerProps>`
   width: 100%;
   ${props => props.empty && 'padding-bottom: 100%;'}
   border-radius: 0.375rem;
@@ -50,24 +49,20 @@ const _MentorSection = (props: MentorSectionProps) => {
           <Col md={6}>
             <Row>
               <Col sm={6} mt={6} px={2}>
-                <ImageWrapper mb={3}>
-                  <Image src="./assets/mentor_1.jpg" layout="fill" />
-                  {/* <img src={require('./assets/mentor_1.jpg').default} /> */}
-                </ImageWrapper>
-                <ImageWrapper>
-                  <Image src="./assets/mentor_3.jpg" layout="fill" />
-                  {/* <img src={require('./assets/mentor_3.jpg').default} /> */}
-                </ImageWrapper>
+                <Image mb={3}>
+                  <img src={require('./assets/mentor_1.jpg')} />
+                </Image>
+                <Image>
+                  <img src={require('./assets/mentor_3.jpg')} />
+                </Image>
               </Col>
               <Col sm={6} px={2}>
-                <ImageWrapper mb={3}>
-                  <Image src="./assets/mentor_6.jpg" layout="fill" />
-                  {/* <img src={require('./assets/mentor_6.jpg').default} /> */}
-                </ImageWrapper>
-                <ImageWrapper>
-                  <Image src="./assets/mentor_5.jpg" layout="fill" />
-                  {/* <img src={require('./assets/mentor_5.jpg').default} /> */}
-                </ImageWrapper>
+                <Image mb={3}>
+                  <img src={require('./assets/mentor_6.jpg')} />
+                </Image>
+                <Image>
+                  <img src={require('./assets/mentor_5.jpg')} />
+                </Image>
               </Col>
             </Row>
           </Col>

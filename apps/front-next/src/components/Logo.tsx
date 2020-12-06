@@ -19,7 +19,9 @@ const _Logo = (props: LogoProps) => {
         aria-label="logo"
       >
         {/* {type === 'dark' ? <LogoDark /> : <LogoLight />} */}
-        <h1>Fullstack</h1>
+        <a>
+          <h1>Fullstack</h1>
+        </a>
       </Link>
     </div>
   );

@@ -1,7 +1,6 @@
 import * as React from 'react';
 import { createUrl } from 'src/common/url';
 import { Container } from 'src/components/Container';
-import { Link } from 'src/components/Link';
 import { Button } from 'src/components/Button';
 import { Heading } from 'src/components/Heading';
 import { InputGroup } from 'src/components/InputGroup';
