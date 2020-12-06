@@ -4,9 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "next dev -p 4000",
-    "build": "next build",
-    "start": "next start -p 4000"
+    "start": "ts-node -T --project ./node.tsconfig.json scripts/start",
+    "dev": "ts-node -T --project ./node.tsconfig.json scripts/dev",
+    "build": "ts-node -T --project ./node.tsconfig.json scripts/build"
   },
   "keywords": [],
   "author": "",
@@ -15,7 +15,10 @@
     "babel-plugin-styled-components": "^1.12.0",
     "next": "^10.0.3",
     "next-images": "^1.6.2",
+    "next-transpile-modules": "^6.0.0",
     "react": "^17.0.1",
-    "react-dom": "^17.0.1"
+    "react-dom": "^17.0.1",
+    "react-hook-form": "^6.12.2",
+    "use-immer": "^0.4.2"
   }
 }

@@ -1,36 +1,9 @@
-import { getValidateResult, AnySchema } from 'schema';
-
 export class UnreachableCaseError extends Error {
   constructor(val: never) {
     super(
       `Unreachable case: ${typeof val === 'string' ? val : JSON.stringify(val)}`
     );
   }
-}
-
-function fixErrorMessage(message: string) {
-  if (message === 'is required') {
-    return 'Pole wymagane';
-  }
-  if (message === 'must a valid email') {
-    return 'Niepoprawny email';
-  }
-  if (message === 'length must be at least 5 characters long') {
-    return 'Hasło musi mieć przynajmniej 5 znaków';
-  }
-
-  return message[0].toUpperCase() + message.slice(1);
-}
-
-export function validate(
-  errors: any,
-  values: any,
-  schema: AnySchema<any, any>
-) {
-  getValidateResult(values, schema).errors.reduce((ret, err) => {
-    ret[err.path[0]] = fixErrorMessage(err.message);
-    return ret;
-  }, errors as any);
 }
 
 export function getErrorMessage(e: any) {

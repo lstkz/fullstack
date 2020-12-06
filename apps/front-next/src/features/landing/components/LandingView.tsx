@@ -1,4 +1,3 @@
-import { Head } from 'next/document';
 import React from 'react';
 import { FaqSection } from './FaqSection';
 import { LandingFooter } from './LandingFooter';
@@ -19,10 +18,6 @@ export function LandingView() {
       <MentorSection /> <FaqSection />
       <SubscribeSection />
       <LandingFooter />
-      {/* <MentorSection />
-      <FaqSection />
-      <SubscribeSection />
-      <LandingFooter /> */}
     </>
   );
 }

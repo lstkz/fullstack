@@ -52,13 +52,13 @@ figcaption, figure, main {
     display: block;
     margin: 0;
 }
-#root {
+#__next {
   height: 100% ;
   display: flex;
   flex-direction: column;
   z-index: 1;
 }
 #portals {
-  z-index: 2;
+  z-index: 3;
 }
 `;

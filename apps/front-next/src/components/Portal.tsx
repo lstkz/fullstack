@@ -6,6 +6,8 @@ interface PortalProps {
 
 export function Portal(props: PortalProps) {
   const { children } = props;
-
+  if (typeof window === 'undefined') {
+    return <>{children}</>;
+  }
   return ReactDOM.createPortal(children, document.querySelector('#portals')!);
 }

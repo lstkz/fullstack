@@ -5,6 +5,8 @@ import Head from 'next/head';
 
 import { config } from '@fortawesome/fontawesome-svg-core';
 import '@fortawesome/fontawesome-svg-core/styles.css';
+import { ErrorModalModule } from 'src/features/ErrorModalModule';
+import { SubscriptionModalsModule } from 'src/features/SubscriptionModalsModule';
 config.autoAddCss = false;
 
 function App({ Component, pageProps }: AppProps) {
@@ -29,7 +31,12 @@ function App({ Component, pageProps }: AppProps) {
         <link rel="icon" type="image/png" href="/favicon-32x32.png?2" />
       </Head>
       <GlobalStyles />
-      <Component {...pageProps} />
+      <SubscriptionModalsModule>
+        <ErrorModalModule>
+          <Component {...pageProps} />
+        </ErrorModalModule>
+      </SubscriptionModalsModule>
+      <div id="portals" />
     </>
   );
 }

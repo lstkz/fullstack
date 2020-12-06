@@ -3,7 +3,6 @@ import { Container } from 'src/components/Container';
 import { Col, Row } from 'src/components/Grid';
 import { MEDIA_MD, Theme } from 'src/Theme';
 import styled from 'styled-components';
-import Image from 'next/image';
 
 import { SectionShape } from './SectionShape';
 import { TesterMock } from './TesterMock';

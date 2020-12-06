@@ -10,6 +10,7 @@ type BaseProps = Pick<
 >;
 
 export interface InputProps extends BaseProps {
+  name: string;
   className?: string;
   size?: 'small' | 'default' | 'large' | 'extra-large';
   feedback?: string;
@@ -17,6 +18,7 @@ export interface InputProps extends BaseProps {
   label?: string;
   noMargin?: boolean;
   testId?: string;
+  inputRef?: React.LegacyRef<any>;
 }
 
 const Label = styled.label`
@@ -41,12 +43,13 @@ const _Input = (props: InputProps) => {
     label,
     noMargin,
     testId,
+    inputRef,
     ...rest
   } = props;
   return (
     <div className={className} data-test={testId}>
       {label && <Label htmlFor={rest.id}>{label}</Label>}
-      <input {...rest} />
+      <input {...rest} ref={inputRef} />
       {feedback && (
         <InputFeedback color={state === 'error' ? 'danger' : undefined}>
           {feedback}
