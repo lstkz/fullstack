@@ -4,7 +4,7 @@ import { createUrl } from 'src/common/url';
 import { Container } from 'src/components/Container';
 import { Logo } from 'src/components/Logo';
 import { IS_REAL_PROD } from 'src/config';
-import { useUser } from 'src/features/AuthModule';
+import { useAuthActions, useUser } from 'src/features/AuthModule';
 import { Theme } from 'src/Theme';
 import styled from 'styled-components';
 import { Button } from './Button';
@@ -94,9 +94,8 @@ const Buttons = styled.div`
 
 const _Header = (props: HeaderProps) => {
   const { className } = props;
-  const logout = () => {};
+  const authActions = useAuthActions();
   const user = useUser();
-
   return (
     <div className={className}>
       <Container>
@@ -125,7 +124,10 @@ const _Header = (props: HeaderProps) => {
                         </MenuItem>
                         <MenuSeparator />
                         <MenuItem red>
-                          <VoidLink data-test="logout-btn" onClick={logout}>
+                          <VoidLink
+                            data-test="logout-btn"
+                            onClick={authActions.logout}
+                          >
                             Wyloguj się
                           </VoidLink>
                         </MenuItem>

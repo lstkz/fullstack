@@ -39,6 +39,7 @@ export function MenuDropdown(props: MenuDropdownProps) {
       document.removeEventListener('click', onClick);
     };
   }, [isOpen]);
+
   return (
     <Manager>
       <Reference>
@@ -47,7 +48,8 @@ export function MenuDropdown(props: MenuDropdownProps) {
             'data-dropdown-toggle': true,
             'data-test': testId,
             ref: ref,
-            onClick: () => {
+            onClick: (e: MouseEvent) => {
+              e.stopPropagation();
               setOpen(!isOpen);
             },
           })

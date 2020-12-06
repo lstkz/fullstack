@@ -20,7 +20,10 @@ export function readCookie(name: string) {
   return readCookieFromString(document.cookie, name);
 }
 
-export function readCookieFromString(cookie: string, name: string) {
+export function readCookieFromString(
+  cookie: string | undefined = '',
+  name: string
+) {
   const nameEQ = name + '=';
   const ca = cookie.split(';');
   for (let c of ca) {

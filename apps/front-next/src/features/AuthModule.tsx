@@ -1,6 +1,7 @@
 import { useRouter } from 'next/dist/client/router';
 import React from 'react';
 import { User } from 'shared';
+import { clearAccessToken } from 'src/services/Storage';
 import { useImmer } from 'use-immer';
 
 interface Actions {
@@ -24,7 +25,6 @@ export interface AuthModuleProps {
 
 export function AuthModule(props: AuthModuleProps) {
   const { children, initialUser } = props;
-  console.log(initialUser);
   const [state, setState] = useImmer<State>({ user: initialUser });
   const router = useRouter();
 
@@ -35,11 +35,9 @@ export function AuthModule(props: AuthModuleProps) {
           draft.user = user;
         }),
 
-      logout: () => {
-        router.push('/login');
-        setState(draft => {
-          draft.user = null;
-        });
+      logout: async () => {
+        clearAccessToken();
+        await router.push('/login');
       },
     }),
     []
