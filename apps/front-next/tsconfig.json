@@ -1,0 +1,22 @@
+{
+  "extends": "../../base.tsconfig.json",
+  "compilerOptions": {
+    "rootDir": "src",
+    "baseUrl": ".",
+    "noEmit": true,
+    "allowJs": true,
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "jsx": "preserve"
+  },
+  "references": [],
+  "include": [
+    "src",
+    "scripts"
+  ],
+  "exclude": [
+    "tests",
+    "dist",
+    "build"
+  ]
+}

@@ -20,6 +20,9 @@ export interface AppConfig {
     port: number;
     eventQueueSuffix: string;
   };
+  web: {
+    port: number;
+  };
   emailSender: string;
   bugsnag: {
     apiKey: string | -1;
@@ -52,12 +55,7 @@ export interface AppConfig {
       | -1;
     appDomain: string | -1;
     appCertArn: string | -1;
-    api: {
-      cpu: number;
-      memory: number;
-      count: number;
-    };
-    worker: {
+    task: {
       cpu: number;
       memory: number;
       count: number;

@@ -21,6 +21,9 @@ export const config: AppConfig = {
     port: 3000,
     eventQueueSuffix: 'app',
   },
+  web: {
+    port: 4000,
+  },
   emailSender: 'lukasz@fullstack.pl',
   bugsnag: {
     apiKey: -1,
@@ -37,20 +40,15 @@ export const config: AppConfig = {
     clientSecret: 'qAloPu3PpycwNblek9uPD-DT',
   },
   deploy: {
+    task: {
+      cpu: 256,
+      memory: 512,
+      count: 1,
+    },
     apiCertArn: -1,
     zone: -1,
     appDomain: -1,
     appCertArn: -1,
-    api: {
-      cpu: 256,
-      memory: 512,
-      count: 1,
-    },
-    worker: {
-      cpu: 256,
-      memory: 512,
-      count: 1,
-    },
   },
   tpay: {
     apiRedirectBaseUrl: 'https://8c329d2a4b5f.eu.ngrok.io',

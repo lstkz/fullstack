@@ -6,6 +6,7 @@ COPY yarn.lock yarn.lock
 COPY package.json package.json
 COPY apps/api/package.json apps/api/package.json
 COPY apps/front/package.json apps/front/package.json
+COPY apps/front-next/package.json apps/front-next/package.json
 COPY packages/config/package.json packages/config/package.json
 COPY packages/contract/package.json packages/contract/package.json
 COPY packages/deploy/package.json packages/deploy/package.json
@@ -18,3 +19,5 @@ COPY packages/ui/package.json packages/ui/package.json
 RUN yarn
 
 COPY . .
+
+RUN cd apps/front-next && yarn run build
