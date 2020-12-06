@@ -5,13 +5,14 @@ import { Container } from 'src/components/Container';
 import { Button } from 'src/components/Button';
 import { Heading } from 'src/components/Heading';
 import { InputGroup } from 'src/components/InputGroup';
-import { MEDIA_MD, Theme } from 'src/Theme';
+import { MEDIA_MD_NEXT, Theme } from 'src/Theme';
 import styled from 'styled-components';
 import { FormInput } from 'src/components/FormInput';
 import Link from 'next/Link';
 import { InputFeedback } from 'src/components/Input';
 import { useErrorModalActions } from 'src/features/ErrorModalModule';
 import { api } from 'src/services/api';
+import { useSubscriptionModalsActions } from 'src/features/SubscriptionModalsModule';
 
 const emailReg = /^[a-zA-Z0-9._\-+]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
 
@@ -37,31 +38,24 @@ const FormWrapper = styled.div`
   max-width: 600px;
 `;
 
-const _SubscribeSection = (props: SubscribeSectionProps) => {
+export function SubscribeSection(props: SubscribeSectionProps) {
   const { className } = props;
   const [isSubmitting, setIsSubmitting] = React.useState(false);
   const { errors, register, handleSubmit } = useForm<FormValues>();
   const errorModalActions = useErrorModalActions();
+  const SubscriptionModalsActions = useSubscriptionModalsActions();
 
   const onSubmit = async (data: FormValues) => {
     setIsSubmitting(true);
-    errorModalActions.show('Mock Error');
     try {
       const ret = await api
         .emailSubscription_subscribe(null, data.email)
         .toPromise();
       if (ret.result === 'ok') {
+        SubscriptionModalsActions.show('confirm');
       } else {
+        SubscriptionModalsActions.show('already-subscribed');
       }
-
-      // .pipe(
-      //   Rx.map(ret =>
-      //     EmailSubscriptionActions.showModal(
-      //       ret.result === 'ok' ? 'confirm' : 'already-subscribed'
-      //     )
-      //   ),
-      //   handleAppError()
-      // )
     } catch (e) {
       errorModalActions.show(e);
     } finally {
@@ -70,67 +64,72 @@ const _SubscribeSection = (props: SubscribeSectionProps) => {
   };
 
   return (
-    <form
-      onSubmit={handleSubmit(onSubmit)}
-      className={className}
-      id="subscribe-section"
-    >
-      <Container>
-        <Heading type={2}>Dołącz do mailingu</Heading>
-        <Desc>
-          Platforma jest w budowie. Podaj swojego maila, a dostaniesz
-          powiadomienie jak wystartujemy.
-          <br />
-          Start jest szacowany na początek 2021 roku.
-        </Desc>
-        <FormWrapper>
-          <InputGroup
-            size="large"
-            input={
-              <FormInput
-                noMargin
-                noFeedback
-                name="email"
-                placeholder="Twój email"
-                ref={register({
-                  required: {
-                    value: true,
-                    message: 'Podaj adres email',
-                  },
-                  pattern: {
-                    value: emailReg,
-                    message: 'Nieprawny email',
-                  },
-                })}
-              />
-            }
-            append={
-              <Button type="primary" htmlType="submit" loading={isSubmitting}>
-                Zapisz się
-              </Button>
-            }
-          />
-          <InputFeedback color="danger">{errors.email?.message}</InputFeedback>
-        </FormWrapper>
-        <Text>
-          Zapisując się to newslettera wyrażasz zgodę na przetwarzanie Twoich
-          danych zgodnie z{' '}
-          <Link href={createUrl({ name: 'privacy' })}>
-            polityką prywatności
-          </Link>
-          .
-        </Text>
-      </Container>
-    </form>
+    <div className="root">
+      <form
+        onSubmit={handleSubmit(onSubmit)}
+        className={className}
+        id="subscribe-section"
+      >
+        <Container>
+          <Heading type={2}>Dołącz do mailingu</Heading>
+          <Desc>
+            Platforma jest w budowie. Podaj swojego maila, a dostaniesz
+            powiadomienie jak wystartujemy.
+            <br />
+            Start jest szacowany na początek 2021 roku.
+          </Desc>
+          <FormWrapper>
+            <InputGroup
+              size="large"
+              input={
+                <FormInput
+                  noMargin
+                  noFeedback
+                  name="email"
+                  placeholder="Twój email"
+                  ref={register({
+                    required: {
+                      value: true,
+                      message: 'Podaj adres email',
+                    },
+                    pattern: {
+                      value: emailReg,
+                      message: 'Nieprawny email',
+                    },
+                  })}
+                />
+              }
+              append={
+                <Button type="primary" htmlType="submit" loading={isSubmitting}>
+                  Zapisz się
+                </Button>
+              }
+            />
+            <InputFeedback color="danger">
+              {errors.email?.message}
+            </InputFeedback>
+          </FormWrapper>
+          <Text>
+            Zapisując się to newslettera wyrażasz zgodę na przetwarzanie Twoich
+            danych zgodnie z{' '}
+            <Link href={createUrl({ name: 'privacy' })}>
+              polityką prywatności
+            </Link>
+            .
+          </Text>
+        </Container>
+      </form>
+      <style jsx>{`
+        .root {
+          display: block;
+          background: ${Theme.section_secondary};
+          padding: 4.5rem 0;
+          text-align: center;
+          @media ${MEDIA_MD_NEXT} {
+            padding: 4.5rem;
+          }
+        }
+      `}</style>
+    </div>
   );
-};
-
-export const SubscribeSection = styled(_SubscribeSection)`
-  display: block;
-  background: ${Theme.section_secondary};
-  padding: 4.5rem 0;
-  text-align: center;
-  ${MEDIA_MD} {
-    padding: 4.5rem;
-  }
-`;
+}

@@ -81,5 +81,7 @@ export const Theme = {
 };
 
 export const MOBILE_MAX_WIDTH = 765;
-export const MEDIA_MD = '@media (min-width: 768px)';
+export const MEDIA_MD = '@media screen and (min-width: 768px)';
 export const MEDIA_LG = '@media (min-width: 1200px)';
+
+export const MEDIA_MD_NEXT = `(min-width: 768px)`;
