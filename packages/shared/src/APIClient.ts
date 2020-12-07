@@ -19,7 +19,8 @@ export class APIClient {
     fetch?: (input: RequestInfo, init?: RequestInit) => Promise<Response>
   ) {
     this.baseUrl = baseUrl.replace(/\/$/, '');
-    this.fetch = fetch ?? window.fetch;
+    this.fetch =
+      fetch ?? (typeof window === 'undefined' ? null! : window.fetch);
   }
 
   // SIGNATURES
