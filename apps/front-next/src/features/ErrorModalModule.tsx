@@ -35,10 +35,12 @@ export function ErrorModalModule(props: ErrorModalProps) {
         }),
 
       show: message => {
-        if (typeof message === 'string') {
-          console.error('An error occurred: ', message);
-        } else {
-          console.error(message);
+        if (process.env.NODE_ENV !== 'test') {
+          if (typeof message === 'string') {
+            console.error('An error occurred: ', message);
+          } else {
+            console.error(message);
+          }
         }
         setState(draft => {
           draft.isOpen = true;
@@ -63,7 +65,7 @@ export function ErrorModalModule(props: ErrorModalProps) {
       }}
     >
       <SimpleModal
-        testId="error-modal"
+        testId="ErrorModal"
         bgColor="danger"
         isOpen={isOpen}
         close={hideErrorModal}

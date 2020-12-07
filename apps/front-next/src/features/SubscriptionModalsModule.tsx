@@ -56,6 +56,7 @@ export function SubscriptionModalsModule(props: SubscriptionModalsProps) {
       }}
     >
       <SimpleModal
+        testId="SubConfirmModal"
         isOpen={visibleModal === 'confirm'}
         bgColor="primary"
         header="Prawie gotowe!"
@@ -71,6 +72,7 @@ export function SubscriptionModalsModule(props: SubscriptionModalsProps) {
         close={actions.hide}
       />
       <SimpleModal
+        testId="SubAlreadyModal"
         isOpen={visibleModal === 'already-subscribed'}
         bgColor="success"
         header="Newsletter"
@@ -80,6 +82,7 @@ export function SubscriptionModalsModule(props: SubscriptionModalsProps) {
         close={actions.hide}
       />
       <SimpleModal
+        testId="SubConfirmedModal"
         isOpen={visibleModal === 'confirmed'}
         bgColor="primary"
         header="Newsletter"
@@ -89,6 +92,7 @@ export function SubscriptionModalsModule(props: SubscriptionModalsProps) {
         close={actions.hide}
       />
       <SimpleModal
+        testId="SubRemovedModal"
         isOpen={visibleModal === 'unsubscribed'}
         bgColor="warning"
         header="Newsletter"

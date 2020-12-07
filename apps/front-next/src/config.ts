@@ -1,3 +1,10 @@
+if (process.env.NODE_ENV === 'test') {
+  process.env.GITHUB_CLIENT_ID = 'mock';
+  process.env.GOOGLE_CLIENT_ID = 'mock';
+  process.env.PROTECTED_BASE_URL = '/';
+  process.env.API_URL = '/';
+}
+
 if (!process.env.GITHUB_CLIENT_ID) {
   throw new Error('GITHUB_CLIENT_ID is not set');
 }
