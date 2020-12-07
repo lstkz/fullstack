@@ -1,11 +1,11 @@
 import React from 'react';
 import { mocked } from 'ts-jest/utils';
-import { getByTestId, mockFn, render } from './testUtils';
+import { mockFn, render } from './testUtils';
 import { ConfirmEmailChecker } from '../src/features/ConfirmEmailChecker';
 import { SubscriptionModalsModule } from 'src/features/SubscriptionModalsModule';
 import { ErrorModalModule } from 'src/features/ErrorModalModule';
 import { NextRouter } from 'next/router';
-import { act } from 'react-dom/test-utils';
+import { screen } from '@testing-library/react';
 import { api } from 'src/services/api';
 
 const mockedApi = mocked(api);
@@ -17,22 +17,20 @@ beforeEach(() => {
 });
 
 function _run(query: Record<string, string>) {
-  return act(async () => {
-    render(
-      <SubscriptionModalsModule>
-        <ErrorModalModule>
-          <ConfirmEmailChecker />
-        </ErrorModalModule>
-      </SubscriptionModalsModule>,
-      {
-        router: {
-          pathname: '/foo',
-          query: query,
-          replace,
-        },
-      }
-    );
-  });
+  return render(
+    <SubscriptionModalsModule>
+      <ErrorModalModule>
+        <ConfirmEmailChecker />
+      </ErrorModalModule>
+    </SubscriptionModalsModule>,
+    {
+      router: {
+        pathname: '/foo',
+        query: query,
+        replace,
+      },
+    }
+  );
 }
 
 it('should confirm code', async () => {
@@ -50,8 +48,8 @@ it('should confirm code', async () => {
     },
   });
   expect(mockedApi.emailSubscription_confirmSubscription).toBeCalledWith('adb');
-  expect(getByTestId('SubConfirmedModal')).toBeTruthy();
-  expect(getByTestId('ErrorModal')).toBeFalsy();
+  expect(screen.queryByTestId('SubConfirmedModal')).toBeVisible();
+  expect(screen.queryByTestId('ErrorModal')).toBeNull();
 });
 
 it('error when confirm code', async () => {
@@ -71,8 +69,8 @@ it('error when confirm code', async () => {
     },
   });
   expect(mockedApi.emailSubscription_confirmSubscription).toBeCalledWith('adb');
-  expect(getByTestId('SubConfirmedModal')).toBeFalsy();
-  expect(getByTestId('ErrorModal')).toBeTruthy();
+  expect(screen.queryByTestId('SubConfirmedModal')).toBeNull();
+  expect(screen.queryByTestId('ErrorModal')).toBeVisible();
 });
 
 it('should unsubscribe', async () => {
@@ -96,8 +94,8 @@ it('should unsubscribe', async () => {
     'a2',
     'a3'
   );
-  expect(getByTestId('SubRemovedModal')).toBeTruthy();
-  expect(getByTestId('ErrorModal')).toBeFalsy();
+  expect(screen.queryByTestId('SubRemovedModal')).toBeVisible();
+  expect(screen.queryByTestId('ErrorModal')).toBeNull();
 });
 
 it('error when unsubscribe', async () => {
@@ -123,6 +121,6 @@ it('error when unsubscribe', async () => {
     'a2',
     'a3'
   );
-  expect(getByTestId('SubRemovedModal')).toBeFalsy();
-  expect(getByTestId('ErrorModal')).toBeTruthy();
+  expect(screen.queryByTestId('SubRemovedModal')).toBeNull();
+  expect(screen.queryByTestId('ErrorModal')).toBeVisible();
 });

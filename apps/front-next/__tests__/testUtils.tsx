@@ -1,36 +1,48 @@
 import React from 'react';
 import { RouterContext } from 'next/dist/next-server/lib/router-context';
 import { NextRouter } from 'next/router';
-import { render, unmountComponentAtNode } from 'react-dom';
+import { render } from '@testing-library/react';
+import { act } from 'react-dom/test-utils';
 
-let container: HTMLDivElement = null!;
+import '@testing-library/jest-dom/extend-expect';
 
-export function getByTestId(testId: string) {
-  return container.querySelector(`[data-test="${testId}"]`);
-}
+// import { render, unmountComponentAtNode } from 'react-dom';
 
-beforeEach(() => {
-  container = document.createElement('div');
-  document.body.appendChild(container);
-});
+// let container: HTMLDivElement = null!;
 
-afterEach(() => {
-  unmountComponentAtNode(container);
-  container.remove();
-  container = null!;
-});
+// export function getByTestId(testId: string) {
+
+//   // return container.querySelector(`[data-test="${testId}"]`);
+// }
+
+// beforeEach(() => {
+//   container = document.createElement('div');
+//   document.body.appendChild(container);
+// });
+
+// afterEach(() => {
+//   unmountComponentAtNode(container);
+//   container.remove();
+//   container = null!;
+// });
 
 const customRender = (
   children: React.ReactNode,
   { router = {} }: { router?: Partial<NextRouter> } = {}
 ) => {
-  render(
-    <RouterContext.Provider value={{ ...mockRouter, ...router }}>
-      {children}
-    </RouterContext.Provider>,
-    container
-  );
-  return container;
+  // render(
+  //   <RouterContext.Provider value={{ ...mockRouter, ...router }}>
+  //     {children}
+  //   </RouterContext.Provider>,
+  //   container
+  // );
+  return act(async () => {
+    render(
+      <RouterContext.Provider value={{ ...mockRouter, ...router }}>
+        {children}
+      </RouterContext.Provider>
+    );
+  });
 };
 
 type Args<T> = T extends (...args: infer U) => any ? U : never;
