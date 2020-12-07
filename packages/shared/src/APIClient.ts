@@ -1,6 +1,4 @@
-import * as Rx from 'rxjs';
-import { ajax, AjaxRequest } from 'rxjs/ajax';
-import { map } from 'rxjs/operators';
+/// <reference types="typescript/lib/lib.dom" />
 
 // IMPORTS
 import {
@@ -13,12 +11,15 @@ import {
 // IMPORTS END
 
 export class APIClient {
+  fetch: (input: RequestInfo, init?: RequestInit) => Promise<Response> = null!;
+
   constructor(
     private baseUrl: string,
     private getToken: () => string | null,
-    private createXHR?: any
+    fetch?: (input: RequestInfo, init?: RequestInit) => Promise<Response>
   ) {
     this.baseUrl = baseUrl.replace(/\/$/, '');
+    this.fetch = fetch ?? window.fetch;
   }
 
   // SIGNATURES

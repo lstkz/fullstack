@@ -15,7 +15,8 @@
     "jest.config.js",
     "__tests__",
     "next.config.js",
-    "next-env.d.ts"
+    "next-env.d.ts",
+    ".eslintrc.js"
   ],
   "exclude": ["tests", "dist", "build"]
 }
