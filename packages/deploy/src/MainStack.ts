@@ -150,20 +150,6 @@ function createTasks(
       stickinessCookieDuration: cdk.Duration.minutes(2),
     }),
   });
-
-  const zone = route53.HostedZone.fromHostedZoneAttributes(
-    stack,
-    'zone',
-    config.deploy.zone
-  );
-  new route53.RecordSet(stack, 'AppZoneRecord', {
-    recordType: route53.RecordType.A,
-    target: route53.RecordTarget.fromAlias(
-      new route53Alias.LoadBalancerTarget(loadBalancer)
-    ),
-    zone,
-    recordName: config.deploy.lbDomain,
-  });
 }
 
 function createCDN(stack: cdk.Stack) {
@@ -227,6 +213,8 @@ function createCDN(stack: cdk.Stack) {
   new cdk.CfnOutput(stack, 'cdnDomainName', {
     value: distribution.distributionDomainName,
   });
+
+  return distribution;
 }
 
 (async function () {
@@ -259,7 +247,32 @@ function createCDN(stack: cdk.Stack) {
   );
   const { loadBalancer, lbListener } = createLoadBalancer(stack, vpc);
   createTasks(stack, cluster, dockerImage, lbListener, loadBalancer);
-  createCDN(stack);
+  const cdnDist = createCDN(stack);
+
+  const zone = route53.HostedZone.fromHostedZoneAttributes(
+    stack,
+    'zone',
+    config.deploy.zone
+  );
+  new route53.RecordSet(stack, 'AppZoneRecord', {
+    recordType: route53.RecordType.A,
+    target: route53.RecordTarget.fromAlias(
+      new route53Alias.LoadBalancerTarget(loadBalancer)
+    ),
+    zone,
+    recordName: config.deploy.lbDomain,
+  });
+  if (config.deploy.cdn) {
+    new route53.RecordSet(stack, 'CDNZoneRecord', {
+      recordType: route53.RecordType.A,
+      target: route53.RecordTarget.fromAlias(
+        new route53Alias.CloudFrontTarget(cdnDist)
+      ),
+      zone,
+      recordName: config.deploy.cdn.domainName,
+    });
+  }
+
   app.synth();
 })().catch(e => {
   console.error(e);
