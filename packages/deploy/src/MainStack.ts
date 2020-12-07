@@ -88,7 +88,10 @@ function createTasks(
     cpu: config.deploy.worker.cpu,
     environment: getMaybeStagePasswordEnv(),
   });
-
+  const webEnv: Record<string, string> = getMaybeStagePasswordEnv();
+  if (config.deploy.cdn) {
+    webEnv.CDN_DOMAIN = 'https://' + config.deploy.cdn.domainName;
+  }
   const webContainer = webTask.addContainer('WebContainer', {
     image: dockerImage,
     command: ['yarn', 'run', 'start:web'],
@@ -97,7 +100,7 @@ function createTasks(
     }),
     memoryLimitMiB: config.deploy.web.memory,
     cpu: config.deploy.web.cpu,
-    environment: getMaybeStagePasswordEnv(),
+    environment: webEnv,
   });
   webContainer.addPortMappings({
     hostPort: 0,
