@@ -9,6 +9,13 @@
     "jsx": "react"
   },
   "references": [],
-  "include": ["src", "scripts", "jest.config.js", "__tests__"],
+  "include": [
+    "src",
+    "scripts",
+    "jest.config.js",
+    "__tests__",
+    "next.config.js",
+    "next-env.d.ts"
+  ],
   "exclude": ["tests", "dist", "build"]
 }

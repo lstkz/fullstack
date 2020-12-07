@@ -7,6 +7,7 @@
     "start": "ts-node -T --project ./node.tsconfig.json scripts/start",
     "dev": "ts-node -T --project ./node.tsconfig.json scripts/dev",
     "build": "rm -rf ./next && ts-node -T --project ./node.tsconfig.json scripts/build",
+    "test": "yarn run lint && yarn run jest",
     "lint": "eslint . --ext .ts",
     "jest": "jest"
   },
