@@ -6,7 +6,7 @@ import { FormInput } from 'src/components/FormInput';
 import { Button } from 'src/components/Button';
 import styled from 'styled-components';
 import { createUrl } from 'src/common/url';
-import Link from 'next/Link';
+import Link from 'next/link';
 import { useForm } from 'react-hook-form';
 import { EMAIL_REGEX } from 'shared';
 import { api } from 'src/services/api';

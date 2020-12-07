@@ -1,6 +1,8 @@
-FROM node:14-alpine
+FROM node:14.15-alpine 
 
 WORKDIR /usr/app
+
+RUN npm i -g --force yarn@1.22.10
 
 COPY yarn.lock yarn.lock
 COPY package.json package.json
@@ -20,4 +22,10 @@ RUN yarn
 
 COPY . .
 
-RUN cd apps/front-next && yarn run build
+# ARG CONFIG_NAME
+# ARG STAGE_CONFIG_PASSWORD
+# ARG PROD_CONFIG_PASSWORD
+# ENV CONFIG_NAME=$CONFIG_NAME
+# ENV PROD_CONFIG_PASSWORD=$PROD_CONFIG_PASSWORD
+# ENV STAGE_CONFIG_PASSWORD=$STAGE_CONFIG_PASSWORD
+ENV NODE_ENV=production

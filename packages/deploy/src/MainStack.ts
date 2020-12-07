@@ -7,8 +7,8 @@ import * as route53 from '@aws-cdk/aws-route53';
 import * as route53Alias from '@aws-cdk/aws-route53-targets';
 import * as iam from '@aws-cdk/aws-iam';
 import Path from 'path';
-import { createWebDist } from './createWebDist';
-import { config, getPasswordEnv } from 'config';
+import * as cf from '@aws-cdk/aws-cloudfront';
+import { config, getMaybeStagePasswordEnv } from 'config';
 
 if (!process.env.STACK_NAME) {
   throw new Error('STACK_NAME is not set');
@@ -30,25 +30,15 @@ function createMainBucket(stack: cdk.Stack) {
   return bucket;
 }
 
-function getDockerEnv() {
-  return {
-    NODE_ENV: 'production',
-    ...getPasswordEnv(),
-  };
-}
-
 function createLoadBalancer(stack: cdk.Stack, vpc: ec2.IVpc) {
   const loadBalancer = new elbv2.ApplicationLoadBalancer(stack, 'AppELB', {
     vpc,
     http2Enabled: true,
     internetFacing: true,
   });
-  if (config.deploy.apiCertArn === -1) {
-    throw new Error('Api Cert must be set');
-  }
   const lbListener = loadBalancer.addListener('HttpsListener', {
     protocol: elbv2.ApplicationProtocol.HTTPS,
-    certificateArns: [config.deploy.apiCertArn],
+    certificateArns: [config.deploy.lbCertArn],
     defaultAction: elbv2.ListenerAction.fixedResponse(200, {
       messageBody: 'ok',
     }),
@@ -56,63 +46,82 @@ function createLoadBalancer(stack: cdk.Stack, vpc: ec2.IVpc) {
   return { loadBalancer, lbListener };
 }
 
-function createApiTask(
+function createTasks(
   stack: cdk.Stack,
   cluster: ecs.Cluster,
   dockerImage: ecs.AssetImage,
   lbListener: elbv2.ApplicationListener,
   loadBalancer: elbv2.ApplicationLoadBalancer
 ) {
-  const appTask = new ecs.FargateTaskDefinition(stack, 'AppTask', {
-    memoryLimitMiB: config.deploy.task.memory,
-    cpu: config.deploy.task.cpu,
-  });
+  const apiTask = new ecs.Ec2TaskDefinition(stack, 'ApiTask', {});
+  const workerTask = new ecs.Ec2TaskDefinition(stack, 'WorkerTask', {});
+  const webTask = new ecs.Ec2TaskDefinition(stack, 'WebTask', {});
 
   const taskPolicy = new iam.PolicyStatement();
   taskPolicy.addAllResources();
   taskPolicy.addActions('ses:sendEmail');
-  appTask.addToTaskRolePolicy(taskPolicy);
+  apiTask.addToTaskRolePolicy(taskPolicy);
+  workerTask.addToTaskRolePolicy(taskPolicy);
 
-  const apiContainer = appTask.addContainer('ApiContainer', {
+  const apiContainer = apiTask.addContainer('ApiContainer', {
     image: dockerImage,
     command: ['yarn', 'run', 'start:api'],
     logging: ecs.LogDriver.awsLogs({
       streamPrefix: 'api',
     }),
-    environment: getDockerEnv(),
+    memoryLimitMiB: config.deploy.api.memory,
+    cpu: config.deploy.api.cpu,
+    environment: getMaybeStagePasswordEnv(),
   });
   apiContainer.addPortMappings({
+    hostPort: 0,
     containerPort: config.api.port,
   });
 
-  appTask.addContainer('WorkerContainer', {
+  workerTask.addContainer('WorkerContainer', {
     image: dockerImage,
     command: ['yarn', 'run', 'start:worker'],
     logging: ecs.LogDriver.awsLogs({
       streamPrefix: 'worker',
     }),
-    environment: getDockerEnv(),
+    memoryLimitMiB: config.deploy.worker.memory,
+    cpu: config.deploy.worker.cpu,
+    environment: getMaybeStagePasswordEnv(),
   });
 
-  const webContainer = appTask.addContainer('WebContainer', {
+  const webContainer = webTask.addContainer('WebContainer', {
     image: dockerImage,
     command: ['yarn', 'run', 'start:web'],
     logging: ecs.LogDriver.awsLogs({
       streamPrefix: 'web',
     }),
-    environment: getDockerEnv(),
+    memoryLimitMiB: config.deploy.web.memory,
+    cpu: config.deploy.web.cpu,
+    environment: getMaybeStagePasswordEnv(),
   });
   webContainer.addPortMappings({
+    hostPort: 0,
     containerPort: config.web.port,
   });
 
-  const service = new ecs.FargateService(stack, 'AppService', {
+  const apiService = new ecs.Ec2Service(stack, 'ApiService', {
     cluster,
-    taskDefinition: appTask,
-    desiredCount: config.deploy.task.count,
-    assignPublicIp: true,
+    taskDefinition: apiTask,
+    desiredCount: config.deploy.api.count,
+    healthCheckGracePeriod: cdk.Duration.seconds(10),
   });
-  service.registerLoadBalancerTargets({
+  new ecs.Ec2Service(stack, 'WorkerService', {
+    cluster,
+    taskDefinition: workerTask,
+    desiredCount: config.deploy.worker.count,
+  });
+  const webService = new ecs.Ec2Service(stack, 'WebService', {
+    cluster,
+    taskDefinition: webTask,
+    desiredCount: config.deploy.web.count,
+    healthCheckGracePeriod: cdk.Duration.seconds(10),
+  });
+  apiService.registerLoadBalancerTargets({
     containerName: 'ApiContainer',
     containerPort: config.api.port,
     newTargetGroupId: 'ApiGroup',
@@ -120,29 +129,27 @@ function createApiTask(
       deregistrationDelay: cdk.Duration.seconds(10),
       healthCheck: {},
       conditions: [
-        elbv2.ListenerCondition.hostHeaders(['fs.styx-dev.com']),
+        elbv2.ListenerCondition.hostHeaders([config.deploy.lbDomain]),
         elbv2.ListenerCondition.pathPatterns(['/rpc/*']),
       ],
       priority: 10,
       stickinessCookieDuration: cdk.Duration.minutes(2),
     }),
   });
-  service.registerLoadBalancerTargets({
+  webService.registerLoadBalancerTargets({
     containerName: 'WebContainer',
     containerPort: config.web.port,
     newTargetGroupId: 'WebGroup',
     listener: ecs.ListenerConfig.applicationListener(lbListener, {
-      deregistrationDelay: cdk.Duration.seconds(10),
+      deregistrationDelay: cdk.Duration.seconds(20),
       healthCheck: {},
-      conditions: [elbv2.ListenerCondition.hostHeaders(['fs.styx-dev.com'])],
+      conditions: [
+        elbv2.ListenerCondition.hostHeaders([config.deploy.lbDomain]),
+      ],
       priority: 20,
       stickinessCookieDuration: cdk.Duration.minutes(2),
     }),
   });
-
-  if (config.deploy.zone === -1) {
-    throw new Error('zone must be set');
-  }
 
   const zone = route53.HostedZone.fromHostedZoneAttributes(
     stack,
@@ -155,110 +162,76 @@ function createApiTask(
       new route53Alias.LoadBalancerTarget(loadBalancer)
     ),
     zone,
-    recordName: 'fs.styx-dev.com',
+    recordName: config.deploy.lbDomain,
   });
 }
 
-// function createWebTask(
-//   stack: cdk.Stack,
-//   cluster: ecs.Cluster,
-//   dockerImage: ecs.AssetImage,
-//   lbListener: elbv2.ApplicationListener
-// ) {
-//   const apiTask = new ecs.FargateTaskDefinition(stack, 'WebTask', {});
-//   const apiContainer = apiTask.addContainer('WebContainer', {
-//     image: dockerImage,
-//     memoryLimitMiB: config.deploy.web.memory,
-//     cpu: config.deploy.web.cpu,
-//     command: ['yarn', 'run', 'start:web'],
-//     logging: ecs.LogDriver.awsLogs({
-//       streamPrefix: 'web',
-//     }),
-//     environment: getDockerEnv(),
-//   });
-//   apiContainer.addPortMappings({
-//     containerPort: config.web.port,
-//   });
-//   const service = new ecs.FargateService(stack, 'WebService', {
-//     cluster,
-//     taskDefinition: apiTask,
-//     desiredCount: config.deploy.web.count,
-//     assignPublicIp: true,
-//   });
-//   service.registerLoadBalancerTargets({
-//     containerName: 'WebContainer',
-//     containerPort: config.web.port,
-//     newTargetGroupId: 'ECSWeb',
-//     listener: ecs.ListenerConfig.applicationListener(lbListener, {
-//       deregistrationDelay: cdk.Duration.seconds(10),
-//       conditions: [
-//         elbv2.ListenerCondition.hostHeaders(['fs-app.styx-dev.com']),
-//       ],
-//       priority: 2,
-//     }),
-//   });
-// }
+function createCDN(stack: cdk.Stack) {
+  const cfIdentity = new cf.OriginAccessIdentity(
+    stack,
+    'CloudFrontOriginAccessIdentity',
+    {}
+  );
 
-// function createDomainAliases(
-//   stack: cdk.Stack,
-//   loadBalancer: elbv2.ApplicationLoadBalancer
-// ) {
-//   if (config.deploy.zone === -1) {
-//     throw new Error('zone must be set');
-//   }
-//   const zone = route53.HostedZone.fromHostedZoneAttributes(
-//     stack,
-//     'zone',
-//     config.deploy.zone
-//   );
-//   new route53.RecordSet(stack, 'ApiZoneRecord', {
-//     recordType: route53.RecordType.A,
-//     target: route53.RecordTarget.fromAlias(
-//       new route53Alias.LoadBalancerTarget(loadBalancer)
-//     ),
-//     zone,
-//     recordName: 'fs-api.styx-dev.com',
-//   });
-//   new route53.RecordSet(stack, 'AppZoneRecord', {
-//     recordType: route53.RecordType.A,
-//     target: route53.RecordTarget.fromAlias(
-//       new route53Alias.LoadBalancerTarget(loadBalancer)
-//     ),
-//     zone,
-//     recordName: 'fs-app.styx-dev.com',
-//   });
-// }
+  const cdnBucket = new s3.Bucket(stack, 'CDNBucket', {
+    removalPolicy: cdk.RemovalPolicy.RETAIN,
+    cors: [
+      {
+        allowedOrigins: ['*'],
+        allowedMethods: [s3.HttpMethods.GET],
+      },
+    ],
+  });
+  cdnBucket.grantRead(cfIdentity);
 
-// function createWorkerTask(
-//   stack: cdk.Stack,
-//   cluster: ecs.Cluster,
-//   dockerImage: ecs.AssetImage
-// ) {
-//   const workerTask = new ecs.FargateTaskDefinition(stack, 'WorkerTask', {});
-//   workerTask.addContainer('WorkerContainer', {
-//     image: dockerImage,
-//     memoryLimitMiB: config.deploy.worker.memory,
-//     cpu: config.deploy.worker.cpu,
-//     command: ['yarn', 'run', 'start:worker'],
-//     logging: ecs.LogDriver.awsLogs({
-//       streamPrefix: 'worker',
-//     }),
-//     environment: getDockerEnv(),
-//   });
-//   const workerPolicy = new iam.PolicyStatement();
-//   workerPolicy.addAllResources();
-//   workerPolicy.addActions('ses:sendEmail');
-//   workerTask.addToTaskRolePolicy(workerPolicy);
-//   new ecs.FargateService(stack, 'WorkerService', {
-//     cluster,
-//     taskDefinition: workerTask,
-//     assignPublicIp: true,
-//     desiredCount: config.deploy.worker.count,
-//   });
-// }
+  const distribution = new cf.CloudFrontWebDistribution(stack, 'CDNDist', {
+    priceClass: cf.PriceClass.PRICE_CLASS_100,
+    httpVersion: cf.HttpVersion.HTTP2,
+    enableIpV6: true,
+    errorConfigurations: [],
+    viewerProtocolPolicy: cf.ViewerProtocolPolicy.REDIRECT_TO_HTTPS,
+    aliasConfiguration: config.deploy.cdn?.certArn
+      ? {
+          acmCertRef: config.deploy.cdn.certArn,
+          names: [config.deploy.cdn.domainName],
+        }
+      : undefined,
+    originConfigs: [
+      {
+        s3OriginSource: {
+          s3BucketSource: cdnBucket,
+          originAccessIdentity: cfIdentity,
+        },
+        behaviors: [
+          {
+            isDefaultBehavior: true,
+            forwardedValues: {
+              cookies: {
+                forward: 'none',
+              },
+              queryString: false,
+            },
+            compress: true,
+            allowedMethods: cf.CloudFrontAllowedMethods.GET_HEAD_OPTIONS,
+            cachedMethods: cf.CloudFrontAllowedCachedMethods.GET_HEAD_OPTIONS,
+          },
+        ],
+      },
+    ],
+  });
+
+  new cdk.CfnOutput(stack, 'cdnDeployBucket', {
+    value: cdnBucket.bucketName,
+  });
+
+  new cdk.CfnOutput(stack, 'cdnDomainName', {
+    value: distribution.distributionDomainName,
+  });
+}
 
 (async function () {
   const app = new cdk.App();
+
   const stack = new cdk.Stack(app, process.env.STACK_NAME!, {
     env: {
       account: process.env.CDK_DEFAULT_ACCOUNT,
@@ -272,16 +245,21 @@ function createApiTask(
     vpc,
     containerInsights: true,
   });
+
+  cluster.addCapacity('DefaultAutoScalingGroupCapacity', {
+    instanceType: new ec2.InstanceType(config.deploy.vmCapacity.instanceType),
+    minCapacity: config.deploy.vmCapacity.count,
+    maxCapacity: config.deploy.vmCapacity.count,
+  });
+
   const bucket = createMainBucket(stack);
   const dockerImage = ecs.ContainerImage.fromAsset(
-    Path.join(__dirname, '../../..')
+    Path.join(__dirname, '../../..'),
+    {}
   );
   const { loadBalancer, lbListener } = createLoadBalancer(stack, vpc);
-  createApiTask(stack, cluster, dockerImage, lbListener, loadBalancer);
-  // createWebTask(stack, cluster, dockerImage, lbListener);
-  // createWorkerTask(stack, cluster, dockerImage);
-  // createDomainAliases(stack, loadBalancer);
-  createWebDist(stack, bucket);
+  createTasks(stack, cluster, dockerImage, lbListener, loadBalancer);
+  createCDN(stack);
   app.synth();
 })().catch(e => {
   console.error(e);

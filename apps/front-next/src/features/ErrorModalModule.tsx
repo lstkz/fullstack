@@ -34,12 +34,18 @@ export function ErrorModalModule(props: ErrorModalProps) {
           draft.isOpen = false;
         }),
 
-      show: message =>
+      show: message => {
+        if (typeof message === 'string') {
+          console.error('An error occurred: ', message);
+        } else {
+          console.error(message);
+        }
         setState(draft => {
           draft.isOpen = true;
           draft.message =
             typeof message == 'string' ? message : getErrorMessage(message);
-        }),
+        });
+      },
     }),
     []
   );

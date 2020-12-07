@@ -17,29 +17,27 @@ import { getMaybeStagePasswordEnv } from 'config';
 
 const s3 = new AWS.S3();
 
-async function uploadS3(name: string, bucketName: string) {
-  const [app, folder] = name.split('/');
+async function uploadS3(name: string, bucketName: string, suffix: string) {
+  const [app, ...folder] = name.split('/');
   const frontRoot = getAppRoot(app);
-  const buildDir = Path.join(frontRoot, folder);
+  const buildDir = Path.join(frontRoot, ...folder);
   const files = walk(buildDir);
 
   await Promise.all(
     files
       .filter(path => !path.endsWith('.DS_Store'))
       .map(async filePath => {
-        const contentType = mime.lookup(filePath);
-        if (!contentType) {
-          throw new Error('no contentType for ' + filePath);
-        }
+        const contentType = mime.lookup(filePath) || 'text/plain';
         const noCache =
           filePath.endsWith('.html') ||
           filePath.endsWith('app-data.json') ||
           filePath.includes('page-data');
-        const file = Path.relative(buildDir, filePath);
+        const file =
+          suffix + Path.relative(buildDir, filePath).replace(/\\/g, '/');
         await s3
           .upload({
             Bucket: bucketName,
-            Key: file.replace(/\\/g, '/'),
+            Key: file,
             Body: await fs.readFile(filePath),
             ContentType: contentType,
             CacheControl: noCache ? `max-age=0` : undefined,
@@ -55,11 +53,23 @@ export function init() {
     .option('--stage', 'deploy to stage')
     .option('--no-build', 'skip build')
     .action(async ({ stage, build }) => {
+      const stackName = process.env.STACK_NAME ?? 'fs-dev-new';
+      let cdnBucket = '';
+      try {
+        const stack = await getStack(stackName);
+        cdnBucket = getStackOutput(stack, 'cdnDeployBucket');
+      } catch (e) {
+        console.error(e);
+      }
       if (build) {
         const buildOptions = { stage };
-        await Promise.all([buildApp('front', buildOptions)]);
+        await Promise.all([buildApp('front-next', buildOptions)]);
       }
-      const stackName = process.env.STACK_NAME ?? 'fs-dev-new';
+
+      if (cdnBucket) {
+        await uploadS3('front-next/.next/static', cdnBucket, '_next/static/');
+      }
+
       await cpToPromise(
         spawn(
           'cdk',
@@ -78,7 +88,5 @@ export function init() {
           }
         )
       );
-      const stack = await getStack(stackName);
-      await uploadS3('front/build', getStackOutput(stack, 'appDeployBucket'));
     });
 }

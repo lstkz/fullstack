@@ -39,17 +39,7 @@ export const config: AppConfig = {
       '931928292425-72gnjpafb3kja4poun2kb4n2mfc8tj7b.apps.googleusercontent.com',
     clientSecret: 'qAloPu3PpycwNblek9uPD-DT',
   },
-  deploy: {
-    task: {
-      cpu: 256,
-      memory: 512,
-      count: 1,
-    },
-    apiCertArn: -1,
-    zone: -1,
-    appDomain: -1,
-    appCertArn: -1,
-  },
+  deploy: null!,
   tpay: {
     apiRedirectBaseUrl: 'https://8c329d2a4b5f.eu.ngrok.io',
     apiKey: '75f86137a6635df826e3efe2e66f7c9a946fdde1',

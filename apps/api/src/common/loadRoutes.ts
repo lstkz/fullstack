@@ -90,7 +90,7 @@ export default function loadRoutes(router: Router) {
           if (ret === 'TRUE' || ret === 'FALSE') {
             res.send(ret);
           } else {
-            res.json(ret);
+            res.json(ret ?? {});
           }
         })
         .catch(next);

@@ -17,7 +17,7 @@ function getEnv() {
 module.exports = withTM(
   withImages({
     // Use the CDN in production and localhost for development.
-    // assetPrefix: 'https://cdn.mydomain.com',
+    assetPrefix: process.env.CDN_DOMAIN,
     typescript: {
       ignoreBuildErrors: true,
     },

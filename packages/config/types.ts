@@ -46,19 +46,34 @@ export interface AppConfig {
     apiRedirectBaseUrl?: string;
   };
   deploy: {
-    apiCertArn: string | -1;
-    zone:
-      | {
-          hostedZoneId: string;
-          zoneName: string;
-        }
-      | -1;
-    appDomain: string | -1;
-    appCertArn: string | -1;
-    task: {
+    vmCapacity: {
+      instanceType: string;
+      count: number;
+    };
+    lbCertArn: string;
+    lbDomain: string;
+    zone: {
+      hostedZoneId: string;
+      zoneName: string;
+    };
+    web: {
       cpu: number;
       memory: number;
       count: number;
+    };
+    api: {
+      cpu: number;
+      memory: number;
+      count: number;
+    };
+    worker: {
+      cpu: number;
+      memory: number;
+      count: number;
+    };
+    cdn?: {
+      certArn?: string;
+      domainName: string;
     };
   };
 }

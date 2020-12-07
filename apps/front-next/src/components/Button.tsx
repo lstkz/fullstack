@@ -2,7 +2,7 @@ import React from 'react';
 import Color from 'tinycolor2';
 import styled, { css } from 'styled-components';
 import { Theme } from 'src/Theme';
-import Link from 'next/Link';
+import Link from 'next/link';
 import { SpinnerBoarder } from './SpinnerBoarder';
 import { spacerStyle } from './_spacer';
 

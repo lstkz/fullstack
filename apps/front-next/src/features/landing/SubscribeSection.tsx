@@ -7,7 +7,7 @@ import { Heading } from 'src/components/Heading';
 import { InputGroup } from 'src/components/InputGroup';
 import { MEDIA_MD_NEXT, Theme } from 'src/Theme';
 import { FormInput } from 'src/components/FormInput';
-import Link from 'next/Link';
+import Link from 'next/link';
 import { InputFeedback } from 'src/components/Input';
 import { useErrorModalActions } from 'src/features/ErrorModalModule';
 import { api } from 'src/services/api';

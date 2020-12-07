@@ -1,4 +1,4 @@
-import Link from 'next/Link';
+import Link from 'next/link';
 import * as React from 'react';
 import { MEDIA_MD, Theme } from 'src/Theme';
 import styled from 'styled-components';

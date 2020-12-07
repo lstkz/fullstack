@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { createUrl } from 'src/common/url';
-import Link from 'next/Link';
+import Link from 'next/link';
 import styled from 'styled-components';
 import { Theme } from 'src/Theme';
 

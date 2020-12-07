@@ -10,6 +10,7 @@ import { AuthModule } from 'src/features/AuthModule';
 import { API_URL } from 'src/config';
 import { readCookieFromString } from 'src/common/cookie';
 import { APIClient, User } from 'shared';
+import { ConfirmEmailChecker } from 'src/features/ConfirmEmailChecker';
 
 config.autoAddCss = false;
 
@@ -43,6 +44,7 @@ function App({ Component, pageProps, initialUser }: AppProps & GlobalProps) {
         <SubscriptionModalsModule>
           <ErrorModalModule>
             <Component {...pageProps} />
+            <ConfirmEmailChecker />
           </ErrorModalModule>
         </SubscriptionModalsModule>
       </AuthModule>
