@@ -9,6 +9,7 @@
 */config/prod.ts
 */config/*.key.txt
 */config/stage.ts
+packages/deploy/src
 .env
 .env-prod
 .env-stage

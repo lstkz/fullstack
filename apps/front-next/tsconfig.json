@@ -1,0 +1,22 @@
+{
+  "extends": "../../base.tsconfig.json",
+  "compilerOptions": {
+    "baseUrl": ".",
+    "noEmit": true,
+    "allowJs": true,
+    "resolveJsonModule": true,
+    "isolatedModules": false,
+    "jsx": "react"
+  },
+  "references": [],
+  "include": [
+    "src",
+    "scripts",
+    "jest.config.js",
+    "__tests__",
+    "next.config.js",
+    "next-env.d.ts",
+    ".eslintrc.js"
+  ],
+  "exclude": ["tests", "dist", "build"]
+}

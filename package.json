@@ -2,6 +2,7 @@
   "name": "fullstack-dev",
   "private": true,
   "scripts": {
+    "start:web": "cd apps/front-next && yarn run start",
     "start:api": "cd apps/api && yarn run start:api",
     "start:worker": "cd apps/api && yarn run start:worker"
   },
@@ -12,6 +13,7 @@
     "packages/*",
     "apps/api",
     "apps/front",
+    "apps/front-next",
     "courses"
   ],
   "dependencies": {
@@ -24,6 +26,7 @@
     "typescript": "^4.1.2"
   },
   "resolutions": {
-    "@types/react": "16.14.2"
+    "@types/react": "16.14.2",
+    "jest-environment-jsdom": "^26.0.1"
   }
 }

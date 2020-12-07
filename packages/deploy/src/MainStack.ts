@@ -1,14 +1,14 @@
 import * as cdk from '@aws-cdk/core';
 import * as ecs from '@aws-cdk/aws-ecs';
 import * as ec2 from '@aws-cdk/aws-ec2';
-import * as ecsPatterns from '@aws-cdk/aws-ecs-patterns';
 import * as s3 from '@aws-cdk/aws-s3';
-import * as acm from '@aws-cdk/aws-certificatemanager';
+import * as elbv2 from '@aws-cdk/aws-elasticloadbalancingv2';
 import * as route53 from '@aws-cdk/aws-route53';
+import * as route53Alias from '@aws-cdk/aws-route53-targets';
 import * as iam from '@aws-cdk/aws-iam';
 import Path from 'path';
-import { createWebDist } from './createWebDist';
-import { config, getPasswordEnv } from 'config';
+import * as cf from '@aws-cdk/aws-cloudfront';
+import { config, getMaybeStagePasswordEnv } from 'config';
 
 if (!process.env.STACK_NAME) {
   throw new Error('STACK_NAME is not set');
@@ -30,89 +30,199 @@ function createMainBucket(stack: cdk.Stack) {
   return bucket;
 }
 
-function getDockerEnv() {
-  return {
-    NODE_ENV: 'production',
-    ...getPasswordEnv(),
-  };
+function createLoadBalancer(stack: cdk.Stack, vpc: ec2.IVpc) {
+  const loadBalancer = new elbv2.ApplicationLoadBalancer(stack, 'AppELB', {
+    vpc,
+    http2Enabled: true,
+    internetFacing: true,
+  });
+  const lbListener = loadBalancer.addListener('HttpsListener', {
+    protocol: elbv2.ApplicationProtocol.HTTPS,
+    certificateArns: [config.deploy.lbCertArn],
+    defaultAction: elbv2.ListenerAction.fixedResponse(200, {
+      messageBody: 'ok',
+    }),
+  });
+  return { loadBalancer, lbListener };
 }
 
-function createApiTask(
+function createTasks(
   stack: cdk.Stack,
   cluster: ecs.Cluster,
-  dockerImage: ecs.AssetImage
+  dockerImage: ecs.AssetImage,
+  lbListener: elbv2.ApplicationListener,
+  loadBalancer: elbv2.ApplicationLoadBalancer
 ) {
-  const apiTask = new ecs.FargateTaskDefinition(stack, 'ApiTask', {});
+  const apiTask = new ecs.Ec2TaskDefinition(stack, 'ApiTask', {});
+  const workerTask = new ecs.Ec2TaskDefinition(stack, 'WorkerTask', {});
+  const webTask = new ecs.Ec2TaskDefinition(stack, 'WebTask', {});
+
+  const taskPolicy = new iam.PolicyStatement();
+  taskPolicy.addAllResources();
+  taskPolicy.addActions('ses:sendEmail');
+  apiTask.addToTaskRolePolicy(taskPolicy);
+  workerTask.addToTaskRolePolicy(taskPolicy);
+
   const apiContainer = apiTask.addContainer('ApiContainer', {
     image: dockerImage,
-    memoryLimitMiB: config.deploy.api.memory,
-    cpu: config.deploy.api.cpu,
     command: ['yarn', 'run', 'start:api'],
     logging: ecs.LogDriver.awsLogs({
       streamPrefix: 'api',
     }),
-    environment: getDockerEnv(),
-  });
-  apiContainer.addPortMappings({
-    containerPort: config.api.port,
-  });
-  if (config.deploy.apiCertArn === -1) {
-    throw new Error('Api Cert must be set');
-  }
-  if (config.deploy.zone === -1) {
-    throw new Error('zone must be set');
-  }
-  new ecsPatterns.ApplicationLoadBalancedFargateService(stack, 'ApiService', {
-    cluster,
     memoryLimitMiB: config.deploy.api.memory,
     cpu: config.deploy.api.cpu,
-    taskDefinition: apiTask,
-    desiredCount: config.deploy.api.count,
-    assignPublicIp: true,
-    domainName: config.apiBaseUrl.replace('https://', ''),
-    domainZone: route53.HostedZone.fromHostedZoneAttributes(
-      stack,
-      'zone',
-      config.deploy.zone
-    ),
-    certificate: acm.Certificate.fromCertificateArn(
-      stack,
-      'ApiCert',
-      config.deploy.apiCertArn
-    ),
+    environment: getMaybeStagePasswordEnv(),
   });
-}
+  apiContainer.addPortMappings({
+    hostPort: 0,
+    containerPort: config.api.port,
+  });
 
-function createWorkerTask(
-  stack: cdk.Stack,
-  cluster: ecs.Cluster,
-  dockerImage: ecs.AssetImage
-) {
-  const workerTask = new ecs.FargateTaskDefinition(stack, 'WorkerTask', {});
   workerTask.addContainer('WorkerContainer', {
     image: dockerImage,
-    memoryLimitMiB: config.deploy.worker.memory,
-    cpu: config.deploy.worker.cpu,
     command: ['yarn', 'run', 'start:worker'],
     logging: ecs.LogDriver.awsLogs({
       streamPrefix: 'worker',
     }),
-    environment: getDockerEnv(),
+    memoryLimitMiB: config.deploy.worker.memory,
+    cpu: config.deploy.worker.cpu,
+    environment: getMaybeStagePasswordEnv(),
   });
-  const workerPolicy = new iam.PolicyStatement();
-  workerPolicy.addAllResources();
-  workerPolicy.addActions('ses:sendEmail');
-  workerTask.addToTaskRolePolicy(workerPolicy);
-  new ecs.FargateService(stack, 'WorkerService', {
+  const webEnv: Record<string, string> = getMaybeStagePasswordEnv();
+  if (config.deploy.cdn) {
+    webEnv.CDN_DOMAIN = 'https://' + config.deploy.cdn.domainName;
+  }
+  const webContainer = webTask.addContainer('WebContainer', {
+    image: dockerImage,
+    command: ['yarn', 'run', 'start:web'],
+    logging: ecs.LogDriver.awsLogs({
+      streamPrefix: 'web',
+    }),
+    memoryLimitMiB: config.deploy.web.memory,
+    cpu: config.deploy.web.cpu,
+    environment: webEnv,
+  });
+  webContainer.addPortMappings({
+    hostPort: 0,
+    containerPort: config.web.port,
+  });
+
+  const apiService = new ecs.Ec2Service(stack, 'ApiService', {
+    cluster,
+    taskDefinition: apiTask,
+    desiredCount: config.deploy.api.count,
+    healthCheckGracePeriod: cdk.Duration.seconds(10),
+  });
+  new ecs.Ec2Service(stack, 'WorkerService', {
     cluster,
     taskDefinition: workerTask,
-    assignPublicIp: true,
     desiredCount: config.deploy.worker.count,
   });
+  const webService = new ecs.Ec2Service(stack, 'WebService', {
+    cluster,
+    taskDefinition: webTask,
+    desiredCount: config.deploy.web.count,
+    healthCheckGracePeriod: cdk.Duration.seconds(10),
+  });
+  apiService.registerLoadBalancerTargets({
+    containerName: 'ApiContainer',
+    containerPort: config.api.port,
+    newTargetGroupId: 'ApiGroup',
+    listener: ecs.ListenerConfig.applicationListener(lbListener, {
+      deregistrationDelay: cdk.Duration.seconds(10),
+      healthCheck: {},
+      conditions: [
+        elbv2.ListenerCondition.hostHeaders([config.deploy.lbDomain]),
+        elbv2.ListenerCondition.pathPatterns(['/rpc/*']),
+      ],
+      priority: 10,
+      stickinessCookieDuration: cdk.Duration.minutes(2),
+    }),
+  });
+  webService.registerLoadBalancerTargets({
+    containerName: 'WebContainer',
+    containerPort: config.web.port,
+    newTargetGroupId: 'WebGroup',
+    listener: ecs.ListenerConfig.applicationListener(lbListener, {
+      deregistrationDelay: cdk.Duration.seconds(20),
+      healthCheck: {},
+      conditions: [
+        elbv2.ListenerCondition.hostHeaders([config.deploy.lbDomain]),
+      ],
+      priority: 20,
+      stickinessCookieDuration: cdk.Duration.minutes(2),
+    }),
+  });
+}
+
+function createCDN(stack: cdk.Stack) {
+  const cfIdentity = new cf.OriginAccessIdentity(
+    stack,
+    'CloudFrontOriginAccessIdentity',
+    {}
+  );
+
+  const cdnBucket = new s3.Bucket(stack, 'CDNBucket', {
+    removalPolicy: cdk.RemovalPolicy.RETAIN,
+    cors: [
+      {
+        allowedOrigins: ['*'],
+        allowedMethods: [s3.HttpMethods.GET],
+      },
+    ],
+  });
+  cdnBucket.grantRead(cfIdentity);
+
+  const distribution = new cf.CloudFrontWebDistribution(stack, 'CDNDist', {
+    priceClass: cf.PriceClass.PRICE_CLASS_100,
+    httpVersion: cf.HttpVersion.HTTP2,
+    enableIpV6: true,
+    errorConfigurations: [],
+    viewerProtocolPolicy: cf.ViewerProtocolPolicy.REDIRECT_TO_HTTPS,
+    aliasConfiguration: config.deploy.cdn?.certArn
+      ? {
+          acmCertRef: config.deploy.cdn.certArn,
+          names: [config.deploy.cdn.domainName],
+        }
+      : undefined,
+    originConfigs: [
+      {
+        s3OriginSource: {
+          s3BucketSource: cdnBucket,
+          originAccessIdentity: cfIdentity,
+        },
+        behaviors: [
+          {
+            isDefaultBehavior: true,
+            forwardedValues: {
+              cookies: {
+                forward: 'none',
+              },
+              queryString: false,
+            },
+            compress: true,
+            allowedMethods: cf.CloudFrontAllowedMethods.GET_HEAD_OPTIONS,
+            cachedMethods: cf.CloudFrontAllowedCachedMethods.GET_HEAD_OPTIONS,
+          },
+        ],
+      },
+    ],
+  });
+
+  new cdk.CfnOutput(stack, 'cdnDeployBucket', {
+    value: cdnBucket.bucketName,
+  });
+
+  new cdk.CfnOutput(stack, 'cdnDomainName', {
+    value: distribution.distributionDomainName,
+  });
+
+  return distribution;
 }
 
 (async function () {
   const app = new cdk.App();
+
   const stack = new cdk.Stack(app, process.env.STACK_NAME!, {
     env: {
       account: process.env.CDK_DEFAULT_ACCOUNT,
@@ -126,13 +236,46 @@ function createWorkerTask(
     vpc,
     containerInsights: true,
   });
+
+  cluster.addCapacity('DefaultAutoScalingGroupCapacity', {
+    instanceType: new ec2.InstanceType(config.deploy.vmCapacity.instanceType),
+    minCapacity: config.deploy.vmCapacity.count,
+    maxCapacity: config.deploy.vmCapacity.count,
+  });
+
   const bucket = createMainBucket(stack);
   const dockerImage = ecs.ContainerImage.fromAsset(
-    Path.join(__dirname, '../../..')
+    Path.join(__dirname, '../../..'),
+    {}
   );
-  createApiTask(stack, cluster, dockerImage);
-  createWorkerTask(stack, cluster, dockerImage);
-  createWebDist(stack, bucket);
+  const { loadBalancer, lbListener } = createLoadBalancer(stack, vpc);
+  createTasks(stack, cluster, dockerImage, lbListener, loadBalancer);
+  const cdnDist = createCDN(stack);
+
+  const zone = route53.HostedZone.fromHostedZoneAttributes(
+    stack,
+    'zone',
+    config.deploy.zone
+  );
+  new route53.RecordSet(stack, 'AppZoneRecord', {
+    recordType: route53.RecordType.A,
+    target: route53.RecordTarget.fromAlias(
+      new route53Alias.LoadBalancerTarget(loadBalancer)
+    ),
+    zone,
+    recordName: config.deploy.lbDomain,
+  });
+  if (config.deploy.cdn) {
+    new route53.RecordSet(stack, 'CDNZoneRecord', {
+      recordType: route53.RecordType.A,
+      target: route53.RecordTarget.fromAlias(
+        new route53Alias.CloudFrontTarget(cdnDist)
+      ),
+      zone,
+      recordName: config.deploy.cdn.domainName,
+    });
+  }
+
   app.synth();
 })().catch(e => {
   console.error(e);
