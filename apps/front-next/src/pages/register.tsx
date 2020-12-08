@@ -1,6 +1,6 @@
 import { ensureNotLoggedIn } from 'src/common/helper';
-import { LoginPage } from 'src/features/login/LoginPage';
+import { RegisterPage } from 'src/features/register/RegisterPage';
 
-export default LoginPage;
+export default RegisterPage;
 
 export const getServerSideProps = ensureNotLoggedIn;

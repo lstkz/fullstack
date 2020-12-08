@@ -45,8 +45,7 @@ const _Button = (props: ButtonProps, ref: any) => {
   } = props;
   const inner = (
     <>
-      {icon}
-      {loading && <SpinnerBoarder size="sm" />}
+      {loading ? <SpinnerBoarder size="sm" /> : icon}
       <Text>{children}</Text>
     </>
   );

@@ -10,13 +10,14 @@ interface AuthFormProps {
   subTitle?: React.ReactNode;
   bottom?: React.ReactNode;
   testId?: string;
-  small?: boolean;
 }
 
 const Wrapper = styled.div<{ small?: boolean }>`
-  max-width: ${props => (props.small ? 20 : 30)}rem;
+  max-width: 30rem;
   margin: 0 auto;
   padding-top: 8rem;
+  width: 100%;
+  padding: 8rem 2rem;
 `;
 
 const SubHeader = styled.div`
@@ -35,10 +36,10 @@ const Bottom = styled.div`
 `;
 
 export function FullPageForm(props: AuthFormProps) {
-  const { title, children, bottom, testId, small, subTitle } = props;
+  const { title, children, bottom, testId, subTitle } = props;
 
   return (
-    <Wrapper data-test={testId} small={small}>
+    <Wrapper data-test={testId}>
       <Top>
         <Heading type={3}>{title}</Heading>
         {subTitle && <SubHeader>{subTitle}</SubHeader>}

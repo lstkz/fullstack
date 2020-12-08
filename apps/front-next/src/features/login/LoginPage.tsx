@@ -10,10 +10,7 @@ import Link from 'next/link';
 import { useForm } from 'react-hook-form';
 import { EMAIL_REGEX } from 'shared';
 import { api } from 'src/services/api';
-import { getErrorMessage } from 'src/common/helper';
-import { useRouter } from 'next/dist/client/router';
-import { useAuthActions } from '../AuthModule';
-import { setAccessToken } from 'src/services/Storage';
+import { useAuthForm } from 'src/hooks/useAuthForm';
 
 const ForgotWrapper = styled.div`
   text-align: right;
@@ -26,26 +23,11 @@ interface FormValues {
   password: string;
 }
 
-export function LoginView() {
-  const [isSubmitting, setIsSubmitting] = React.useState(false);
-  const { errors, register, handleSubmit } = useForm<FormValues>();
-  const [error, setError] = React.useState('');
-  const authActions = useAuthActions();
-  const router = useRouter();
-
-  const onSubmit = async (data: FormValues) => {
-    setIsSubmitting(true);
-    setError('');
-    try {
-      const ret = await api.user_login(data);
-      setAccessToken(ret.token);
-      authActions.setUser(ret.user);
-      await router.push('/modules');
-    } catch (e) {
-      setError(getErrorMessage(e));
-    }
-    setIsSubmitting(false);
-  };
+export function LoginPage() {
+  const { errors, register, handleSubmit, getValues } = useForm<FormValues>();
+  const { error, isSubmitting, onSubmit } = useAuthForm({
+    submit: () => api.user_login(getValues()),
+  });
 
   return (
     <FullPageForm
@@ -113,11 +95,11 @@ export function LoginView() {
         >
           Zaloguj się
         </Button>
-        <SocialFormButtons />
+        <SocialFormButtons source="login" />
         <ForgotWrapper>
           <Link
             data-test="reset-password-link"
-            href={createUrl({ name: 'reset-password' })}
+            href={createUrl({ name: 'forgot-password' })}
           >
             Resetuj hasło
           </Link>

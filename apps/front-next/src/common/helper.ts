@@ -1,3 +1,6 @@
+import { GetServerSideProps } from 'next';
+import { readCookieFromString } from './cookie';
+
 export class UnreachableCaseError extends Error {
   constructor(val: never) {
     super(
@@ -176,3 +179,18 @@ export function isMenuHighlighted(
 }
 
 export const isConfirmKey = (code: string) => code === 'Enter' || code === ' ';
+
+export const ensureNotLoggedIn: GetServerSideProps = async context => {
+  if (readCookieFromString(context.req.headers['cookie'], 'token')) {
+    return {
+      redirect: {
+        destination: '/modules',
+        permanent: false,
+      },
+    };
+  }
+
+  return {
+    props: {},
+  };
+};
