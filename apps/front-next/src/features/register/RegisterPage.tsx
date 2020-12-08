@@ -18,7 +18,7 @@ interface FormValues {
   confirmPassword: string;
 }
 
-export function RegisterView() {
+export function RegisterPage() {
   const { errors, register, handleSubmit, getValues } = useForm<FormValues>();
   const { error, isSubmitting, onSubmit } = useAuthForm({
     submit: () => api.user_register(R.omit(getValues(), ['confirmPassword'])),

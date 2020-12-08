@@ -23,7 +23,7 @@ interface FormValues {
   password: string;
 }
 
-export function LoginView() {
+export function LoginPage() {
   const { errors, register, handleSubmit, getValues } = useForm<FormValues>();
   const { error, isSubmitting, onSubmit } = useAuthForm({
     submit: () => api.user_login(getValues()),
@@ -99,7 +99,7 @@ export function LoginView() {
         <ForgotWrapper>
           <Link
             data-test="reset-password-link"
-            href={createUrl({ name: 'reset-password' })}
+            href={createUrl({ name: 'forgot-password' })}
           >
             Resetuj hasło
           </Link>

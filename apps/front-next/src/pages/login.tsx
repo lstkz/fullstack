@@ -1,20 +1,6 @@
-import { GetServerSideProps } from 'next';
-import { readCookieFromString } from 'src/common/cookie';
-import { LoginView } from 'src/features/login/LoginView';
+import { ensureNotLoggedIn } from 'src/common/helper';
+import { LoginPage } from 'src/features/login/LoginPage';
 
-export default LoginView;
+export default LoginPage;
 
-export const getServerSideProps: GetServerSideProps = async context => {
-  if (readCookieFromString(context.req.headers['cookie'], 'token')) {
-    return {
-      redirect: {
-        destination: '/modules',
-        permanent: false,
-      },
-    };
-  }
-
-  return {
-    props: {},
-  };
-};
+export const getServerSideProps = ensureNotLoggedIn;

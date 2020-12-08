@@ -9,6 +9,9 @@ export type UrlOptions =
       name: 'reset-password';
     }
   | {
+      name: 'forgot-password';
+    }
+  | {
       name: 'courses';
     }
   | {
