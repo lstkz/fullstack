@@ -31,4 +31,4 @@ export const API_URL = process.env.API_URL;
 
 export const BUGSNAG_API_KEY = process.env.BUGSNAG_API_KEY;
 
-export const IS_REAL_PROD = false;
+export const IS_REAL_PROD = API_URL.includes('fullstack.pl');
