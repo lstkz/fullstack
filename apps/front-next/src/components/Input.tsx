@@ -47,9 +47,9 @@ const _Input = (props: InputProps) => {
     ...rest
   } = props;
   return (
-    <div className={className} data-test={testId}>
+    <div className={className}>
       {label && <Label htmlFor={rest.id}>{label}</Label>}
-      <input {...rest} ref={inputRef} />
+      <input {...rest} ref={inputRef} data-test={testId} />
       {feedback && (
         <InputFeedback color={state === 'error' ? 'danger' : undefined}>
           {feedback}

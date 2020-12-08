@@ -5,8 +5,8 @@
     "noEmit": true,
     "allowJs": true,
     "resolveJsonModule": true,
-    "isolatedModules": false,
-    "jsx": "react"
+    "isolatedModules": true,
+    "jsx": "preserve"
   },
   "references": [],
   "include": [
@@ -18,5 +18,9 @@
     "next-env.d.ts",
     ".eslintrc.js"
   ],
-  "exclude": ["tests", "dist", "build"]
+  "exclude": [
+    "tests",
+    "dist",
+    "build"
+  ]
 }
