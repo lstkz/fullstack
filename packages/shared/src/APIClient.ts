@@ -135,7 +135,14 @@ export class APIClient {
       headers,
       body: JSON.stringify(params),
     });
-    return res.json();
+    const body = await res.json();
+    if (res.status !== 200) {
+      const err: any = new Error(body.error || 'Failed to call API');
+      err.res = res;
+      err.body = body;
+      throw err;
+    }
+    return body;
 
     // const options: AjaxRequest = {
     //   url: `${this.baseUrl}/rpc/${name}`,

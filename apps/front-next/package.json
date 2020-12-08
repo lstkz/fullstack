@@ -5,29 +5,23 @@
   "main": "index.js",
   "scripts": {
     "start": "ts-node -T --project ./node.tsconfig.json scripts/start",
+    "start:test": "E2E_TESTS=1 yarn run dev",
     "dev": "ts-node -T --project ./node.tsconfig.json scripts/dev",
     "build": "rm -rf ./next && ts-node -T --project ./node.tsconfig.json scripts/build",
-    "test": "yarn run lint && yarn run jest",
-    "lint": "eslint . --ext .ts",
-    "jest": "jest"
+    "test": "yarn run lint && yarn run tsc",
+    "lint": "eslint . --ext .ts"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@testing-library/jest-dom": "^5.11.6",
-    "@testing-library/react": "^11.2.2",
     "babel-plugin-styled-components": "^1.12.0",
-    "jest": "^26.6.3",
-    "jest-watch-suspend": "^1.1.2",
-    "jest-watch-typeahead": "^0.6.1",
     "next": "^10.0.3",
     "next-images": "^1.6.2",
     "next-transpile-modules": "^6.0.0",
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
     "react-hook-form": "^6.12.2",
-    "ts-jest": "^26.4.4",
     "use-immer": "^0.4.2"
   }
 }

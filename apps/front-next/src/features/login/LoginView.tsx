@@ -40,7 +40,7 @@ export function LoginView() {
       const ret = await api.user_login(data);
       setAccessToken(ret.token);
       authActions.setUser(ret.user);
-      router.push('/modules');
+      await router.push('/modules');
     } catch (e) {
       setError(getErrorMessage(e));
     }
@@ -53,7 +53,7 @@ export function LoginView() {
       title="Logowanie"
       bottom={
         <>
-          Nie masz już konto?{' '}
+          Nie masz już konta?{' '}
           <Link
             data-test="register-link"
             href={createUrl({ name: 'register' })}

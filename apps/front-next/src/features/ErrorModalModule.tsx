@@ -65,7 +65,7 @@ export function ErrorModalModule(props: ErrorModalProps) {
       }}
     >
       <SimpleModal
-        testId="ErrorModal"
+        testId="error-modal"
         bgColor="danger"
         isOpen={isOpen}
         close={hideErrorModal}

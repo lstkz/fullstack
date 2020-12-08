@@ -27,6 +27,7 @@ export function SimpleModal(props: SimpleModalProps) {
       close={close}
       footer={
         <Button
+          testId="close-btn"
           size="small"
           type="secondary"
           onClick={() => close('close-button')}

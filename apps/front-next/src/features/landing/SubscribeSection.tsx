@@ -24,10 +24,6 @@ const Text = styled.div`
   font-size: 0.8rem;
 `;
 
-interface SubscribeSectionProps {
-  className?: string;
-}
-
 interface FormValues {
   email: string;
 }
@@ -47,9 +43,9 @@ const Form = styled.form`
   }
 `;
 
-export function SubscribeSection(props: SubscribeSectionProps) {
+export function SubscribeSection() {
   const [isSubmitting, setIsSubmitting] = React.useState(false);
-  const { errors, register, handleSubmit } = useForm<FormValues>();
+  const { errors, register, handleSubmit, reset } = useForm<FormValues>();
   const errorModalActions = useErrorModalActions();
   const SubscriptionModalsActions = useSubscriptionModalsActions();
 
@@ -59,12 +55,12 @@ export function SubscribeSection(props: SubscribeSectionProps) {
       const ret = await api.emailSubscription_subscribe(null, data.email);
       if (ret.result === 'ok') {
         SubscriptionModalsActions.show('confirm');
+        reset();
       } else {
         SubscriptionModalsActions.show('already-subscribed');
       }
     } catch (e) {
       errorModalActions.show(e);
-    } finally {
     }
     setIsSubmitting(false);
   };
@@ -83,6 +79,7 @@ export function SubscribeSection(props: SubscribeSectionProps) {
             size="large"
             input={
               <FormInput
+                testId="subscribe-email-input"
                 noMargin
                 noFeedback
                 name="email"
@@ -100,12 +97,19 @@ export function SubscribeSection(props: SubscribeSectionProps) {
               />
             }
             append={
-              <Button type="primary" htmlType="submit" loading={isSubmitting}>
+              <Button
+                testId="subscribe-btn"
+                type="primary"
+                htmlType="submit"
+                loading={isSubmitting}
+              >
                 Zapisz się
               </Button>
             }
           />
-          <InputFeedback color="danger">{errors.email?.message}</InputFeedback>
+          <InputFeedback color="danger" data-test="subscribe-error">
+            {errors.email?.message}
+          </InputFeedback>
         </FormWrapper>
         <Text>
           Zapisując się to newslettera wyrażasz zgodę na przetwarzanie Twoich

@@ -229,7 +229,7 @@ export function Modal(props: ModalProps) {
               <div ref={modalRef}></div>
               <ModalContent
                 {...contentProps}
-                data-testid={testId}
+                data-test={testId}
                 ref={modalRef as any}
                 tabIndex={-1}
                 role="modal"
