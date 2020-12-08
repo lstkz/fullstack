@@ -35,6 +35,7 @@ export class Engine {
   private server: http.Server = null!;
   private mocks: Record<string, (...args: any[]) => any> = {};
   private requestCount: Record<string, number> = {};
+  private jestFns: Record<string, jest.Mock> = {};
 
   private incCount(name: string) {
     if (!this.requestCount[name]) {
@@ -47,6 +48,7 @@ export class Engine {
   resetMock() {
     this.mocks = {};
     this.requestCount = {};
+    this.jestFns = {};
   }
 
   async setup() {
@@ -74,13 +76,14 @@ export class Engine {
           throw new Error('RPC method not mocked: ' + rpcName);
         }
         const params = Object.values(body);
+        this.jestFns[rpcName](...params);
         const ret = await this.mocks[rpcName](
           ...params,
           this.incCount(rpcName)
         );
         res.statusCode = 200;
         res.setHeader('Content-Type', 'application/json');
-        res.write(JSON.stringify(ret, null, 2));
+        res.write(JSON.stringify(ret ?? null, null, 2));
         res.end();
       } catch (e) {
         res.statusCode = e instanceof MockError ? 400 : 500;
@@ -110,7 +113,10 @@ export class Engine {
       params: GetParams<APIClient[TName]>,
       count: number
     ) => GetResult<APIClient[TName]>
-  ) {
+  ): jest.Mock<any, GetParams<APIClient[TName]>> {
+    const fn = jest.fn();
+    this.jestFns[name] = fn;
     this.mocks[name] = response;
+    return fn;
   }
 }

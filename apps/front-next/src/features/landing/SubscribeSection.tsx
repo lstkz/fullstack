@@ -45,7 +45,7 @@ const Form = styled.form`
 
 export function SubscribeSection() {
   const [isSubmitting, setIsSubmitting] = React.useState(false);
-  const { errors, register, handleSubmit } = useForm<FormValues>();
+  const { errors, register, handleSubmit, reset } = useForm<FormValues>();
   const errorModalActions = useErrorModalActions();
   const SubscriptionModalsActions = useSubscriptionModalsActions();
 
@@ -55,6 +55,7 @@ export function SubscribeSection() {
       const ret = await api.emailSubscription_subscribe(null, data.email);
       if (ret.result === 'ok') {
         SubscriptionModalsActions.show('confirm');
+        reset();
       } else {
         SubscriptionModalsActions.show('already-subscribed');
       }
@@ -78,7 +79,7 @@ export function SubscribeSection() {
             size="large"
             input={
               <FormInput
-                testId="SubscribeEmail"
+                testId="subscribe-email-input"
                 noMargin
                 noFeedback
                 name="email"
@@ -97,7 +98,7 @@ export function SubscribeSection() {
             }
             append={
               <Button
-                testId="SubscribeBtn"
+                testId="subscribe-btn"
                 type="primary"
                 htmlType="submit"
                 loading={isSubmitting}
@@ -106,7 +107,7 @@ export function SubscribeSection() {
               </Button>
             }
           />
-          <InputFeedback color="danger" data-test="SubscribeValidation">
+          <InputFeedback color="danger" data-test="subscribe-error">
             {errors.email?.message}
           </InputFeedback>
         </FormWrapper>
