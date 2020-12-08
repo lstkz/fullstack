@@ -6,7 +6,7 @@ const engine = initEngine(page);
 
 describe('login', () => {
   it('should login', async () => {
-    engine.mock('user_login', (data, count) => {
+    engine.mock('user_login', (count, data) => {
       if (count === 1) {
         throw new MockError('Invalid credentials');
       }

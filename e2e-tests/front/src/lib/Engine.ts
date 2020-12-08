@@ -78,13 +78,12 @@ export class Engine {
         const params = Object.values(body);
         this.jestFns[rpcName](...params);
         const ret = await this.mocks[rpcName](
-          ...params,
-          this.incCount(rpcName)
+          this.incCount(rpcName),
+          ...params
         );
         res.statusCode = 200;
         res.setHeader('Content-Type', 'application/json');
         res.write(JSON.stringify(ret ?? null, null, 2));
-        res.end();
       } catch (e) {
         res.statusCode = e instanceof MockError ? 400 : 500;
         res.setHeader('Content-Type', 'application/json');
@@ -97,7 +96,9 @@ export class Engine {
             2
           )
         );
+      } finally {
         res.end();
+        req.connection.end();
       }
     });
     this.server = server;
@@ -105,13 +106,13 @@ export class Engine {
   }
 
   async dispose() {
-    this.server.close();
+    await new Promise<void>(resolve => this.server.close(() => resolve()));
   }
   mock<TName extends keyof APIClient>(
     name: TName,
     response: (
-      params: GetParams<APIClient[TName]>,
-      count: number
+      count: number,
+      ...params: GetParams<APIClient[TName]>
     ) => GetResult<APIClient[TName]>
   ): jest.Mock<any, GetParams<APIClient[TName]>> {
     const fn = jest.fn();
