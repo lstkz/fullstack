@@ -36,6 +36,12 @@ export type UrlOptions =
     }
   | {
       name: 'privacy';
+    }
+  | {
+      name: 'modules';
+    }
+  | {
+      name: 'subscription';
     };
 
 export function createUrl(options: UrlOptions) {

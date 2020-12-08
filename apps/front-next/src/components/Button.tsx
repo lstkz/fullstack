@@ -13,7 +13,7 @@ interface ButtonProps {
   soft?: boolean;
   outline?: boolean;
   loading?: boolean;
-  type: 'primary' | 'secondary' | 'danger' | 'dark' | 'neutral';
+  type: 'primary' | 'secondary' | 'danger' | 'dark' | 'neutral' | 'warning';
   size?: 'extra-small' | 'small' | 'default' | 'large' | 'extra-large';
   href?: string;
   icon?: React.ReactNode;
@@ -145,6 +145,11 @@ const buttonCss = css`
         return _buttonVariant(Theme.primary, Theme.primary);
       case 'secondary':
         return _buttonVariant(Theme.secondary, Theme.secondary);
+      case 'warning':
+        return css`
+          ${_buttonVariant(Theme.orange, Theme.orange)};
+          color: white;
+        `;
       case 'neutral':
         return css`
           border-width: 2px;
