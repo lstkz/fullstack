@@ -113,7 +113,7 @@ export function RegisterView() {
         >
           Załóż konto
         </Button>
-        <SocialFormButtons />
+        <SocialFormButtons source="register" />
       </form>
     </FullPageForm>
   );

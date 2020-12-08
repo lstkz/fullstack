@@ -95,7 +95,7 @@ export function LoginView() {
         >
           Zaloguj się
         </Button>
-        <SocialFormButtons />
+        <SocialFormButtons source="login" />
         <ForgotWrapper>
           <Link
             data-test="reset-password-link"

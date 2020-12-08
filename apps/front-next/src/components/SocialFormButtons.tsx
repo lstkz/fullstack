@@ -1,3 +1,4 @@
+import * as R from 'remeda';
 import styled from 'styled-components';
 import React from 'react';
 import { GithubIcon } from 'src/icons/GithubIcon';
@@ -6,6 +7,10 @@ import { GITHUB_CLIENT_ID, GOOGLE_CLIENT_ID } from 'src/config';
 import { spacerStyle } from 'src/components/_spacer';
 import { Row, Col } from 'src/components/Grid';
 import { Button } from 'src/components/Button';
+import { useRouter } from 'next/dist/client/router';
+import { api } from 'src/services/api';
+import { useAuthForm } from 'src/hooks/useAuthForm';
+import { useErrorModalActions } from 'src/features/ErrorModalModule';
 
 const Or = styled.div`
   font-size: 0.75rem;
@@ -14,109 +19,110 @@ const Or = styled.div`
   ${spacerStyle}
 `;
 
-function popupCenter(url: string, title: string, w: number, h: number) {
-  // Fixes dual-screen position                         Most browsers      Firefox
-  const dualScreenLeft =
-    window.screenLeft !== undefined ? window.screenLeft : window.screenX;
-  const dualScreenTop =
-    window.screenTop !== undefined ? window.screenTop : window.screenY;
-
-  const width = window.innerWidth
-    ? window.innerWidth
-    : document.documentElement.clientWidth
-    ? document.documentElement.clientWidth
-    : screen.width;
-  const height = window.innerHeight
-    ? window.innerHeight
-    : document.documentElement.clientHeight
-    ? document.documentElement.clientHeight
-    : screen.height;
-
-  const systemZoom = width / window.screen.availWidth;
-  const left = (width - w) / 2 / systemZoom + dualScreenLeft;
-  const top = (height - h) / 2 / systemZoom + dualScreenTop;
-  const newWindow = window.open(
-    url,
-    title,
-    'scrollbars=yes, width=' +
-      w / systemZoom +
-      ', height=' +
-      h / systemZoom +
-      ', top=' +
-      top +
-      ', left=' +
-      left
-  )!;
-
-  // Puts focus on the newWindow
-  if (newWindow?.focus) {
-    newWindow.focus();
-  }
+interface SocialFormButtonsProps {
+  source: 'login' | 'register';
 }
 
-export function SocialFormButtons() {
-  const githubCallback = () => {
-    throw new Error('Not implemented');
-  };
-  const googleCallback = () => {
-    throw new Error('Not implemented');
-  };
+export function SocialFormButtons(props: SocialFormButtonsProps) {
+  const { source } = props;
+  const router = useRouter();
+  const errorModalActions = useErrorModalActions();
+
+  const github = useAuthForm({
+    submit: async () => {
+      const fn =
+        source === 'login' ? api.user_githubLogin : api.user_githubRegister;
+      return fn.bind(api)(router.query.code as string);
+    },
+  });
+
+  const google = useAuthForm({
+    submit: async () => {
+      const fn =
+        source === 'login' ? api.user_googleLogin : api.user_googleRegister;
+      const token = /access_token=([^&]+)/.exec(window.location.hash)![1];
+      return fn.bind(api)(token);
+    },
+  });
+
   React.useEffect(() => {
-    (window as any).githubCallback = githubCallback;
-    (window as any).googleCallback = googleCallback;
-    return () => {
-      delete (window as any).githubCallback;
-      delete (window as any).googleCallback;
-    };
-  }, []);
+    if (router.query.auth === 'github' && router.query.code) {
+      void github.onSubmit().then(() =>
+        router.replace({
+          pathname: router.pathname,
+          query: R.omit(router.query, ['auth', 'code']),
+        })
+      );
+    }
+    if (router.query.auth === 'google') {
+      void google.onSubmit().then(() =>
+        router.replace({
+          pathname: router.pathname,
+          query: R.omit(router.query, ['auth']),
+        })
+      );
+    }
+  }, [router.query]);
+
+  React.useEffect(() => {
+    if (github.error) {
+      errorModalActions.show(github.error);
+    }
+  }, [github.error]);
+
+  React.useEffect(() => {
+    if (google.error) {
+      errorModalActions.show(google.error);
+    }
+  }, [google.error]);
 
   return (
     <>
       <Or py={3}>lub</Or>
       <Row>
-        <Col sm={6}>
+        <Col md={6}>
           <Button
             testId="social-github-btn"
             onClick={() => {
               const params = [
                 `client_id=${GITHUB_CLIENT_ID}`,
-                `redirect_uri=${encodeURIComponent(window.origin + '/github')}`,
+                `redirect_uri=${encodeURIComponent(
+                  window.origin + `/${source}?auth=github`
+                )}`,
                 `scope=${encodeURIComponent('user:email')}`,
               ];
-              popupCenter(
-                `https://github.com/login/oauth/authorize?${params.join('&')}`,
-                'github oauth',
-                700,
-                700
-              );
+              window.location.href = `https://github.com/login/oauth/authorize?${params.join(
+                '&'
+              )}`;
             }}
             type="neutral"
             block
             icon={<GithubIcon size={20} />}
+            loading={github.isSubmitting}
           >
             Github
           </Button>
         </Col>
-        <Col sm={6}>
+        <Col md={6}>
           <Button
             testId="social-google-btn"
             onClick={() => {
               const params = [
                 `client_id=${GOOGLE_CLIENT_ID}`,
-                `redirect_uri=${encodeURIComponent(window.origin + '/google')}`,
+                `redirect_uri=${encodeURIComponent(
+                  window.origin + `/${source}?auth=google`
+                )}`,
                 `scope=email`,
                 `response_type=token`,
               ];
-              popupCenter(
-                `https://accounts.google.com/o/oauth2/auth?${params.join('&')}`,
-                'google oauth',
-                700,
-                700
-              );
+              window.location.href = `https://accounts.google.com/o/oauth2/auth?${params.join(
+                '&'
+              )}`;
             }}
             type="neutral"
             block
             icon={<GoogleIcon size={20} />}
+            loading={google.isSubmitting}
           >
             Google
           </Button>
