@@ -1,58 +1,50 @@
 import React from 'react';
+import * as R from 'remeda';
 import { Alert } from 'src/components/Alert';
 import { SocialFormButtons } from 'src/components/SocialFormButtons';
 import { FullPageForm } from 'src/components/FullPageForm';
 import { FormInput } from 'src/components/FormInput';
 import { Button } from 'src/components/Button';
-import styled from 'styled-components';
 import { createUrl } from 'src/common/url';
 import Link from 'next/link';
 import { useForm } from 'react-hook-form';
-import { EMAIL_REGEX } from 'shared';
+import { EMAIL_REGEX, PASSWORD_MIN_LENGTH } from 'shared';
 import { api } from 'src/services/api';
 import { useAuthForm } from 'src/hooks/useAuthForm';
-
-const ForgotWrapper = styled.div`
-  text-align: right;
-  font-size: 0.8rem;
-  margin-top: 1rem;
-`;
 
 interface FormValues {
   email: string;
   password: string;
+  confirmPassword: string;
 }
 
-export function LoginView() {
+export function RegisterView() {
   const { errors, register, handleSubmit, getValues } = useForm<FormValues>();
   const { error, isSubmitting, onSubmit } = useAuthForm({
-    submit: () => api.user_login(getValues()),
+    submit: () => api.user_register(R.omit(getValues(), ['confirmPassword'])),
   });
 
   return (
     <FullPageForm
-      testId="login-form"
-      title="Logowanie"
+      testId="register-form"
+      title="Zarejestruj nowe konto"
       bottom={
         <>
-          Nie masz już konta?{' '}
-          <Link
-            data-test="register-link"
-            href={createUrl({ name: 'register' })}
-          >
-            Zarejestruj się
+          Masz już konto?{' '}
+          <Link data-test="login-link" href={createUrl({ name: 'login' })}>
+            Zaloguj się
           </Link>
         </>
       }
     >
       <form onSubmit={handleSubmit(onSubmit)}>
         {error && (
-          <Alert testId="login-error" type="error">
+          <Alert testId="register-error" type="error">
             {error}
           </Alert>
         )}
         <FormInput
-          testId="login-input"
+          testId="register-input"
           id="email"
           name="email"
           label="Email"
@@ -77,33 +69,51 @@ export function LoginView() {
           label="Hasło"
           placeholder="********"
           type="password"
-          autoComplete="current-password"
+          autoComplete="new-password"
           ref={register({
             required: {
               value: true,
               message: 'Podaj hasło',
             },
+            minLength: {
+              value: PASSWORD_MIN_LENGTH,
+              message: `Minimum ${PASSWORD_MIN_LENGTH} znaków`,
+            },
           })}
           error={errors.password?.message}
         />
+        <FormInput
+          testId="confirm-password-input"
+          id="confirmPassword"
+          name="confirmPassword"
+          label="Powtórz hasło"
+          placeholder="********"
+          type="password"
+          autoComplete="new-password"
+          ref={register({
+            required: {
+              value: true,
+              message: 'Podaj hasło',
+            },
+            validate: (data: string) => {
+              if (data !== getValues().password) {
+                return 'Hasła muszą być takie same';
+              }
+              return true;
+            },
+          })}
+          error={errors.confirmPassword?.message}
+        />
         <Button
-          testId="login-submit"
+          testId="register-submit"
           type="primary"
           block
           loading={isSubmitting}
           htmlType="submit"
         >
-          Zaloguj się
+          Załóż konto
         </Button>
         <SocialFormButtons />
-        <ForgotWrapper>
-          <Link
-            data-test="reset-password-link"
-            href={createUrl({ name: 'reset-password' })}
-          >
-            Resetuj hasło
-          </Link>
-        </ForgotWrapper>
       </form>
     </FullPageForm>
   );
