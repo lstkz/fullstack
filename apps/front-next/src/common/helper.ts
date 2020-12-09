@@ -1,4 +1,6 @@
-import { GetServerSideProps } from 'next';
+import { GetServerSideProps, NextPageContext } from 'next';
+import { APIClient } from 'shared';
+import { API_URL } from 'src/config';
 import { readCookieFromString } from './cookie';
 
 export class UnreachableCaseError extends Error {
@@ -194,3 +196,27 @@ export const ensureNotLoggedIn: GetServerSideProps = async context => {
     props: {},
   };
 };
+
+export function createSSRClient<
+  T extends {
+    req?: NextPageContext['req'];
+  }
+>(ctx: T) {
+  const token = readCookieFromString(
+    ctx?.req?.headers['cookie'] ?? '',
+    'token'
+  );
+  return new APIClient(API_URL, () => token);
+}
+
+export function safeAssign<T>(obj: T, values: Partial<T>) {
+  return Object.assign(obj, values);
+}
+
+export function safeExtend<T, U>(obj: T, values: U): T & U {
+  return Object.assign(obj, values);
+}
+
+export function safeKeys<T>(obj: T): Array<keyof T> {
+  return Object.keys(obj) as any;
+}

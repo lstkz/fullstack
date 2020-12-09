@@ -1,4 +1,5 @@
 import React from 'react';
+import { useFormContext } from 'react-hook-form';
 import { Input, InputProps } from './Input';
 
 interface FormInputProps extends Omit<InputProps, 'inputRef'> {
@@ -24,3 +25,19 @@ export const FormInput = React.forwardRef((props: FormInputProps, ref) => {
     />
   );
 });
+
+interface ContextFormInputProps extends Omit<FormInputProps, 'error'> {}
+
+export const ContextFormInput = (props: ContextFormInputProps) => {
+  const { name, ...rest } = props;
+  const { errors, register } = useFormContext<any>();
+
+  return (
+    <FormInput
+      {...rest}
+      ref={register()}
+      name={name}
+      error={errors[name]?.message}
+    />
+  );
+};

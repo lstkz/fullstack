@@ -96,7 +96,7 @@ const _Header = (props: HeaderProps) => {
   const { className } = props;
   const authActions = useAuthActions();
   const user = useUser();
-  console.log({ user });
+
   return (
     <div className={className}>
       <Container>

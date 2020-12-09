@@ -7,10 +7,9 @@ import '@fortawesome/fontawesome-svg-core/styles.css';
 import { ErrorModalModule } from 'src/features/ErrorModalModule';
 import { SubscriptionModalsModule } from 'src/features/SubscriptionModalsModule';
 import { AuthModule } from 'src/features/AuthModule';
-import { API_URL } from 'src/config';
-import { readCookieFromString } from 'src/common/cookie';
-import { APIClient, User } from 'shared';
+import { User } from 'shared';
 import { ConfirmEmailChecker } from 'src/features/ConfirmEmailChecker';
+import { createSSRClient } from 'src/common/helper';
 
 config.autoAddCss = false;
 
@@ -54,23 +53,17 @@ function App({ Component, pageProps, initialUser }: AppProps & GlobalProps) {
 }
 
 App.getInitialProps = async ({ ctx }: AppContext) => {
-  if (ctx.req) {
-    const token = readCookieFromString(
-      ctx.req.headers['cookie'] ?? '',
-      'token'
-    );
-    if (token) {
-      const api = new APIClient(API_URL, () => token);
-      const user = await api.user_getMe().catch(e => {
-        console.error(e);
-        return null;
-      });
-      return {
-        initialUser: user,
-      };
-    }
+  const api = createSSRClient(ctx);
+  if (!api.getToken()) {
+    return { initialUser: null };
   }
-  return { initialUser: null };
+  const user = await api.user_getMe().catch(e => {
+    console.error(e);
+    return null;
+  });
+  return {
+    initialUser: user,
+  };
 };
 
 export default App;
