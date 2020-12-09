@@ -12,9 +12,8 @@
   "workspaces": [
     "packages/*",
     "apps/api",
-    "apps/front",
     "apps/front-next",
-    "courses"
+    "content"
   ],
   "dependencies": {
     "@types/prettier": "^2.1.5",

@@ -15,7 +15,9 @@ export interface AppConfig {
   };
   aws: {
     sesRegion: string;
+    s3Bucket: string;
   };
+  adminToken: string;
   api: {
     port: number;
     eventQueueSuffix: string;

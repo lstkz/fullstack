@@ -206,7 +206,7 @@ export function createSSRClient<
     ctx?.req?.headers['cookie'] ?? '',
     'token'
   );
-  return new APIClient(API_URL, () => token);
+  return new APIClient(API_URL, () => token, fetch);
 }
 
 export function safeAssign<T>(obj: T, values: Partial<T>) {

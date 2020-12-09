@@ -16,7 +16,9 @@ export const config: AppConfig = {
   },
   aws: {
     sesRegion: 'eu-west-1',
+    s3Bucket: 'fs-dev-new-bucket83908e77-386rntzp21zk',
   },
+  adminToken: 'admin-wOcAcBPqRt',
   api: {
     port: 3000,
     eventQueueSuffix: 'app',

@@ -14,33 +14,11 @@ export interface SubscriptionResult {
   result: 'ok' | 'already-subscribed';
 }
 
-export interface Course {
-  id: string;
-  name: string;
-  description: string;
-  promoPrice: number;
-  price: number;
-  promoEnds: string;
-  hasAccess: boolean;
-}
-
 export interface VideoUpload {
   resolution: number;
   s3Key: string;
 }
 
-export interface CourseLessonUpload {
-  id: number;
-  name: string;
-  week: number;
-  sources: VideoUpload[];
-}
-export interface CourseTaskUpload {
-  id: number;
-  name: string;
-  week: number;
-  s3Key: string;
-}
 export interface TPayGroup {
   id: number;
   name: string;
@@ -65,4 +43,33 @@ export interface SubscriptionPlan {
   price: PriceDefinition;
   pricePerMonth: number;
   savings: number;
+}
+
+export interface ModuleLessonUpload {
+  id: number;
+  name: string;
+  sources: VideoUpload[];
+}
+
+export interface ModuleTaskUpload {
+  id: number;
+  name: string;
+  isExample: boolean;
+  detailsS3Key: string;
+  sourceS3Key: string;
+}
+
+export interface ModuleUpload {
+  id: string;
+  isPending: boolean;
+  name: string;
+  description: string;
+  lessons: ModuleLessonUpload[];
+  tasks: ModuleTaskUpload[];
+}
+
+export interface Module {
+  id: string;
+  name: string;
+  description: string;
 }

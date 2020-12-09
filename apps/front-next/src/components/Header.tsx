@@ -106,7 +106,7 @@ const _Header = (props: HeaderProps) => {
             <>
               <Nav>
                 <NavItem>
-                  <Link href={createUrl({ name: 'courses' })}>Kursy</Link>
+                  <Link href={createUrl({ name: 'modules' })}>Moduły</Link>
                 </NavItem>
               </Nav>
               {user ? (

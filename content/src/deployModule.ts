@@ -5,10 +5,10 @@ import webpack from 'webpack';
 import TerserPlugin from 'terser-webpack-plugin';
 import tmp from 'tmp';
 import mime from 'mime-types';
-import { XMLHttpRequest } from 'xmlhttprequest';
-
+import fetch from 'node-fetch';
 import { CleanWebpackPlugin } from 'clean-webpack-plugin';
-import { APIClient, Course, CourseLessonUpload } from 'shared';
+import { APIClient, ModuleUpload } from 'shared';
+import { config } from 'config';
 import {
   execWebpack,
   getAllFiles,
@@ -16,10 +16,10 @@ import {
   md5,
   uploadS3,
 } from './helper';
-import { CourseTask, TaskInfo, TaskUpload } from './types';
+import { TaskInfo } from './types';
 
-function _getCourseBaseDir(courseName: string) {
-  return Path.join(__dirname, '../', courseName);
+function _getModuleBaseDir(moduleName: string) {
+  return Path.join(__dirname, '../modules', moduleName);
 }
 
 async function _collectSources(tasks: TaskInfo[]) {
@@ -65,12 +65,12 @@ async function _collectSources(tasks: TaskInfo[]) {
   );
 }
 
-async function _buildDetails(courseName: string, tasks: TaskInfo[]) {
+async function _buildDetails(moduleName: string, tasks: TaskInfo[]) {
   const entry: Record<string, string[]> = {};
   tasks.forEach(task => {
     entry[task.uniqName] = [task.detailsPath];
   });
-  const basedir = _getCourseBaseDir(courseName);
+  const basedir = _getModuleBaseDir(moduleName);
   const detailsDir = Path.join(basedir, 'dist');
   await execWebpack({
     context: basedir,
@@ -120,84 +120,49 @@ async function _buildDetails(courseName: string, tasks: TaskInfo[]) {
   });
 }
 
-function _getTasks(courseName: string) {
+function _getTasksInfo(module: ModuleUpload) {
   const tasks: TaskInfo[] = [];
-  const courseDir = _getCourseBaseDir(courseName);
-  const basedir = Path.join(courseDir, 'tasks');
-  fs.readdirSync(basedir).forEach(dirName => {
-    const weekExec = /^week(\d+)$/.exec(dirName);
-    if (!weekExec) {
-      return;
+
+  const moduleDir = Path.join(__dirname, '../modules', module.id);
+  module.tasks.map(task => {
+    const taskDir = Path.join(moduleDir, 'task-' + task.id);
+    const detailsPath = Path.join(taskDir, 'details', 'index.tsx');
+    if (!fs.existsSync(detailsPath)) {
+      throw new Error(`${detailsPath} doesn't exist`);
     }
-    const week = Number(weekExec[1]);
-    const weekDir = Path.join(basedir, dirName);
-    fs.readdirSync(weekDir).forEach(taskName => {
-      const taskExec = /^(\d+)-/.exec(taskName);
-      if (!taskExec) {
-        return;
-      }
-      const id = Number(taskExec[1]);
-      const taskDir = Path.join(weekDir, taskName);
-      const task: CourseTask = require(Path.join(taskDir, 'info.ts')).info;
-      if (!task) {
-        throw new Error(`Info not found for ${taskName}`);
-      }
-      const detailsPath = Path.join(taskDir, 'details', 'index.tsx');
-      if (!fs.existsSync(detailsPath)) {
-        throw new Error(`${detailsPath} doesn't exist`);
-      }
-      const uniqName = `${week}_${id}`;
-      const distFileName = `${uniqName}.js`;
-      tasks.push({
-        id,
-        week,
-        task,
-        taskDir,
-        detailsPath,
-        distFileName,
-        uniqName,
-        distFilePath: Path.join(courseDir, 'dist', distFileName),
-        sourceTarPath: Path.join(courseDir, 'dist', `${uniqName}.tar.gz`),
-      });
+    const uniqName = `${task.id}`;
+    const distFileName = `${uniqName}.js`;
+    tasks.push({
+      task,
+      taskDir,
+      detailsPath,
+      distFileName,
+      uniqName,
+      distFilePath: Path.join(moduleDir, 'dist', distFileName),
+      sourceTarPath: Path.join(moduleDir, 'dist', `${uniqName}.tar.gz`),
     });
   });
   if (!tasks.length) {
-    throw new Error(`No tasks in ${courseName}`);
+    throw new Error(`No tasks in ${module.id}`);
   }
   return tasks;
 }
 
-function _getLesson(courseName: string) {
-  const info: Course = require(`../${courseName}/info`).info;
+function _getInfo(moduleName: string) {
+  const info: ModuleUpload = require(`../modules/${moduleName}/info`).info;
   if (!info) {
-    throw new Error('Cannot get course info');
+    throw new Error('Cannot get module info');
   }
   return info;
 }
 
-function _getLessons(courseName: string) {
-  const lessons: CourseLessonUpload[] = require(`../${courseName}/lessons`)
-    .lessons;
-  if (!lessons) {
-    throw new Error('Cannot get lessons');
-  }
-  return lessons;
-}
-
 async function _uploadTasks(bucketName: string, tasks: TaskInfo[]) {
-  return await Promise.all(
-    tasks.map(async task => {
-      const taskUpload: TaskUpload = {
-        id: task.id,
-        week: task.week,
-        name: task.task.name,
-        detailsS3Key: '',
-        sourceS3Key: '',
-      };
+  await Promise.all(
+    tasks.map(async info => {
       await Promise.all(
         [
-          { path: task.distFilePath, out: 'detailsS3Key' as const },
-          { path: task.sourceTarPath, out: 'sourceS3Key' as const },
+          { path: info.distFilePath, out: 'detailsS3Key' as const },
+          { path: info.sourceTarPath, out: 'sourceS3Key' as const },
         ].map(async file => {
           const { out, path } = file;
           const contentType = mime.lookup(path);
@@ -211,65 +176,48 @@ async function _uploadTasks(bucketName: string, tasks: TaskInfo[]) {
           const name = Path.basename(path, ext);
           const content = await fs.readFile(path);
           const hash = md5(content);
-          const s3Key = `protected/${name}.${hash}${ext}`;
+          const s3Key = `module-assets/${name}.${hash}${ext}`;
           await uploadS3({
             bucketName: bucketName,
             content,
             contentType,
             s3Key,
           });
-          taskUpload[out] = s3Key;
+          info.task[out] = s3Key;
         })
       );
-      return taskUpload;
     })
   );
 }
 
-interface DeployCourseOptions {
-  courseName: string;
+interface DeployModuleOptions {
+  moduleName: string;
   s3BucketName: string;
   apiUrl: string;
   accessToken: string;
 }
 
-async function deployCourse(options: DeployCourseOptions) {
-  const { courseName, s3BucketName, apiUrl, accessToken } = options;
-  const info = _getLesson(courseName);
-  const lessons = _getLessons(courseName);
-
-  const tasks = _getTasks(courseName);
-  await _buildDetails(courseName, tasks);
+async function deployModule(options: DeployModuleOptions) {
+  const { moduleName, s3BucketName, apiUrl, accessToken } = options;
+  const info = _getInfo(moduleName);
+  const tasks = _getTasksInfo(info);
+  await _buildDetails(moduleName, tasks);
   await _collectSources(tasks);
+  await _uploadTasks(s3BucketName, tasks);
 
-  const taskUploads = await _uploadTasks(s3BucketName, tasks);
-
-  const api = new APIClient(
-    apiUrl,
-    () => accessToken,
-    () => new XMLHttpRequest()
-  );
-  await api.course_updateCourse(info, lessons, taskUploads).toPromise();
+  const api = new APIClient(apiUrl, () => accessToken, fetch);
+  await api.module_updateModule(info);
 }
 
-if (!process.env.COURSE_NAME) {
-  throw new Error('COURSE_NAME is not set');
-}
-if (!process.env.S3_BUCKET_NAME) {
-  throw new Error('S3_BUCKET_NAME is not set');
-}
-if (!process.env.API_URL) {
-  throw new Error('API_URL is not set');
-}
-if (!process.env.API_TOKEN) {
-  throw new Error('ACCESS_TOKEN is not set');
+if (!process.env.MODULE_NAME) {
+  throw new Error('MODULE_NAME is not set');
 }
 
-deployCourse({
-  courseName: process.env.COURSE_NAME,
-  s3BucketName: process.env.S3_BUCKET_NAME,
-  apiUrl: process.env.API_URL,
-  accessToken: process.env.API_TOKEN,
+deployModule({
+  moduleName: process.env.MODULE_NAME,
+  s3BucketName: config.aws.s3Bucket,
+  apiUrl: config.apiBaseUrl,
+  accessToken: config.adminToken,
 })
   .then(() => {
     process.exit();

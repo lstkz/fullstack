@@ -3,6 +3,7 @@
 // IMPORTS
 import {
   SubscriptionResult,
+  Module,
   TPayGroup,
   SubscriptionPlan,
   AuthData,
@@ -16,11 +17,14 @@ export class APIClient {
   constructor(
     private baseUrl: string,
     public getToken: () => string | null,
-    fetch?: (input: RequestInfo, init?: RequestInit) => Promise<Response>
+    fetch?: any
   ) {
     this.baseUrl = baseUrl.replace(/\/$/, '');
     this.fetch =
       fetch ?? (typeof window === 'undefined' ? null! : window.fetch);
+    if (this.fetch) {
+      this.fetch = this.fetch.bind(fetch);
+    }
   }
 
   // SIGNATURES
@@ -39,6 +43,29 @@ export class APIClient {
     source: string
   ): Promise<unknown> {
     return this.call('emailSubscription.unsubscribe', { email, code, source });
+  }
+  module_getAllModules(): Promise<Module[]> {
+    return this.call('module.getAllModules', {});
+  }
+  module_updateModule(values: {
+    name: string;
+    isPending: boolean;
+    description: string;
+    lessons: {
+      name: string;
+      id: number;
+      sources: { resolution: number; s3Key: string }[];
+    }[];
+    tasks: {
+      name: string;
+      id: number;
+      isExample: boolean;
+      detailsS3Key: string;
+      sourceS3Key: string;
+    }[];
+    id: string;
+  }): Promise<unknown> {
+    return this.call('module.updateModule', { values });
   }
   subscription_checkStatus(
     orderId: string
@@ -130,7 +157,7 @@ export class APIClient {
       headers['x-token'] = token;
     }
 
-    const res = await fetch(`${this.baseUrl}/rpc/${name}`, {
+    const res = await this.fetch(`${this.baseUrl}/rpc/${name}`, {
       method: 'POST',
       headers,
       body: JSON.stringify(params),
@@ -143,16 +170,5 @@ export class APIClient {
       throw err;
     }
     return body;
-
-    // const options: AjaxRequest = {
-    //   url: `${this.baseUrl}/rpc/${name}`,
-    //   method: 'POST',
-    //   body: JSON.stringify(params),
-    //   headers,
-    // };
-    // if (this.createXHR) {
-    //   options.createXHR = this.createXHR;
-    // }
-    // return ajax(options).pipe(map(res => res.response));
   }
 }

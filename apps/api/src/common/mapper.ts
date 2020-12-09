@@ -1,4 +1,5 @@
-import { User } from 'shared';
+import { Module, User } from 'shared';
+import { ModuleModel } from '../collections/Module';
 import { UserModel } from '../collections/User';
 
 export function mapUser(user: UserModel): User {
@@ -7,5 +8,13 @@ export function mapUser(user: UserModel): User {
     email: user.email,
     isVerified: user.isVerified,
     isAdmin: user.isAdmin,
+  };
+}
+
+export function mapModule(module: ModuleModel): Module {
+  return {
+    id: module._id,
+    name: module.name,
+    description: module.description,
   };
 }

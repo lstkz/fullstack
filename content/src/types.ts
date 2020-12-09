@@ -1,26 +1,13 @@
+import { ModuleTaskUpload } from 'shared';
+
 export interface FileUpload {
   name: string;
   path: string;
   content: Buffer;
 }
 
-export interface Course {
-  id: string;
-  name: string;
-  description: string;
-  promoPrice: number;
-  price: number;
-  promoEnds: Date;
-}
-
-export interface CourseTask {
-  name: string;
-}
-
 export interface TaskInfo {
-  task: CourseTask;
-  week: number;
-  id: number;
+  task: ModuleTaskUpload;
   taskDir: string;
   uniqName: string;
   detailsPath: string;
@@ -32,7 +19,6 @@ export interface TaskInfo {
 export interface TaskUpload {
   id: number;
   name: string;
-  week: number;
   detailsS3Key: string;
   sourceS3Key: string;
 }

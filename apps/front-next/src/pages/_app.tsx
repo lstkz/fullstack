@@ -35,6 +35,11 @@ function App({ Component, pageProps, initialUser }: AppProps & GlobalProps) {
           href="https://fonts.googleapis.com/css?family=Nunito+Sans:400,400i,600,700,800&display=swap"
           rel="stylesheet"
         />
+        <link
+          href="https://use.fontawesome.com/releases/v5.12.1/css/svg-with-js.css"
+          rel="stylesheet"
+        ></link>
+
         <title>Fullstack</title>
         <link rel="icon" type="image/png" href="/favicon-32x32.png?2" />
       </Head>
