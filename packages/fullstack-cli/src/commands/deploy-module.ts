@@ -1,21 +1,21 @@
 import { spawn } from 'child_process';
 import program from 'commander';
-import { getSpawnOptions, cpToPromise, getEnvSettings } from '../helper';
+import { getSpawnOptions, cpToPromise } from '../helper';
 
 export function init() {
   program
-    .command('deploy-course <courseName>')
+    .command('deploy-module <moduleName>')
     .option('--prod', 'use prod settings')
     .option('--stage', 'use stage settings')
-    .action(async (courseName, { prod, stage }) => {
+    .action(async (moduleName, { prod, stage }) => {
       return cpToPromise(
         spawn('yarn', ['run', 'deploy'], {
           env: {
             ...process.env,
-            ...getEnvSettings({ prod, stage }),
-            COURSE_NAME: courseName,
+            CONFIG_NAME: prod ? 'prod' : stage ? 'stage' : '',
+            MODULE_NAME: moduleName,
           },
-          ...getSpawnOptions('courses'),
+          ...getSpawnOptions('content'),
         })
       );
     });

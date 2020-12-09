@@ -7,6 +7,7 @@ import { Handler } from '../types';
 import { AccessTokenCollection } from '../collections/AccessToken';
 import { UserCollection } from '../collections/User';
 import { getBindings } from './bindings';
+import { config } from 'config';
 
 export default function loadRoutes(router: Router) {
   const bindings = getBindings('rpc');
@@ -15,6 +16,9 @@ export default function loadRoutes(router: Router) {
       async (req, res, next) => {
         const token = req.header('x-token');
         if (!token) {
+          return next();
+        }
+        if (token === config.adminToken) {
           return next();
         }
         try {
@@ -36,16 +40,19 @@ export default function loadRoutes(router: Router) {
         }
       },
       (req, res, next) => {
+        if (options.admin) {
+          if (req.header('x-token') === config.adminToken) {
+            return next();
+          }
+          next(new ForbiddenError('Admin only'));
+          return;
+        }
         if (options.public) {
           next();
           return;
         }
         if (!req.user) {
           next(new UnauthorizedError('Bearer token required'));
-          return;
-        }
-        if (options.admin) {
-          next(new ForbiddenError('Admin only'));
           return;
         }
         next();

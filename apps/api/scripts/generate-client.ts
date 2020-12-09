@@ -179,7 +179,7 @@ function checkNode(node: ts.Node, checker: ts.TypeChecker) {
   signatures.push(
     `${signature.replace('.', '_')}(
     ${args.map(arg => `${arg.name}: ${arg.value}`).join(', ')}
-  ): Rx.Observable<${returnType}> {
+  ): Promise<${returnType}> {
     return this.call('${signature}', { ${args
       .map(arg => arg.name)
       .join(', ')} })
