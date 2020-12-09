@@ -16,6 +16,7 @@
   "license": "ISC",
   "dependencies": {
     "@types/tinycolor2": "^1.4.2",
+    "@types/react-select": "^3.0.10",
     "@fortawesome/fontawesome-svg-core": "^1.2.32",
     "@fortawesome/free-regular-svg-icons": "^5.15.1",
     "@fortawesome/free-solid-svg-icons": "^5.15.1",

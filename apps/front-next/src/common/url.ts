@@ -12,14 +12,7 @@ export type UrlOptions =
       name: 'forgot-password';
     }
   | {
-      name: 'courses';
-    }
-  | {
-      name: 'course';
-      id: string;
-    }
-  | {
-      name: 'buy-course';
+      name: 'module';
       id: string;
     }
   | {
@@ -47,13 +40,11 @@ export type UrlOptions =
 export function createUrl(options: UrlOptions) {
   switch (options.name) {
     case 'home':
-      return '/courses';
+      return '/modules';
     case 'tos':
       return '/terms';
-    case 'course':
-      return '/course/' + options.id;
-    case 'buy-course':
-      return '/buy-course/' + options.id;
+    case 'module':
+      return '/module/' + options.id;
     default:
       return '/' + options.name;
   }

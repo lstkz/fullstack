@@ -67,3 +67,9 @@ export interface ModuleUpload {
   lessons: ModuleLessonUpload[];
   tasks: ModuleTaskUpload[];
 }
+
+export interface Module {
+  id: string;
+  name: string;
+  description: string;
+}

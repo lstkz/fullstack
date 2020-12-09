@@ -3,6 +3,7 @@
 // IMPORTS
 import {
   SubscriptionResult,
+  Module,
   TPayGroup,
   SubscriptionPlan,
   AuthData,
@@ -21,6 +22,9 @@ export class APIClient {
     this.baseUrl = baseUrl.replace(/\/$/, '');
     this.fetch =
       fetch ?? (typeof window === 'undefined' ? null! : window.fetch);
+    if (this.fetch) {
+      this.fetch = this.fetch.bind(fetch);
+    }
   }
 
   // SIGNATURES
@@ -40,9 +44,11 @@ export class APIClient {
   ): Promise<unknown> {
     return this.call('emailSubscription.unsubscribe', { email, code, source });
   }
+  module_getAllModules(): Promise<Module[]> {
+    return this.call('module.getAllModules', {});
+  }
   module_updateModule(values: {
     name: string;
-    id: string;
     isPending: boolean;
     description: string;
     lessons: {
@@ -53,9 +59,11 @@ export class APIClient {
     tasks: {
       name: string;
       id: number;
+      isExample: boolean;
       detailsS3Key: string;
       sourceS3Key: string;
     }[];
+    id: string;
   }): Promise<unknown> {
     return this.call('module.updateModule', { values });
   }
