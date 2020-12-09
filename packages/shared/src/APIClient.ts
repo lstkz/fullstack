@@ -15,7 +15,7 @@ export class APIClient {
 
   constructor(
     private baseUrl: string,
-    private getToken: () => string | null,
+    public getToken: () => string | null,
     fetch?: (input: RequestInfo, init?: RequestInit) => Promise<Response>
   ) {
     this.baseUrl = baseUrl.replace(/\/$/, '');

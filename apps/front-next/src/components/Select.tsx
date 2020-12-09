@@ -1,5 +1,6 @@
 import React from 'react';
 import ReactSelect, { StylesConfig } from 'react-select';
+
 import { Theme as SelectTheme } from 'react-select/src/types';
 import ReactSelectCreatable, {
   Props as CreatableProps,
@@ -13,6 +14,7 @@ import AsyncPaginate, {
 
 export interface SelectProps<OptionType> extends Props<OptionType> {
   valueColor?: string;
+  id: string;
 }
 
 export interface CreatableSelectProps<OptionType>
@@ -60,7 +62,7 @@ const themeProp = (theme: SelectTheme) => ({
 });
 
 export function Select<T>(props: SelectProps<T>) {
-  const { valueColor } = props;
+  const { valueColor, id } = props;
   const styles: StylesConfig = {};
   if (valueColor) {
     styles.singleValue = base => ({
@@ -71,7 +73,8 @@ export function Select<T>(props: SelectProps<T>) {
   return (
     <>
       <SelectStyles />
-      <ReactSelect<T>
+      <ReactSelect
+        instanceId={id}
         {...props}
         // menuPortalTarget={document.body}
         placeholder={props.placeholder || 'Select...'}
