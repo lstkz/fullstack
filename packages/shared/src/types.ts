@@ -73,3 +73,5 @@ export interface Module {
   name: string;
   description: string;
 }
+
+export interface ModuleDetails extends Module {}
