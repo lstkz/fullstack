@@ -31,7 +31,15 @@ it('should get a module as anonymous', async () => {
   const ret = await execContract(getModule, {
     id: 'm1',
   });
-  expect(ret).toEqual({ id: 'm1', name: 'module 1', description: 'desc 1' });
+  expect(ret).toMatchInlineSnapshot(`
+    Object {
+      "description": "desc 1",
+      "id": "m1",
+      "lessons": Array [],
+      "name": "module 1",
+      "tasks": Array [],
+    }
+  `);
 });
 
 it('should get a module as logged in', async () => {
@@ -42,7 +50,15 @@ it('should get a module as logged in', async () => {
     },
     'user1_token'
   );
-  expect(ret).toEqual({ id: 'm1', name: 'module 1', description: 'desc 1' });
+  expect(ret).toMatchInlineSnapshot(`
+    Object {
+      "description": "desc 1",
+      "id": "m1",
+      "lessons": Array [],
+      "name": "module 1",
+      "tasks": Array [],
+    }
+  `);
 });
 
 it('should throw if not found', async () => {

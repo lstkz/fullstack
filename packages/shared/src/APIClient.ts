@@ -4,6 +4,7 @@
 import {
   SubscriptionResult,
   Module,
+  ModuleDetails,
   TPayGroup,
   SubscriptionPlan,
   AuthData,
@@ -46,6 +47,9 @@ export class APIClient {
   }
   module_getAllModules(): Promise<Module[]> {
     return this.call('module.getAllModules', {});
+  }
+  module_getModule(id: string): Promise<ModuleDetails> {
+    return this.call('module.getModule', { id });
   }
   module_updateModule(values: {
     name: string;
