@@ -10,7 +10,6 @@ interface ModulesPageProps {
 
 export function ModulesPage(props: ModulesPageProps) {
   const { modules } = props;
-  console.log(modules);
   return (
     <Dashboard>
       <Container data-test="courses-page" mt>
