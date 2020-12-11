@@ -3,7 +3,6 @@ import React from 'react';
 import { Container } from 'src/components/Container';
 import { Dashboard } from 'src/components/Dashboard';
 import { Heading } from 'src/components/Heading';
-import { Col, Row } from 'src/components/Grid';
 import { LessonsSection } from './LessonsSection';
 import { TasksSection } from './TasksSection';
 import { ModuleSummary } from './ModuleSummary';
@@ -21,14 +20,10 @@ export function ModulePage(props: ModulePageProps) {
           {module.name}
         </Heading>
         <ModuleSummary />
-        <Row>
-          <Col md={6}>
-            <LessonsSection module={module} />
-          </Col>
-          <Col md={6}>
-            <TasksSection module={module} />
-          </Col>
-        </Row>
+        <div className="grid md:grid-cols-2 gap-7">
+          <LessonsSection module={module} />
+          <TasksSection module={module} />
+        </div>
       </Container>
     </Dashboard>
   );

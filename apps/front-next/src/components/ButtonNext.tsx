@@ -34,6 +34,7 @@ export const ButtonNext = React.forwardRef((props: ButtonProps, ref: any) => {
     icon,
     href,
     type,
+    size,
   } = props;
   const inner = (
     <>
@@ -46,7 +47,7 @@ export const ButtonNext = React.forwardRef((props: ButtonProps, ref: any) => {
     </>
   );
   const classList = [
-    'inline-flex item-center justify-center transition-all rounded-md border border-transparent font-semibold py-3 px-7 leading-normal focus:ring outline-none',
+    'inline-flex item-center justify-center transition-all border border-transparent font-semibold leading-normal focus:ring outline-none',
   ];
 
   switch (type) {
@@ -65,6 +66,15 @@ export const ButtonNext = React.forwardRef((props: ButtonProps, ref: any) => {
     case 'neutral':
       break;
   }
+  switch (size) {
+    case 'small':
+      classList.push('text-sm py-2 px-5 rounded-md');
+      break;
+    default:
+      classList.push('py-3 px-7 rounded-md');
+      break;
+  }
+
   if (href) {
     return (
       <Link href={href}>
