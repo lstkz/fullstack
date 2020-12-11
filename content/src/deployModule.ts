@@ -156,7 +156,7 @@ function _getInfo(moduleName: string) {
   return info;
 }
 
-async function _uploadTasks(bucketName: string, tasks: TaskInfo[]) {
+async function _uploadTasks(tasks: TaskInfo[]) {
   await Promise.all(
     tasks.map(async info => {
       await Promise.all(
@@ -176,9 +176,10 @@ async function _uploadTasks(bucketName: string, tasks: TaskInfo[]) {
           const name = Path.basename(path, ext);
           const content = await fs.readFile(path);
           const hash = md5(content);
-          const s3Key = `module-assets/${name}.${hash}${ext}`;
+          const prefix = file.out === 'detailsS3Key' ? 'details' : 'source';
+          const s3Key = `${prefix}/${name}.${hash}${ext}`;
           await uploadS3({
-            bucketName: bucketName,
+            bucketName: config.aws.s3CDNBucket,
             content,
             contentType,
             s3Key,
@@ -192,18 +193,17 @@ async function _uploadTasks(bucketName: string, tasks: TaskInfo[]) {
 
 interface DeployModuleOptions {
   moduleName: string;
-  s3BucketName: string;
   apiUrl: string;
   accessToken: string;
 }
 
 async function deployModule(options: DeployModuleOptions) {
-  const { moduleName, s3BucketName, apiUrl, accessToken } = options;
+  const { moduleName, apiUrl, accessToken } = options;
   const info = _getInfo(moduleName);
   const tasks = _getTasksInfo(info);
   await _buildDetails(moduleName, tasks);
   await _collectSources(tasks);
-  await _uploadTasks(s3BucketName, tasks);
+  await _uploadTasks(tasks);
 
   const api = new APIClient(apiUrl, () => accessToken, fetch);
   await api.module_updateModule(info);
@@ -215,7 +215,6 @@ if (!process.env.MODULE_NAME) {
 
 deployModule({
   moduleName: process.env.MODULE_NAME,
-  s3BucketName: config.aws.s3Bucket,
   apiUrl: config.apiBaseUrl,
   accessToken: config.adminToken,
 })

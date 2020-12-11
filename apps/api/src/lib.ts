@@ -87,6 +87,8 @@ export const ses = new AWS.SES({
   region: config.aws.sesRegion,
 });
 
+export const s3 = new AWS.S3();
+
 export const { createContract } = initialize({
   debug: process.env.NODE_ENV === 'development',
 });
