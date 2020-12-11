@@ -5,6 +5,7 @@ import {
   SubscriptionResult,
   Module,
   ModuleDetails,
+  ModuleTaskDetails,
   TPayGroup,
   SubscriptionPlan,
   AuthData,
@@ -50,6 +51,9 @@ export class APIClient {
   }
   module_getModule(id: string): Promise<ModuleDetails> {
     return this.call('module.getModule', { id });
+  }
+  module_getTask(moduleId: string, taskId: number): Promise<ModuleTaskDetails> {
+    return this.call('module.getTask', { moduleId, taskId });
   }
   module_updateModule(values: {
     name: string;

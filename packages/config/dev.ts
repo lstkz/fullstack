@@ -4,6 +4,7 @@ export const config: AppConfig = {
   logLevel: 'debug',
   appBaseUrl: 'http://localhost:4000',
   apiBaseUrl: 'http://localhost:3000',
+  cdnBaseUrl: 'https://d219h34ij80kug.cloudfront.net',
   rabbit: {
     hosts: ['localhost'],
     username: 'guest',
@@ -17,6 +18,7 @@ export const config: AppConfig = {
   aws: {
     sesRegion: 'eu-west-1',
     s3Bucket: 'fs-dev-new-bucket83908e77-386rntzp21zk',
+    s3CDNBucket: 'fs-dev-new-cdnbucketee4b79c2-iec0kz1lpjxh',
   },
   adminToken: 'admin-wOcAcBPqRt',
   api: {

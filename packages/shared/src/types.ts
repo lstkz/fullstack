@@ -74,18 +74,25 @@ export interface Module {
   description: string;
 }
 
-export interface ModuleLessonDetails {
+export interface ModuleLesson {
   id: number;
   name: string;
 }
 
-export interface ModuleTaskDetails {
+export interface ModuleTask {
   id: number;
   name: string;
   isExample: boolean;
 }
 
 export interface ModuleDetails extends Module {
-  lessons: ModuleLessonDetails[];
-  tasks: ModuleTaskDetails[];
+  lessons: ModuleLesson[];
+  tasks: ModuleTask[];
+}
+
+export interface ModuleTaskDetails {
+  id: number;
+  name: string;
+  isExample: boolean;
+  detailsUrl: string;
 }

@@ -16,6 +16,11 @@ export type UrlOptions =
       id: string;
     }
   | {
+      name: 'task';
+      id: string;
+      taskId: number;
+    }
+  | {
       name: 'home';
     }
   | {
@@ -45,6 +50,8 @@ export function createUrl(options: UrlOptions) {
       return '/terms';
     case 'module':
       return '/module/' + options.id;
+    case 'task':
+      return '/module/' + options.id + '/task/' + options.taskId;
     default:
       return '/' + options.name;
   }

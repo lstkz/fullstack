@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { ModuleDetails } from 'shared';
+import { createUrl } from 'src/common/url';
 import { Heading } from 'src/components/Heading';
 import styled from 'styled-components';
 import { TaskItem } from './TaskItem';
@@ -19,6 +20,11 @@ const _TasksSection = (props: TasksSectionProps) => {
       {module.tasks.map(item => (
         <TaskItem
           key={item.id}
+          href={createUrl({
+            name: 'task',
+            id: module.id,
+            taskId: item.id,
+          })}
           aboveText={`Zadanie ${item.id}${item.isExample ? ' (Przykład)' : ''}`}
           title={item.name}
         />

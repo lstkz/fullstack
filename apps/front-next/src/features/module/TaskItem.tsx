@@ -9,6 +9,7 @@ import styled from 'styled-components';
 
 interface TaskItemProps {
   className?: string;
+  href: string;
   aboveText: React.ReactNode;
   title: React.ReactNode;
 }
@@ -32,9 +33,9 @@ const RightCol = styled(LessonCol)`
 `;
 
 const _TaskItem = (props: TaskItemProps) => {
-  const { className, title, aboveText } = props;
+  const { className, title, aboveText, href } = props;
   return (
-    <a href="#" className={className}>
+    <div className={className}>
       <Row>
         <LessonCol md={8}>
           <Badge dot type="secondary" />
@@ -44,12 +45,12 @@ const _TaskItem = (props: TaskItemProps) => {
           </TitleStack>
         </LessonCol>
         <RightCol md={4}>
-          <Button size="small" type="secondary">
+          <Button size="small" type="secondary" href={href}>
             Rozwiąż
           </Button>
         </RightCol>
       </Row>
-    </a>
+    </div>
   );
 };
 
