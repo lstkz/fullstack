@@ -1,60 +1,22 @@
 import * as React from 'react';
-import { Theme } from 'src/Theme';
-import styled from 'styled-components';
 
 interface StatProps {
-  className?: string;
   icon: React.ReactNode;
   title: React.ReactNode;
   value: React.ReactNode;
 }
 
-const Left = styled.div`
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-  vertical-align: middle;
-  border-radius: 0.375rem;
-  width: 3rem;
-  height: 3rem;
-  font-size: 1.125rem;
-  box-shadow: 0 0 1.25rem rgba(31, 45, 61, 0.05);
-  color: ${Theme.primary};
-  background-color: white;
-`;
-const Right = styled.div`
-  padding-left: 1rem;
-`;
-
-const Title = styled.div`
-  font-size: 0.75rem;
-  font-weight: 300;
-  color: ${Theme.gray_600};
-`;
-
-const Value = styled.div`
-  font-weight: 700;
-  color: ${Theme.headings_color};
-`;
-
-const _Stat = (props: StatProps) => {
-  const { className, icon, title, value } = props;
+export function Stat(props: StatProps) {
+  const { icon, title, value } = props;
   return (
-    <div className={className}>
-      <Left>{icon}</Left>
-      <Right>
-        <Title>{title}</Title>
-        <Value>{value}</Value>
-      </Right>
+    <div className="flex p-2 items-center bg-secondary rounded-xl">
+      <div className="inline-flex items-center justify-center rounded-md w-12 h-12 text-primary bg-white text-lg shadow-sm">
+        {icon}
+      </div>
+      <div className="pl-4">
+        <div className="text-xs font-light text-gray-600">{title}</div>
+        <div className="font-bold text-heading">{value}</div>
+      </div>
     </div>
   );
-};
-
-export const Stat = styled(_Stat)`
-  display: flex;
-  padding: 0.5rem;
-  align-items: center;
-  background-color: ${Theme.secondary};
-  border-radius: 0.75rem;
-`;
+}
