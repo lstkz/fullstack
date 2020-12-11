@@ -1,33 +1,22 @@
 import * as React from 'react';
 import { ModuleDetails } from 'shared';
-import { Heading } from 'src/components/Heading';
-import styled from 'styled-components';
+import { HeadingNext } from 'src/components/HeadingNext';
 import { LessonItem } from './LessonItem';
 
 interface LessonsSectionProps {
-  className?: string;
   module: ModuleDetails;
 }
 
-const _LessonsSection = (props: LessonsSectionProps) => {
-  const { className, module } = props;
+export function LessonsSection(props: LessonsSectionProps) {
+  const { module } = props;
   return (
-    <div className={className}>
-      <Heading type={4} mb={3}>
+    <div>
+      <HeadingNext type={4} className="mb-3">
         Lekcje video
-      </Heading>
+      </HeadingNext>
       {module.lessons.map(item => (
-        <LessonItem
-          key={item.id}
-          aboveText={`Lekcja ${item.id}`}
-          title={item.name}
-          time="5 min"
-        />
+        <LessonItem key={item.id} item={item} />
       ))}
     </div>
   );
-};
-
-export const LessonsSection = styled(_LessonsSection)`
-  display: block;
-`;
+}

@@ -1,9 +1,8 @@
 import React from 'react';
 import { ModuleTaskDetails } from 'shared';
 import { Loader } from 'src/components/Loader';
-import { Theme } from 'src/Theme';
-import styled from 'styled-components';
 import { TaskHeader } from './TaskHeader';
+import SplitPane from 'react-split-pane';
 
 interface TaskPageProps {
   task: ModuleTaskDetails;
@@ -12,38 +11,6 @@ interface TaskPageProps {
 if (typeof window !== 'undefined') {
   window.React = React;
 }
-
-const Wrapper = styled.div`
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-`;
-const Main = styled.div`
-  display: flex;
-  min-width: 1000px;
-  height: 100%;
-`;
-
-const Left = styled.div`
-  width: 400px;
-  background: white;
-  padding: 1rem;
-  height: 100%;
-  h1 {
-    color: ${Theme.headings_color};
-    font-size: 1.5rem;
-    margin: 0;
-    margin-bottom: 0.5rem;
-  }
-  p {
-    margin: 0;
-    margin-bottom: 0.25rem;
-  }
-`;
-const Right = styled.div`
-  flex: 1 0 auto;
-  height: 100%;
-`;
 
 export function TaskPage(props: TaskPageProps) {
   const { task } = props;
@@ -65,40 +32,57 @@ export function TaskPage(props: TaskPageProps) {
       script.remove();
     };
   }, []);
+  const [isDragging, setIsDragging] = React.useState(false);
+
+  const defaultSize = React.useMemo(() => {
+    if (typeof localStorage === 'undefined') {
+      return 300;
+    }
+    return Number(localStorage.taskPaneWidth) || 300;
+  }, []);
 
   const renderDetails = () => {
     if (!details) {
       return <Loader />;
     }
     return (
-      <Main className="">
-        <Left>{details}</Left>
-        <Right>
+      <SplitPane
+        split="vertical"
+        minSize={50}
+        defaultSize={defaultSize}
+        onDragStarted={() => {
+          setIsDragging(true);
+        }}
+        onDragFinished={newSize => {
+          localStorage.taskPaneWidth = newSize;
+          setIsDragging(false);
+        }}
+        resizerStyle={{
+          width: 5,
+          cursor: 'col-resize',
+          background: 'white',
+        }}
+      >
+        <div className="bg-white p-4 h-full">{details}</div>
+        <div className="h-full flex-1">
           <iframe
             style={{
               width: '100%',
               height: '100%',
               border: 0,
+              pointerEvents: isDragging ? 'none' : undefined,
             }}
             src="https://test-vm.styx-dev.com/?folder=/home/ubuntu/task1"
           />
-          {/* <iframe
-            style={{
-              width: '100%',
-              height: '100%',
-              border: 0,
-            }}
-            src="http://test-vm.styx-dev.com:8080/?folder=/home/ubuntu/task1"
-          /> */}
-        </Right>
-      </Main>
+        </div>
+      </SplitPane>
     );
   };
 
   return (
-    <Wrapper>
+    <div className="flex h-full flex-col">
       <TaskHeader />
-      {renderDetails()}
-    </Wrapper>
+      <div className="flex-1 relative">{renderDetails()}</div>
+    </div>
   );
 }

@@ -8,10 +8,11 @@ interface LogoProps {
   className?: string;
   landing?: boolean;
   type: 'dark' | 'light';
+  titleClassName?: string;
 }
 
 const _Logo = (props: LogoProps) => {
-  const { className, landing } = props;
+  const { className, landing, titleClassName } = props;
   return (
     <div className={className}>
       <Link
@@ -20,7 +21,7 @@ const _Logo = (props: LogoProps) => {
       >
         {/* {type === 'dark' ? <LogoDark /> : <LogoLight />} */}
         <a>
-          <h1>Fullstack</h1>
+          <h1 className={titleClassName}>Fullstack</h1>
         </a>
       </Link>
     </div>
@@ -41,5 +42,9 @@ export const Logo = styled(_Logo)`
     margin: 0;
     padding: 0;
     font-size: 30px;
+    font-weight: bold;
+    &.text-xl {
+      font-size: 1.25rem;
+    }
   }
 `;

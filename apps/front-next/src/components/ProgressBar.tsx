@@ -1,6 +1,4 @@
 import * as React from 'react';
-import { Theme } from 'src/Theme';
-import styled from 'styled-components';
 
 interface ProgressBarProps {
   className?: string;
@@ -8,72 +6,26 @@ interface ProgressBarProps {
   progress: number;
 }
 
-const Title = styled.div`
-  color: ${Theme.gray_600};
-  font-size: 0.675rem;
-  font-weight: 400;
-  text-transform: uppercase;
-`;
-
-const ProgressWrapper = styled.div`
-  display: flex;
-  align-items: center;
-  line-height: 0;
-`;
-
-const ProgressBg = styled.div`
-  display: flex;
-  height: 0.375rem;
-  overflow: hidden;
-  line-height: 0;
-  font-size: 0.75rem;
-  background-color: ${Theme.gray_200};
-  border-radius: 50rem;
-  flex: 1 0 auto;
-`;
-
-const Progress = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  overflow: hidden;
-  color: #fff;
-  text-align: center;
-  white-space: nowrap;
-  background-color: ${Theme.primary};
-  transition: width 0.6s ease;
-`;
-
-const Value = styled.div`
-  text-align: right;
-  font-weight: 600;
-  font-size: 0.875rem;
-  color: ${Theme.primary};
-  display: flex;
-  margin-left: 1rem;
-`;
-
-const _ProgressBar = (props: ProgressBarProps) => {
+export function ProgressBar(props: ProgressBarProps) {
   const { className, progress, title } = props;
   return (
     <div className={className}>
-      <Title>{title}</Title>
-      <ProgressWrapper>
-        <ProgressBg>
-          <Progress
+      <div className="text-gray-600 text-xs uppercase">{title}</div>
+      <div className="flex items-center -mt-1">
+        <div className="flex h-1.5 flex-auto font-xs bg-gray-200 rounded-full overflow-hidden">
+          <div
+            className="bg-blue transition-all"
             role="progressbar"
             aria-valuenow={progress}
             aria-valuemin={0}
             aria-valuemax={100}
             style={{ width: progress + '%' }}
           />
-        </ProgressBg>
-        <Value>{progress}%</Value>
-      </ProgressWrapper>
+        </div>
+        <div className="text-sm ml-4 text font-semibold text-right text-blue">
+          {progress}%
+        </div>
+      </div>
     </div>
   );
-};
-
-export const ProgressBar = styled(_ProgressBar)`
-  display: block;
-`;
+}

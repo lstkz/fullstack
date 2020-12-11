@@ -13,14 +13,12 @@
     "src",
     "scripts",
     "jest.config.js",
+    "postcss.config.js",
+    "tailwind.config.js",
     "__tests__",
     "next.config.js",
     "next-env.d.ts",
     ".eslintrc.js"
   ],
-  "exclude": [
-    "tests",
-    "dist",
-    "build"
-  ]
+  "exclude": ["tests", "dist", "build"]
 }
