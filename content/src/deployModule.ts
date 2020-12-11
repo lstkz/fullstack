@@ -97,8 +97,8 @@ async function _buildDetails(moduleName: string, tasks: TaskInfo[]) {
     entry: entry,
     externals: {
       react: 'root React',
+      prismjs: 'root Prism',
       'react-dom': 'root ReactDom',
-      'styled-components': 'root StyledComponents',
     },
     output: {
       library: 'TaskJSONP',

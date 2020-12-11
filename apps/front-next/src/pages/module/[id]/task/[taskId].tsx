@@ -6,12 +6,13 @@ export default TaskPage;
 
 export const getServerSideProps: GetServerSideProps = async ctx => {
   const api = createSSRClient(ctx);
+  const task = await api.module_getTask(
+    ctx.query.id as string,
+    Number(ctx.query.taskId as string)
+  );
   return {
     props: {
-      task: await api.module_getTask(
-        ctx.query.id as string,
-        Number(ctx.query.taskId as string)
-      ),
+      task,
     },
   };
 };

@@ -1,6 +1,6 @@
 const withImages = require('next-images');
 
-const withTM = require('next-transpile-modules')(['shared', 'schema']);
+const withTM = require('next-transpile-modules')(['shared', 'schema', 'ui']);
 
 const isProd = process.env.NODE_ENV === 'production';
 
