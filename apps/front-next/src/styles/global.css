@@ -1,0 +1,24 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer utilities {
+  .sep {
+    position: relative;
+  }
+  .sep::before {
+    content: '';
+    display: block;
+    width: 80%;
+    position: absolute;
+    top: 0;
+    left: 50%;
+    margin-left: -40%;
+    height: 1px;
+    background: radial-gradient(
+      ellipse at center,
+      #d1dbe7 0,
+      rgba(255, 255, 255, 0) 75%
+    );
+  }
+}

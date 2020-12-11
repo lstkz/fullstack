@@ -10,6 +10,8 @@ import { AuthModule } from 'src/features/AuthModule';
 import { User } from 'shared';
 import { ConfirmEmailChecker } from 'src/features/ConfirmEmailChecker';
 import { createSSRClient } from 'src/common/helper';
+import '../styles/global.css';
+// import 'tailwindcss/tailwind.css';
 
 config.autoAddCss = false;
 
