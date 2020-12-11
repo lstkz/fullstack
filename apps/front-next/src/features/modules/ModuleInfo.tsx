@@ -8,7 +8,6 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import * as React from 'react';
 import { createUrl } from 'src/common/url';
 import { TsIcon } from 'src/icons/TsIcon';
-import { Button } from 'src/components/Button';
 import { ProgressBar } from 'src/components/ProgressBar';
 import { Module } from 'shared';
 import Link from 'next/link';

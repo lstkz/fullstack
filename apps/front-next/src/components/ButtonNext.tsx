@@ -47,7 +47,7 @@ export const ButtonNext = React.forwardRef((props: ButtonProps, ref: any) => {
     </>
   );
   const classList = [
-    'inline-flex item-center justify-center transition-all border border-transparent font-semibold leading-normal focus:ring outline-none',
+    'inline-flex item-center justify-center transition-all border border-transparent font-semibold leading-normal focus:ring focus:outline-none outline-none',
   ];
 
   switch (type) {
@@ -55,7 +55,7 @@ export const ButtonNext = React.forwardRef((props: ButtonProps, ref: any) => {
       break;
     case 'secondary':
       classList.push(
-        'text-gray-900 bg-secondary border-color-secondary',
+        'text-gray-900 bg-secondary border-color-secondary ',
         'hover:bg-secondary-600 hover:border-color-secondary-700',
         'active:bg-secondary-700 active:border-color-secondary-800',
         'focus:ring-secondary-ring'

@@ -85,6 +85,9 @@ module.exports = {
         700: darken(BaseThemeColors.secondary, 10),
         800: darken(BaseThemeColors.secondary, 12.5),
       },
+      dark: {
+        DEFAULT: BaseThemeColors.dark,
+      },
       heading: {
         DEFAULT: '#152c5b',
       },
