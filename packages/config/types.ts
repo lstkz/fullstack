@@ -19,6 +19,11 @@ export interface AppConfig {
     s3Bucket: string;
     s3CDNBucket: string;
   };
+  vm: {
+    launchTemplateId: string;
+    baseDomain: string;
+    zoneId: string;
+  };
   adminToken: string;
   api: {
     port: number;

@@ -155,6 +155,9 @@ export class APIClient {
   user_resetPassword(email: string): Promise<void> {
     return this.call('user.resetPassword', { email });
   }
+  vm_assignVM(): Promise<unknown> {
+    return this.call('vm.assignVM', {});
+  }
   // SIGNATURES END
   private async call(name: string, params: any): Promise<any> {
     const token = this.getToken();

@@ -4,6 +4,7 @@ import { Loader } from 'src/components/Loader';
 import { TaskHeader } from './TaskHeader';
 import SplitPane from 'react-split-pane';
 import Prism from 'prismjs';
+import { api } from 'src/services/api';
 
 interface TaskPageProps {
   task: ModuleTaskDetails;
@@ -17,6 +18,10 @@ if (typeof window !== 'undefined') {
 export function TaskPage(props: TaskPageProps) {
   const { task } = props;
   const [details, setDetails] = React.useState<React.ReactNode | null>(null);
+
+  React.useEffect(() => {
+    api.vm_assignVM();
+  }, []);
 
   React.useEffect(() => {
     if (typeof window === 'undefined') {
