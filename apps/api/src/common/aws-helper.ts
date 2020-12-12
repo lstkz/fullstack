@@ -21,7 +21,7 @@ export async function getInstanceByTag(tagName: string, tagValue: string) {
   if (list.Reservations.length > 1) {
     throw new Error(`Expected only 1 reservation ${tagName}=${tagValue}`);
   }
-  const instances = list.Reservations[0].Instances;
+  const instances = list.Reservations[0]?.Instances;
   if (!instances) {
     return null;
   }

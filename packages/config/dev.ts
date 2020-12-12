@@ -22,6 +22,7 @@ export const config: AppConfig = {
   },
   vm: {
     launchTemplateId: 'lt-0da5565f8c1bfdbae',
+    subnetId: 'subnet-03f5a1ccf774f3927',
     baseDomain: 'fs-vm.styx-dev.com',
     zoneId: 'ZYJ454ME3RV0Z',
   },

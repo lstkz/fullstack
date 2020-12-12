@@ -3,6 +3,7 @@ process.env.AWS_REGION = 'eu-central-1';
 import { config } from 'config';
 import { randomString } from './common/helper';
 import { ec2, route53 } from './lib';
+import { getInstanceByTag, runInstance } from './common/aws-helper';
 
 async function start() {
   // const vmId = '12345ff44';
@@ -99,20 +100,43 @@ async function start() {
   //   )
   //   .promise();
 
-  const recordName = 'al53wdqska.fs-vm.styx-dev.com';
-  const ret3 = await route53
-    .listResourceRecordSets(
-      {
-        HostedZoneId: config.vm.zoneId,
-        StartRecordName: recordName,
-        MaxItems: '1',
-      },
-      undefined
-    )
-    .promise();
-  const target = ret3.ResourceRecordSets.find(x => x.Name === recordName + '.');
+  // const recordName = 'al53wdqska.fs-vm.styx-dev.com';
+  // const ret3 = await route53
+  //   .listResourceRecordSets(
+  //     {
+  //       HostedZoneId: config.vm.zoneId,
+  //       StartRecordName: recordName,
+  //       MaxItems: '1',
+  //     },
+  //     undefined
+  //   )
+  //   .promise();
+  // const target = ret3.ResourceRecordSets.find(x => x.Name === recordName + '.');
 
-  console.log(target);
+  // console.log(target);
+
+  const ret = await runInstance({
+    LaunchTemplate: {
+      LaunchTemplateId: config.vm.launchTemplateId,
+    },
+    SubnetId: 'subnet-03f5a1ccf774f3927',
+    TagSpecifications: [
+      {
+        ResourceType: 'instance',
+        Tags: [
+          {
+            Key: 'fsID',
+            Value: 'test',
+          },
+          {
+            Key: 'userId',
+            Value: '123',
+          },
+        ],
+      },
+    ],
+  });
+  console.log(ret);
 
   process.exit(0);
 }

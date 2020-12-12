@@ -9,6 +9,7 @@ import {
   getZoneRecord,
 } from '../../common/aws-helper';
 import { delay, randomString } from '../../common/helper';
+import { dispatchTask } from '../../dispatch';
 
 async function _getInstanceIP(instanceId: string, retry = 0): Promise<string> {
   if (retry > 120) {
@@ -80,10 +81,14 @@ export const vmStep2AssignDomain = createContract('vm.vmStep2AssignDomainTask')
     if (assignedVM.zoneChangeId) {
       await _waitForZoneChange(assignedVM.zoneChangeId);
     }
+    await dispatchTask({
+      type: 'VMStep3Install',
+      payload: { vmId },
+    });
   });
 
 export const vmStep2AssignDomainTask = createTaskBinding({
-  type: 'VMStep1Create',
+  type: 'VMStep2AssignDomainTask',
   async handler(messageId, task) {
     await vmStep2AssignDomain(task.vmId);
   },

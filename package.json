@@ -11,6 +11,7 @@
   },
   "workspaces": [
     "packages/*",
+    "packages-public/*",
     "apps/api",
     "apps/front-next",
     "content"

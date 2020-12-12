@@ -21,6 +21,7 @@ export interface AppConfig {
   };
   vm: {
     launchTemplateId: string;
+    subnetId: string;
     baseDomain: string;
     zoneId: string;
   };

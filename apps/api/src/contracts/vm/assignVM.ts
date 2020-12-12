@@ -1,5 +1,6 @@
 import { S } from 'schema';
 import { AssignedVMCollection } from '../../collections/AssignedVM';
+import { randomString } from '../../common/helper';
 import { dispatchTask } from '../../dispatch';
 import { createContract, createRpcBinding } from '../../lib';
 
@@ -16,6 +17,7 @@ export const assignVM = createContract('vm.assignVM')
     }
     assignedVm = {
       _id: vmId,
+      tagId: randomString(15).toLowerCase(),
       userId: user._id,
     };
     await AssignedVMCollection.insertOne(assignedVm);

@@ -1,0 +1,27 @@
+{
+  "name": "fullstack-agent",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "engines": {},
+  "scripts": {
+    "tsc": "tsc --noEmit",
+    "build": "rm dist/*; yarn run webpack --progress --color",
+    "jest": "jest"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "UNLICENSED",
+  "dependencies": {
+    "@types/mz": "^0.0.32",
+    "@types/node-fetch": "^2.5.4",
+    "chokidar": "^3.2.3",
+    "mz": "^2.7.0",
+    "node-fetch": "^2.6.0",
+    "nodemon": "^1.19.1",
+    "remeda": "^0.0.25",
+    "ts-loader": "^8.0.11",
+    "webpack": "^5.3.2",
+    "webpack-cli": "^4.2.0"
+  }
+}

@@ -13,22 +13,29 @@ export const vmStep1Create = createContract('vm.vmStep1Create')
   .returns<void>()
   .fn(async vmId => {
     const assignedVM = await AssignedVMCollection.findByIdOrThrow(vmId);
-    let instance = await getInstanceByTag('fsID', assignedVM._id);
+    let instance = await getInstanceByTag('fsID', assignedVM.tagId);
 
     if (!instance) {
       instance = await runInstance({
         LaunchTemplate: {
           LaunchTemplateId: config.vm.launchTemplateId,
         },
+        SubnetId: config.vm.subnetId,
         TagSpecifications: [
           {
+            ResourceType: 'instance',
             Tags: [
               {
+                Key: 'Name',
+                Value: 'UserVM',
+              },
+              {
                 Key: 'UserVM',
+                Value: '',
               },
               {
                 Key: 'fsID',
-                Value: assignedVM._id,
+                Value: assignedVM.tagId,
               },
               {
                 Key: 'userId',
@@ -37,7 +44,7 @@ export const vmStep1Create = createContract('vm.vmStep1Create')
             ],
           },
         ],
-        ClientToken: vmId,
+        ClientToken: assignedVM.tagId,
       });
     }
     assignedVM.awsId = instance.InstanceId;

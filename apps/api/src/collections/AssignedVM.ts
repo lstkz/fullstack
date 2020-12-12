@@ -3,6 +3,7 @@ import { createCollection } from '../db';
 
 export interface AssignedVMModel {
   _id: string;
+  tagId: string;
   awsId?: string;
   userId: ObjectID;
   launchTime?: Date;
