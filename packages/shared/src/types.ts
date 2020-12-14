@@ -92,6 +92,7 @@ export interface ModuleDetails extends Module {
 
 export interface ModuleTaskDetails {
   id: number;
+  moduleId: string;
   name: string;
   isExample: boolean;
   detailsUrl: string;

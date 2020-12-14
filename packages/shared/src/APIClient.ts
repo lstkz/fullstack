@@ -30,6 +30,14 @@ export class APIClient {
   }
 
   // SIGNATURES
+  domainCert_createDomainCert(values: {
+    expiresAt: Date;
+    cert: string;
+    certKey: string;
+    domain: string;
+  }): Promise<void> {
+    return this.call('domainCert.createDomainCert', { values });
+  }
   emailSubscription_confirmSubscription(code: string): Promise<unknown> {
     return this.call('emailSubscription.confirmSubscription', { code });
   }
@@ -155,8 +163,14 @@ export class APIClient {
   user_resetPassword(email: string): Promise<void> {
     return this.call('user.resetPassword', { email });
   }
-  vm_assignVM(): Promise<unknown> {
+  vm_assignVM(): Promise<{ isReady: boolean }> {
     return this.call('vm.assignVM', {});
+  }
+  vm_checkVmStatus(): Promise<{ isReady: boolean }> {
+    return this.call('vm.checkVmStatus', {});
+  }
+  vm_prepareFolder(moduleId: string, taskId: number): Promise<{ url: string }> {
+    return this.call('vm.prepareFolder', { moduleId, taskId });
   }
   // SIGNATURES END
   private async call(name: string, params: any): Promise<any> {

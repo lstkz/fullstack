@@ -66,6 +66,7 @@ export const vmStep2AssignDomain = createContract('vm.vmStep2AssignDomainTask')
       assignedVM.domainPrefix = randomString(15).toLowerCase();
       const domain = `${assignedVM.domainPrefix}.${config.vm.baseDomain}`;
       assignedVM.domain = domain;
+      assignedVM.baseDomain = config.vm.baseDomain;
       await AssignedVMCollection.update(assignedVM, ['domain', 'domainPrefix']);
     }
     const domain = assignedVM.domain!;

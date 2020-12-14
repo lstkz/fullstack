@@ -9,16 +9,18 @@ export const assignVM = createContract('vm.assignVM')
   .schema({
     user: S.object().appUser(),
   })
+  .returns<{ isReady: boolean }>()
   .fn(async user => {
     const vmId = `default-${user._id}`;
     let assignedVm = await AssignedVMCollection.findById(vmId);
     if (assignedVm) {
-      throw new Error('TODO');
+      return { isReady: assignedVm.isReady };
     }
     assignedVm = {
       _id: vmId,
       tagId: randomString(15).toLowerCase(),
       userId: user._id,
+      isReady: false,
     };
     await AssignedVMCollection.insertOne(assignedVm);
     await dispatchTask({
@@ -27,6 +29,7 @@ export const assignVM = createContract('vm.assignVM')
         vmId,
       },
     });
+    return { isReady: false };
   });
 
 export const assignVMRpc = createRpcBinding({
