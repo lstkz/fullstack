@@ -10,7 +10,7 @@ import { api } from 'src/services/api';
 interface TaskPageProps {
   task: ModuleTaskDetails;
   isReady: boolean;
-  vmUrl: string;
+  vmUrl: string | null;
 }
 
 if (typeof window !== 'undefined') {
@@ -20,7 +20,7 @@ if (typeof window !== 'undefined') {
 
 function useVMWaiter(initial: {
   task: ModuleTaskDetails;
-  vmUrl: string;
+  vmUrl: string | null;
   isReady: boolean;
 }) {
   const { task } = initial;
@@ -52,22 +52,11 @@ function useVMWaiter(initial: {
     if (!isReady || vmUrl) {
       return;
     }
-    let waitUrlId: any = null;
-    api
-      .vm_prepareFolder(task.moduleId, task.id)
-      .then(ret => {
-        if (ret.url) {
-          setVmUrl(ret.url);
-        }
-      })
-      .catch(e => {
-        console.error('failed to prepare vm folder', e);
-      });
-
-    waitUrlId = setInterval(async () => {
+    const waitUrlId = setInterval(async () => {
       try {
         const ret = await api.vm_prepareFolder(task.moduleId, task.id);
         if (ret.url) {
+          clearInterval(waitUrlId);
           setVmUrl(ret.url);
         }
       } catch (e) {
@@ -140,7 +129,7 @@ export function TaskPage(props: TaskPageProps) {
           <div className="text-xl mt-4">
             {!isReady ? (
               <>
-                Przygotowywanie maszyny. <br />
+                Przygotowywanie maszyny... <br />
                 Może to potrwać kilka minut.
               </>
             ) : (

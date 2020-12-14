@@ -71,6 +71,7 @@ Description=fs-agent
 After=network.target
 
 [Service]
+User=ubuntu
 Environment=PATH=/home/ubuntu/.nvm/versions/node/v14.15.1/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
 Type=exec
 ExecStart=/home/ubuntu/.nvm/versions/node/v14.15.1/bin/node /home/ubuntu/.fs/agent.js

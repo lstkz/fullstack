@@ -21,10 +21,7 @@ export const prepareFolder = createContract('vm.prepareFolder')
     const { moduleId, taskId, assignedVMId } = values;
     const vm = await AssignedVMCollection.findByIdOrThrow(assignedVMId);
     const task = await getActiveTask(moduleId, taskId);
-    const downloadUrl = await s3.getSignedUrlPromise('GET', {
-      Bucket: config.aws.s3Bucket,
-      Key: task.sourceS3Key,
-    });
+    const downloadUrl = config.cdnBaseUrl + '/' + task.sourceS3Key;
     const folderPath = `/home/ubuntu/${moduleId}/${taskId}`;
     await prepareVMFolder({
       instanceId: vm.awsId!,

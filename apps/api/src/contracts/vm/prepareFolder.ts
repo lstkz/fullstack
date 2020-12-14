@@ -55,9 +55,7 @@ export const prepareFolder = createContract('vm.prepareFolder')
         };
       }
       return {
-        url: `https://${assignedVM.domain!}/?folderPath=${
-          preparedTask.folderPath
-        }`,
+        url: `https://${assignedVM.domain!}/?folder=${preparedTask.folderPath}`,
       };
     }
     await dispatchTask({
