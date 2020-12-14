@@ -2,8 +2,10 @@ process.env.AWS_REGION = 'eu-central-1';
 
 import { config } from 'config';
 import { randomString } from './common/helper';
-import { ec2, route53 } from './lib';
+import { ec2, route53, s3 } from './lib';
 import { getInstanceByTag, runInstance } from './common/aws-helper';
+import { connect } from './db';
+import { getActiveTask } from './contracts/module/getTask';
 
 async function start() {
   // const vmId = '12345ff44';
@@ -59,10 +61,10 @@ async function start() {
   //   console.log(instance);
   // }
 
-  const domainPrefix = randomString(10).toLowerCase();
+  // const domainPrefix = randomString(10).toLowerCase();
 
-  const domain = `${domainPrefix}.${config.vm.baseDomain}`;
-  const ip = '18.192.21.23';
+  // const domain = `${domainPrefix}.${config.vm.baseDomain}`;
+  // const ip = '18.192.21.23';
   // const ret = await route53
   //   .changeResourceRecordSets(
   //     {
@@ -115,29 +117,41 @@ async function start() {
 
   // console.log(target);
 
-  const ret = await runInstance({
-    LaunchTemplate: {
-      LaunchTemplateId: config.vm.launchTemplateId,
-    },
-    SubnetId: 'subnet-03f5a1ccf774f3927',
-    TagSpecifications: [
-      {
-        ResourceType: 'instance',
-        Tags: [
-          {
-            Key: 'fsID',
-            Value: 'test',
-          },
-          {
-            Key: 'userId',
-            Value: '123',
-          },
-        ],
-      },
-    ],
-  });
-  console.log(ret);
+  // const ret = await runInstance({
+  //   LaunchTemplate: {
+  //     LaunchTemplateId: config.vm.launchTemplateId,
+  //   },
+  //   SubnetId: 'subnet-03f5a1ccf774f3927',
+  //   TagSpecifications: [
+  //     {
+  //       ResourceType: 'instance',
+  //       Tags: [
+  //         {
+  //           Key: 'fsID',
+  //           Value: 'test',
+  //         },
+  //         {
+  //           Key: 'userId',
+  //           Value: '123',
+  //         },
+  //       ],
+  //     },
+  //   ],
+  // });
+  // console.log(ret);
 
+  await connect();
+  const task = await getActiveTask('1-ts-basics', 1);
+  console.log({
+    // Bucket: config.aws.s3Bucket,
+    Key: task.sourceS3Key,
+  });
+  const downloadUrl = config.cdnBaseUrl + '/' + task.sourceS3Key;
+  // const downloadUrl = await s3.getSignedUrlPromise('getObject', {
+  //   Bucket: config.aws.s3CDNBucket,
+  //   Key: task.sourceS3Key,
+  // });
+  console.log(downloadUrl);
   process.exit(0);
 }
 

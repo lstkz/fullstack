@@ -71,6 +71,7 @@ Description=fs-agent
 After=network.target
 
 [Service]
+Environment=PATH=/home/ubuntu/.nvm/versions/node/v14.15.1/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
 Type=exec
 ExecStart=/home/ubuntu/.nvm/versions/node/v14.15.1/bin/node /home/ubuntu/.fs/agent.js
 Restart=always
@@ -82,6 +83,8 @@ EOF
 sudo systemctl enable --now fs-agent
 # remove service
 # sudo systemctl disable fs-agent
+# sudo systemctl stop fs-agent
+# sudo systemctl restart fs-agent
 # see logs
 # journalctl -u fs-agent
 # sudo systemctl status fs-agent

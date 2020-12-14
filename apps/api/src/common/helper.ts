@@ -129,3 +129,15 @@ export function md5(str: string) {
 export function delay(ms: number) {
   return new Promise(resolve => setTimeout(resolve, ms));
 }
+
+export function getPreparedTaskId({
+  awsId,
+  moduleId,
+  taskId,
+}: {
+  awsId: string;
+  moduleId: string;
+  taskId: number;
+}) {
+  return `${awsId}:${moduleId}:${taskId}`;
+}

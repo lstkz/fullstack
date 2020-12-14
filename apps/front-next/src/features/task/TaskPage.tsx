@@ -52,14 +52,32 @@ function useVMWaiter(initial: {
     if (!isReady || vmUrl) {
       return;
     }
+    let waitUrlId: any = null;
     api
       .vm_prepareFolder(task.moduleId, task.id)
       .then(ret => {
-        setVmUrl(ret.url);
+        if (ret.url) {
+          setVmUrl(ret.url);
+        }
       })
       .catch(e => {
         console.error('failed to prepare vm folder', e);
       });
+
+    waitUrlId = setInterval(async () => {
+      try {
+        const ret = await api.vm_prepareFolder(task.moduleId, task.id);
+        if (ret.url) {
+          setVmUrl(ret.url);
+        }
+      } catch (e) {
+        console.error('failed to prepare folder', e);
+      }
+    }, 1000);
+
+    return () => {
+      clearInterval(waitUrlId);
+    };
   }, [isReady, vmUrl]);
 
   return { vmUrl, isReady };

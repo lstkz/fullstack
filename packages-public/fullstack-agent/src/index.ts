@@ -18,11 +18,15 @@ async function getInstanceId() {
   return (await res.text()).trim();
 }
 
-function runCommand(cmd: string) {
+function runCommand(cmd: string, cwd?: string) {
   return new Promise<void>((resolve, reject) => {
     const p = cp.spawn(cmd, {
       shell: true,
       stdio: 'inherit',
+      cwd: cwd,
+      env: {
+        ...process.env,
+      },
     });
     p.addListener('exit', code => {
       if (code === 0) {
@@ -79,6 +83,28 @@ async function start() {
     }
     next();
   });
+
+  app.post(
+    '/folder',
+    wrapRoute(async (req, res) => {
+      const schema = S.object().keys({
+        folderPath: S.string(),
+        downloadUrl: S.string(),
+        setupCommand: S.string(),
+      });
+      const body = validate(req.body, schema);
+      await runCommand(`rm -rf ${body.folderPath}`);
+      await runCommand(`mkdir -p ${body.folderPath}`);
+      await runCommand(
+        `wget -c ${body.downloadUrl} -O - | tar -xz`,
+        body.folderPath
+      );
+      await runCommand(body.setupCommand, body.folderPath);
+      res.json({
+        ok: true,
+      });
+    })
+  );
 
   app.post(
     '/setup',
