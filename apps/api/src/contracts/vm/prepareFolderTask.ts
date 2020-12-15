@@ -4,7 +4,7 @@ import { AssignedVMCollection } from '../../collections/AssignedVM';
 import { PreparedTaskCollection } from '../../collections/PreparedTask';
 import { getPreparedTaskId } from '../../common/helper';
 import { prepareVMFolder } from '../../common/vm-helper';
-import { createContract, createTaskBinding, s3 } from '../../lib';
+import { createContract, createTaskBinding } from '../../lib';
 import { getActiveTask } from '../module/getTask';
 
 export const prepareFolder = createContract('vm.prepareFolder')

@@ -6,10 +6,8 @@ sudo apt update
 # install nvm, node, yarn
 curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.37.2/install.sh | bash
 . /home/ubuntu/.bashrc
-#nvm install v14.15.1
-#npm i -g yarn
-nvm install v12.20.0
-nvm use v12
+nvm install v14.15.1
+npm i -g yarn 
 
 # install typescript
 npm i -g typescript ts-node
@@ -20,9 +18,6 @@ sudo apt install -y nginx
 # theia
 sudo apt install -y libx11-dev libxkbfile-dev build-essential make pkg-config gcc
 mkdir ~/.ide
-#nvm install v12.20.0
-#nvm use v12
-#npm i -g yarn
 yarn run download:plugins
 yarn run build:prod
 # yarn run start --hostname=0.0.0.0 --port=8080
@@ -36,7 +31,8 @@ After=network.target
 WorkingDirectory=/home/ubuntu/.ide
 User=ubuntu
 Type=simple
-ExecStart=/bin/bash -c 'source /home/ubuntu/.nvm/nvm.sh && nvm use v12 && yarn start --port=8080'
+Environment=PATH=/home/ubuntu/.nvm/versions/node/v14.15.1/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+ExecStart=/home/ubuntu/.nvm/versions/node/v14.15.1/bin/yarn start --port=8080
 Restart=always
 
 [Install]
@@ -65,14 +61,17 @@ After=network.target
 [Service]
 User=ubuntu
 Type=simple
-ExecStart=/bin/bash -c 'source /home/ubuntu/.nvm/nvm.sh && nvm use v12 && node /home/ubuntu/.fs/agent.js'
+Environment=PATH=/home/ubuntu/.nvm/versions/node/v14.15.1/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+ExecStart=/home/ubuntu/.nvm/versions/node/v14.15.1/bin/node /home/ubuntu/.fs/agent.js
 Restart=always
 
 [Install]
 WantedBy=default.target
 EOF
 
+sudo systemctl disable --now fs-agent
 sudo systemctl enable --now fs-agent
+
 # remove service
 # sudo systemctl disable fs-agent
 # sudo systemctl stop fs-agent

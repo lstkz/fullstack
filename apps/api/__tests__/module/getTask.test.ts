@@ -93,6 +93,7 @@ it('should return a task', async () => {
       "detailsUrl": "https://example.org/details-2.js",
       "id": 2,
       "isExample": false,
+      "moduleId": "m1",
       "name": "task 2",
     }
   `);
