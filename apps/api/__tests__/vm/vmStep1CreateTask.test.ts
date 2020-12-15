@@ -1,17 +1,10 @@
 import { mocked } from 'ts-jest/utils';
 import { AssignedVMCollection } from '../../src/collections/AssignedVM';
-import { PreparedTaskCollection } from '../../src/collections/PreparedTask';
 import { getInstanceByTag, runInstance } from '../../src/common/aws-helper';
-import { prepareFolderTask } from '../../src/contracts/vm/prepareFolderTask';
 import { vmStep1CreateTask } from '../../src/contracts/vm/vmStep1CreateTask';
 import { dispatchTask } from '../../src/dispatch';
 import { getId, setupDb } from '../helper';
-import {
-  addSubscription,
-  createModules,
-  createReadyVM,
-  registerSampleUsers,
-} from '../seed-data';
+import { createModules, registerSampleUsers } from '../seed-data';
 
 setupDb();
 
@@ -56,4 +49,7 @@ it('should run an instance (already exists)', async () => {
   }));
   await vmStep1CreateTask.options.handler('123', { vmId: '100' });
   expect(mockedRunInstance).not.toBeCalled();
+  const vm = await AssignedVMCollection.findOne({});
+  expect(vm?.awsId).toEqual('1010');
+  expect(vm?.launchTime).toEqual(new Date(0));
 });

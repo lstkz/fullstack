@@ -11,27 +11,30 @@ import {
 import { delay, randomString } from '../../common/helper';
 import { dispatchTask } from '../../dispatch';
 
+const DELAY_MS = process.env.NODE_ENV === 'test' ? 1 : 100;
+const RETRY_COUNT = process.env.NODE_ENV === 'test' ? 10 : 120;
+
 async function _getInstanceIP(instanceId: string, retry = 0): Promise<string> {
-  if (retry > 120) {
+  if (retry > RETRY_COUNT) {
     throw new Error(`Cannot get instance ip for ${instanceId}`);
   }
   const instance = await getInstanceById(instanceId);
   if (instance.PublicIpAddress) {
     return instance.PublicIpAddress;
   }
-  await delay(1000);
+  await delay(DELAY_MS);
   return _getInstanceIP(instanceId, retry + 1);
 }
 
 async function _waitForZoneChange(changeId: string, retry = 0): Promise<void> {
-  if (retry > 120) {
+  if (retry > RETRY_COUNT) {
     throw new Error(`Wait for zone change timeout ${changeId}`);
   }
   const status = await getZoneChangeStatus(changeId);
   if (status === 'INSYNC') {
     return;
   }
-  await delay(1000);
+  await delay(DELAY_MS);
   return _waitForZoneChange(changeId, retry + 1);
 }
 
