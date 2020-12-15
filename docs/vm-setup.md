@@ -1,60 +1,52 @@
 
 
 ```
+sudo apt update
+
 # install nvm, node, yarn
 curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.37.2/install.sh | bash
 . /home/ubuntu/.bashrc
-nvm install v14.15.1
-npm i -g yarn
+#nvm install v14.15.1
+#npm i -g yarn
+nvm install v12.20.0
+nvm use v12
 
 # install typescript
 npm i -g typescript ts-node
 
 # install nginx
-sudo apt update
 sudo apt install -y nginx
 
-# install code-server
-curl -fsSL https://code-server.dev/install.sh | sh
+# theia
+sudo apt install -y libx11-dev libxkbfile-dev build-essential make pkg-config gcc
+mkdir ~/.ide
+#nvm install v12.20.0
+#nvm use v12
+#npm i -g yarn
+yarn run download:plugins
+yarn run build:prod
+# yarn run start --hostname=0.0.0.0 --port=8080
 
-# update config
-mkdir -p  ~/.config/code-server/
-cat <<EOF > ~/.config/code-server/config.yaml
-bind-addr: 127.0.0.1:8080
-auth: none
-password: 2bf3b377f2ca226b43341891
-cert: false
+sudo tee /etc/systemd/system/theia.service <<EOF
+[Unit]
+Description=theia
+After=network.target
+
+[Service]
+WorkingDirectory=/home/ubuntu/.ide
+User=ubuntu
+Type=simple
+ExecStart=/bin/bash -c 'source /home/ubuntu/.nvm/nvm.sh && nvm use v12 && yarn start --port=8080'
+Restart=always
+
+[Install]
+WantedBy=default.target
 EOF
 
-sudo systemctl enable --now code-server@$USER
+sudo systemctl disable --now theia
+sudo systemctl enable --now theia
 
-# update settings
-mkdir -p ~/.local/share/code-server/User
-cat <<EOF > ~/.local/share/code-server/User/settings.json
-{
-    "workbench.colorTheme": "Default Dark+",
-    "files.autoSave": "off",
-    "editor.tabSize": 2,
-    "editor.renderWhitespace": "all",
-    "editor.defaultFormatter": "esbenp.prettier-vscode",
-    "[javascript]": {
-      "editor.defaultFormatter": "esbenp.prettier-vscode"
-    },
-    "editor.formatOnSave": true,
-    "prettier.jsxSingleQuote": true,
-    "prettier.singleQuote": true,
-    "editor.fontSize": 14
-}
-EOF
-
-mkdir -p ~/.local/share/code-server/User/state
-cat <<EOF > ~/.local/share/code-server/User/state/global.json
-[["terminal.hidden","[{\"id\":\"terminal\",\"isHidden\":false}]"],["workbench.statusbar.hidden","[\"status.host\"]"],["__$__isNewStorageMarker","false"],["workbench.panel.markers.hidden","[{\"id\":\"workbench.panel.markers.view\",\"isHidden\":false}]"],["workbench.panel.output.hidden","[{\"id\":\"workbench.panel.output\",\"isHidden\":false}]"],["workbench.explorer.views.state.hidden","[{\"id\":\"outline\",\"isHidden\":false},{\"id\":\"timeline\",\"isHidden\":false},{\"id\":\"workbench.explorer.openEditorsView\",\"isHidden\":false},{\"id\":\"workbench.explorer.emptyView\",\"isHidden\":false},{\"id\":\"npm\",\"isHidden\":true}]"],["workbench.scm.views.state.hidden","[{\"id\":\"workbench.scm.repositories\",\"isHidden\":true},{\"id\":\"workbench.scm\",\"isHidden\":true}]"],["workbench.view.search.state.hidden","[{\"id\":\"workbench.view.search\",\"isHidden\":false}]"],["workbench.activity.pinnedViewlets2","[{\"id\":\"workbench.view.explorer\",\"pinned\":true,\"visible\":true,\"order\":0},{\"id\":\"workbench.view.search\",\"pinned\":true,\"visible\":true,\"order\":1},{\"id\":\"workbench.view.scm\",\"pinned\":false,\"visible\":true,\"order\":2},{\"id\":\"workbench.view.debug\",\"pinned\":false,\"visible\":true,\"order\":2},{\"id\":\"workbench.view.remote\",\"pinned\":true,\"visible\":false,\"order\":4},{\"id\":\"workbench.view.extensions\",\"pinned\":true,\"visible\":true,\"order\":4},{\"id\":\"workbench.view.extension.references-view\",\"pinned\":true,\"visible\":false,\"order\":7}]"],["workbench.activity.placeholderViewlets","[{\"id\":\"workbench.view.explorer\",\"iconCSS\":\"codicon codicon-files\",\"name\":\"Explorer\",\"views\":[{\"when\":\"openEditorsVisible\"},{},{},{\"when\":\"timelineHasProvider\"},{}]},{\"id\":\"workbench.view.search\",\"iconCSS\":\"codicon codicon-search\",\"name\":\"Search\",\"views\":[{}]},{\"id\":\"workbench.view.scm\",\"iconCSS\":\"codicon codicon-source-control\",\"name\":\"Source Control\",\"views\":[{\"when\":\"scm.providerCount && scm.providerCount != '0'\"},{}]},{\"id\":\"workbench.view.debug\",\"iconCSS\":\"codicon codicon-debug-alt\",\"name\":\"Run\",\"views\":[{\"when\":\"debugUx == 'simple'\"},{\"when\":\"debugUx == 'default'\"},{\"when\":\"debugUx == 'default'\"},{\"when\":\"debugUx == 'default'\"},{\"when\":\"loadedScriptsSupported && debugUx == 'default'\"},{\"when\":\"breakpointsExist || debugUx == 'default'\"},{\"when\":\"debugConfigurationType == 'pwa-chrome'\"}]},{\"id\":\"workbench.view.remote\",\"iconCSS\":\"codicon-remote-explorer\",\"name\":\"Remote Explorer\",\"views\":[]},{\"id\":\"workbench.view.extensions\",\"iconCSS\":\"codicon-extensions\",\"name\":\"Extensions\",\"views\":[{\"when\":\"defaultExtensionViews && !hasInstalledExtensions\"},{\"when\":\"recommendedExtensions && workbenchState != 'empty'\"},{\"when\":\"defaultExtensionViews && hasInstalledExtensions\"},{\"when\":\"recommendedExtensions\"},{\"when\":\"defaultExtensionViews && !config.extensions.showRecommendationsOnlyOnDemand\"},{\"when\":\"defaultExtensionViews && hasInstalledExtensions\"},{\"when\":\"defaultExtensionViews && hasInstalledExtensions\"},{\"when\":\"searchMarketplaceExtensions\"},{\"when\":\"searchInstalledExtensions\"},{\"when\":\"searchEnabledExtensions\"},{\"when\":\"searchDisabledExtensions\"},{\"when\":\"searchOutdatedExtensions\"},{\"when\":\"searchBuiltInExtensions\"},{\"when\":\"builtInExtensions\"},{\"when\":\"builtInExtensions\"},{\"when\":\"builtInExtensions\"}]},{\"id\":\"workbench.view.extension.references-view\",\"name\":\"References\",\"views\":[{\"when\":\"reference-list.isActive\"}]}]"],["workbench.view.debug.state.hidden","[{\"id\":\"workbench.debug.welcome\",\"isHidden\":false},{\"id\":\"workbench.debug.variablesView\",\"isHidden\":false},{\"id\":\"workbench.debug.watchExpressionsView\",\"isHidden\":false},{\"id\":\"workbench.debug.callStackView\",\"isHidden\":false},{\"id\":\"workbench.debug.loadedScriptsView\",\"isHidden\":false},{\"id\":\"workbench.debug.breakPointsView\",\"isHidden\":false},{\"id\":\"jsBrowserBreakpoints\",\"isHidden\":false}]"],["productIconThemeData","{\"id\":\"\",\"label\":\"Default\",\"settingsId\":\"Default\",\"watch\":false}"],["storage.serviceMachineId","1d15febf-93d5-47ca-b3ea-57f883dcce80"],["releaseNotes/lastVersion","1.51.1"],["memento/customEditors","{\"editors\":[{\"id\":\"imagePreview.previewEditor\",\"displayName\":\"Image Preview\",\"providerDisplayName\":\"Built-in\",\"priority\":\"builtin\",\"selector\":[{\"filenamePattern\":\"*.{jpg,jpe,jpeg,png,bmp,gif,ico,webp}\"}]},{\"id\":\"vscode.markdown.preview.editor\",\"displayName\":\"Markdown Preview (Experimental)\",\"providerDisplayName\":\"Built-in\",\"priority\":\"option\",\"selector\":[{\"filenamePattern\":\"*.md\"}]},{\"id\":\"jsProfileVisualizer.cpuprofile.table\",\"displayName\":\"CPU Profile Table Visualizer\",\"providerDisplayName\":\"Built-in\",\"priority\":\"default\",\"selector\":[{\"filenamePattern\":\"*.cpuprofile\"}]}]}"],["workbench.panel.pinnedPanels","[{\"id\":\"workbench.panel.markers\",\"name\":\"Problems\",\"pinned\":true,\"order\":0,\"visible\":true},{\"id\":\"workbench.panel.output\",\"name\":\"Output\",\"pinned\":true,\"order\":1,\"visible\":true},{\"id\":\"workbench.panel.repl\",\"name\":\"Debug Console\",\"pinned\":true,\"order\":2,\"visible\":true},{\"id\":\"terminal\",\"name\":\"Terminal\",\"pinned\":true,\"order\":3,\"visible\":true},{\"id\":\"refactorPreview\",\"name\":\"Refactor Preview\",\"pinned\":true,\"visible\":false}]"],["memento/notebookEditors","{\"editors\":[]}"],["extensionsAssistant/recommendations","{}"],["extensions.ignoredAutoUpdateExtension","[]"],["colorThemeData","{\"id\":\"vs-dark vscode-theme-defaults-themes-dark_plus-json\",\"label\":\"Dark+ (default dark)\",\"settingsId\":\"Default Dark+\",\"themeTokenColors\":[{\"settings\":{\"foreground\":\"#D4D4D4\"},\"scope\":[\"meta.embedded\",\"source.groovy.embedded\"]},{\"settings\":{\"fontStyle\":\"italic\"},\"scope\":\"emphasis\"},{\"settings\":{\"fontStyle\":\"bold\"},\"scope\":\"strong\"},{\"settings\":{\"foreground\":\"#000080\"},\"scope\":\"header\"},{\"settings\":{\"foreground\":\"#6A9955\"},\"scope\":\"comment\"},{\"settings\":{\"foreground\":\"#569cd6\"},\"scope\":\"constant.language\"},{\"settings\":{\"foreground\":\"#b5cea8\"},\"scope\":[\"constant.numeric\",\"variable.other.enummember\",\"keyword.operator.plus.exponent\",\"keyword.operator.minus.exponent\"]},{\"settings\":{\"foreground\":\"#646695\"},\"scope\":\"constant.regexp\"},{\"settings\":{\"foreground\":\"#569cd6\"},\"scope\":\"entity.name.tag\"},{\"settings\":{\"foreground\":\"#d7ba7d\"},\"scope\":\"entity.name.tag.css\"},{\"settings\":{\"foreground\":\"#9cdcfe\"},\"scope\":\"entity.other.attribute-name\"},{\"settings\":{\"foreground\":\"#d7ba7d\"},\"scope\":[\"entity.other.attribute-name.class.css\",\"entity.other.attribute-name.class.mixin.css\",\"entity.other.attribute-name.id.css\",\"entity.other.attribute-name.parent-selector.css\",\"entity.other.attribute-name.pseudo-class.css\",\"entity.other.attribute-name.pseudo-element.css\",\"source.css.less entity.other.attribute-name.id\",\"entity.other.attribute-name.scss\"]},{\"settings\":{\"foreground\":\"#f44747\"},\"scope\":\"invalid\"},{\"settings\":{\"fontStyle\":\"underline\"},\"scope\":\"markup.underline\"},{\"settings\":{\"fontStyle\":\"bold\",\"foreground\":\"#569cd6\"},\"scope\":\"markup.bold\"},{\"settings\":{\"fontStyle\":\"bold\",\"foreground\":\"#569cd6\"},\"scope\":\"markup.heading\"},{\"settings\":{\"fontStyle\":\"italic\"},\"scope\":\"markup.italic\"},{\"settings\":{\"foreground\":\"#b5cea8\"},\"scope\":\"markup.inserted\"},{\"settings\":{\"foreground\":\"#ce9178\"},\"scope\":\"markup.deleted\"},{\"settings\":{\"foreground\":\"#569cd6\"},\"scope\":\"markup.changed\"},{\"settings\":{\"foreground\":\"#6A9955\"},\"scope\":\"punctuation.definition.quote.begin.markdown\"},{\"settings\":{\"foreground\":\"#6796e6\"},\"scope\":\"punctuation.definition.list.begin.markdown\"},{\"settings\":{\"foreground\":\"#ce9178\"},\"scope\":\"markup.inline.raw\"},{\"settings\":{\"foreground\":\"#808080\"},\"scope\":\"punctuation.definition.tag\"},{\"settings\":{\"foreground\":\"#569cd6\"},\"scope\":[\"meta.preprocessor\",\"entity.name.function.preprocessor\"]},{\"settings\":{\"foreground\":\"#ce9178\"},\"scope\":\"meta.preprocessor.string\"},{\"settings\":{\"foreground\":\"#b5cea8\"},\"scope\":\"meta.preprocessor.numeric\"},{\"settings\":{\"foreground\":\"#9cdcfe\"},\"scope\":\"meta.structure.dictionary.key.python\"},{\"settings\":{\"foreground\":\"#569cd6\"},\"scope\":\"meta.diff.header\"},{\"settings\":{\"foreground\":\"#569cd6\"},\"scope\":\"storage\"},{\"settings\":{\"foreground\":\"#569cd6\"},\"scope\":\"storage.type\"},{\"settings\":{\"foreground\":\"#569cd6\"},\"scope\":[\"storage.modifier\",\"keyword.operator.noexcept\"]},{\"settings\":{\"foreground\":\"#ce9178\"},\"scope\":[\"string\",\"meta.embedded.assembly\"]},{\"settings\":{\"foreground\":\"#ce9178\"},\"scope\":\"string.tag\"},{\"settings\":{\"foreground\":\"#ce9178\"},\"scope\":\"string.value\"},{\"settings\":{\"foreground\":\"#d16969\"},\"scope\":\"string.regexp\"},{\"settings\":{\"foreground\":\"#569cd6\"},\"scope\":[\"punctuation.definition.template-expression.begin\",\"punctuation.definition.template-expression.end\",\"punctuation.section.embedded\"]},{\"settings\":{\"foreground\":\"#d4d4d4\"},\"scope\":[\"meta.template.expression\"]},{\"settings\":{\"foreground\":\"#9cdcfe\"},\"scope\":[\"support.type.vendored.property-name\",\"support.type.property-name\",\"variable.css\",\"variable.scss\",\"variable.other.less\",\"source.coffee.embedded\"]},{\"settings\":{\"foreground\":\"#569cd6\"},\"scope\":\"keyword\"},{\"settings\":{\"foreground\":\"#569cd6\"},\"scope\":\"keyword.control\"},{\"settings\":{\"foreground\":\"#d4d4d4\"},\"scope\":\"keyword.operator\"},{\"settings\":{\"foreground\":\"#569cd6\"},\"scope\":[\"keyword.operator.new\",\"keyword.operator.expression\",\"keyword.operator.cast\",\"keyword.operator.sizeof\",\"keyword.operator.alignof\",\"keyword.operator.typeid\",\"keyword.operator.alignas\",\"keyword.operator.instanceof\",\"keyword.operator.logical.python\",\"keyword.operator.wordlike\"]},{\"settings\":{\"foreground\":\"#b5cea8\"},\"scope\":\"keyword.other.unit\"},{\"settings\":{\"foreground\":\"#569cd6\"},\"scope\":[\"punctuation.section.embedded.begin.php\",\"punctuation.section.embedded.end.php\"]},{\"settings\":{\"foreground\":\"#9cdcfe\"},\"scope\":\"support.function.git-rebase\"},{\"settings\":{\"foreground\":\"#b5cea8\"},\"scope\":\"constant.sha.git-rebase\"},{\"settings\":{\"foreground\":\"#d4d4d4\"},\"scope\":[\"storage.modifier.import.java\",\"variable.language.wildcard.java\",\"storage.modifier.package.java\"]},{\"settings\":{\"foreground\":\"#569cd6\"},\"scope\":\"variable.language\"},{\"settings\":{\"foreground\":\"#DCDCAA\"},\"scope\":[\"entity.name.function\",\"support.function\",\"support.constant.handlebars\",\"source.powershell variable.other.member\",\"entity.name.operator.custom-literal\"]},{\"settings\":{\"foreground\":\"#4EC9B0\"},\"scope\":[\"meta.return-type\",\"support.class\",\"support.type\",\"entity.name.type\",\"entity.name.namespace\",\"entity.other.attribute\",\"entity.name.scope-resolution\",\"entity.name.class\",\"storage.type.numeric.go\",\"storage.type.byte.go\",\"storage.type.boolean.go\",\"storage.type.string.go\",\"storage.type.uintptr.go\",\"storage.type.error.go\",\"storage.type.rune.go\",\"storage.type.cs\",\"storage.type.generic.cs\",\"storage.type.modifier.cs\",\"storage.type.variable.cs\",\"storage.type.annotation.java\",\"storage.type.generic.java\",\"storage.type.java\",\"storage.type.object.array.java\",\"storage.type.primitive.array.java\",\"storage.type.primitive.java\",\"storage.type.token.java\",\"storage.type.groovy\",\"storage.type.annotation.groovy\",\"storage.type.parameters.groovy\",\"storage.type.generic.groovy\",\"storage.type.object.array.groovy\",\"storage.type.primitive.array.groovy\",\"storage.type.primitive.groovy\"]},{\"settings\":{\"foreground\":\"#4EC9B0\"},\"scope\":[\"meta.type.cast.expr\",\"meta.type.new.expr\",\"support.constant.math\",\"support.constant.dom\",\"support.constant.json\",\"entity.other.inherited-class\"]},{\"settings\":{\"foreground\":\"#C586C0\"},\"scope\":[\"keyword.control\",\"source.cpp keyword.operator.new\",\"keyword.operator.delete\",\"keyword.other.using\",\"keyword.other.operator\",\"entity.name.operator\"]},{\"settings\":{\"foreground\":\"#9CDCFE\"},\"scope\":[\"variable\",\"meta.definition.variable.name\",\"support.variable\",\"entity.name.variable\"]},{\"settings\":{\"foreground\":\"#4FC1FF\"},\"scope\":[\"variable.other.constant\",\"variable.other.enummember\"]},{\"settings\":{\"foreground\":\"#9CDCFE\"},\"scope\":[\"meta.object-literal.key\"]},{\"settings\":{\"foreground\":\"#CE9178\"},\"scope\":[\"support.constant.property-value\",\"support.constant.font-name\",\"support.constant.media-type\",\"support.constant.media\",\"constant.other.color.rgb-value\",\"constant.other.rgb-value\",\"support.constant.color\"]},{\"settings\":{\"foreground\":\"#CE9178\"},\"scope\":[\"punctuation.definition.group.regexp\",\"punctuation.definition.group.assertion.regexp\",\"punctuation.definition.character-class.regexp\",\"punctuation.character.set.begin.regexp\",\"punctuation.character.set.end.regexp\",\"keyword.operator.negation.regexp\",\"support.other.parenthesis.regexp\"]},{\"settings\":{\"foreground\":\"#d16969\"},\"scope\":[\"constant.character.character-class.regexp\",\"constant.other.character-class.set.regexp\",\"constant.other.character-class.regexp\",\"constant.character.set.regexp\"]},{\"settings\":{\"foreground\":\"#DCDCAA\"},\"scope\":[\"keyword.operator.or.regexp\",\"keyword.control.anchor.regexp\"]},{\"settings\":{\"foreground\":\"#d7ba7d\"},\"scope\":\"keyword.operator.quantifier.regexp\"},{\"settings\":{\"foreground\":\"#569cd6\"},\"scope\":\"constant.character\"},{\"settings\":{\"foreground\":\"#d7ba7d\"},\"scope\":\"constant.character.escape\"},{\"settings\":{\"foreground\":\"#C8C8C8\"},\"scope\":\"entity.name.label\"}],\"semanticTokenRules\":[{\"_selector\":\"newOperator\",\"_style\":{\"_foreground\":\"#d4d4d4\",\"_bold\":null,\"_underline\":null,\"_italic\":null}},{\"_selector\":\"stringLiteral\",\"_style\":{\"_foreground\":\"#ce9178\",\"_bold\":null,\"_underline\":null,\"_italic\":null}},{\"_selector\":\"customLiteral\",\"_style\":{\"_foreground\":\"#d4d4d4\",\"_bold\":null,\"_underline\":null,\"_italic\":null}},{\"_selector\":\"numberLiteral\",\"_style\":{\"_foreground\":\"#b5cea8\",\"_bold\":null,\"_underline\":null,\"_italic\":null}},{\"_selector\":\"newOperator\",\"_style\":{\"_foreground\":\"#c586c0\",\"_bold\":null,\"_underline\":null,\"_italic\":null}},{\"_selector\":\"stringLiteral\",\"_style\":{\"_foreground\":\"#ce9178\",\"_bold\":null,\"_underline\":null,\"_italic\":null}},{\"_selector\":\"customLiteral\",\"_style\":{\"_foreground\":\"#dcdcaa\",\"_bold\":null,\"_underline\":null,\"_italic\":null}},{\"_selector\":\"numberLiteral\",\"_style\":{\"_foreground\":\"#b5cea8\",\"_bold\":null,\"_underline\":null,\"_italic\":null}}],\"extensionData\":{\"_extensionId\":\"vscode.theme-defaults\",\"_extensionIsBuiltin\":true,\"_extensionName\":\"theme-defaults\",\"_extensionPublisher\":\"vscode\"},\"themeSemanticHighlighting\":true,\"colorMap\":{\"editor.background\":\"#1e1e1e\",\"editor.foreground\":\"#d4d4d4\",\"editor.inactiveSelectionBackground\":\"#3a3d41\",\"editorIndentGuide.background\":\"#404040\",\"editorIndentGuide.activeBackground\":\"#707070\",\"editor.selectionHighlightBackground\":\"#add6ff26\",\"list.dropBackground\":\"#383b3d\",\"activityBarBadge.background\":\"#007acc\",\"sideBarTitle.foreground\":\"#bbbbbb\",\"input.placeholderForeground\":\"#a6a6a6\",\"menu.background\":\"#252526\",\"menu.foreground\":\"#cccccc\",\"statusBarItem.remoteForeground\":\"#ffffff\",\"statusBarItem.remoteBackground\":\"#16825d\",\"sideBarSectionHeader.background\":\"#00000000\",\"sideBarSectionHeader.border\":\"#cccccc33\",\"tab.lastPinnedBorder\":\"#cccccc33\"},\"watch\":false}"],["workbench.panel.repl.hidden","[{\"id\":\"workbench.panel.repl.view\",\"isHidden\":false}]"],["workbench.sidebar.size","300"],["workbench.panel.size","398"],["workbench.panel.dimension","bottom"],["workbench.grid.width","1062"],["workbench.grid.height","1195"],["workbench.view.extensions.state.hidden","[{\"id\":\"workbench.views.extensions.popular\",\"isHidden\":false},{\"id\":\"workbench.views.extensions.workspaceRecommendations\",\"isHidden\":false},{\"id\":\"workbench.views.extensions.installed\",\"isHidden\":false},{\"id\":\"workbench.views.extensions.otherRecommendations\",\"isHidden\":false},{\"id\":\"extensions.recommendedList\",\"isHidden\":false},{\"id\":\"workbench.views.extensions.enabled\",\"isHidden\":true},{\"id\":\"workbench.views.extensions.disabled\",\"isHidden\":true},{\"id\":\"workbench.views.extensions.marketplace\",\"isHidden\":false},{\"id\":\"workbench.views.extensions.searchInstalled\",\"isHidden\":false},{\"id\":\"workbench.views.extensions.searchEnabled\",\"isHidden\":false},{\"id\":\"workbench.views.extensions.searchDisabled\",\"isHidden\":false},{\"id\":\"workbench.views.extensions.searchOutdated\",\"isHidden\":false},{\"id\":\"workbench.views.extensions.searchBuiltin\",\"isHidden\":false},{\"id\":\"workbench.views.extensions.builtinFeatureExtensions\",\"isHidden\":false},{\"id\":\"workbench.views.extensions.builtinThemeExtensions\",\"isHidden\":false},{\"id\":\"workbench.views.extensions.builtinProgrammingLanguageExtensions\",\"isHidden\":false}]"],["workbench.activity.showAccounts","false"]]
-EOF
-
-
-# install extensions
-code-server --install-extension esbenp.prettier-vscode
+# journalctl -u theia
 
 # fs service
 mkdir ~/.fs
@@ -72,9 +64,8 @@ After=network.target
 
 [Service]
 User=ubuntu
-Environment=PATH=/home/ubuntu/.nvm/versions/node/v14.15.1/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
-Type=exec
-ExecStart=/home/ubuntu/.nvm/versions/node/v14.15.1/bin/node /home/ubuntu/.fs/agent.js
+Type=simple
+ExecStart=/bin/bash -c 'source /home/ubuntu/.nvm/nvm.sh && nvm use v12 && node /home/ubuntu/.fs/agent.js'
 Restart=always
 
 [Install]
@@ -89,4 +80,8 @@ sudo systemctl enable --now fs-agent
 # see logs
 # journalctl -u fs-agent
 # sudo systemctl status fs-agent
+
+# clean history
+history -c
 ```
+
