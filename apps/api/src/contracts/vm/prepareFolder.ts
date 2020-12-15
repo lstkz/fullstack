@@ -1,4 +1,3 @@
-import { ObjectId } from 'mongodb';
 import { S } from 'schema';
 import { AssignedVMCollection } from '../../collections/AssignedVM';
 import { PreparedTaskCollection } from '../../collections/PreparedTask';
