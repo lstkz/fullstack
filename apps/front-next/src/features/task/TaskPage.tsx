@@ -33,7 +33,7 @@ function useVMWaiter(initial: {
     }
     const waitReadyId = setInterval(async () => {
       try {
-        const ret = await api.vm_checkVmStatus();
+        const ret = await api.vm_assignVM();
         if (ret.isReady) {
           clearInterval(waitReadyId);
           setIsReady(true);

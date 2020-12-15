@@ -8,32 +8,6 @@ import { dispatchTask } from '../../dispatch';
 import { createContract, createRpcBinding } from '../../lib';
 import { getActiveTask } from '../module/getTask';
 
-export async function getPreparedTaskData(
-  userId: ObjectId,
-  moduleId: string,
-  taskId: number
-) {
-  const assignedVM = await AssignedVMCollection.findOne({
-    userId: userId,
-  });
-  if (!assignedVM || !assignedVM.isReady) {
-    throw new AppError('VM is not ready');
-  }
-  await getActiveTask(moduleId, taskId);
-  const preparedTaskId = getPreparedTaskId({
-    awsId: assignedVM.awsId!,
-    moduleId,
-    taskId,
-  });
-  const preparedTask = await PreparedTaskCollection.findById(preparedTaskId);
-
-  return {
-    preparedTaskId,
-    preparedTask,
-    assignedVM,
-  };
-}
-
 export const prepareFolder = createContract('vm.prepareFolder')
   .params('user', 'moduleId', 'taskId')
   .schema({
@@ -43,33 +17,49 @@ export const prepareFolder = createContract('vm.prepareFolder')
   })
   .returns<{ url: string | null }>()
   .fn(async (user, moduleId, taskId) => {
+    const assignedVM = await AssignedVMCollection.findOne({
+      userId: user._id,
+    });
+    if (!assignedVM || !assignedVM.isReady) {
+      throw new AppError('VM is not ready');
+    }
+    await getActiveTask(moduleId, taskId);
+    const preparedTaskId = getPreparedTaskId({
+      awsId: assignedVM.awsId!,
+      moduleId,
+      taskId,
+    });
     const {
-      preparedTaskId,
-      preparedTask,
-      assignedVM,
-    } = await getPreparedTaskData(user._id, moduleId, taskId);
-    if (preparedTask) {
-      if (!preparedTask.folderPath) {
-        return {
-          url: null,
-        };
+      value: preparedTask,
+    } = await PreparedTaskCollection.findOneAndUpdate(
+      {
+        _id: preparedTaskId,
+      },
+      {
+        $setOnInsert: {
+          _id: preparedTaskId,
+        },
+      },
+      {
+        upsert: true,
       }
+    );
+    if (!preparedTask) {
+      await dispatchTask({
+        type: 'PrepareFolder',
+        payload: {
+          assignedVMId: assignedVM._id,
+          userId: user._id.toHexString(),
+          moduleId,
+          taskId,
+        },
+      });
+    }
+    if (preparedTask?.folderPath) {
       return {
         url: `https://${assignedVM.domain!}/#${preparedTask.folderPath}`,
       };
     }
-    await dispatchTask({
-      type: 'PrepareFolder',
-      payload: {
-        assignedVMId: assignedVM._id,
-        userId: user._id.toHexString(),
-        moduleId,
-        taskId,
-      },
-    });
-    await PreparedTaskCollection.insertOne({
-      _id: preparedTaskId,
-    });
     return {
       url: null,
     };

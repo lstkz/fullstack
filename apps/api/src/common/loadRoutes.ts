@@ -33,6 +33,7 @@ export default function loadRoutes(router: Router) {
             _id: user._id,
             email: user.email,
             isVerified: user.isVerified,
+            hasSubscription: user.hasSubscription ?? false,
           };
           next();
         } catch (e) {
@@ -53,6 +54,10 @@ export default function loadRoutes(router: Router) {
         }
         if (!req.user) {
           next(new UnauthorizedError('Bearer token required'));
+          return;
+        }
+        if (options.pro && !req.user.hasSubscription) {
+          next(new ForbiddenError('Subscription required'));
           return;
         }
         next();

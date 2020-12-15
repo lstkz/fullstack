@@ -172,15 +172,6 @@ export class APIClient {
   ): Promise<{ url: string | null }> {
     return this.call('vm.prepareFolder', { moduleId, taskId });
   }
-  vm_checkFolderStatus(
-    moduleId: string,
-    taskId: number
-  ): Promise<{ isReady: boolean }> {
-    return this.call('vm.checkFolderStatus', { moduleId, taskId });
-  }
-  vm_checkVmStatus(): Promise<{ isReady: boolean }> {
-    return this.call('vm.checkVmStatus', {});
-  }
   // SIGNATURES END
   private async call(name: string, params: any): Promise<any> {
     const token = this.getToken();

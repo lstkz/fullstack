@@ -11,6 +11,7 @@ export interface AppUser {
   _id: ObjectID;
   email: string;
   isVerified: boolean;
+  hasSubscription: boolean;
 }
 
 declare module 'express' {

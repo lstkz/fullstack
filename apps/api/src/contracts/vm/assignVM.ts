@@ -1,7 +1,6 @@
 import { S } from 'schema';
 import { AssignedVMCollection } from '../../collections/AssignedVM';
 import { randomString } from '../../common/helper';
-import { withTransaction } from '../../db';
 import { dispatchTask } from '../../dispatch';
 import { createContract, createRpcBinding } from '../../lib';
 
@@ -13,24 +12,22 @@ export const assignVM = createContract('vm.assignVM')
   .returns<{ isReady: boolean }>()
   .fn(async user => {
     const vmId = `default-${user._id}`;
-    let isAlreadyCreated = false;
-    let isReady = false;
-    await withTransaction(async () => {
-      let assignedVm = await AssignedVMCollection.findById(vmId);
-      if (assignedVm) {
-        isAlreadyCreated = true;
-        isReady = assignedVm.isReady;
-        return;
-      }
-      assignedVm = {
+    const updateResult = await AssignedVMCollection.findOneAndUpdate(
+      {
         _id: vmId,
-        tagId: randomString(15).toLowerCase(),
-        userId: user._id,
-        isReady: false,
-      };
-      await AssignedVMCollection.insertOne(assignedVm);
-    });
-    if (!isAlreadyCreated) {
+      },
+      {
+        $setOnInsert: {
+          tagId: randomString(15).toLowerCase(),
+          userId: user._id,
+          isReady: false,
+        },
+      },
+      {
+        upsert: true,
+      }
+    );
+    if (!updateResult.value) {
       await dispatchTask({
         type: 'VMStep1Create',
         payload: {
@@ -38,7 +35,7 @@ export const assignVM = createContract('vm.assignVM')
         },
       });
     }
-    return { isReady };
+    return { isReady: updateResult.value?.isReady ?? false };
   });
 
 export const assignVMRpc = createRpcBinding({
