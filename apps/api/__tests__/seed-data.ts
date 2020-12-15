@@ -1,5 +1,8 @@
 import { config } from 'config';
+import { AssignedVMCollection } from '../src/collections/AssignedVM';
+import { ModuleCollection } from '../src/collections/Module';
 import { SubscriptionPlanCollection } from '../src/collections/SubscriptionPlan';
+import { UserCollection } from '../src/collections/User';
 import { md5 } from '../src/common/helper';
 import { createToken } from '../src/contracts/user/createToken';
 import { _createUser } from '../src/contracts/user/_createUser';
@@ -20,6 +23,19 @@ export async function registerSampleUsers(isVerified = true) {
       isVerified: isVerified,
     }).then(() => createToken(getId(2), 'user2_token')),
   ]);
+}
+
+export async function addSubscription(id: number) {
+  await UserCollection.findOneAndUpdate(
+    {
+      _id: getId(id),
+    },
+    {
+      $set: {
+        hasSubscription: true,
+      },
+    }
+  );
 }
 
 export function getCustomerData() {
@@ -78,4 +94,36 @@ export async function createSubscriptionPlans() {
       type: 'monthly',
     },
   ]);
+}
+
+export async function createModules() {
+  await ModuleCollection.insertOne({
+    _id: 'm1',
+    name: 'module 1',
+    description: 'test module 1',
+    isPending: false,
+    lessons: [],
+    tasks: [
+      {
+        id: 1,
+        name: 'task 1',
+        isExample: false,
+        detailsS3Key: 'detailsS3Key',
+        sourceS3Key: 'sourceS3Key',
+      },
+    ],
+  });
+}
+
+export async function createReadyVM() {
+  await AssignedVMCollection.insertOne({
+    _id: `default-${getId(1)}`,
+    tagId: '123',
+    userId: getId(1),
+    isReady: true,
+    awsId: '444',
+    baseDomain: 'example.org',
+    domainPrefix: '999',
+    domain: '999.example.org',
+  });
 }

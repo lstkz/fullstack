@@ -9,6 +9,7 @@ import { ObjectID } from 'mongodb';
 export interface CreateRpcBindingOptions {
   verified?: true;
   injectUser?: boolean;
+  pro?: boolean;
   public?: true;
   admin?: true;
   wrapAsValues?: true;
@@ -88,6 +89,10 @@ export const ses = new AWS.SES({
 });
 
 export const s3 = new AWS.S3();
+
+export const ec2 = new AWS.EC2();
+
+export const route53 = new AWS.Route53();
 
 export const { createContract } = initialize({
   debug: process.env.NODE_ENV === 'development',

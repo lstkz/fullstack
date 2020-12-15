@@ -11,6 +11,7 @@ export interface AppUser {
   _id: ObjectID;
   email: string;
   isVerified: boolean;
+  hasSubscription: boolean;
 }
 
 declare module 'express' {
@@ -35,6 +36,38 @@ export interface SendEmailTask {
         };
   };
 }
+
+export interface VMStep1CreateTask {
+  type: 'VMStep1Create';
+  payload: {
+    vmId: string;
+  };
+}
+
+export interface VMStep2AssignDomainTask {
+  type: 'VMStep2AssignDomainTask';
+  payload: {
+    vmId: string;
+  };
+}
+
+export interface VMStep3InstallTask {
+  type: 'VMStep3Install';
+  payload: {
+    vmId: string;
+  };
+}
+
+export interface PrepareFolderTask {
+  type: 'PrepareFolder';
+  payload: {
+    assignedVMId: string;
+    userId: string;
+    moduleId: string;
+    taskId: number;
+  };
+}
+
 export interface OrderCreatedEvent {
   type: 'OrderCreated';
   payload: { orderId: string };
@@ -50,7 +83,12 @@ export interface UserRegisteredEvent {
   payload: { userId: string };
 }
 
-export type AppTask = SendEmailTask;
+export type AppTask =
+  | SendEmailTask
+  | VMStep1CreateTask
+  | VMStep2AssignDomainTask
+  | VMStep3InstallTask
+  | PrepareFolderTask;
 export type AppEvent = OrderCreatedEvent | OrderPaidEvent | UserRegisteredEvent;
 
 type ExtractType<T> = T extends { type: infer S } ? S : never;

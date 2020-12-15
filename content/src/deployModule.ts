@@ -166,7 +166,7 @@ async function _uploadTasks(tasks: TaskInfo[]) {
         ].map(async file => {
           const { out, path } = file;
           const contentType = mime.lookup(path);
-          const ext = Path.extname(path);
+          const ext = path.endsWith('.tar.gz') ? '.tar.gz' : Path.extname(path);
           if (!ext) {
             throw new Error('No extension');
           }

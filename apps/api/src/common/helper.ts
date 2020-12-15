@@ -125,3 +125,19 @@ export async function getResponseBody<T = any>(opName: string, res: Response) {
 export function md5(str: string) {
   return crypto.createHash('md5').update(str).digest('hex');
 }
+
+export function delay(ms: number) {
+  return new Promise(resolve => setTimeout(resolve, ms));
+}
+
+export function getPreparedTaskId({
+  awsId,
+  moduleId,
+  taskId,
+}: {
+  awsId: string;
+  moduleId: string;
+  taskId: number;
+}) {
+  return `${awsId}:${moduleId}:${taskId}`;
+}

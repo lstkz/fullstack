@@ -221,7 +221,7 @@ export function createCollection<T>(
       );
     },
     async findOneOrThrow(...args) {
-      const ret = exec('findOne', 2, args);
+      const ret = await exec('findOne', 2, args);
       if (!ret) {
         throw new Error(
           `Entity ${JSON.stringify(args[0])} not found in ${collectionName}`

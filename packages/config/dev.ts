@@ -20,6 +20,12 @@ export const config: AppConfig = {
     s3Bucket: 'fs-dev-new-bucket83908e77-386rntzp21zk',
     s3CDNBucket: 'fs-dev-new-cdnbucketee4b79c2-iec0kz1lpjxh',
   },
+  vm: {
+    launchTemplateId: 'lt-0da5565f8c1bfdbae',
+    subnetId: 'subnet-03f5a1ccf774f3927',
+    baseDomain: 'fs-vm.styx-dev.com',
+    zoneId: 'ZYJ454ME3RV0Z',
+  },
   adminToken: 'admin-wOcAcBPqRt',
   api: {
     port: 3000,
