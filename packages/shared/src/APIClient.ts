@@ -166,6 +166,9 @@ export class APIClient {
   vm_assignVM(): Promise<{ isReady: boolean }> {
     return this.call('vm.assignVM', {});
   }
+  vm_pingVM(): Promise<unknown> {
+    return this.call('vm.pingVM', {});
+  }
   vm_prepareFolder(
     moduleId: string,
     taskId: number

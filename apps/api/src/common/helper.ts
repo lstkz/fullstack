@@ -1,6 +1,7 @@
 import crypto from 'crypto';
 import cryptoAsync from 'mz/crypto';
 import { Response } from 'node-fetch';
+import { AppUser } from '../types';
 
 const SECURITY = {
   SALT_LENGTH: 64,
@@ -161,4 +162,12 @@ export async function createWaiter<
     return run(retry + 1);
   };
   return run();
+}
+
+export function getDefaultVMId(user: AppUser) {
+  return `default-${user._id}`;
+}
+
+export function getCurrentDate() {
+  return new Date(Date.now());
 }

@@ -21,7 +21,7 @@ beforeEach(async () => {
     _id: `100`,
     tagId: '123',
     userId: getId(1),
-    isReady: false,
+    status: 'creating',
   });
   mockedDispatchTask.mockReset();
   mockedGetInstanceByTag.mockReset();

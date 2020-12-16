@@ -1,6 +1,6 @@
 import { S } from 'schema';
 import { AssignedVMCollection } from '../../collections/AssignedVM';
-import { randomString } from '../../common/helper';
+import { getDefaultVMId, randomString } from '../../common/helper';
 import { dispatchTask } from '../../dispatch';
 import { createContract, createRpcBinding } from '../../lib';
 
@@ -11,7 +11,7 @@ export const assignVM = createContract('vm.assignVM')
   })
   .returns<{ isReady: boolean }>()
   .fn(async user => {
-    const vmId = `default-${user._id}`;
+    const vmId = getDefaultVMId(user);
     const { value: vm } = await AssignedVMCollection.findOneAndUpdate(
       {
         _id: vmId,
