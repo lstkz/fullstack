@@ -17,6 +17,7 @@ demo-entry.tsx
 dist-source
 .vscode
 */config/prod.ts
+*/config/dev.ts
 */config/*.key.txt
 */config/stage.ts
 

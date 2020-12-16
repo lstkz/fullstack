@@ -18,7 +18,9 @@ sudo apt install -y nginx
 # theia
 sudo apt install -y libx11-dev libxkbfile-dev build-essential make pkg-config gcc
 mkdir ~/.ide
-yarn run download:plugins
+cd ~/.ide
+git clone https://github.com/fullstackpl/theia .
+yarn
 yarn run build:prod
 # yarn run start --hostname=0.0.0.0 --port=8080
 
