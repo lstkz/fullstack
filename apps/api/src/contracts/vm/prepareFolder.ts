@@ -19,8 +19,8 @@ export const prepareFolder = createContract('vm.prepareFolder')
     const assignedVM = await AssignedVMCollection.findOne({
       userId: user._id,
     });
-    if (!assignedVM || !assignedVM.isReady) {
-      throw new AppError('VM is not ready');
+    if (!assignedVM || assignedVM.status !== 'running') {
+      throw new AppError('VM is not running');
     }
     await getActiveTask(moduleId, taskId);
     const preparedTaskId = getPreparedTaskId({

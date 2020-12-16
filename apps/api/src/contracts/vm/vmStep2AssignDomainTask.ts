@@ -8,34 +8,27 @@ import {
   getZoneChangeStatus,
   getZoneRecord,
 } from '../../common/aws-helper';
-import { delay, randomString } from '../../common/helper';
+import { createWaiter, randomString } from '../../common/helper';
 import { dispatchTask } from '../../dispatch';
 
-const DELAY_MS = process.env.NODE_ENV === 'test' ? 1 : 100;
-const RETRY_COUNT = process.env.NODE_ENV === 'test' ? 10 : 120;
-
-async function _getInstanceIP(instanceId: string, retry = 0): Promise<string> {
-  if (retry > RETRY_COUNT) {
-    throw new Error(`Cannot get instance ip for ${instanceId}`);
-  }
-  const instance = await getInstanceById(instanceId);
-  if (instance.PublicIpAddress) {
-    return instance.PublicIpAddress;
-  }
-  await delay(DELAY_MS);
-  return _getInstanceIP(instanceId, retry + 1);
+async function _getInstanceIP(instanceId: string): Promise<string> {
+  return createWaiter(async () => {
+    const instance = await getInstanceById(instanceId);
+    if (instance.PublicIpAddress) {
+      return { ok: true, result: instance.PublicIpAddress };
+    }
+    return { ok: false };
+  }, `Cannot get instance ip for ${instanceId}`);
 }
 
-async function _waitForZoneChange(changeId: string, retry = 0): Promise<void> {
-  if (retry > RETRY_COUNT) {
-    throw new Error(`Wait for zone change timeout ${changeId}`);
-  }
-  const status = await getZoneChangeStatus(changeId);
-  if (status === 'INSYNC') {
-    return;
-  }
-  await delay(DELAY_MS);
-  return _waitForZoneChange(changeId, retry + 1);
+async function _waitForZoneChange(changeId: string): Promise<void> {
+  return createWaiter(async () => {
+    const status = await getZoneChangeStatus(changeId);
+    if (status === 'INSYNC') {
+      return { ok: true, result: undefined };
+    }
+    return { ok: false };
+  }, `Wait for zone change timeout ${changeId}`);
 }
 
 async function _checkHasZoneRecord(domain: string, ip: string) {

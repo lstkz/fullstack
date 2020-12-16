@@ -4,7 +4,7 @@ import { getId, setupDb } from '../helper';
 import {
   addSubscription,
   createModules,
-  createReadyVM,
+  createVM,
   registerSampleUsers,
 } from '../seed-data';
 
@@ -16,7 +16,7 @@ beforeEach(async () => {
   await registerSampleUsers();
   await addSubscription(1);
   await createModules();
-  await createReadyVM();
+  await createVM();
 });
 
 it('should should prepare task', async () => {

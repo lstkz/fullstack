@@ -29,7 +29,7 @@ beforeEach(async () => {
     _id: `100`,
     tagId: '123',
     userId: getId(1),
-    isReady: false,
+    status: 'creating',
     awsId: '1010',
     launchTime: new Date(0),
   });

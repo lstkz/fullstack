@@ -21,7 +21,7 @@ beforeEach(async () => {
     _id: `100`,
     tagId: '123',
     userId: getId(1),
-    isReady: false,
+    status: 'creating',
     awsId: '1010',
     launchTime: new Date(0),
     domain: 'qq.example.org',
@@ -40,7 +40,7 @@ it('should install', async () => {
   await vmStep3InstallTask.options.handler('123', { vmId: '100' });
   expect(mocked_setupVM).toBeCalled();
   const vm = await AssignedVMCollection.findOne({});
-  expect(vm?.isReady).toEqual(true);
+  expect(vm?.status).toEqual('running');
 });
 
 it('should throw if no cert configured', async () => {

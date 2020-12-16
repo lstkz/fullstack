@@ -1,5 +1,5 @@
 import { config } from 'config';
-import { AssignedVMCollection } from '../src/collections/AssignedVM';
+import { AssignedVMCollection, VMStatus } from '../src/collections/AssignedVM';
 import { ModuleCollection } from '../src/collections/Module';
 import { SubscriptionPlanCollection } from '../src/collections/SubscriptionPlan';
 import { UserCollection } from '../src/collections/User';
@@ -115,15 +115,16 @@ export async function createModules() {
   });
 }
 
-export async function createReadyVM() {
+export async function createVM(status: VMStatus = 'running', id?: string) {
   await AssignedVMCollection.insertOne({
-    _id: `default-${getId(1)}`,
+    _id: id ?? `default-${getId(1)}`,
     tagId: '123',
     userId: getId(1),
-    isReady: true,
     awsId: '444',
     baseDomain: 'example.org',
     domainPrefix: '999',
     domain: '999.example.org',
+    status,
+    lastPingTime: new Date(0),
   });
 }

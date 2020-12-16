@@ -12,7 +12,7 @@ export const assignVM = createContract('vm.assignVM')
   .returns<{ isReady: boolean }>()
   .fn(async user => {
     const vmId = `default-${user._id}`;
-    const updateResult = await AssignedVMCollection.findOneAndUpdate(
+    const { value: vm } = await AssignedVMCollection.findOneAndUpdate(
       {
         _id: vmId,
       },
@@ -21,21 +21,44 @@ export const assignVM = createContract('vm.assignVM')
           tagId: randomString(15).toLowerCase(),
           userId: user._id,
           isReady: false,
+          lastPingTime: new Date(),
         },
       },
       {
         upsert: true,
       }
     );
-    if (!updateResult.value) {
+    if (!vm) {
       await dispatchTask({
         type: 'VMStep1Create',
         payload: {
           vmId,
         },
       });
+      return { isReady: false };
     }
-    return { isReady: updateResult.value?.isReady ?? false };
+    if (vm.status === 'stopped') {
+      const { value: updated } = await AssignedVMCollection.findOneAndUpdate(
+        {
+          _id: vmId,
+          status: 'stopped',
+        },
+        {
+          $set: {
+            status: 'resuming',
+          },
+        }
+      );
+      if (updated) {
+        await dispatchTask({
+          type: 'VMResume',
+          payload: {
+            vmId,
+          },
+        });
+      }
+    }
+    return { isReady: vm.status === 'running' };
   });
 
 export const assignVMRpc = createRpcBinding({
