@@ -48,6 +48,28 @@ export async function getInstanceById(id: string) {
   return instance;
 }
 
+export async function resumeInstance(id: string) {
+  await ec2
+    .startInstances(
+      {
+        InstanceIds: [id],
+      },
+      undefined
+    )
+    .promise();
+}
+
+export async function stopInstance(id: string) {
+  await ec2
+    .stopInstances(
+      {
+        InstanceIds: [id],
+      },
+      undefined
+    )
+    .promise();
+}
+
 export async function runInstance(
   params: Omit<EC2.Types.RunInstancesRequest, 'MinCount' | 'MaxCount'>
 ) {

@@ -37,8 +37,9 @@ export const vmStep3Install = createContract('vm.vmStep3Install')
       domainName: assignedVM.domain!,
       instanceId: assignedVM.awsId!,
     });
-    assignedVM.isReady = true;
-    await AssignedVMCollection.update(assignedVM, ['isReady']);
+    assignedVM.lastPingTime = new Date();
+    assignedVM.status = 'running';
+    await AssignedVMCollection.update(assignedVM, ['status', 'lastPingTime']);
   });
 
 export const vmStep3InstallTask = createTaskBinding({

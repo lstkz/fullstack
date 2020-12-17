@@ -58,6 +58,20 @@ export interface VMStep3InstallTask {
   };
 }
 
+export interface ResumeVMTask {
+  type: 'ResumeVM';
+  payload: {
+    vmId: string;
+  };
+}
+
+export interface StopVMTask {
+  type: 'StopVM';
+  payload: {
+    vmId: string;
+  };
+}
+
 export interface PrepareFolderTask {
   type: 'PrepareFolder';
   payload: {
@@ -66,6 +80,11 @@ export interface PrepareFolderTask {
     moduleId: string;
     taskId: number;
   };
+}
+
+export interface CheckIdleVmsTask {
+  type: 'CheckIdleVms';
+  payload: {};
 }
 
 export interface OrderCreatedEvent {
@@ -88,7 +107,10 @@ export type AppTask =
   | VMStep1CreateTask
   | VMStep2AssignDomainTask
   | VMStep3InstallTask
-  | PrepareFolderTask;
+  | PrepareFolderTask
+  | ResumeVMTask
+  | StopVMTask
+  | CheckIdleVmsTask;
 export type AppEvent = OrderCreatedEvent | OrderPaidEvent | UserRegisteredEvent;
 
 type ExtractType<T> = T extends { type: infer S } ? S : never;

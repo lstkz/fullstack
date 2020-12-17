@@ -7,7 +7,7 @@ import { execContract, setupDb } from '../helper';
 import {
   addSubscription,
   createModules,
-  createReadyVM,
+  createVM,
   registerSampleUsers,
 } from '../seed-data';
 
@@ -25,7 +25,7 @@ beforeEach(async () => {
   await registerSampleUsers();
   await addSubscription(1);
   await createModules();
-  await createReadyVM();
+  await createVM();
   mockedDispatchTask.mockReset();
 });
 
@@ -58,7 +58,7 @@ it('should should throw if vm not ready', async () => {
   await AssignedVMCollection.deleteMany({});
   await expect(
     execContract(prepareFolder, params, 'user1_token')
-  ).rejects.toThrow('VM is not ready');
+  ).rejects.toThrow('VM is not running');
 });
 
 it('should prepare folder', async () => {

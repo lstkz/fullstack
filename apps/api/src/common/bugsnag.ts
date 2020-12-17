@@ -86,7 +86,7 @@ export function reportInfo(options: ReportInfoOptions) {
 }
 
 interface ReportErrorOptions {
-  source: 'api' | 'worker';
+  source: 'api' | 'worker' | 'schedular';
   error: Error;
   request?: Request;
   data?: any;

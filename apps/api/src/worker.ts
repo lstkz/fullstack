@@ -3,15 +3,14 @@ import { reportError } from './common/bugsnag';
 import { getBindings } from './common/bindings';
 import { logger } from './common/logger';
 import { connect } from './db';
+import { startSchedular } from './schedular';
 
 async function start() {
   await connect();
-  console.log('connected');
   getBindings('task').forEach(binding => {
     ampq.addTaskHandler({
       type: binding.type,
       onMessage: message => {
-        console.log('processing', message);
         return binding.handler(message.id, message.payload);
       },
     });
@@ -27,6 +26,8 @@ async function start() {
 
   await ampq.connect('both');
   logger.info('Worker started');
+  await startSchedular();
+  logger.info('Schedular started');
 }
 
 start().catch(e => {

@@ -24,6 +24,8 @@ export interface AppConfig {
     subnetId: string;
     baseDomain: string;
     zoneId: string;
+    idleTimeout: number;
+    awsName: string;
   };
   adminToken: string;
   api: {

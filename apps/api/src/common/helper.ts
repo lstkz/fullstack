@@ -1,6 +1,7 @@
 import crypto from 'crypto';
 import cryptoAsync from 'mz/crypto';
 import { Response } from 'node-fetch';
+import { AppUser } from '../types';
 
 const SECURITY = {
   SALT_LENGTH: 64,
@@ -140,4 +141,33 @@ export function getPreparedTaskId({
   taskId: number;
 }) {
   return `${awsId}:${moduleId}:${taskId}`;
+}
+
+const DELAY_MS = process.env.NODE_ENV === 'test' ? 1 : 100;
+const RETRY_COUNT = process.env.NODE_ENV === 'test' ? 10 : 120;
+
+export async function createWaiter<
+  T extends () => Promise<{ ok: false } | { ok: true; result: R }>,
+  R
+>(fn: T, errorMessage: string): Promise<R> {
+  const run = async (retry = 0): Promise<R> => {
+    if (retry > RETRY_COUNT) {
+      throw new Error(errorMessage);
+    }
+    const ret = await fn();
+    if (ret.ok) {
+      return ret.result;
+    }
+    await delay(DELAY_MS);
+    return run(retry + 1);
+  };
+  return run();
+}
+
+export function getDefaultVMId(user: AppUser) {
+  return `default-${user._id}`;
+}
+
+export function getCurrentDate() {
+  return new Date(Date.now());
 }
