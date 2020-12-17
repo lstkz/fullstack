@@ -27,7 +27,7 @@ export const vmStep1Create = createContract('vm.vmStep1Create')
             Tags: [
               {
                 Key: 'Name',
-                Value: 'UserVM',
+                Value: config.vm.awsName,
               },
               {
                 Key: 'UserVM',

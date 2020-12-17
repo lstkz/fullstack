@@ -21,6 +21,10 @@ if (!process.env.API_URL) {
   throw new Error('API_URL is not set');
 }
 
+if (!process.env.IDLE_TIMEOUT) {
+  throw new Error('IDLE_TIMEOUT is not set');
+}
+
 export const GITHUB_CLIENT_ID = process.env.GITHUB_CLIENT_ID;
 
 export const GOOGLE_CLIENT_ID = process.env.GOOGLE_CLIENT_ID;
@@ -30,5 +34,7 @@ export const PROTECTED_BASE_URL = process.env.PROTECTED_BASE_URL;
 export const API_URL = process.env.API_URL;
 
 export const BUGSNAG_API_KEY = process.env.BUGSNAG_API_KEY;
+
+export const IDLE_TIMEOUT = Number(process.env.IDLE_TIMEOUT);
 
 export const IS_REAL_PROD = API_URL.includes('fullstack.pl');

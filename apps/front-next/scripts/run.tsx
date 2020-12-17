@@ -19,6 +19,7 @@ export function runScript(
       FS_PUBLIC_GOOGLE_CLIENT_ID: config.google.clientId,
       FS_PUBLIC_API_URL: config.apiBaseUrl,
       FS_PUBLIC_PROTECTED_BASE_URL: config.apiBaseUrl,
+      FS_PUBLIC_IDLE_TIMEOUT: String(config.vm.idleTimeout),
     },
   });
 

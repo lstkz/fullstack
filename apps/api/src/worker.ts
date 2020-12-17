@@ -26,6 +26,8 @@ async function start() {
 
   await ampq.connect('both');
   logger.info('Worker started');
+  await startSchedular();
+  logger.info('Schedular started');
 }
 
 start().catch(e => {
@@ -34,17 +36,6 @@ start().catch(e => {
     source: 'worker',
     data: {
       info: 'Error when starting a worker',
-    },
-  });
-  process.exit(1);
-});
-
-startSchedular().catch(e => {
-  reportError({
-    error: e,
-    source: 'schedular',
-    data: {
-      info: 'Error when starting a schedular',
     },
   });
   process.exit(1);

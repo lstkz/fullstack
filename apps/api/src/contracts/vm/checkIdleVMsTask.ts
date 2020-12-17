@@ -11,7 +11,7 @@ export const checkIdleVMs = createContract('vm.checkIdleVMs')
   .fn(async () => {
     const date = DateFns.addMilliseconds(
       getCurrentDate(),
-      -config.vm.stopTimeoutMs
+      -config.vm.idleTimeout
     );
     const vms = await AssignedVMCollection.findAll({
       status: 'running',

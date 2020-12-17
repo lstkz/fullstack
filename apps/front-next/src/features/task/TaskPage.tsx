@@ -4,8 +4,10 @@ import { Loader } from 'src/components/Loader';
 import { TaskHeader } from './TaskHeader';
 import SplitPane from 'react-split-pane';
 import Prism from 'prismjs';
-import { SpinnerBoarder } from 'src/components/SpinnerBoarder';
-import { api } from 'src/services/api';
+import { useVMWaiter } from './useVMWaiter';
+import { useVMPing } from './useVMPing';
+import { VMLoadingScreen } from './VMLoadingScreen';
+import { IdleScreen } from './IdleScreen';
 
 interface TaskPageProps {
   task: ModuleTaskDetails;
@@ -16,60 +18,6 @@ interface TaskPageProps {
 if (typeof window !== 'undefined') {
   window.React = React;
   window.Prism = Prism;
-}
-
-function useVMWaiter(initial: {
-  task: ModuleTaskDetails;
-  vmUrl: string | null;
-  isReady: boolean;
-}) {
-  const { task } = initial;
-  const [vmUrl, setVmUrl] = React.useState(initial.vmUrl);
-  const [isReady, setIsReady] = React.useState(initial.isReady);
-
-  React.useEffect(() => {
-    if (isReady) {
-      return;
-    }
-    const waitReadyId = setInterval(async () => {
-      try {
-        const ret = await api.vm_assignVM();
-        if (ret.isReady) {
-          clearInterval(waitReadyId);
-          setIsReady(true);
-        }
-      } catch (e) {
-        console.error('failed to check vm status', e);
-      }
-    }, 1000);
-
-    return () => {
-      clearInterval(waitReadyId);
-    };
-  }, [isReady]);
-
-  React.useEffect(() => {
-    if (!isReady || vmUrl) {
-      return;
-    }
-    const waitUrlId = setInterval(async () => {
-      try {
-        const ret = await api.vm_prepareFolder(task.moduleId, task.id);
-        if (ret.url) {
-          clearInterval(waitUrlId);
-          setVmUrl(ret.url);
-        }
-      } catch (e) {
-        console.error('failed to prepare folder', e);
-      }
-    }, 1000);
-
-    return () => {
-      clearInterval(waitUrlId);
-    };
-  }, [isReady, vmUrl]);
-
-  return { vmUrl, isReady };
 }
 
 function useDetails(task: ModuleTaskDetails) {
@@ -121,23 +69,14 @@ export function TaskPage(props: TaskPageProps) {
   const { vmUrl, isReady } = useVMWaiter(props);
   const details = useDetails(props.task);
   const { isDragging, splitPaneProps } = useDragging();
+  const { isIdle } = useVMPing(isReady);
+  if (isIdle) {
+    return <IdleScreen />;
+  }
+
   const renderIframe = () => {
     if (!isReady || !vmUrl) {
-      return (
-        <div className="flex items-center justify-center h-full flex-col text-gray-800 pb-28">
-          <SpinnerBoarder />
-          <div className="text-xl mt-4">
-            {!isReady ? (
-              <>
-                Przygotowywanie maszyny... <br />
-                Może to potrwać kilka minut.
-              </>
-            ) : (
-              <>Przygotowywanie zadania...</>
-            )}
-          </div>
-        </div>
-      );
+      return <VMLoadingScreen isReady={isReady} />;
     }
     return (
       <iframe
@@ -149,6 +88,7 @@ export function TaskPage(props: TaskPageProps) {
           pointerEvents: isDragging ? 'none' : undefined,
         }}
         src={vmUrl}
+        // src="http://localhost:8080/#/Users/sky/work/fullstack/fullstack-repo/content/modules/1-ts-basics/task-1/source"
       />
     );
   };

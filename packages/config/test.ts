@@ -25,7 +25,8 @@ export const config: AppConfig = {
     subnetId: 'mocked',
     baseDomain: 'vm.example.org',
     zoneId: 'ZYJ454ME3RV0Z',
-    stopTimeoutMs: 1000,
+    idleTimeout: 1000,
+    awsName: 'UserVM - TEST',
   },
   adminToken: 'admin-test',
   api: {
