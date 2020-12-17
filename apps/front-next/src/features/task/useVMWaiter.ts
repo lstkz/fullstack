@@ -1,6 +1,9 @@
 import React from 'react';
 import { ModuleTaskDetails } from 'shared';
+import { IS_TEST } from 'src/config';
 import { api } from 'src/services/api';
+
+const CHECK_INTERVAL = IS_TEST ? 100 : 1000;
 
 export function useVMWaiter(initial: {
   task: ModuleTaskDetails;
@@ -25,7 +28,7 @@ export function useVMWaiter(initial: {
       } catch (e) {
         console.error('failed to check vm status', e);
       }
-    }, 1000);
+    }, CHECK_INTERVAL);
 
     return () => {
       clearInterval(waitReadyId);
@@ -46,7 +49,7 @@ export function useVMWaiter(initial: {
       } catch (e) {
         console.error('failed to prepare folder', e);
       }
-    }, 1000);
+    }, CHECK_INTERVAL);
 
     return () => {
       clearInterval(waitUrlId);

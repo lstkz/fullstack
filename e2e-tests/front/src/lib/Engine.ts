@@ -36,6 +36,7 @@ export class Engine {
   private mocks: Record<string, (...args: any[]) => any> = {};
   private requestCount: Record<string, number> = {};
   private jestFns: Record<string, jest.Mock> = {};
+  private mockedBundle: string | null = null;
 
   private incCount(name: string) {
     if (!this.requestCount[name]) {
@@ -49,6 +50,19 @@ export class Engine {
     this.mocks = {};
     this.requestCount = {};
     this.jestFns = {};
+    this.mockedBundle = null;
+  }
+
+  setToken(token: string | null) {
+    page.setCookie({
+      value: token,
+      name: 'token',
+      domain: 'localhost:4001',
+    });
+  }
+
+  setMockedBundle(mockedBundle: string | null) {
+    this.mockedBundle = mockedBundle;
   }
 
   async setup() {
@@ -57,6 +71,18 @@ export class Engine {
         res.setHeader('Access-Control-Allow-Origin', '*');
         res.setHeader('Access-Control-Allow-Headers', '*');
         if (req.method === 'OPTIONS') {
+          res.end();
+          return;
+        }
+        if (this.mockedBundle && req.url.endsWith('/bundle.js')) {
+          res.setHeader('content-type', 'application/json');
+          res.write(`
+          TaskJSONP({
+            Details: function () {
+              return '${this.mockedBundle}'
+            }
+          })
+          `);
           res.end();
           return;
         }

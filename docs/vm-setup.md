@@ -83,6 +83,9 @@ sudo systemctl enable --now fs-agent
 # sudo systemctl status fs-agent
 
 # clean history
-history -c
+cat /dev/null > ~/.bash_history && history -c
+# clear logs
+sudo rm -rf /run/log/journal/*
+
 ```
 

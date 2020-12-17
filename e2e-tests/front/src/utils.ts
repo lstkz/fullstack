@@ -22,3 +22,24 @@ export function initEngine(page: Page) {
 
   return engine;
 }
+
+export async function waitForCall(
+  spy: jest.MockInstance<Promise<any>, any>,
+  count: number
+) {
+  return new Promise<void>((resolve, reject) => {
+    const check = async (retry = 0) => {
+      if (spy.mock.results.length === count) {
+        await Promise.all(
+          spy.mock.results.slice(0, count).map(x => x.value?.catch(() => null))
+        );
+        return resolve();
+      }
+      if (retry > 200) {
+        return reject(new Error('waitForCall timeout'));
+      }
+      setTimeout(check, 10);
+    };
+    void check().catch(reject);
+  });
+}

@@ -80,6 +80,7 @@ export function TaskPage(props: TaskPageProps) {
     }
     return (
       <iframe
+        data-test="task-iframe"
         style={{
           width: '100%',
           height: '100%',
@@ -113,7 +114,12 @@ export function TaskPage(props: TaskPageProps) {
           zIndex: 2,
         }}
       >
-        <div className="bg-white p-4 h-full overflow-auto">{details}</div>
+        <div
+          className="bg-white p-4 h-full overflow-auto"
+          data-test="task-details"
+        >
+          {details}
+        </div>
         <div className="h-full flex-1">{renderIframe()}</div>
       </SplitPane>
     );
