@@ -102,6 +102,26 @@ export async function getZoneRecord(zoneId: string, domain: string) {
   return ret.ResourceRecordSets.find(x => x.Name === domain + '.');
 }
 
+export async function removeZoneRecord(zoneId: string, domain: string) {
+  await route53.changeResourceRecordSets(
+    {
+      HostedZoneId: zoneId,
+      ChangeBatch: {
+        Changes: [
+          {
+            Action: 'DELETE',
+            ResourceRecordSet: {
+              Name: domain,
+              Type: 'A',
+            },
+          },
+        ],
+      },
+    },
+    undefined
+  );
+}
+
 export async function createZoneRecord(
   zoneId: string,
   domain: string,
