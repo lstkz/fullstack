@@ -1,4 +1,4 @@
-import { EC2 } from 'aws-sdk';
+import { EC2, Route53 } from 'aws-sdk';
 import { ec2, route53 } from '../lib';
 
 export async function getInstanceByTag(tagName: string, tagValue: string) {
@@ -102,24 +102,26 @@ export async function getZoneRecord(zoneId: string, domain: string) {
   return ret.ResourceRecordSets.find(x => x.Name === domain + '.');
 }
 
-export async function removeZoneRecord(zoneId: string, domain: string) {
-  await route53.changeResourceRecordSets(
-    {
-      HostedZoneId: zoneId,
-      ChangeBatch: {
-        Changes: [
-          {
-            Action: 'DELETE',
-            ResourceRecordSet: {
-              Name: domain,
-              Type: 'A',
+export async function removeZoneRecord(
+  zoneId: string,
+  record: Route53.ResourceRecordSet
+) {
+  await route53
+    .changeResourceRecordSets(
+      {
+        HostedZoneId: zoneId,
+        ChangeBatch: {
+          Changes: [
+            {
+              Action: 'DELETE',
+              ResourceRecordSet: record,
             },
-          },
-        ],
+          ],
+        },
       },
-    },
-    undefined
-  );
+      undefined
+    )
+    .promise();
 }
 
 export async function createZoneRecord(

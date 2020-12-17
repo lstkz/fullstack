@@ -13,7 +13,7 @@ export const removeVMDomain = createContract('vm.removeVMDomain')
     if (!zoneRecord) {
       return;
     }
-    await removeZoneRecord(config.vm.zoneId, domain);
+    await removeZoneRecord(config.vm.zoneId, zoneRecord);
   });
 
 export const removeVMDomainTask = createTaskBinding({
