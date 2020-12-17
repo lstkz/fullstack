@@ -51,21 +51,11 @@ export function runEvery(appTask: AppTask, ms: number) {
 }
 
 export async function startSchedular() {
-  try {
-    runEvery(
-      {
-        type: 'CheckIdleVms',
-        payload: {},
-      },
-      getDuration(5, 'm')
-    );
-  } catch (e) {
-    reportError({
-      error: e,
-      source: 'schedular',
-      data: {
-        info: 'Error when starting a worker',
-      },
-    });
-  }
+  runEvery(
+    {
+      type: 'CheckIdleVms',
+      payload: {},
+    },
+    getDuration(5, 'm')
+  );
 }

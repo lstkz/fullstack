@@ -3,6 +3,7 @@ import { reportError } from './common/bugsnag';
 import { getBindings } from './common/bindings';
 import { logger } from './common/logger';
 import { connect } from './db';
+import { startSchedular } from './schedular';
 
 async function start() {
   await connect();
@@ -33,6 +34,17 @@ start().catch(e => {
     source: 'worker',
     data: {
       info: 'Error when starting a worker',
+    },
+  });
+  process.exit(1);
+});
+
+startSchedular().catch(e => {
+  reportError({
+    error: e,
+    source: 'schedular',
+    data: {
+      info: 'Error when starting a schedular',
     },
   });
   process.exit(1);
