@@ -2,6 +2,7 @@ import { S } from 'schema';
 import { AssignedVMCollection } from '../../collections/AssignedVM';
 import { getInstanceById, stopInstance } from '../../common/aws-helper';
 import { createWaiter } from '../../common/helper';
+import { dispatchTask } from '../../dispatch';
 import { createContract, createTaskBinding } from '../../lib';
 
 async function _waitForStopped(awsId: string) {
@@ -26,6 +27,7 @@ export const vmStop = createContract('vm.vmStop')
     }
     await stopInstance(assignedVM.awsId!);
     await _waitForStopped(assignedVM.awsId!);
+    const domain = assignedVM.domain;
     assignedVM.status = 'stopped';
     assignedVM.ip = null;
     assignedVM.domainPrefix = null;
@@ -40,6 +42,12 @@ export const vmStop = createContract('vm.vmStop')
       'baseDomain',
       'zoneChangeId',
     ]);
+    await dispatchTask({
+      type: 'RemoveVMDomain',
+      payload: {
+        domain: domain!,
+      },
+    });
   });
 
 export const stopVMTask = createTaskBinding({

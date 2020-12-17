@@ -82,6 +82,13 @@ export interface PrepareFolderTask {
   };
 }
 
+export interface RemoveVMDomainTask {
+  type: 'RemoveVMDomain';
+  payload: {
+    domain: string;
+  };
+}
+
 export interface CheckIdleVmsTask {
   type: 'CheckIdleVms';
   payload: {};
@@ -110,7 +117,8 @@ export type AppTask =
   | PrepareFolderTask
   | ResumeVMTask
   | StopVMTask
-  | CheckIdleVmsTask;
+  | CheckIdleVmsTask
+  | RemoveVMDomainTask;
 export type AppEvent = OrderCreatedEvent | OrderPaidEvent | UserRegisteredEvent;
 
 type ExtractType<T> = T extends { type: infer S } ? S : never;
