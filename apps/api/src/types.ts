@@ -82,6 +82,11 @@ export interface PrepareFolderTask {
   };
 }
 
+export interface CheckIdleVmsTask {
+  type: 'CheckIdleVms';
+  payload: {};
+}
+
 export interface OrderCreatedEvent {
   type: 'OrderCreated';
   payload: { orderId: string };
@@ -104,7 +109,8 @@ export type AppTask =
   | VMStep3InstallTask
   | PrepareFolderTask
   | VMResumeTask
-  | VMStopTask;
+  | VMStopTask
+  | CheckIdleVmsTask;
 export type AppEvent = OrderCreatedEvent | OrderPaidEvent | UserRegisteredEvent;
 
 type ExtractType<T> = T extends { type: infer S } ? S : never;
