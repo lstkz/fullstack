@@ -60,7 +60,7 @@ it('should start a vm', async () => {
   expect(vm?.status).toEqual('resuming');
   expect(mockedDispatchTask).toHaveBeenCalledTimes(1);
   expect(mockedDispatchTask).toHaveBeenCalledWith({
-    type: 'VMResume',
+    type: 'ResumeVM',
     payload: expect.anything(),
   });
 });

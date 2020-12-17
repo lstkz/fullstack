@@ -23,7 +23,7 @@ export const checkIdleVMs = createContract('vm.checkIdleVMs')
       vm.status = 'stopping';
       await AssignedVMCollection.update(vm, ['status']);
       await dispatchTask({
-        type: 'VMStop',
+        type: 'StopVM',
         payload: {
           vmId: vm._id,
         },

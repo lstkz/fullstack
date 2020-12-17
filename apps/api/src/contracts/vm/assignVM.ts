@@ -51,7 +51,7 @@ export const assignVM = createContract('vm.assignVM')
       );
       if (updated) {
         await dispatchTask({
-          type: 'VMResume',
+          type: 'ResumeVM',
           payload: {
             vmId,
           },

@@ -46,7 +46,7 @@ it('should stop a vm', async () => {
 
   expect(mockedDispatchTask).toBeCalledTimes(1);
   expect(mockedDispatchTask).toBeCalledWith({
-    type: 'VMStop',
+    type: 'StopVM',
     payload: {
       vmId: '1',
     },

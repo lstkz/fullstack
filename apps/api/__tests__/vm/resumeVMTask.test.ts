@@ -1,7 +1,7 @@
 import { mocked } from 'ts-jest/utils';
 import { AssignedVMCollection } from '../../src/collections/AssignedVM';
 import { getInstanceById, resumeInstance } from '../../src/common/aws-helper';
-import { vmResumeTask } from '../../src/contracts/vm/vmResumeTask';
+import { resumeVMTask } from '../../src/contracts/vm/resumeVMTask';
 import { setupDb } from '../helper';
 import { createModules, createVM, registerSampleUsers } from '../seed-data';
 
@@ -22,7 +22,7 @@ beforeEach(async () => {
 
 it('should ignore if not stopped', async () => {
   await createVM('running', '100');
-  await vmResumeTask.options.handler('123', { vmId: '100' });
+  await resumeVMTask.options.handler('123', { vmId: '100' });
   expect(mocked_resumeInstance).not.toBeCalled();
 });
 
@@ -35,7 +35,7 @@ it('should resume', async () => {
       },
     }));
   await createVM('stopped', '100');
-  await vmResumeTask.options.handler('123', { vmId: '100' });
+  await resumeVMTask.options.handler('123', { vmId: '100' });
   expect(mocked_getInstanceById).toBeCalledTimes(2);
   const vm = await AssignedVMCollection.findOne({});
   expect(vm?.status).toEqual('running');

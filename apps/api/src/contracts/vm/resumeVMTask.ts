@@ -14,7 +14,7 @@ async function _waitForRunning(awsId: string) {
   }, `Wait for running timeout ${awsId}`);
 }
 
-export const vmResume = createContract('vm.vmResumeTask')
+export const resumeVM = createContract('vm.resumeVM')
   .params('vmId')
   .schema({
     vmId: S.string(),
@@ -31,9 +31,9 @@ export const vmResume = createContract('vm.vmResumeTask')
     await AssignedVMCollection.update(assignedVM, ['status', 'lastPingTime']);
   });
 
-export const vmResumeTask = createTaskBinding({
-  type: 'VMResume',
+export const resumeVMTask = createTaskBinding({
+  type: 'ResumeVM',
   async handler(messageId, task) {
-    await vmResume(task.vmId);
+    await resumeVM(task.vmId);
   },
 });
