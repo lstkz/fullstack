@@ -88,6 +88,9 @@ module.exports = {
       dark: {
         DEFAULT: BaseThemeColors.dark,
       },
+      warning: {
+        DEFAULT: BaseThemeColors.warning,
+      },
       heading: {
         DEFAULT: '#152c5b',
       },
