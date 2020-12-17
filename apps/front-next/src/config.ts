@@ -38,3 +38,5 @@ export const BUGSNAG_API_KEY = process.env.BUGSNAG_API_KEY;
 export const IDLE_TIMEOUT = Number(process.env.IDLE_TIMEOUT);
 
 export const IS_REAL_PROD = API_URL.includes('fullstack.pl');
+
+export const IS_TEST = API_URL.includes('3001');
