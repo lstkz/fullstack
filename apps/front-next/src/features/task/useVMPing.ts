@@ -25,12 +25,16 @@ export function useVMPing(isReady: boolean) {
     }
     let lastPing = 0;
 
+    const pingNow = () => {
+      lastPing = Date.now();
+      api.vm_pingVM().catch(console.error);
+    };
+
     const onActivity = () => {
       if (lastPing + PING_INTERVAL > Date.now()) {
         return;
       }
-      lastPing = Date.now();
-      api.vm_pingVM().catch(console.error);
+      pingNow();
     };
     DEFAULT_EVENTS.forEach(name => {
       document.addEventListener(name, onActivity);
@@ -41,11 +45,20 @@ export function useVMPing(isReady: boolean) {
         setIsIdle(true);
       }
     }, 1000);
+
+    const onVmPing = (e: MessageEvent<any>) => {
+      if (e.data === 'VM_PING') {
+        pingNow();
+      }
+    };
+    window.addEventListener('message', onVmPing);
+
     return () => {
       clearInterval(idleTimeoutId);
       DEFAULT_EVENTS.forEach(name => {
         document.removeEventListener(name, onActivity);
       });
+      window.removeEventListener('message', onVmPing);
     };
   }, [isReady, isIdle]);
   return { isIdle };
