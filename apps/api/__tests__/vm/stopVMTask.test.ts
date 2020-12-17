@@ -1,7 +1,7 @@
 import { mocked } from 'ts-jest/utils';
 import { AssignedVMCollection } from '../../src/collections/AssignedVM';
 import { getInstanceById, stopInstance } from '../../src/common/aws-helper';
-import { stopVMTask } from '../../src/contracts/vm/stopVmTask';
+import { stopVMTask } from '../../src/contracts/vm/stopVMTask';
 import { setupDb } from '../helper';
 import { createModules, createVM, registerSampleUsers } from '../seed-data';
 
