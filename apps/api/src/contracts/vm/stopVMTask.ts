@@ -27,7 +27,19 @@ export const vmStop = createContract('vm.vmStop')
     await stopInstance(assignedVM.awsId!);
     await _waitForStopped(assignedVM.awsId!);
     assignedVM.status = 'stopped';
-    await AssignedVMCollection.update(assignedVM, ['status', 'lastPingTime']);
+    assignedVM.ip = null;
+    assignedVM.domainPrefix = null;
+    assignedVM.domain = null;
+    assignedVM.baseDomain = null;
+    assignedVM.zoneChangeId = null;
+    await AssignedVMCollection.update(assignedVM, [
+      'status',
+      'ip',
+      'domainPrefix',
+      'domain',
+      'baseDomain',
+      'zoneChangeId',
+    ]);
   });
 
 export const stopVMTask = createTaskBinding({

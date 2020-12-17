@@ -39,4 +39,9 @@ it('should stop', async () => {
   expect(mocked_getInstanceById).toBeCalledTimes(2);
   const vm = await AssignedVMCollection.findOne({});
   expect(vm?.status).toEqual('stopped');
+  expect(vm?.ip).toEqual(null);
+  expect(vm?.domainPrefix).toEqual(null);
+  expect(vm?.domain).toEqual(null);
+  expect(vm?.baseDomain).toEqual(null);
+  expect(vm?.zoneChangeId).toEqual(null);
 });

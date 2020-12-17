@@ -3,6 +3,7 @@ import { AssignedVMCollection } from '../../collections/AssignedVM';
 import { getInstanceById, resumeInstance } from '../../common/aws-helper';
 import { createWaiter } from '../../common/helper';
 import { createContract, createTaskBinding } from '../../lib';
+import { assignDomain } from './assignDomain';
 
 async function _waitForRunning(awsId: string) {
   return createWaiter(async () => {
@@ -21,11 +22,12 @@ export const resumeVM = createContract('vm.resumeVM')
   })
   .fn(async vmId => {
     const assignedVM = await AssignedVMCollection.findByIdOrThrow(vmId);
-    if (assignedVM.status !== 'stopped') {
+    if (assignedVM.status !== 'resuming') {
       return;
     }
     await resumeInstance(assignedVM.awsId!);
     await _waitForRunning(assignedVM.awsId!);
+    await assignDomain(vmId);
     assignedVM.status = 'running';
     assignedVM.lastPingTime = new Date();
     await AssignedVMCollection.update(assignedVM, ['status', 'lastPingTime']);

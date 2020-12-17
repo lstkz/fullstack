@@ -15,11 +15,11 @@ export interface AssignedVMModel {
   awsId?: string;
   userId: ObjectID;
   launchTime?: Date;
-  ip?: string;
-  domainPrefix?: string;
-  baseDomain?: string;
-  domain?: string;
-  zoneChangeId?: string;
+  ip?: string | null;
+  domainPrefix?: string | null;
+  baseDomain?: string | null;
+  domain?: string | null;
+  zoneChangeId?: string | null;
   lastPingTime?: Date;
 }
 
