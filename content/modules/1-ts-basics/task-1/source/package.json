@@ -2,12 +2,14 @@
   "name": "middle-number",
   "scripts": {
     "test": "jest",
-    "submit": "jest"
+    "submit": "jest --reporters=\"default\" --reporters=\"fullstack-tester/dist/SetupReporter.js\"",
+    "submit2": "fs-tester"
   },
   "dependencies": {
     "@types/jest": "^26.0.15",
     "jest": "^26.6.3",
-    "ts-jest": "^26.4.4"
+    "ts-jest": "^26.4.4",
+    "fullstack-tester": "*"
   },
   "jest": {
     "preset": "ts-jest",

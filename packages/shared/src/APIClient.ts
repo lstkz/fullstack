@@ -78,6 +78,10 @@ export class APIClient {
       isExample: boolean;
       detailsS3Key: string;
       sourceS3Key: string;
+      testsInfo: {
+        resultHash: string;
+        files: { path: string; hash: string }[];
+      };
     }[];
     id: string;
   }): Promise<unknown> {

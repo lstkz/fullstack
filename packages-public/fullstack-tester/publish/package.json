@@ -1,0 +1,13 @@
+{
+  "name": "fullstack-tester",
+  "version": "1.0.0",
+  "description": "",
+  "scripts": {},
+  "bin": {
+    "fs-tester": "dist/fs-tester.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {}
+}
