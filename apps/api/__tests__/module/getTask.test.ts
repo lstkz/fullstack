@@ -24,6 +24,10 @@ beforeEach(async () => {
           isExample: false,
           detailsS3Key: 'details-1.js',
           sourceS3Key: '',
+          testsInfo: {
+            files: [],
+            resultHash: 'hash',
+          },
         },
         {
           id: 2,
@@ -31,6 +35,10 @@ beforeEach(async () => {
           isExample: false,
           detailsS3Key: 'details-2.js',
           sourceS3Key: '',
+          testsInfo: {
+            files: [],
+            resultHash: 'hash',
+          },
         },
       ],
     },
@@ -47,6 +55,10 @@ beforeEach(async () => {
           isExample: false,
           detailsS3Key: 'details-3.js',
           sourceS3Key: '',
+          testsInfo: {
+            files: [],
+            resultHash: 'hash',
+          },
         },
       ],
     },

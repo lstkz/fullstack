@@ -60,12 +60,14 @@ export interface ModuleTaskUpload {
   testsInfo: UploadTestsInfo;
 }
 
+export interface TestFileInfo {
+  path: string;
+  hash: string;
+}
+
 export interface UploadTestsInfo {
   resultHash: string;
-  files: Array<{
-    path: string;
-    hash: string;
-  }>;
+  files: TestFileInfo[];
 }
 
 export interface ModuleUpload {
@@ -105,4 +107,9 @@ export interface ModuleTaskDetails {
   name: string;
   isExample: boolean;
   detailsUrl: string;
+}
+
+export interface TaskTestInfo {
+  sourceUrl: string;
+  testFiles: TestFileInfo[];
 }
