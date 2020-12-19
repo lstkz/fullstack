@@ -2,7 +2,7 @@ import { config } from 'config';
 import { ModuleCollection } from '../../src/collections/Module';
 import { getTask } from '../../src/contracts/module/getTask';
 import { execContract, setupDb } from '../helper';
-import { registerSampleUsers } from '../seed-data';
+import { addSubscription, registerSampleUsers } from '../seed-data';
 
 setupDb();
 
@@ -63,6 +63,20 @@ beforeEach(async () => {
       ],
     },
   ]);
+  await addSubscription(1);
+});
+
+it('should throw if not pro', async () => {
+  await expect(
+    execContract(
+      getTask,
+      {
+        moduleId: 'abc',
+        taskId: 1,
+      },
+      'user2_token'
+    )
+  ).rejects.toThrow('Subscription required');
 });
 
 it('should throw if module not found (invalid id)', async () => {
