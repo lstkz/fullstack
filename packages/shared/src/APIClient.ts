@@ -6,6 +6,7 @@ import {
   Module,
   ModuleDetails,
   ModuleTaskDetails,
+  TaskTestInfo,
   TPayGroup,
   SubscriptionPlan,
   AuthData,
@@ -60,8 +61,29 @@ export class APIClient {
   module_getModule(id: string): Promise<ModuleDetails> {
     return this.call('module.getModule', { id });
   }
+  module_getSolutionUploadUrl(): Promise<{
+    url: string;
+    key: string;
+    fields: Record<string, string>;
+  }> {
+    return this.call('module.getSolutionUploadUrl', {});
+  }
   module_getTask(moduleId: string, taskId: number): Promise<ModuleTaskDetails> {
     return this.call('module.getTask', { moduleId, taskId });
+  }
+  module_getTaskTestInfo(
+    moduleId: string,
+    taskId: number
+  ): Promise<TaskTestInfo> {
+    return this.call('module.getTaskTestInfo', { moduleId, taskId });
+  }
+  module_submitSolution(values: {
+    moduleId: string;
+    taskId: number;
+    resultHash: string;
+    uploadKey: string;
+  }): Promise<void> {
+    return this.call('module.submitSolution', { values });
   }
   module_updateModule(values: {
     name: string;

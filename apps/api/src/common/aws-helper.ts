@@ -1,5 +1,5 @@
 import { EC2, Route53 } from 'aws-sdk';
-import { ec2, route53 } from '../lib';
+import { ec2, route53, s3 } from '../lib';
 
 export async function getInstanceByTag(tagName: string, tagValue: string) {
   const list = await ec2
@@ -167,4 +167,22 @@ export async function getZoneChangeStatus(changeId: string) {
     )
     .promise();
   return ret.ChangeInfo.Status as 'PENDING' | 'INSYNC';
+}
+
+export async function checkS3KeyExists(bucketName: string, key: string) {
+  return await s3
+    .headObject({
+      Bucket: bucketName,
+      Key: key,
+    })
+    .promise()
+    .then(
+      () => true,
+      err => {
+        if (err.code === 'NotFound') {
+          return false;
+        }
+        throw err;
+      }
+    );
 }
