@@ -5,7 +5,11 @@ import fetch from 'node-fetch';
 import FormData from 'form-data';
 import tmp from 'tmp';
 import type { AggregatedResult } from '@jest/test-result';
-import { Reporter, ReporterOnStartOptions, Context } from '@jest/reporters';
+import type {
+  Reporter,
+  ReporterOnStartOptions,
+  Context,
+} from '@jest/reporters';
 import { hashTestResults } from './serialize';
 import { getApiClient } from './getApiClient';
 import util from 'util';

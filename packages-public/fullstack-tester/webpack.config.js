@@ -25,6 +25,14 @@ function getConfig(name, plugins = []) {
       filename: '[name].js',
       libraryTarget: 'commonjs',
     },
+    externals: [
+      function (context, request, callback) {
+        if (/^node-fetch|^form-data|^tar|^chalk/.test(request)) {
+          return callback(null, 'commonjs ' + request);
+        }
+        callback();
+      },
+    ],
     module: {
       rules: [
         {

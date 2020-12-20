@@ -4,10 +4,16 @@
   "description": "",
   "scripts": {},
   "bin": {
-    "fs-tester": "dist/fs-tester.js"
+    "fs-tester": "./fs-tester.js"
   },
   "keywords": [],
   "author": "",
-  "license": "MIT",
-  "dependencies": {}
+  "license": "UNLICENSED",
+  "dependencies": {
+    "chalk": "^4.1.0",
+    "chokidar": "^3.2.3",
+    "form-data": "^3.0.0",
+    "node-fetch": "^2.6.1",
+    "tar": "^6.0.5"
+  }
 }
