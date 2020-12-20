@@ -47,6 +47,7 @@ export const getTask = createContract('module.getTask')
   });
 
 export const getTaskRpc = createRpcBinding({
+  pro: true,
   injectUser: true,
   signature: 'module.getTask',
   handler: getTask,

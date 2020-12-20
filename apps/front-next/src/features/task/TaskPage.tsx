@@ -8,6 +8,8 @@ import { useVMWaiter } from './useVMWaiter';
 import { useVMPing } from './useVMPing';
 import { VMLoadingScreen } from './VMLoadingScreen';
 import { IdleScreen } from './IdleScreen';
+import { API_URL, IS_SSR } from 'src/config';
+import { getAccessToken } from 'src/services/Storage';
 
 interface TaskPageProps {
   task: ModuleTaskDetails;
@@ -15,7 +17,7 @@ interface TaskPageProps {
   vmUrl: string | null;
 }
 
-if (typeof window !== 'undefined') {
+if (!IS_SSR) {
   window.React = React;
   window.Prism = Prism;
 }
@@ -23,7 +25,7 @@ if (typeof window !== 'undefined') {
 function useDetails(task: ModuleTaskDetails) {
   const [details, setDetails] = React.useState<React.ReactNode | null>(null);
   React.useEffect(() => {
-    if (typeof window === 'undefined') {
+    if (IS_SSR) {
       return;
     }
     const script = document.createElement('script');
@@ -44,7 +46,7 @@ function useDragging() {
   const [isDragging, setIsDragging] = React.useState(false);
 
   const defaultSize = React.useMemo(() => {
-    if (typeof localStorage === 'undefined') {
+    if (IS_SSR) {
       return 300;
     }
     return Number(localStorage.taskPaneWidth) || 300;
@@ -65,17 +67,33 @@ function useDragging() {
   };
 }
 
+export function useUrlWithSecrets(url: string | null) {
+  return React.useMemo(() => {
+    if (!url || IS_SSR) {
+      return url;
+    }
+    const [base, hash] = url.split('#');
+    return `${base}?apiUrl=${encodeURIComponent(
+      API_URL
+    )}&token=${encodeURIComponent(getAccessToken() ?? '')}#${hash}`;
+  }, [url]);
+}
+
 export function TaskPage(props: TaskPageProps) {
   const { vmUrl, isReady } = useVMWaiter(props);
   const details = useDetails(props.task);
   const { isDragging, splitPaneProps } = useDragging();
   const { isIdle } = useVMPing(isReady);
+  const targetUrl = useUrlWithSecrets(
+    // 'http://localhost:8080/#/Users/sky/work/fullstack/fullstack-repo/content/modules/1-ts-basics/task-1/source'
+    vmUrl
+  );
   if (isIdle) {
     return <IdleScreen />;
   }
 
   const renderIframe = () => {
-    if (!isReady || !vmUrl) {
+    if (!isReady || !targetUrl) {
       return <VMLoadingScreen isReady={isReady} />;
     }
     return (
@@ -88,8 +106,7 @@ export function TaskPage(props: TaskPageProps) {
           border: 0,
           pointerEvents: isDragging ? 'none' : undefined,
         }}
-        src={vmUrl}
-        // src="http://localhost:8080/#/Users/sky/work/fullstack/fullstack-repo/content/modules/1-ts-basics/task-1/source"
+        src={targetUrl}
       />
     );
   };

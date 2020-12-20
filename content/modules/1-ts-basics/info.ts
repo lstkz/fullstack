@@ -99,6 +99,7 @@ Moduł zawiera lekcje i zadania dla osób, które chcą zacząć swoją przygod�
       name: 'Środkowa liczba',
       detailsS3Key: '',
       sourceS3Key: '',
+      testsInfo: require('./task-1/tests-info.json'),
     },
     // {
     //   id: 2,

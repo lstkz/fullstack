@@ -1,0 +1,35 @@
+{
+  "name": "fullstack-tester",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "engines": {},
+  "scripts": {
+    "tsc": "tsc --noEmit",
+    "build": "rm dist/*; yarn run webpack --progress --color",
+    "jest": "jest"
+  },
+  "bin": {
+    "fs-tester": "dist/fs-tester.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "UNLICENSED",
+  "dependencies": {
+    "chalk": "^4.1.0",
+    "chokidar": "^3.2.3",
+    "form-data": "^3.0.0",
+    "node-fetch": "^2.6.1",
+    "tar": "^6.0.5"
+  },
+  "devDependencies": {
+    "@types/mz": "^0.0.32",
+    "@types/node-fetch": "^2.5.4",
+    "javascript-obfuscator": "^2.9.4",
+    "nodemon": "^1.19.1",
+    "ts-loader": "^8.0.11",
+    "webpack": "^5.3.2",
+    "webpack-cli": "^4.2.0",
+    "webpack-obfuscator": "^3.1.0"
+  }
+}

@@ -96,3 +96,14 @@ export function walk(dir: string) {
   });
   return results;
 }
+
+export function getModulePath(moduleNr: number) {
+  const modules = path.join(rootPath, 'content/modules');
+  const folderContent = fs.readdirSync(modules);
+  const moduleName = folderContent.find(x => x.startsWith(`${moduleNr}-`));
+  if (!moduleName) {
+    throw new Error(`Module ${moduleNr} does not exist`);
+  }
+  const modulePath = path.join(modules, moduleName);
+  return { moduleName, modulePath };
+}
