@@ -8,7 +8,13 @@ import { useVMWaiter } from './useVMWaiter';
 import { useVMPing } from './useVMPing';
 import { VMLoadingScreen } from './VMLoadingScreen';
 import { IdleScreen } from './IdleScreen';
-import { API_URL, IS_SSR } from 'src/config';
+import {
+  API_URL,
+  IS_SSR,
+  LOCAL_VM_BASE_PATH,
+  LOCAL_VM_URL,
+  USE_LOCAL_VM,
+} from 'src/config';
 import { getAccessToken } from 'src/services/Storage';
 
 interface TaskPageProps {
@@ -72,7 +78,13 @@ export function useUrlWithSecrets(url: string | null) {
     if (!url || IS_SSR) {
       return url;
     }
-    const [base, hash] = url.split('#');
+    let [base, hash] = url.split('#');
+    if (USE_LOCAL_VM) {
+      base = LOCAL_VM_URL;
+      hash = hash
+        .replace('/home/ubuntu', LOCAL_VM_BASE_PATH)
+        .replace(/\d+$/, 'task-$&/source');
+    }
     return `${base}?apiUrl=${encodeURIComponent(
       API_URL
     )}&token=${encodeURIComponent(getAccessToken() ?? '')}#${hash}`;
@@ -84,10 +96,7 @@ export function TaskPage(props: TaskPageProps) {
   const details = useDetails(props.task);
   const { isDragging, splitPaneProps } = useDragging();
   const { isIdle } = useVMPing(isReady);
-  const targetUrl = useUrlWithSecrets(
-    // 'http://localhost:8080/#/Users/sky/work/fullstack/fullstack-repo/content/modules/1-ts-basics/task-1/source'
-    vmUrl
-  );
+  const targetUrl = useUrlWithSecrets(vmUrl);
   if (isIdle) {
     return <IdleScreen />;
   }
