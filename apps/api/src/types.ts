@@ -121,6 +121,17 @@ export type AppTask =
   | RemoveVMDomainTask;
 export type AppEvent = OrderCreatedEvent | OrderPaidEvent | UserRegisteredEvent;
 
+export interface TaskSolvedSocketMsg {
+  type: 'TaskSolved';
+  payload: {
+    userId: string;
+    moduleId: string;
+    taskId: number;
+  };
+}
+
+export type AppSocketMsg = TaskSolvedSocketMsg;
+
 type ExtractType<T> = T extends { type: infer S } ? S : never;
 
 export type AppEventType = ExtractType<Pick<AppEvent, 'type'>>;

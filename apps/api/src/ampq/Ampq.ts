@@ -1,6 +1,8 @@
 import * as R from 'remeda';
 import amqplib from 'amqplib';
 import { reportError, reportInfo } from '../common/bugsnag';
+import { ca } from 'date-fns/locale';
+import { UnreachableCaseError } from '../common/errors';
 
 export interface AmpqMessage<T = any> {
   id: string;
@@ -48,6 +50,7 @@ interface AmpqOptions {
   eventQueueSuffix: string;
 }
 
+const SOCKETS_EXCHANGE = 'sockets';
 const TASKS_QUEUE = 'tasks';
 const EVENTS_EXCHANGE = 'events';
 const RETRY_QUEUE_SUFFIX = 'retry';
@@ -63,10 +66,10 @@ interface ProcessMessageOptions {
   msg: amqplib.ConsumeMessage | undefined | null;
   onMessage: OnMessageFn;
   queueName: string;
-  retryQueue: string;
+  retryQueue?: string;
 }
 
-type AmpqMode = 'publish' | 'subscribe' | 'both';
+type AmpqMode = 'publish' | 'subscribe' | 'socket';
 
 export class Ampq {
   private connection: amqplib.Connection | null = null;
@@ -74,17 +77,21 @@ export class Ampq {
   private isConnectCalled = false;
   private eventHandlers: Map<string, AmpqHandler[]> = new Map();
   private taskHandlers: Map<string, AmpqHandler> = new Map();
+  private socketHandler: OnMessageFn | null = null;
   private isReconnecting = false;
   private hostNameIndex = 0;
-  private mode: AmpqMode = 'both';
+  private modes: AmpqMode[] = [];
 
   constructor(private options: AmpqOptions) {
     this.hostNameIndex = Math.round(Math.random() * 100) % options.hosts.length;
   }
 
-  async connect(mode?: AmpqMode) {
-    if (mode) {
-      this.mode = mode;
+  async connect(modes?: AmpqMode[]) {
+    if (modes) {
+      this.modes = modes;
+    }
+    if (!this.modes) {
+      throw new Error('Modes required');
     }
     this.isConnectCalled = true;
     const { hosts, port, username, password } = this.options;
@@ -131,6 +138,14 @@ export class Ampq {
     this.taskHandlers.set(handler.type, handler);
   }
 
+  addSocketHandler(handler: OnMessageFn) {
+    this.assertConnectNotCalled();
+    if (this.socketHandler) {
+      throw new Error('Duplicated socket handler');
+    }
+    this.socketHandler = handler;
+  }
+
   async publishEvent(msg: AmpqPublishMessage) {
     await this.retryPublishMessage('events', msg);
   }
@@ -139,8 +154,12 @@ export class Ampq {
     await this.retryPublishMessage('tasks', msg);
   }
 
+  async publishSocket(msg: AmpqPublishMessage) {
+    await this.retryPublishMessage('socket', msg);
+  }
+
   private async retryPublishMessage(
-    msgType: 'events' | 'tasks',
+    msgType: 'events' | 'tasks' | 'socket',
     msg: AmpqPublishMessage,
     retry = 0
   ) {
@@ -164,10 +183,22 @@ export class Ampq {
           messageId: R.randomString(20),
         };
         const serialized = Buffer.from(JSON.stringify(ampqMessage));
-        if (msgType === 'events') {
-          this.channel.publish(EVENTS_EXCHANGE, '', serialized, options);
-        } else {
-          this.channel.sendToQueue(TASKS_QUEUE, serialized, options);
+        switch (msgType) {
+          case 'events': {
+            this.channel.publish(EVENTS_EXCHANGE, '', serialized, options);
+            break;
+          }
+          case 'socket': {
+            this.channel.publish(SOCKETS_EXCHANGE, '', serialized, options);
+            break;
+          }
+          case 'tasks': {
+            this.channel.sendToQueue(TASKS_QUEUE, serialized, options);
+            break;
+          }
+          default: {
+            throw new UnreachableCaseError(msgType);
+          }
         }
         success = true;
       } catch (e) {
@@ -220,10 +251,15 @@ export class Ampq {
     this.channel = channel;
     await channel.assertQueue(TASKS_QUEUE, { durable: true });
     await channel.assertExchange(EVENTS_EXCHANGE, 'fanout', { durable: true });
+    await channel.assertExchange(SOCKETS_EXCHANGE, 'fanout', { durable: true });
     await channel.prefetch(this.options.prefetchLimit);
-    if (this.mode !== 'publish') {
+
+    if (this.modes.some(x => x === 'subscribe')) {
       await this.setupEventHandlers(channel);
       await this.setupTaskHandlers(channel);
+    }
+    if (this.modes.some(x => x === 'socket')) {
+      await this.setupSockets(channel);
     }
   }
   private getEventsQueueName() {
@@ -231,7 +267,6 @@ export class Ampq {
   }
 
   private async setupEventHandlers(channel: amqplib.Channel) {
-    await channel.assertExchange(EVENTS_EXCHANGE, 'fanout', { durable: true });
     const queueName = this.getEventsQueueName();
     const retryQueue = `${queueName}:${RETRY_QUEUE_SUFFIX}`;
     await channel.assertQueue(queueName, { durable: true });
@@ -281,6 +316,39 @@ export class Ampq {
         },
         queueName: TASKS_QUEUE,
         retryQueue: taskRetryQueue,
+      });
+    });
+  }
+
+  private async setupSockets(channel: amqplib.Channel) {
+    if (!this.socketHandler) {
+      throw new Error('Socket handler not set');
+    }
+    const tmpQueue = await channel.assertQueue('', {
+      exclusive: true,
+    });
+    const queueName = tmpQueue.queue;
+    await channel.bindQueue(queueName, SOCKETS_EXCHANGE, '');
+    await channel.consume(queueName, async msg => {
+      await this.processMessage({
+        channel,
+        msg,
+        onMessage: async message => {
+          try {
+            await this.socketHandler!(message);
+          } catch (e) {
+            reportError({
+              error: e,
+              source: 'worker',
+              data: {
+                info: `Failed to setup socket message`,
+                message,
+              },
+              isHandled: true,
+            });
+          }
+        },
+        queueName,
       });
     });
   }
@@ -337,14 +405,16 @@ export class Ampq {
           },
           isHandled: true,
         });
-        channel.sendToQueue(retryQueue, msg.content, {
-          expiration: _getRequeueDelay(retryCount),
-          headers: {
-            ...msg.properties.headers,
-            'x-retry': retryCount + 1,
-          },
-          messageId,
-        });
+        if (retryQueue) {
+          channel.sendToQueue(retryQueue, msg.content, {
+            expiration: _getRequeueDelay(retryCount),
+            headers: {
+              ...msg.properties.headers,
+              'x-retry': retryCount + 1,
+            },
+            messageId,
+          });
+        }
       } finally {
         channel.ack(msg);
       }

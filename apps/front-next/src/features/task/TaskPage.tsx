@@ -16,6 +16,7 @@ import {
   USE_LOCAL_VM,
 } from 'src/config';
 import { getAccessToken } from 'src/services/Storage';
+import { useTaskUpdates } from './useTaskUpdates';
 
 interface TaskPageProps {
   task: ModuleTaskDetails;
@@ -97,6 +98,7 @@ export function TaskPage(props: TaskPageProps) {
   const { isDragging, splitPaneProps } = useDragging();
   const { isIdle } = useVMPing(isReady);
   const targetUrl = useUrlWithSecrets(vmUrl);
+  useTaskUpdates(props.task);
   if (isIdle) {
     return <IdleScreen />;
   }
