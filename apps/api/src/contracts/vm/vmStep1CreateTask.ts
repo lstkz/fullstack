@@ -20,7 +20,6 @@ export const vmStep1Create = createContract('vm.vmStep1Create')
         LaunchTemplate: {
           LaunchTemplateId: config.vm.launchTemplateId,
         },
-        SubnetId: config.vm.subnetId,
         TagSpecifications: [
           {
             ResourceType: 'instance',
