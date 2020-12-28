@@ -1,3 +1,4 @@
+import { config } from 'config';
 import { S } from 'schema';
 import { AuthData } from 'shared';
 import { UserCollection } from '../../collections/User';
@@ -15,6 +16,9 @@ export const githubRegister = createContract('user.githubRegister')
   })
   .returns<AuthData>()
   .fn(async code => {
+    if (config.disableApp) {
+      throw new Error('disabled');
+    }
     const accessToken = await exchangeCode(code);
     const githubData = await getUserData(accessToken);
     const githubUser = await UserCollection.findOne({
