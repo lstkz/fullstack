@@ -1,4 +1,5 @@
 export interface AppConfig {
+  disableApp: boolean;
   logLevel: 'debug' | 'info';
   appBaseUrl: string;
   apiBaseUrl: string;

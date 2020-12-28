@@ -1,6 +1,6 @@
 import { GetServerSideProps, NextPageContext } from 'next';
 import { APIClient } from 'shared';
-import { API_URL } from 'src/config';
+import { API_URL, DISABLE_APP } from 'src/config';
 import { readCookieFromString } from './cookie';
 
 export class UnreachableCaseError extends Error {
@@ -195,6 +195,20 @@ export const ensureNotLoggedIn: GetServerSideProps = async context => {
   return {
     props: {},
   };
+};
+
+export const wrapDisabled: (
+  fn: GetServerSideProps
+) => GetServerSideProps = fn => async context => {
+  if (DISABLE_APP) {
+    return {
+      redirect: {
+        destination: '/',
+        permanent: false,
+      },
+    };
+  }
+  return fn(context);
 };
 
 export function createSSRClient<

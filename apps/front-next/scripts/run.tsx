@@ -20,6 +20,7 @@ export function runScript(
       FS_PUBLIC_API_URL: config.apiBaseUrl,
       FS_PUBLIC_PROTECTED_BASE_URL: config.apiBaseUrl,
       FS_PUBLIC_IDLE_TIMEOUT: String(config.vm.idleTimeout),
+      FS_PUBLIC_DISABLE_APP: String(config.disableApp),
       FS_PUBLIC_LOCAL_VM_BASE_PATH: Path.join(
         __dirname,
         '../../../content/modules'

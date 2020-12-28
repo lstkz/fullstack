@@ -46,3 +46,5 @@ export const IS_SSR = typeof window === 'undefined';
 export const USE_LOCAL_VM = API_URL.includes('localhost');
 export const LOCAL_VM_URL = 'http://localhost:8080/';
 export const LOCAL_VM_BASE_PATH = process.env.LOCAL_VM_BASE_PATH ?? '/';
+
+export const DISABLE_APP = process.env.DISABLE_APP === 'true';
