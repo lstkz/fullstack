@@ -8,6 +8,7 @@ import { checkS3KeyExists } from '../../common/aws-helper';
 import { AppError } from '../../common/errors';
 import { getCurrentDate } from '../../common/helper';
 import { DUPLICATED_UNIQUE_VALUE_ERROR_CODE } from '../../common/mongo';
+import { dispatchSocketMsg } from '../../dispatch';
 import { createContract, createRpcBinding } from '../../lib';
 import { getActiveTask } from './getTask';
 
@@ -50,6 +51,14 @@ export const submitSolution = createContract('module.submitSolution')
       if (e.code === DUPLICATED_UNIQUE_VALUE_ERROR_CODE) {
         throw new AppError('UploadKey already used');
       }
+    });
+    await dispatchSocketMsg({
+      type: 'TaskSolved',
+      payload: {
+        userId: user._id.toHexString(),
+        moduleId: values.moduleId,
+        taskId: values.taskId,
+      },
     });
   });
 

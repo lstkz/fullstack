@@ -94,6 +94,12 @@ module.exports = {
       heading: {
         DEFAULT: '#152c5b',
       },
+      green: {
+        DEFAULT: BaseColors.green,
+        600: darken(BaseColors.green, 7.5),
+        700: darken(BaseColors.green, 10),
+        800: darken(BaseColors.green, 12.5),
+      },
     },
   },
   variants: {

@@ -2,6 +2,7 @@ import { config } from 'config';
 import { S } from 'schema';
 import { ModuleTaskDetails } from 'shared';
 import { ModuleCollection } from '../../collections/Module';
+import { TaskSolutionCollection } from '../../collections/TaskSolution';
 import { AppError } from '../../common/errors';
 import { createContract, createRpcBinding } from '../../lib';
 
@@ -36,10 +37,18 @@ export const getTask = createContract('module.getTask')
   })
   .returns<ModuleTaskDetails>()
   .fn(async (user, moduleId, taskId) => {
-    const task = await getActiveTask(moduleId, taskId);
+    const [task, solvedTask] = await Promise.all([
+      getActiveTask(moduleId, taskId),
+      TaskSolutionCollection.findOne({
+        moduleId,
+        taskId,
+        userId: user._id,
+      }),
+    ]);
     return {
       id: task.id,
       moduleId,
+      isSolved: solvedTask != null,
       name: task.name,
       isExample: task.isExample,
       detailsUrl: config.cdnBaseUrl + '/' + task.detailsS3Key,

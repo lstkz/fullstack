@@ -5,7 +5,8 @@ import Query from 'querystring';
 import net from 'net';
 import { ampq } from './lib';
 import { _getAppUser } from './contracts/user/_getAppUser';
-import { AppSocketMsg, AppUser } from './types';
+import { AppUser } from './types';
+import { AppSocketMsg } from 'shared';
 
 declare module 'ws' {
   class _WS extends WebSocket {}
@@ -25,7 +26,6 @@ export function startSockets(server: http.Server) {
       if (!ws.isAlive) {
         return ws.terminate();
       }
-      console.log('PING');
       ws.ping();
     });
   }, 30000);

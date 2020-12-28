@@ -1,12 +1,16 @@
 import { faExclamationCircle } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React from 'react';
-import { TaskHeader } from './TaskHeader';
 
-export function IdleScreen() {
+interface IdleScreenProps {
+  header: React.ReactNode;
+}
+
+export function IdleScreen(props: IdleScreenProps) {
+  const { header } = props;
   return (
     <div className="flex h-full flex-col">
-      <TaskHeader />
+      {header}
       <div className="flex text-center justify-center flex-1 text-gray-700 text-2xl items-center">
         <div>
           <FontAwesomeIcon
