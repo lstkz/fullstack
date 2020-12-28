@@ -24,6 +24,7 @@ beforeEach(async () => {
           isExample: false,
           detailsS3Key: 'details-1.js',
           sourceS3Key: '',
+          htmlS3Key: '1.html',
           testsInfo: {
             files: [],
             resultHash: 'hash',
@@ -35,6 +36,7 @@ beforeEach(async () => {
           isExample: false,
           detailsS3Key: 'details-2.js',
           sourceS3Key: '',
+          htmlS3Key: '2.html',
           testsInfo: {
             files: [],
             resultHash: 'hash',
@@ -55,6 +57,7 @@ beforeEach(async () => {
           isExample: false,
           detailsS3Key: 'details-3.js',
           sourceS3Key: '',
+          htmlS3Key: '3.html',
           testsInfo: {
             files: [],
             resultHash: 'hash',
@@ -117,6 +120,7 @@ it('should return a task', async () => {
   expect(task).toMatchInlineSnapshot(`
     Object {
       "detailsUrl": "https://example.org/details-2.js",
+      "htmlUrl": "https://example.org/2.html",
       "id": 2,
       "isExample": false,
       "isSolved": false,

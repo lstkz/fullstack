@@ -40,6 +40,7 @@ beforeEach(async () => {
           isExample: false,
           detailsS3Key: 'details-1.js',
           sourceS3Key: 'source.tar.gz',
+          htmlS3Key: '1.html',
           testsInfo: {
             files: [],
             resultHash: 'hash123',
