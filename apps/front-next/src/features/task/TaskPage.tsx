@@ -2,7 +2,6 @@ import React from 'react';
 import { ModuleTaskDetails } from 'shared';
 import { Loader } from 'src/components/Loader';
 import { TaskHeader } from './TaskHeader';
-import SplitPane from 'react-split-pane';
 import Prism from 'prismjs';
 import { useVMWaiter } from './useVMWaiter';
 import { useVMPing } from './useVMPing';
@@ -16,6 +15,8 @@ import {
   USE_LOCAL_VM,
 } from 'src/config';
 import { getAccessToken } from 'src/services/Storage';
+import { useTaskUpdates } from './useTaskUpdates';
+import { TaskSplitPane } from './TaskSplitPane';
 
 interface TaskPageProps {
   task: ModuleTaskDetails;
@@ -48,31 +49,6 @@ function useDetails(task: ModuleTaskDetails) {
   return details;
 }
 
-function useDragging() {
-  const [isDragging, setIsDragging] = React.useState(false);
-
-  const defaultSize = React.useMemo(() => {
-    if (IS_SSR) {
-      return 300;
-    }
-    return Number(localStorage.taskPaneWidth) || 300;
-  }, []);
-
-  return {
-    isDragging,
-    splitPaneProps: {
-      defaultSize: defaultSize,
-      onDragStarted: () => {
-        setIsDragging(true);
-      },
-      onDragFinished: (newSize: number) => {
-        localStorage.taskPaneWidth = newSize;
-        setIsDragging(false);
-      },
-    },
-  };
-}
-
 export function useUrlWithSecrets(url: string | null) {
   return React.useMemo(() => {
     if (!url || IS_SSR) {
@@ -94,11 +70,12 @@ export function useUrlWithSecrets(url: string | null) {
 export function TaskPage(props: TaskPageProps) {
   const { vmUrl, isReady } = useVMWaiter(props);
   const details = useDetails(props.task);
-  const { isDragging, splitPaneProps } = useDragging();
   const { isIdle } = useVMPing(isReady);
   const targetUrl = useUrlWithSecrets(vmUrl);
+  const task = useTaskUpdates(props.task);
+  const header = <TaskHeader task={task} />;
   if (isIdle) {
-    return <IdleScreen />;
+    return <IdleScreen header={header} />;
   }
 
   const renderIframe = () => {
@@ -113,48 +90,24 @@ export function TaskPage(props: TaskPageProps) {
           height: '100%',
           backgroundColor: '#1F1F1F',
           border: 0,
-          pointerEvents: isDragging ? 'none' : undefined,
         }}
         src={targetUrl}
       />
     );
   };
 
-  const renderDetails = () => {
-    if (!details) {
-      return (
-        <div className="h-full flex items-center justify-center">
-          <Loader />
-        </div>
-      );
-    }
-    return (
-      <SplitPane
-        {...splitPaneProps}
-        split="vertical"
-        minSize={0}
-        resizerStyle={{
-          width: 5,
-          cursor: 'col-resize',
-          background: 'white',
-          zIndex: 2,
-        }}
-      >
-        <div
-          className="bg-white p-4 h-full overflow-auto"
-          data-test="task-details"
-        >
-          {details}
-        </div>
-        <div className="h-full flex-1">{renderIframe()}</div>
-      </SplitPane>
-    );
-  };
-
   return (
     <div className="flex h-full flex-col">
-      <TaskHeader />
-      <div className="flex-1 relative">{renderDetails()}</div>
+      {header}
+      <div className="flex-1 relative">
+        {details ? (
+          <TaskSplitPane details={details} ide={renderIframe()} />
+        ) : (
+          <div className="h-full flex items-center justify-center">
+            <Loader />
+          </div>
+        )}
+      </div>
     </div>
   );
 }

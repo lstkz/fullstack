@@ -22,7 +22,6 @@ export function useVMWaiter(initial: {
       try {
         const ret = await api.vm_assignVM();
         if (ret.isReady) {
-          clearInterval(waitReadyId);
           setIsReady(true);
         }
       } catch (e) {
@@ -43,7 +42,6 @@ export function useVMWaiter(initial: {
       try {
         const ret = await api.vm_prepareFolder(task.moduleId, task.id);
         if (ret.url) {
-          clearInterval(waitUrlId);
           setVmUrl(ret.url);
         }
       } catch (e) {

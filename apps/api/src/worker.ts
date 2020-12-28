@@ -24,7 +24,7 @@ async function start() {
     });
   });
 
-  await ampq.connect('both');
+  await ampq.connect(['publish', 'subscribe']);
   logger.info('Worker started');
   await startSchedular();
   logger.info('Schedular started');

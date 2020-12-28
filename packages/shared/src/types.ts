@@ -107,9 +107,21 @@ export interface ModuleTaskDetails {
   name: string;
   isExample: boolean;
   detailsUrl: string;
+  isSolved: boolean;
 }
 
 export interface TaskTestInfo {
   sourceUrl: string;
   testFiles: TestFileInfo[];
 }
+
+export interface TaskSolvedSocketMsg {
+  type: 'TaskSolved';
+  payload: {
+    userId: string;
+    moduleId: string;
+    taskId: number;
+  };
+}
+
+export type AppSocketMsg = TaskSolvedSocketMsg;

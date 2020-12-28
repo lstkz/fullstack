@@ -4,10 +4,9 @@ import { wrapExpress } from './wrapExpress';
 import { BadRequestError, ForbiddenError, UnauthorizedError } from './errors';
 import { logger } from './logger';
 import { Handler } from '../types';
-import { AccessTokenCollection } from '../collections/AccessToken';
-import { UserCollection } from '../collections/User';
 import { getBindings } from './bindings';
 import { config } from 'config';
+import { _getAppUser } from '../contracts/user/_getAppUser';
 
 export default function loadRoutes(router: Router) {
   const bindings = getBindings('rpc');
@@ -22,19 +21,7 @@ export default function loadRoutes(router: Router) {
           return next();
         }
         try {
-          const tokenEntity = await AccessTokenCollection.findOne({
-            _id: token,
-          });
-          if (!tokenEntity) {
-            return next(new UnauthorizedError('invalid token'));
-          }
-          const user = await UserCollection.findByIdOrThrow(tokenEntity.userId);
-          req.user = {
-            _id: user._id,
-            email: user.email,
-            isVerified: user.isVerified,
-            hasSubscription: user.hasSubscription ?? false,
-          };
+          req.user = await _getAppUser(token);
           next();
         } catch (e) {
           next(e);
