@@ -47,7 +47,7 @@ export const ButtonNext = React.forwardRef((props: ButtonProps, ref: any) => {
     </>
   );
   const classList = [
-    'inline-flex item-center justify-center transition-all border border-transparent font-semibold leading-normal focus:ring focus:outline-none outline-none',
+    'inline-flex items-center justify-center transition-all border border-transparent font-semibold leading-normal focus:ring focus:outline-none outline-none',
   ];
 
   switch (type) {

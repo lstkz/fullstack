@@ -102,6 +102,9 @@ module.exports = {
       warning: {
         DEFAULT: BaseThemeColors.warning,
       },
+      danger: {
+        DEFAULT: BaseThemeColors.danger,
+      },
       heading: {
         DEFAULT: '#152c5b',
       },

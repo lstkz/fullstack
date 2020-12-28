@@ -31,6 +31,7 @@ export const SectionShape = styled(_SectionShape)`
   svg {
     fill: ${props => props.color};
     display: block;
+    max-width: none;
   }
   margin: 0;
   display: flex;
