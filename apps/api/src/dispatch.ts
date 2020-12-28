@@ -1,7 +1,8 @@
+import { AppSocketMsg } from 'shared';
 import { getBindings } from './common/bindings';
 import { randomUniqString } from './common/helper';
 import { ampq } from './lib';
-import { AppEvent, AppSocketMsg, AppTask } from './types';
+import { AppEvent, AppTask } from './types';
 
 export async function dispatchEvent(event: AppEvent) {
   if (process.env.NODE_ENV !== 'test') {

@@ -1,7 +1,6 @@
 import * as R from 'remeda';
 import amqplib from 'amqplib';
 import { reportError, reportInfo } from '../common/bugsnag';
-import { ca } from 'date-fns/locale';
 import { UnreachableCaseError } from '../common/errors';
 
 export interface AmpqMessage<T = any> {
