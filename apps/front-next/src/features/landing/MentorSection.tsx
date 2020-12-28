@@ -1,123 +1,99 @@
 import { faTrophy, faAward, faRocket } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import classNames from 'classnames';
 import * as React from 'react';
-import { Container } from 'src/components/Container';
-import { Col, Row } from 'src/components/Grid';
-import { Heading } from 'src/components/Heading';
+import { HeadingNext } from 'src/components/HeadingNext';
 import { Icon } from 'src/components/Icon';
-import { SpacerProps, spacerStyle } from 'src/components/_spacer';
-import { Theme } from 'src/Theme';
-import styled from 'styled-components';
-import { IconList } from './IconList';
+import { IconList, IconListItem } from './IconList';
 
-interface MentorSectionProps {
+interface ImageProps {
+  src: string;
   className?: string;
 }
 
-const RightCol = styled(Col)`
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-`;
-
-const Image = styled.div<{ empty?: boolean } & SpacerProps>`
-  width: 100%;
-  ${props => props.empty && 'padding-bottom: 100%;'}
-  border-radius: 0.375rem;
-  background: ${Theme.gray_400};
-  img {
-    max-width: 100%;
-    max-height: 100%;
-    border-radius: 0.375rem;
-    display: block;
-  }
-  ${spacerStyle}
-`;
-
-const Text = styled.div`
-  font-size: 1.125rem;
-  font-weight: 300;
-  margin-bottom: 1rem;
-`;
-
-const _MentorSection = (props: MentorSectionProps) => {
-  const { className } = props;
+function Image(props: ImageProps) {
+  const { src, className } = props;
   return (
-    <div className={className}>
-      <Container>
-        <Row>
-          <Col md={6}>
-            <Row>
-              <Col sm={6} mt={6} px={2}>
-                <Image mb={3}>
-                  <img src={require('./assets/mentor_1.jpg')} />
-                </Image>
-                <Image>
-                  <img src={require('./assets/mentor_3.jpg')} />
-                </Image>
-              </Col>
-              <Col sm={6} px={2}>
-                <Image mb={3}>
-                  <img src={require('./assets/mentor_6.jpg')} />
-                </Image>
-                <Image>
-                  <img src={require('./assets/mentor_5.jpg')} />
-                </Image>
-              </Col>
-            </Row>
-          </Col>
-          <RightCol md={6} mdSpacer={{ pl: 6 }}>
-            <Heading type={2} mb={3}>
-              Poznaj mentora 👋
-            </Heading>
-            <Text>
-              Nazywam się Łukasz Sentkiewicz. Jestem programistą z ponad
-              10-letnim doświadczeniem. W latach 2013-2018 wygrałem ponad
-              $1,000,000 na TopCoder.com, gdzie robiłem sporo projektów dla
-              takich firm jak NASA, DARPA, EPA, Comcast, TopCoder, IBM.
-            </Text>
-            <Heading type={4} mt={2}>
-              Moje osiągnięcia
-            </Heading>
-            <IconList>
-              <li>
-                <Icon type="primary" circle size="sm">
-                  <FontAwesomeIcon icon={faRocket} />
-                </Icon>
-                Numer 1 w kategorii Development na TopCoderze.
-              </li>
-              <li>
-                <Icon type="danger" circle size="sm">
-                  <FontAwesomeIcon icon={faTrophy} />
-                </Icon>
-                2014 TopCoder Open Development Champion.
-              </li>
-              <li>
-                <Icon type="danger" circle size="sm">
-                  <FontAwesomeIcon icon={faTrophy} />
-                </Icon>
-                2015 TopCoder Open Development Champion.
-              </li>
-              <li>
-                <Icon type="danger" circle size="sm">
-                  <FontAwesomeIcon icon={faTrophy} />
-                </Icon>
-                2016 TopCoder Open Development Champion.
-              </li>
-              <li>
-                <Icon type="warning" circle size="sm">
-                  <FontAwesomeIcon icon={faAward} />
-                </Icon>
-                350+ wygranych contestów.
-              </li>
-            </IconList>
-          </RightCol>
-        </Row>
-      </Container>
+    <div className={classNames(className, 'w-full rounded-md')}>
+      <img src={src} className="max-w-full max-h-full rounded-md" />
     </div>
   );
-};
+}
 
-export const MentorSection = styled(_MentorSection)`
-  padding: 6rem 0;
-`;
+export function MentorSection() {
+  return (
+    <div className="py-24 container grid md:grid-cols-2">
+      <div className="grid grid-cols-2 gap-4">
+        <div className="mt-20">
+          <Image className="mb-3" src={require('./assets/mentor_1.jpg')} />
+          <Image src={require('./assets/mentor_3.jpg')} />
+        </div>
+        <div>
+          <Image className="mb-3" src={require('./assets/mentor_6.jpg')} />
+          <Image src={require('./assets/mentor_5.jpg')} />
+        </div>
+      </div>
+      <div className="pl-20">
+        <HeadingNext type={2} className="mb-3">
+          Poznaj mentora 👋
+        </HeadingNext>
+        <div className="text-lg font-light">
+          Nazywam się Łukasz Sentkiewicz. Jestem programistą z ponad 10-letnim
+          doświadczeniem. W latach 2013-2018 wygrałem ponad $1,000,000 na
+          TopCoder.com, gdzie robiłem sporo projektów dla takich firm jak NASA,
+          DARPA, EPA, Comcast, TopCoder, IBM.
+        </div>
+        <HeadingNext type={4} className="mt-6 mb-2">
+          Moje osiągnięcia
+        </HeadingNext>
+        <IconList>
+          <IconListItem
+            icon={
+              <Icon type="primary" circle size="sm">
+                <FontAwesomeIcon icon={faRocket} />
+              </Icon>
+            }
+          >
+            Numer 1 w kategorii Development na TopCoderze.
+          </IconListItem>
+          <IconListItem
+            icon={
+              <Icon type="danger" circle size="sm">
+                <FontAwesomeIcon icon={faTrophy} />
+              </Icon>
+            }
+          >
+            2014 TopCoder Open Development Champion.
+          </IconListItem>
+          <IconListItem
+            icon={
+              <Icon type="danger" circle size="sm">
+                <FontAwesomeIcon icon={faTrophy} />
+              </Icon>
+            }
+          >
+            2015 TopCoder Open Development Champion.
+          </IconListItem>
+          <IconListItem
+            icon={
+              <Icon type="danger" circle size="sm">
+                <FontAwesomeIcon icon={faTrophy} />
+              </Icon>
+            }
+          >
+            2016 TopCoder Open Development Champion.
+          </IconListItem>
+          <IconListItem
+            icon={
+              <Icon type="warning" circle size="sm">
+                <FontAwesomeIcon icon={faAward} />
+              </Icon>
+            }
+          >
+            350+ wygranych contestów.
+          </IconListItem>
+        </IconList>
+      </div>
+    </div>
+  );
+}
