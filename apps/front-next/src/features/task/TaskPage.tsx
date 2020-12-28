@@ -1,6 +1,5 @@
 import React from 'react';
 import { ModuleTaskDetails } from 'shared';
-import { Loader } from 'src/components/Loader';
 import { TaskHeader } from './TaskHeader';
 import Prism from 'prismjs';
 import { useVMWaiter } from './useVMWaiter';
@@ -17,16 +16,21 @@ import {
 import { getAccessToken } from 'src/services/Storage';
 import { useTaskUpdates } from './useTaskUpdates';
 import { TaskSplitPane } from './TaskSplitPane';
+import { HighlightStyles } from './HighlightStyles';
 
 interface TaskPageProps {
   task: ModuleTaskDetails;
   isReady: boolean;
   vmUrl: string | null;
+  detailsHtml: string;
 }
 
 if (!IS_SSR) {
   window.React = React;
   window.Prism = Prism;
+} else {
+  global.React = React;
+  global.Prism = Prism;
 }
 
 function useDetails(task: ModuleTaskDetails) {
@@ -68,8 +72,10 @@ export function useUrlWithSecrets(url: string | null) {
 }
 
 export function TaskPage(props: TaskPageProps) {
+  const { detailsHtml } = props;
   const { vmUrl, isReady } = useVMWaiter(props);
-  const details = useDetails(props.task);
+  // const details = useDetails(props.task);
+  const details = null;
   const { isIdle } = useVMPing(isReady);
   const targetUrl = useUrlWithSecrets(vmUrl);
   const task = useTaskUpdates(props.task);
@@ -95,18 +101,16 @@ export function TaskPage(props: TaskPageProps) {
       />
     );
   };
-
+  console.log(detailsHtml);
   return (
     <div className="flex h-full flex-col">
+      <HighlightStyles />
       {header}
       <div className="flex-1 relative">
-        {details ? (
-          <TaskSplitPane details={details} ide={renderIframe()} />
-        ) : (
-          <div className="h-full flex items-center justify-center">
-            <Loader />
-          </div>
-        )}
+        <TaskSplitPane
+          details={<div dangerouslySetInnerHTML={{ __html: detailsHtml }} />}
+          ide={renderIframe()}
+        />
       </div>
     </div>
   );

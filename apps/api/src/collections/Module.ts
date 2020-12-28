@@ -21,6 +21,7 @@ export interface ModuleTaskModel {
   isExample: boolean;
   detailsS3Key: string;
   sourceS3Key: string;
+  htmlS3Key: string;
   testsInfo: TaskTestsInfo;
 }
 

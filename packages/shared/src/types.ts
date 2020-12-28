@@ -57,6 +57,7 @@ export interface ModuleTaskUpload {
   isExample: boolean;
   detailsS3Key: string;
   sourceS3Key: string;
+  htmlS3Key: string;
   testsInfo: UploadTestsInfo;
 }
 
@@ -107,6 +108,7 @@ export interface ModuleTaskDetails {
   name: string;
   isExample: boolean;
   detailsUrl: string;
+  htmlUrl: string;
   isSolved: boolean;
 }
 

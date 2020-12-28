@@ -1,30 +1,32 @@
 import React from 'react';
 import SplitPane from 'react-split-pane';
-import { IS_SSR } from 'src/config';
 
 interface TaskSplitPaneProps {
   details: React.ReactNode;
   ide: React.ReactNode;
 }
 
+const DEFAULT_SIZE = 300;
+
 export function TaskSplitPane(props: TaskSplitPaneProps) {
   const { details, ide } = props;
   const [isDragging, setIsDragging] = React.useState(false);
+  const [size, setSize] = React.useState(DEFAULT_SIZE);
 
-  const defaultSize = React.useMemo(() => {
-    if (IS_SSR) {
-      return 300;
-    }
-    return Number(localStorage.taskPaneWidth) || 300;
-  }, []);
+  if (typeof window !== 'undefined') {
+    React.useLayoutEffect(() => {
+      setSize(Number(localStorage.taskPaneWidth) || DEFAULT_SIZE);
+    }, []);
+  }
 
   return (
     <SplitPane
-      defaultSize={defaultSize}
+      size={size}
       onDragStarted={() => {
         setIsDragging(true);
       }}
       onDragFinished={(newSize: number) => {
+        setSize(newSize);
         localStorage.taskPaneWidth = newSize;
         setIsDragging(false);
       }}

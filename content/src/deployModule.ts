@@ -1,3 +1,5 @@
+import * as React from 'react';
+import * as ReactDOMServer from 'react-dom/server';
 import Path from 'path';
 import fs from 'fs-extra';
 import tar from 'tar';
@@ -132,12 +134,20 @@ function _getTasksInfo(module: ModuleUpload) {
     }
     const uniqName = `${task.id}`;
     const distFileName = `${uniqName}.js`;
+    const component = require(detailsPath).Details;
+    const node = React.createElement(component);
+    const detailsHTML = ReactDOMServer.renderToStaticMarkup(node);
+    const htmlFilePath = tmp.fileSync({
+      postfix: '.html',
+    }).name;
+    fs.writeFileSync(htmlFilePath, detailsHTML);
     tasks.push({
       task,
       taskDir,
       detailsPath,
       distFileName,
       uniqName,
+      htmlFilePath,
       distFilePath: Path.join(moduleDir, 'dist', distFileName),
       sourceTarPath: Path.join(moduleDir, 'dist', `${uniqName}.tar.gz`),
     });
@@ -161,6 +171,7 @@ async function _uploadTasks(tasks: TaskInfo[]) {
     tasks.map(async info => {
       await Promise.all(
         [
+          { path: info.htmlFilePath, out: 'htmlS3Key' as const },
           { path: info.distFilePath, out: 'detailsS3Key' as const },
           { path: info.sourceTarPath, out: 'sourceS3Key' as const },
         ].map(async file => {
@@ -173,11 +184,10 @@ async function _uploadTasks(tasks: TaskInfo[]) {
           if (!contentType) {
             throw new Error('Cannot get content type: ' + path);
           }
-          const name = Path.basename(path, ext);
           const content = await fs.readFile(path);
           const hash = md5(content);
-          const prefix = file.out === 'detailsS3Key' ? 'details' : 'source';
-          const s3Key = `${prefix}/${name}.${hash}${ext}`;
+          const prefix = file.out.replace('S3Key', '');
+          const s3Key = `${prefix}/${info.task.id}.${hash}${ext}`;
           await uploadS3({
             bucketName: config.aws.s3CDNBucket,
             content,

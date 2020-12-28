@@ -30,6 +30,7 @@ export const updateModule = createContract('module.updateModule')
           isExample: S.boolean(),
           detailsS3Key: S.string(),
           sourceS3Key: S.string(),
+          htmlS3Key: S.string(),
           testsInfo: S.object().keys({
             resultHash: S.string(),
             files: S.array().items(

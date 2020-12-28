@@ -52,6 +52,7 @@ export const getTask = createContract('module.getTask')
       name: task.name,
       isExample: task.isExample,
       detailsUrl: config.cdnBaseUrl + '/' + task.detailsS3Key,
+      htmlUrl: config.cdnBaseUrl + '/' + task.htmlS3Key,
     };
   });
 
