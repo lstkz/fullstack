@@ -15,11 +15,14 @@ export const getServerSideProps: GetServerSideProps = async ctx => {
     const ret = await api.vm_prepareFolder(moduleId, taskId);
     vmUrl = ret.url;
   }
+
+  const detailsHtml = await (await fetch(task.htmlUrl)).text();
   return {
     props: {
       task,
       isReady,
       vmUrl,
+      detailsHtml,
     },
   };
 };

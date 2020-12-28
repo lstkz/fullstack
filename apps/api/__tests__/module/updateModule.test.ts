@@ -37,6 +37,7 @@ it('should insert and update a module', async () => {
             name: 't1',
             detailsS3Key: 'details key',
             sourceS3Key: 'source key',
+            htmlS3Key: 'html key',
             isExample: false,
             testsInfo: {
               files: [],
@@ -70,6 +71,7 @@ it('should insert and update a module', async () => {
         "tasks": Array [
           Object {
             "detailsS3Key": "details key",
+            "htmlS3Key": "html key",
             "id": 1,
             "isExample": false,
             "name": "t1",
@@ -119,6 +121,7 @@ it('should insert and update a module', async () => {
             name: 't2',
             detailsS3Key: 'details key',
             sourceS3Key: 'source key',
+            htmlS3Key: 'html key',
             isExample: false,
             testsInfo: {
               files: [],
@@ -162,6 +165,7 @@ it('should insert and update a module', async () => {
         "tasks": Array [
           Object {
             "detailsS3Key": "details key",
+            "htmlS3Key": "html key",
             "id": 2,
             "isExample": false,
             "name": "t2",

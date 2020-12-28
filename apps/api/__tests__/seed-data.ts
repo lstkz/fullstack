@@ -110,6 +110,7 @@ export async function createModules() {
         isExample: false,
         detailsS3Key: 'detailsS3Key',
         sourceS3Key: 'sourceS3Key',
+        htmlS3Key: 'htmlS3Key',
         testsInfo: {
           files: [],
           resultHash: 'hash',
