@@ -13,9 +13,10 @@ import {
 import { Illustration1 } from './Illustration1';
 import { Icon } from 'src/components/Icon';
 import { Heading } from 'src/components/Heading';
-import { IconList } from './IconList';
+import { IconList, IconListItem } from './IconList';
 import { Col, Row } from 'src/components/Grid';
 import { MEDIA_MD } from 'src/Theme';
+import { HeadingNext } from 'src/components/HeadingNext';
 
 interface MoreThenCourseProps {
   className?: string;
@@ -101,10 +102,84 @@ const _MoreThenCourse = (props: MoreThenCourseProps) => {
   );
 };
 
-export const MoreThenCourse = styled(_MoreThenCourse)`
+export const MoreThenCourse2 = styled(_MoreThenCourse)`
   display: block;
   padding: 4rem 0;
   ${Container} {
     display: flex;
   }
 `;
+
+export function MoreThenCourse() {
+  return (
+    <div className="container grid my-16 md:grid-cols-2">
+      <div className="pl-16 ">
+        <HeadingNext type={2}>
+          To więcej niż zwykły kurs programowania
+        </HeadingNext>
+        <div className="my-6 text-lg font-light">
+          Fullstack.pl to kompletna platforma do nauki programowania.
+        </div>
+        <IconList>
+          <IconListItem
+            icon={
+              <Icon type="primary" circle size="sm">
+                <FontAwesomeIcon icon={faGraduationCap} />
+              </Icon>
+            }
+          >
+            Podział na tygodnie nauki.
+          </IconListItem>
+          <IconListItem
+            icon={
+              <Icon type="warning" circle size="sm">
+                <FontAwesomeIcon icon={faVideo} />
+              </Icon>
+            }
+          >
+            Każdy tydzień zawiera lekcje video i zadania do zrobienia.
+          </IconListItem>
+          <IconListItem
+            icon={
+              <Icon type="success" circle size="sm">
+                <FontAwesomeIcon icon={faTasks} />
+              </Icon>
+            }
+          >
+            Zadania są automatycznie sprawdzane.
+          </IconListItem>
+          <IconListItem
+            icon={
+              <Icon type="primary" circle size="sm">
+                <FontAwesomeIcon icon={faLaptopCode} />
+              </Icon>
+            }
+          >
+            Wbudowane IDE w przeglądarce. Nie trzeba nic ściągać!
+          </IconListItem>
+          <IconListItem
+            icon={
+              <Icon type="warning" circle size="sm">
+                <FontAwesomeIcon icon={faChalkboardTeacher} />
+              </Icon>
+            }
+          >
+            Po każdej lekcji możesz zobaczyć film video z rozwiązaniem wzorcowym
+            przez mentora.
+          </IconListItem>
+          <IconListItem
+            icon={
+              <Icon type="danger" circle size="sm">
+                <FontAwesomeIcon icon={faExclamation} />
+              </Icon>
+            }
+          >
+            Nie wiesz jak zrobić zadania? Przeczytaj wskazówkę albo zobacz
+            kompletne rozwiązanie.
+          </IconListItem>
+        </IconList>
+      </div>
+      <Illustration1 className="h-auto max-w-full " />
+    </div>
+  );
+}

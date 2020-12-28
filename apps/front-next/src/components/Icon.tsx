@@ -32,6 +32,7 @@ export const Icon = styled(_Icon)`
   border-radius: 0.375rem;
   width: 3rem;
   height: 3rem;
+  flex-shrink: 0;
   ${props => props.circle && `border-radius: 50%;`}
   ${props => {
     switch (props.size) {

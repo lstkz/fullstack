@@ -54,10 +54,17 @@ module.exports = {
       sans: ['Nunito Sans', 'sans-serif'],
       serif: ['serif'],
     },
+    container: {
+      center: true,
+      padding: '1.5rem',
+    },
     colors: {
       transparent: 'transparent',
       white: 'white',
       black: 'black',
+      alpha: {
+        black20: 'rgba(255, 255, 255, 0.2)',
+      },
       gray: {
         100: BaseColors.gray_100,
         200: BaseColors.gray_200,
@@ -76,6 +83,9 @@ module.exports = {
         light: lighten(BaseThemeColors.primary),
         DEFAULT: BaseThemeColors.primary,
         dark: darken(BaseThemeColors.primary),
+        600: darken(BaseThemeColors.primary, 7.5),
+        700: darken(BaseThemeColors.primary, 10),
+        800: darken(BaseThemeColors.primary, 12.5),
       },
       secondary: {
         ring: Color(BaseThemeColors.secondary).setAlpha(0.25).toRgbString(),
@@ -87,6 +97,7 @@ module.exports = {
       },
       dark: {
         DEFAULT: BaseThemeColors.dark,
+        600: darken(BaseThemeColors.dark, 7.5),
       },
       warning: {
         DEFAULT: BaseThemeColors.warning,

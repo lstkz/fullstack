@@ -1,51 +1,25 @@
 import * as React from 'react';
-import { Container } from 'src/components/Container';
 import { ChartIcon } from 'src/icons/ChartIcon';
 import { CodeIcon } from 'src/icons/CodeIcon';
 import { GroupIcon } from 'src/icons/GroupIcon';
 import { MoneyBagIcon } from 'src/icons/MoneyBagIcon';
-import { Col, Row } from 'src/components/Grid';
-import { Heading } from 'src/components/Heading';
-import { spacerStyle } from 'src/components/_spacer';
-import { Theme } from 'src/Theme';
-import styled from 'styled-components';
 import { Illustration3 } from './Illustration3';
 import { Media } from './Media';
 import { SectionShape } from './SectionShape';
+import { HeadingNext } from 'src/components/HeadingNext';
 
-interface TargetSectionProps {
-  className?: string;
-}
-
-const MainRow = styled(Row)`
-  align-items: center;
-  justify-content: space-between;
-  svg {
-    max-width: 100%;
-    height: auto;
-    transform: scaleX(-1);
-  }
-`;
-
-const Text = styled.div`
-  opacity: 0.8;
-  color: white;
-  ${spacerStyle}
-`;
-
-const _TargetSection = (props: TargetSectionProps) => {
-  const { className } = props;
+export function TargetSection() {
   return (
-    <div className={className}>
-      <Container>
-        <MainRow>
-          <Col md={6}>
-            <Heading white type={3}>
+    <div className="bg-dark relative">
+      <div className=" py-24 container">
+        <div className="grid items-center justify-between md:grid-cols-2 gap-24">
+          <div>
+            <HeadingNext white type={3}>
               Dla kogo jest fullstack.pl?
-            </Heading>
-            <Text mt={2} mb={5}>
+            </HeadingNext>
+            <div className="text-white opacity-80 mt-2 mb-12">
               Ta platforma jest odpowiednia dla Ciebie, jeżeli:
-            </Text>
+            </div>
             <Media
               icon={<CodeIcon />}
               title="Chcesz się nauczyć programować od zera"
@@ -77,20 +51,16 @@ const _TargetSection = (props: TargetSectionProps) => {
               będą zadania łatwe oraz trudne, które nakierują Cię na odpowiednią
               ścieżkę nauki. Wiele osób zatrzymuje się na poziomie podstawowym.
             </Media>
-          </Col>
-          <Col md={5}>
-            <Illustration3 />
-          </Col>
-        </MainRow>
-        <SectionShape position="bottom" color="white" />
-      </Container>
+          </div>
+          <div>
+            <Illustration3
+              className="max-w-full h-auto "
+              style={{ transform: 'scaleX(-1)' }}
+            />
+          </div>
+        </div>
+      </div>
+      <SectionShape position="bottom" color="white" />
     </div>
   );
-};
-
-export const TargetSection = styled(_TargetSection)`
-  display: block;
-  background: ${Theme.dark};
-  padding: 6rem 0;
-  position: relative;
-`;
+}

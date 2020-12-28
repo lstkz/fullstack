@@ -52,6 +52,12 @@ export const ButtonNext = React.forwardRef((props: ButtonProps, ref: any) => {
 
   switch (type) {
     case 'primary':
+      classList.push(
+        'text-white bg-primary border-color-primary',
+        'hover:bg-primary-600 hover:border-color-primary-700',
+        'active:bg-primary-700 active:border-color-primary-800',
+        'focus:ring-primary-ring'
+      );
       break;
     case 'secondary':
       classList.push(

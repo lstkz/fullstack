@@ -6,6 +6,7 @@ interface HeadingProps {
   children: React.ReactNode;
   type: 1 | 2 | 3 | 4 | 5 | 6;
   id?: string;
+  white?: boolean;
 }
 
 const tagMap = {
@@ -27,13 +28,14 @@ const fontSize = {
 } as const;
 
 export function HeadingNext(props: HeadingProps) {
-  const { className, type, children, id } = props;
+  const { className, type, children, id, white } = props;
   const Tag = tagMap[type];
   return (
     <Tag
       id={id}
       className={cn(
-        `font-semibold text-heading text-${fontSize[type]}`,
+        `font-semibold text-${fontSize[type]}`,
+        white ? 'text-white' : 'text-heading',
         className
       )}
     >

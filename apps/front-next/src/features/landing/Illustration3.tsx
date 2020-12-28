@@ -1,12 +1,13 @@
 import * as React from 'react';
 
-export function Illustration3() {
+export function Illustration3(props: React.SVGProps<SVGSVGElement>) {
   return (
     <svg
       width={1350}
       height={1140}
       viewBox="0 0 1350 1140"
       xmlns="http://www.w3.org/2000/svg"
+      {...props}
     >
       <title>{'development'}</title>
       <g fill="none" fillRule="evenodd">

@@ -1,28 +1,13 @@
 import * as React from 'react';
-import { Container } from 'src/components/Container';
 import { Logo } from 'src/components/Logo';
-import { Button } from 'src/components/Button';
-import { Theme } from 'src/Theme';
-import styled from 'styled-components';
+import { ButtonNext } from 'src/components/ButtonNext';
 
-interface LandingHeaderProps {
-  className?: string;
-}
-
-const Inner = styled(Container)`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  width: 100%;
-`;
-
-const _LandingHeader = (props: LandingHeaderProps) => {
-  const { className } = props;
+export function LandingHeader() {
   return (
-    <div className={className}>
-      <Inner>
+    <div className="px-4 py-3 bg-dark-600">
+      <div className="container flex w-full items-center justify-between">
         <Logo type="light" landing />
-        <Button
+        <ButtonNext
           type="primary"
           onClick={() => {
             document.getElementById('subscribe-section')?.scrollIntoView({
@@ -31,14 +16,8 @@ const _LandingHeader = (props: LandingHeaderProps) => {
           }}
         >
           Zapisz się
-        </Button>
-      </Inner>
+        </ButtonNext>
+      </div>
     </div>
   );
-};
-
-export const LandingHeader = styled(_LandingHeader)`
-  display: block;
-  padding: 0.75rem 1rem;
-  background: ${Theme.section_dark};
-`;
+}

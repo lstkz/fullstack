@@ -1,12 +1,13 @@
 import * as React from 'react';
 
-export function Illustration1() {
+export function Illustration1({ className }: { className?: string }) {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
       width={882.346}
       height={778.999}
       viewBox="0 0 882.346 778.999"
+      className={className}
     >
       <path
         d="M342.362 20.06l3.47-5.362a80.387 80.387 0 00-3.56-8.333l-2.244 1.812 1.777-2.745C340.112 2.1 338.78 0 338.78 0s-6.958 10.965-9.283 22.575l4.452 6.88-4.929-3.98a32.522 32.522 0 00-.27 4.078c0 13.75 4.49 24.895 10.03 24.895s10.03-11.146 10.03-24.895a42.818 42.818 0 00-2.295-12.848z"
