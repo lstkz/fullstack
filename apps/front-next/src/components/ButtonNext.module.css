@@ -11,7 +11,8 @@
 .type-secondary {
   @apply text-gray-900 bg-secondary border-secondary
   hover:bg-secondary-600 hover:border-secondary-700
-  active:bg-secondary-700 active:border-secondary-800;
+  active:bg-secondary-700 active:border-secondary-800
+  focus:ring-alpha-white20;
 }
 
 .type-neutral {

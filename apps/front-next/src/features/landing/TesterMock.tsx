@@ -8,7 +8,7 @@ import * as React from 'react';
 import { SpinnerBoarder } from 'src/components/SpinnerBoarder';
 import { HeadingNext } from 'src/components/HeadingNext';
 import { ButtonNext } from 'src/components/ButtonNext';
-import styles from './TestMock.module.css';
+import styles from './TesterMock.module.css';
 import classNames from 'classnames';
 
 export function TesterMock() {

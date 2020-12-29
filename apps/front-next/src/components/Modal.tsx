@@ -1,11 +1,11 @@
 import React from 'react';
-import styled, { createGlobalStyle, css } from 'styled-components';
 import { CSSTransition } from 'react-transition-group';
 import { VoidLink } from './VoidLink';
 import { FocusContainer } from './FocusContainer';
 import { modalGlobalContext } from './ModalGlobalContext';
-import { MEDIA_MD, Theme } from 'src/Theme';
 import { Portal } from 'src/components/Portal';
+import styles from './Modal.module.css';
+import classNames from 'classnames';
 
 interface ModalContentProps {
   bgColor?: 'primary' | 'success' | 'danger' | 'warning';
@@ -24,135 +24,6 @@ export interface ModalProps extends ModalContentProps {
   footer?: React.ReactNode;
 }
 
-const Alpha = styled.div`
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: #1f2d3d;
-  z-index: 1001;
-  opacity: 0.4;
-`;
-
-const GlobalStyle = createGlobalStyle`
-.modal-enter  {
-  opacity: 0.01; 
-}
-
-.modal-enter.modal-enter-active {
-  opacity: 1;
-  transition: opacity 150ms ease-in-out;
-}
-
-.modal-exit {
-  opacity: 1;
-}
-
-.modal-exit.modal-exit-active {
-  opacity: 0.01;  
-    transition: opacity 150ms ease-in-out;
-}
-
-.modal-open {
-  overflow: hidden
-}
-
-`;
-
-const ModalHeader = styled.div`
-  position: relative;
-  display: flex;
-  align-items: flex-start;
-  justify-content: space-between;
-  padding: 1.25rem;
-  border-bottom: 1px solid ${Theme.gray_200};
-  border-top-left-radius: calc(0.75rem - 1px);
-  border-top-right-radius: calc(0.75rem - 1px);
-`;
-
-const ModalFooter = styled.div`
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  justify-content: flex-end;
-  padding: 1.25rem;
-  border-top: 1px solid ${Theme.gray_200};
-  border-bottom-right-radius: calc(0.75rem - 1px);
-  border-bottom-left-radius: calc(0.75rem - 1px);
-  > * {
-    margin: 0.25rem;
-  }
-`;
-
-const ModalContent = styled.div<ModalContentProps>`
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  width: 100%;
-  pointer-events: auto;
-  background-color: #fff;
-  background-clip: padding-box;
-  border-radius: 0.75rem;
-  box-shadow: 0 0.25rem 0.5rem rgba(31, 45, 61, 0.3);
-  outline: 0;
-
-  ${MEDIA_MD} {
-    max-width: 500px;
-    box-shadow: 0 0.5rem 1rem rgba(31, 45, 61, 0.3);
-    margin: 1.75rem auto;
-  }
-  ${props =>
-    props.bgColor &&
-    css`
-      color: white;
-      background: ${Theme[props.bgColor]};
-      ${ModalHeader},
-      ${ModalFooter} {
-        border-color: rgba(255, 255, 255, 0.075);
-      }
-    `}
-`;
-
-const ModalBody = styled.div`
-  position: relative;
-  flex: 1 1 auto;
-  padding: 1.5rem;
-`;
-
-const Close = styled(VoidLink)`
-  padding: 1.25rem;
-  margin: -1rem -1rem -1rem auto;
-  font-weight: 600;
-  line-height: 1;
-  color: rgba(255, 255, 255, 0.6);
-  text-shadow: none;
-  opacity: 0.75;
-  font-size: 1.25rem;
-  outline: none;
-  border: 1px dotted transparent;
-  &:hover {
-    opacity: 1;
-    cursor: pointer;
-  }
-  &:focus {
-    border-color: ${Theme.gray_200};
-  }
-`;
-
-const Wrapper = styled.div`
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  /* background: black; */
-  z-index: 1001;
-`;
-
 export function Modal(props: ModalProps) {
   const {
     isOpen,
@@ -165,6 +36,7 @@ export function Modal(props: ModalProps) {
     testId,
     header,
     footer,
+    bgColor,
     ...contentProps
   } = props;
 
@@ -177,10 +49,6 @@ export function Modal(props: ModalProps) {
       };
     }
 
-    const alreadyOpen = document.body.classList.contains('modal-open');
-    if (!alreadyOpen) {
-      document.body.classList.add('modal-open');
-    }
     const onKeyPress = (ev: KeyboardEvent) => {
       if (ev.key === 'Escape') {
         close('esc');
@@ -188,9 +56,6 @@ export function Modal(props: ModalProps) {
     };
     modalGlobalContext.addListener(onKeyPress);
     return () => {
-      if (!alreadyOpen) {
-        document.body.classList.remove('modal-open');
-      }
       modalGlobalContext.removeListener(onKeyPress);
     };
   }, [isOpen]);
@@ -201,20 +66,31 @@ export function Modal(props: ModalProps) {
     }
   }, [isOpen]);
 
+  const borderClass = bgColor ? 'border-alpha-white07' : 'border-gray-200';
+
   return (
     <Portal>
       <>
-        <GlobalStyle />
         <CSSTransition
           in={isOpen}
-          classNames="modal"
+          classNames={{
+            enter: styles['modal-enter'],
+            enterActive: styles['modal-enter-active'],
+            exit: styles['modal-exit'],
+            exitActive: styles['modal-exit-active'],
+          }}
           timeout={150}
           unmountOnExit
           mountOnEnter
         >
           <FocusContainer data-focus-root>
-            <Alpha />
-            <Wrapper
+            <div
+              className="fixed top-0 left-0 w-full h-full opacity-40 bg-black"
+              style={{ zIndex: 1001 }}
+            />
+            <div
+              className="fixed top-0 left-0 w-full h-full flex items-center justify-center"
+              style={{ zIndex: 1001 }}
               data-modal-wrapper
               onClick={e => {
                 const target = e.target as HTMLDivElement;
@@ -227,7 +103,11 @@ export function Modal(props: ModalProps) {
               }}
             >
               <div ref={modalRef}></div>
-              <ModalContent
+              <div
+                className={classNames(
+                  'relative flex flex-col w-full bg-white rounded-xl outline-none md:max-w-xl mx-auto my-7 shadow-lg md:shadow-2xl',
+                  bgColor && `text-white bg-${bgColor}`
+                )}
                 {...contentProps}
                 data-test={testId}
                 ref={modalRef as any}
@@ -235,21 +115,34 @@ export function Modal(props: ModalProps) {
                 role="modal"
               >
                 {header && (
-                  <ModalHeader>
+                  <div
+                    className={classNames(
+                      'relative flex items-start justify-between p-5 border-b rounded-t-xl',
+                      borderClass
+                    )}
+                  >
                     {header}
-                    <Close
+                    <VoidLink
+                      className="p-5 leading-none font-semibold -m-4 ml-auto opacity-75 text-xl border border-dotted border-transparent focus:border-gray-200 hover:opacity-100 cursor-pointer text-alpha-white60 outline-none"
                       data-test="close-btn"
                       onClick={() => close('close-button')}
                       aria-label="close"
                     >
                       ×
-                    </Close>
-                  </ModalHeader>
+                    </VoidLink>
+                  </div>
                 )}
-                <ModalBody>{children}</ModalBody>
-                <ModalFooter>{footer}</ModalFooter>
-              </ModalContent>
-            </Wrapper>
+                <div className="relative flex-auto p-6">{children}</div>
+                <div
+                  className={classNames(
+                    'flex flex-wrap items-center justify-end rounded-b-xl p-5',
+                    borderClass
+                  )}
+                >
+                  {footer}
+                </div>
+              </div>
+            </div>
           </FocusContainer>
         </CSSTransition>
       </>

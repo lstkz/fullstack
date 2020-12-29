@@ -68,6 +68,8 @@ module.exports = {
         white90: 'rgba(255, 255, 255, 0.9)',
         white10: 'rgba(255, 255, 255, 0.1)',
         white20: 'rgba(255, 255, 255, 0.2)',
+        white60: 'rgba(255, 255, 255, 0.6)',
+        white07: 'rgba(255, 255, 255, 0.075)',
       },
       gray: {
         100: BaseColors.gray_100,
@@ -100,6 +102,7 @@ module.exports = {
         800: darken(BaseThemeColors.secondary, 12.5),
       },
       dark: {
+        400: lighten(BaseThemeColors.dark),
         DEFAULT: BaseThemeColors.dark,
         600: darken(BaseThemeColors.dark, 7.5),
       },
