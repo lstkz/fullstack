@@ -38,21 +38,24 @@ const Left = styled(Col)`
 const _FooterCopyright = (props: FooterCopyrightProps) => {
   const { className } = props;
   return (
-    <div className={className}>
+    <div className="text-sm font-semibold text-center pb-6 md:text-left">
       <Divider />
-      <Row>
-        <Left md={6}>
-          © {new Date().getFullYear()} <Link href="/">Fullstack</Link>. Wszelkie
-          prawa zastrzeżone.
-        </Left>
-        <Col md={6}>
+      <div className="grid md:grid-cols-2">
+        <div>
+          © {new Date().getFullYear()}{' '}
+          <Link href="/">
+            <a>Fullstack</a>
+          </Link>
+          . Wszelkie prawa zastrzeżone.
+        </div>
+        <div>
           <Links>
             <li>
               <Link href="/privacy">Polityka Prywatności</Link>
             </li>
           </Links>
-        </Col>
-      </Row>
+        </div>
+      </div>
     </div>
   );
 };
