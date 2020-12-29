@@ -1,39 +1,35 @@
 import React from 'react';
-import { Container } from 'src/components/Container';
 import { Dashboard } from 'src/components/Dashboard';
-import { Heading } from 'src/components/Heading';
-import { Theme } from 'src/Theme';
-import styled from 'styled-components';
+import { HeadingNext } from 'src/components/HeadingNext';
 
-const Content = styled.div`
-  padding: 3rem 0;
-  h3 {
-    color: ${Theme.headings_color};
-    font-size: 1.25rem;
-    font-weight: 600;
-    margin-bottom: 0.25rem;
-  }
-  ul,
-  ol {
-    margin: 0;
-    margin-top: 0.25rem;
-  }
-  p {
-    margin: 0;
-    margin-top: 0.25rem;
-  }
-`;
+function Ul(props: React.HTMLAttributes<HTMLUListElement>) {
+  return <ul {...props} className="mt-1 pl-10 list-disc" />;
+}
+
+function Ol(props: React.HTMLAttributes<HTMLOListElement>) {
+  return <ol {...props} className="mt-1 pl-10 list-decimal" />;
+}
+
+function P(props: React.HTMLAttributes<HTMLParagraphElement>) {
+  return <p {...props} className="mt-1" />;
+}
+
+function H3(props: React.HTMLAttributes<HTMLHeadingElement>) {
+  return (
+    <h3 {...props} className="text-heading text-xl mb-1 mt-4 font-semibold" />
+  );
+}
 
 export function PrivacyPage() {
   return (
     <Dashboard>
-      <Container>
-        <Content>
-          <Heading type={2} center mb={6}>
+      <div className="container">
+        <div className="py-12">
+          <HeadingNext type={2} className="text-center mb-10">
             Polityka prywatności
-          </Heading>
-          <h3>1. Informacje ogólne</h3>
-          <ol>
+          </HeadingNext>
+          <H3>1. Informacje ogólne</H3>
+          <Ol>
             <li>
               Niniejsza polityka dotyczy Serwisu www, funkcjonującego pod
               adresem url: <b>fullstack.pl</b>
@@ -53,15 +49,15 @@ export function PrivacyPage() {
               odniesieniu do danych podanych dobrowolnie w Serwisie.
             </li>
             <li>Serwis wykorzystuje dane osobowe w następujących celach:</li>
-            <ul>
+            <Ul>
               <li>Prowadzenie newslettera</li>
               <li>Prezentacja profil użytkownika innym użytkownikom</li>
               <li>Prezentacja oferty lub informacji</li>
-            </ul>
+            </Ul>
             <li>
               Serwis realizuje funkcje pozyskiwania informacji o użytkownikach i
               ich zachowaniu w następujący sposób:
-              <ol>
+              <Ol>
                 <li>
                   Poprzez dobrowolnie wprowadzone w formularzach dane, które
                   zostają wprowadzone do systemów Operatora.
@@ -70,11 +66,11 @@ export function PrivacyPage() {
                   Poprzez zapisywanie w urządzeniach końcowych plików cookie
                   (tzw. „ciasteczka”).
                 </li>
-              </ol>
+              </Ol>
             </li>
-          </ol>
-          <h3>2. Wybrane metody ochrony danych stosowane przez Operatora</h3>
-          <ol>
+          </Ol>
+          <H3>2. Wybrane metody ochrony danych stosowane przez Operatora</H3>
+          <Ol>
             <li>
               Miejsca logowania i wprowadzania danych osobowych są chronione w
               warstwie transmisji (certyfikat SSL). Dzięki temu dane osobowe i
@@ -82,19 +78,19 @@ export function PrivacyPage() {
               komputerze użytkownika i mogą być odczytane jedynie na docelowym
               serwerze.
             </li>
-          </ol>
-          <h3>3. Hosting</h3>
-          <ol>
+          </Ol>
+          <H3>3. Hosting</H3>
+          <Ol>
             <li>
               Serwis jest hostowany (technicznie utrzymywany) na serwera
               operatora: AWS
             </li>
-          </ol>
-          <h3>
+          </Ol>
+          <H3>
             4. Twoje prawa i dodatkowe informacje o sposobie wykorzystania
             danych
-          </h3>
-          <ol>
+          </H3>
+          <Ol>
             <li>
               W niektórych sytuacjach Administrator ma prawo przekazywać Twoje
               dane osobowe innym odbiorcom, jeśli będzie to niezbędne do
@@ -154,9 +150,9 @@ export function PrivacyPage() {
               przepisów o ochronie danych osobowych. Oznacza to, że nie
               przesyłamy ich poza teren Unii Europejskiej.
             </li>
-          </ol>
-          <h3>5. Informacje w formularzach</h3>
-          <ol>
+          </Ol>
+          <H3>5. Informacje w formularzach</H3>
+          <Ol>
             <li>
               Serwis zbiera informacje podane dobrowolnie przez użytkownika, w
               tym dane osobowe, o ile zostaną one podane.
@@ -179,18 +175,18 @@ export function PrivacyPage() {
               rejestracji usług itp. Każdorazowo kontekst i opis formularza w
               czytelny sposób informuje, do czego on służy.
             </li>
-          </ol>
+          </Ol>
 
-          <h3>6. Logi Administratora</h3>
-          <ol>
+          <H3>6. Logi Administratora</H3>
+          <Ol>
             <li>
               Informacje zachowaniu użytkowników w serwisie mogą podlegać
               logowaniu. Dane te są wykorzystywane w celu administrowania
               serwisem.
             </li>
-          </ol>
-          <h3>7. Istotne techniki marketingowe</h3>
-          <ol>
+          </Ol>
+          <H3>7. Istotne techniki marketingowe</H3>
+          <Ol>
             <li>
               Operator stosuje analizę statystyczną ruchu na stronie, poprzez
               Google Analytics (Google Inc. z siedzibą w USA). Operator nie
@@ -202,10 +198,10 @@ export function PrivacyPage() {
               wynikające z plików cookies przy pomocy narzędzia:
               https://www.google.com/ads/preferences/
             </li>
-          </ol>
+          </Ol>
 
-          <h3>8. Informacja o plikach cookies</h3>
-          <ol>
+          <H3>8. Informacja o plikach cookies</H3>
+          <Ol>
             <li>Serwis korzysta z plików cookies.</li>
             <li>
               Pliki cookies (tzw. „ciasteczka”) stanowią dane informatyczne, w
@@ -222,7 +218,7 @@ export function PrivacyPage() {
             </li>
             <li>
               Pliki cookies wykorzystywane są w następujących celach:
-              <ol>
+              <Ol>
                 <li>
                   utrzymanie sesji użytkownika Serwisu (po zalogowaniu), dzięki
                   której użytkownik nie musi na każdej podstronie Serwisu
@@ -232,7 +228,7 @@ export function PrivacyPage() {
                   realizacji celów określonych powyżej w części "Istotne
                   techniki marketingowe";
                 </li>
-              </ol>
+              </Ol>
             </li>
             <li>
               W ramach Serwisu stosowane są dwa zasadnicze rodzaje plików
@@ -266,12 +262,12 @@ export function PrivacyPage() {
               Google (Google Inc. z siedzibą w USA), Facebook (Facebook Inc. z
               siedzibą w USA), Twitter (Twitter Inc. z siedzibą w USA).
             </li>
-          </ol>
-          <h3>
+          </Ol>
+          <H3>
             9. Zarządzanie plikami cookies – jak w praktyce wyrażać i cofać
             zgodę?
-          </h3>
-          <ol>
+          </H3>
+          <Ol>
             <li>
               Jeśli użytkownik nie chce otrzymywać plików cookies, może zmienić
               ustawienia przeglądarki. Zastrzegamy, że wyłączenie obsługi plików
@@ -283,7 +279,7 @@ export function PrivacyPage() {
               W celu zarządzania ustawienia cookies wybierz z listy poniżej
               przeglądarkę internetową, której używasz i postępuj zgodnie z
               instrukcjami:
-              <ul>
+              <Ul>
                 <li>
                   <a href="https://support.microsoft.com/pl-pl/help/10607/microsoft-edge-view-delete-browser-history">
                     Edge
@@ -312,9 +308,9 @@ export function PrivacyPage() {
                     Opera
                   </a>
                 </li>
-              </ul>
-              <p>Urządzenia mobilne:</p>
-              <ul>
+              </Ul>
+              <P>Urządzenia mobilne:</P>
+              <Ul>
                 <li>
                   <a href="http://support.google.com/chrome/bin/answer.py?hl=pl&amp;answer=95647">
                     Android
@@ -330,11 +326,11 @@ export function PrivacyPage() {
                     Windows Phone
                   </a>
                 </li>
-              </ul>
+              </Ul>
             </li>
-          </ol>
-        </Content>
-      </Container>
+          </Ol>
+        </div>
+      </div>
     </Dashboard>
   );
 }
