@@ -199,6 +199,11 @@ function createCDN(stack: cdk.Stack) {
                 forward: 'none',
               },
               queryString: false,
+              headers: [
+                'Origin',
+                'Access-Control-Request-Headers',
+                'Access-Control-Request-Method',
+              ],
             },
             compress: true,
             allowedMethods: cf.CloudFrontAllowedMethods.GET_HEAD_OPTIONS,
