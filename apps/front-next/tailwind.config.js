@@ -60,11 +60,14 @@ module.exports = {
     },
     colors: {
       transparent: 'transparent',
+      current: 'currentColor',
       white: 'white',
       black: 'black',
       alpha: {
         black20: 'rgba(255, 255, 255, 0.2)',
         white90: 'rgba(255, 255, 255, 0.9)',
+        white10: 'rgba(255, 255, 255, 0.1)',
+        white20: 'rgba(255, 255, 255, 0.2)',
       },
       gray: {
         100: BaseColors.gray_100,
@@ -108,6 +111,9 @@ module.exports = {
       },
       heading: {
         DEFAULT: '#152c5b',
+      },
+      success: {
+        DEFAULT: BaseColors.green,
       },
       green: {
         DEFAULT: BaseColors.green,
