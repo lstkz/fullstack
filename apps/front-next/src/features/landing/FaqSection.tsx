@@ -1,27 +1,18 @@
 import * as React from 'react';
-import { Container } from 'src/components/Container';
 import { Accordion, AccordionItem } from 'src/components/AccordionItem';
-import { Row, Col } from 'src/components/Grid';
-import { Heading } from 'src/components/Heading';
 import { Theme } from 'src/Theme';
-import styled from 'styled-components';
 import { SectionShape } from './SectionShape';
+import { HeadingNext } from 'src/components/HeadingNext';
 
-interface FaqSectionProps {
-  className?: string;
-}
-
-const _FaqSection = (props: FaqSectionProps) => {
-  const { className } = props;
+export function FaqSection() {
   return (
-    <div className={className}>
-      {/* <SectionShape position="top" color="white" inverse /> */}
-      <Container>
-        <Heading type={2} mb={5} white center>
+    <div className="text-white py-28 bg-primary relative">
+      <div className="container">
+        <HeadingNext className="mb-12 text-center" type={2} white>
           Najczęstsze pytania
-        </Heading>
-        <Row>
-          <Col lg={6}>
+        </HeadingNext>
+        <div className="grid lg:grid-cols-2 lg:gap-6">
+          <div>
             <Accordion>
               <AccordionItem header={<>Czego się nauczę konkretnie?</>}>
                 Nauczysz się TypeScripta i rozwiązywania zadań bez frameworków.
@@ -49,8 +40,8 @@ const _FaqSection = (props: FaqSectionProps) => {
                 dowolnie długi czas!
               </AccordionItem>
             </Accordion>
-          </Col>
-          <Col lg={6} mt={0}>
+          </div>
+          <div>
             <Accordion>
               <AccordionItem
                 header={<>Co jeżeli nie będę umiał(a) zrobić zadania?</>}
@@ -72,18 +63,10 @@ const _FaqSection = (props: FaqSectionProps) => {
                 uzyskania dostępu do kursu.
               </AccordionItem>
             </Accordion>
-          </Col>
-        </Row>
-        <SectionShape position="bottom" color={Theme.section_secondary} />
-      </Container>
+          </div>
+        </div>
+      </div>
+      <SectionShape position="bottom" color={Theme.section_secondary} />
     </div>
   );
-};
-
-export const FaqSection = styled(_FaqSection)`
-  position: relative;
-  display: block;
-  background: ${Theme.primary};
-  padding: 7.5rem 0;
-  color: white;
-`;
+}

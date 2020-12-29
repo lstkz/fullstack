@@ -1,0 +1,10 @@
+.item {
+  @apply rounded-md py-1 px-2 mb-2 flex items-center;
+  transition: all 0.4s cubic-bezier(0.36, -0.64, 0.34, 1.76);
+}
+
+.beforeAnim .item {
+  transition: none;
+  transform: scale(0);
+  opacity: 0;
+}

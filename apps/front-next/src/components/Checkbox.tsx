@@ -53,7 +53,7 @@ const _Checkbox = (props: CheckboxProps) => {
         <Label>{children}</Label>
         {feedback && (
           <InputFeedback
-            mt={0}
+            className="mt-0"
             color={state === 'error' ? 'danger' : undefined}
           >
             {feedback}

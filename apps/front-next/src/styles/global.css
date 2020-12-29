@@ -21,4 +21,24 @@
       rgba(255, 255, 255, 0) 75%
     );
   }
+  .sep-light::before {
+    background: radial-gradient(
+      at center center,
+      rgba(255, 255, 255, 0.2) 0px,
+      rgba(31, 45, 61, 0) 75%
+    );
+  }
+
+  .caret {
+    width: 0;
+    height: 0;
+    border-left: 5px solid transparent;
+    border-right: 5px solid transparent;
+    border-top: 5px solid currentColor;
+  }
+}
+
+svg {
+  max-width: 100%;
+  height: auto;
 }

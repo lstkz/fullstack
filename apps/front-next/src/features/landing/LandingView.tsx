@@ -10,14 +10,15 @@ import { TargetSection } from './TargetSection';
 
 export function LandingView() {
   return (
-    <>
+    <div className="overflow-x-hidden">
       <LandingHeader />
       <MainBanner />
       <MoreThenCourse />
       <TargetSection />
-      <MentorSection /> <FaqSection />
+      <MentorSection />
+      <FaqSection />
       <SubscribeSection />
       <LandingFooter />
-    </>
+    </div>
   );
 }

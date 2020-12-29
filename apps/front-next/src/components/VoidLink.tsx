@@ -1,10 +1,9 @@
 import * as React from 'react';
-import styled from 'styled-components';
 
 export interface VoidLinkProps
   extends React.AnchorHTMLAttributes<HTMLAnchorElement> {}
 
-const _VoidLink = (props: VoidLinkProps, ref: any) => {
+export const VoidLink = React.forwardRef((props: VoidLinkProps, ref: any) => {
   const { onClick, ...rest } = props;
   return (
     <a
@@ -21,8 +20,4 @@ const _VoidLink = (props: VoidLinkProps, ref: any) => {
       {...rest}
     />
   );
-};
-
-export const VoidLink = styled(React.forwardRef(_VoidLink))`
-  user-drag: none;
-`;
+});

@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { Heading } from 'src/components/Heading';
+import { HeadingNext } from 'src/components/HeadingNext';
 import { Spacer, spacerStyle } from 'src/components/_spacer';
 import styled from 'styled-components';
 
@@ -42,7 +43,22 @@ const _Media = (props: MediaProps) => {
   );
 };
 
-export const Media = styled(_Media)`
+export const Media2 = styled(_Media)`
   display: flex;
   align-items: flex-start;
 `;
+
+export function Media(props: MediaProps) {
+  const { children, title, icon } = props;
+  return (
+    <div className="flex items-start mb-8">
+      <figure className="w-10 flex flex-shrink-0">{icon}</figure>
+      <div className="ml-6">
+        <HeadingNext className="mb-1" white type={6}>
+          {title}
+        </HeadingNext>
+        <div className="text-white opacity-80">{children}</div>
+      </div>
+    </div>
+  );
+}

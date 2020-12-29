@@ -1,116 +1,34 @@
 import Link from 'next/link';
 import * as React from 'react';
 import { createUrl } from 'src/common/url';
-import { Container } from 'src/components/Container';
 import { Logo } from 'src/components/Logo';
-import { IS_REAL_PROD } from 'src/config';
+import { DISABLE_APP } from 'src/config';
 import { useAuthActions, useUser } from 'src/features/AuthModule';
-import { Theme } from 'src/Theme';
-import styled from 'styled-components';
-import { Button } from './Button';
+import { ButtonNext } from './ButtonNext';
 import { DropdownPopup, MenuItem, MenuSeparator } from './DropdownPopup';
 import { MenuDropdown } from './MenuDropdown';
 import { VoidLink } from './VoidLink';
 
-interface HeaderProps {
-  className?: string;
-}
-
-const Inner = styled.div`
-  display: flex;
-  height: 70px;
-`;
-
-const Nav = styled.div`
-  margin-right: auto;
-  margin-left: auto;
-  display: flex;
-`;
-
-const NavItem = styled.div<{ active?: boolean }>`
-  display: flex;
-  align-items: center;
-  padding: 0 25px;
-  height: 100%;
-  border-bottom: 4px solid
-    ${props => (props.active ? Theme.primary : 'transparent')};
-  a {
-    text-decoration: none;
-    font-weight: ${props => (props.active ? 500 : null)};
-    color: ${props => (props.active ? 'white' : Theme.gray_300)};
-    &:hover {
-      color: white;
-    }
-  }
-`;
-
-const Username = styled.div`
-  font-weight: 500;
-  margin-left: 10px;
-  color: white;
-`;
-
-const Caret = styled.div`
-  width: 0;
-  height: 0;
-  border-left: 5px solid transparent;
-  border-right: 5px solid transparent;
-  border-top: 5px solid ${Theme.gray_200};
-  margin-left: 5px;
-`;
-
-const UserInfoWrapper = styled.div`
-  height: 100%;
-  display: flex;
-  align-items: center;
-`;
-
-const UserInfo = styled(VoidLink)`
-  display: flex;
-  align-items: center;
-  &:hover {
-    text-decoration: none;
-    cursor: pointer;
-    ${Caret} {
-      border-top-color: white;
-    }
-  }
-  border: 1px dotted transparent;
-
-  &:focus {
-    outline: none;
-    border-color: ${Theme.gray_200};
-  }
-`;
-
-const Buttons = styled.div`
-  display: flex;
-  align-items: center;
-  margin-left: auto;
-  ${Button} + ${Button} {
-    margin-left: 1rem;
-  }
-`;
-
-const _Header = (props: HeaderProps) => {
-  const { className } = props;
+export function Header() {
   const authActions = useAuthActions();
   const user = useUser();
 
   return (
-    <div className={className}>
-      <Container>
-        <Inner>
+    <div className="block px-4 bg-dark">
+      <div className="container">
+        <div className="flex h-16">
           <Logo type="light" landing />
-          {!IS_REAL_PROD && (
+          {!DISABLE_APP && (
             <>
-              <Nav>
-                <NavItem>
-                  <Link href={createUrl({ name: 'modules' })}>Moduły</Link>
-                </NavItem>
-              </Nav>
+              <div className="flex mx-auto">
+                <div className="flex items-center px-1 h-full">
+                  <Link href={createUrl({ name: 'modules' })}>
+                    <a className="text-gray-300 hover:text-white">Moduły</a>
+                  </Link>
+                </div>
+              </div>
               {user ? (
-                <UserInfoWrapper>
+                <div className="h-full flex items-center">
                   <MenuDropdown
                     testId="header-menu"
                     dropdown={
@@ -135,44 +53,41 @@ const _Header = (props: HeaderProps) => {
                       </DropdownPopup>
                     }
                   >
-                    <UserInfo>
-                      <Username data-test="current-email">
+                    <VoidLink className="flex items-center cursor-pointer  border border-transparent border-dotted focus:border-gray-200 outline-none text-white ">
+                      <div
+                        data-test="current-email"
+                        className="font-medium ml-2"
+                      >
                         {user.email}
-                      </Username>
-                      <Caret />
-                    </UserInfo>
+                      </div>
+                      <div className="caret ml-2" />
+                    </VoidLink>
                   </MenuDropdown>
-                </UserInfoWrapper>
+                </div>
               ) : (
-                <Buttons>
-                  <Button
+                <div className="grid gap-4 grid-flow-col-dense auto-cols-max h-auto my-auto">
+                  <ButtonNext
                     testId="header-login-btn"
                     type="secondary"
                     href={createUrl({ name: 'login' })}
                     size="small"
                   >
                     Zaloguj się
-                  </Button>
-                  <Button
+                  </ButtonNext>
+                  <ButtonNext
                     testId="header-register-btn"
                     type="primary"
                     href={createUrl({ name: 'register' })}
                     size="small"
                   >
                     Załóż konto
-                  </Button>
-                </Buttons>
+                  </ButtonNext>
+                </div>
               )}
             </>
           )}
-        </Inner>
-      </Container>
+        </div>
+      </div>
     </div>
   );
-};
-
-export const Header = styled(_Header)`
-  display: block;
-  padding: 0 1rem;
-  background: ${Theme.dark};
-`;
+}

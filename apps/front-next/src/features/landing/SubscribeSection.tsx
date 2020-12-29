@@ -1,47 +1,20 @@
 import * as React from 'react';
 import { useForm } from 'react-hook-form';
 import { createUrl } from 'src/common/url';
-import { Container } from 'src/components/Container';
-import { Button } from 'src/components/Button';
-import { Heading } from 'src/components/Heading';
 import { InputGroup } from 'src/components/InputGroup';
-import { MEDIA_MD_NEXT, Theme } from 'src/Theme';
 import { FormInput } from 'src/components/FormInput';
 import Link from 'next/link';
 import { InputFeedback } from 'src/components/Input';
 import { useErrorModalActions } from 'src/features/ErrorModalModule';
 import { api } from 'src/services/api';
 import { useSubscriptionModalsActions } from 'src/features/SubscriptionModalsModule';
-import styled from 'styled-components';
 import { EMAIL_REGEX } from 'shared';
-
-const Desc = styled.div`
-  color: ${Theme.text_muted_color};
-`;
-
-const Text = styled.div`
-  color: ${Theme.text_muted_color};
-  font-size: 0.8rem;
-`;
+import { HeadingNext } from 'src/components/HeadingNext';
+import { ButtonNext } from 'src/components/ButtonNext';
 
 interface FormValues {
   email: string;
 }
-
-const FormWrapper = styled.div`
-  margin: 2rem auto 0.75rem;
-  max-width: 600px;
-`;
-
-const Form = styled.form`
-  display: block;
-  background: ${Theme.section_secondary};
-  padding: 4.5rem 0;
-  text-align: center;
-  @media ${MEDIA_MD_NEXT} {
-    padding: 4.5rem;
-  }
-`;
 
 export function SubscribeSection() {
   const [isSubmitting, setIsSubmitting] = React.useState(false);
@@ -65,16 +38,20 @@ export function SubscribeSection() {
     setIsSubmitting(false);
   };
   return (
-    <Form onSubmit={handleSubmit(onSubmit)} id="subscribe-section">
-      <Container>
-        <Heading type={2}>Dołącz do mailingu</Heading>
-        <Desc>
+    <form
+      className="bg-gray-100 py-16 text-center md:px-16"
+      onSubmit={handleSubmit(onSubmit)}
+      id="subscribe-section"
+    >
+      <div className="container">
+        <HeadingNext type={2}>Dołącz do mailingu</HeadingNext>
+        <div className="text-gray-600">
           Platforma jest w budowie. Podaj swojego maila, a dostaniesz
           powiadomienie jak wystartujemy.
           <br />
           Start jest szacowany na początek 2021 roku.
-        </Desc>
-        <FormWrapper>
+        </div>
+        <div className="mt-8 mx-auto mb-3 max-w-xl">
           <InputGroup
             size="large"
             input={
@@ -97,29 +74,29 @@ export function SubscribeSection() {
               />
             }
             append={
-              <Button
+              <ButtonNext
                 testId="subscribe-btn"
                 type="primary"
                 htmlType="submit"
                 loading={isSubmitting}
               >
                 Zapisz się
-              </Button>
+              </ButtonNext>
             }
           />
           <InputFeedback color="danger" data-test="subscribe-error">
             {errors.email?.message}
           </InputFeedback>
-        </FormWrapper>
-        <Text>
+        </div>
+        <div className="text-gray-600 text-sm">
           Zapisując się to newslettera wyrażasz zgodę na przetwarzanie Twoich
           danych zgodnie z{' '}
           <Link href={createUrl({ name: 'privacy' })}>
             polityką prywatności
           </Link>
           .
-        </Text>
-      </Container>
-    </Form>
+        </div>
+      </div>
+    </form>
   );
 }

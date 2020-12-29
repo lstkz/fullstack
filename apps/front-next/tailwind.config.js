@@ -54,10 +54,23 @@ module.exports = {
       sans: ['Nunito Sans', 'sans-serif'],
       serif: ['serif'],
     },
+    container: {
+      center: true,
+      padding: '1.5rem',
+    },
     colors: {
       transparent: 'transparent',
+      current: 'currentColor',
       white: 'white',
       black: 'black',
+      alpha: {
+        black20: 'rgba(255, 255, 255, 0.2)',
+        white90: 'rgba(255, 255, 255, 0.9)',
+        white10: 'rgba(255, 255, 255, 0.1)',
+        white20: 'rgba(255, 255, 255, 0.2)',
+        white60: 'rgba(255, 255, 255, 0.6)',
+        white07: 'rgba(255, 255, 255, 0.075)',
+      },
       gray: {
         100: BaseColors.gray_100,
         200: BaseColors.gray_200,
@@ -73,9 +86,13 @@ module.exports = {
         DEFAULT: BaseColors.blue,
       },
       primary: {
+        100: lighten(BaseThemeColors.primary, 40),
         light: lighten(BaseThemeColors.primary),
         DEFAULT: BaseThemeColors.primary,
         dark: darken(BaseThemeColors.primary),
+        600: darken(BaseThemeColors.primary, 7.5),
+        700: darken(BaseThemeColors.primary, 10),
+        800: darken(BaseThemeColors.primary, 12.5),
       },
       secondary: {
         ring: Color(BaseThemeColors.secondary).setAlpha(0.25).toRgbString(),
@@ -86,13 +103,24 @@ module.exports = {
         800: darken(BaseThemeColors.secondary, 12.5),
       },
       dark: {
+        400: lighten(BaseThemeColors.dark),
         DEFAULT: BaseThemeColors.dark,
+        600: darken(BaseThemeColors.dark, 7.5),
       },
       warning: {
+        250: lighten(BaseThemeColors.warning, 25),
         DEFAULT: BaseThemeColors.warning,
+      },
+      danger: {
+        250: lighten(BaseThemeColors.danger, 25),
+        DEFAULT: BaseThemeColors.danger,
       },
       heading: {
         DEFAULT: '#152c5b',
+      },
+      success: {
+        350: lighten(BaseColors.green, 35),
+        DEFAULT: BaseColors.green,
       },
       green: {
         DEFAULT: BaseColors.green,
@@ -105,6 +133,7 @@ module.exports = {
   variants: {
     extend: {
       backgroundColor: ['active'],
+      borderColor: ['active'],
     },
   },
   plugins: [],

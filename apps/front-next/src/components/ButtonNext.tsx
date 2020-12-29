@@ -1,6 +1,7 @@
 import React from 'react';
 import Link from 'next/link';
 import { SpinnerBoarder } from './SpinnerBoarder';
+import styles from './ButtonNext.module.css';
 import classNames from 'classnames';
 
 interface ButtonProps {
@@ -47,33 +48,11 @@ export const ButtonNext = React.forwardRef((props: ButtonProps, ref: any) => {
     </>
   );
   const classList = [
-    'inline-flex item-center justify-center transition-all border border-transparent font-semibold leading-normal focus:ring focus:outline-none outline-none',
+    styles.btn,
+    styles['type-' + type],
+    styles['size-' + (size ?? 'default')],
+    className,
   ];
-
-  switch (type) {
-    case 'primary':
-      break;
-    case 'secondary':
-      classList.push(
-        'text-gray-900 bg-secondary border-color-secondary ',
-        'hover:bg-secondary-600 hover:border-color-secondary-700',
-        'active:bg-secondary-700 active:border-color-secondary-800',
-        'focus:ring-secondary-ring'
-      );
-      break;
-    case 'warning':
-      break;
-    case 'neutral':
-      break;
-  }
-  switch (size) {
-    case 'small':
-      classList.push('text-sm py-2 px-5 rounded-md');
-      break;
-    default:
-      classList.push('py-3 px-7 rounded-md');
-      break;
-  }
 
   if (href) {
     return (
@@ -81,7 +60,7 @@ export const ButtonNext = React.forwardRef((props: ButtonProps, ref: any) => {
         <a
           data-test={testId}
           onClick={onClick as any}
-          className={classNames(classList, className)}
+          className={classNames(classList)}
           ref={ref}
         >
           {inner}
@@ -94,7 +73,7 @@ export const ButtonNext = React.forwardRef((props: ButtonProps, ref: any) => {
       data-test={testId}
       disabled={loading || disabled}
       onClick={onClick as any}
-      className={classNames(classList, className)}
+      className={classNames(classList)}
       type={htmlType || 'button'}
       ref={ref}
     >

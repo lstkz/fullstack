@@ -64,7 +64,7 @@ const TabTitle = styled.li<{ active: boolean }>`
   &:first-child {
     margin-left: 0;
   }
-  ${VoidLink} {
+  .VoidLink {
     border-radius: 0.375rem;
     color: ${Theme.gray_700};
     font-size: 0.875rem;
