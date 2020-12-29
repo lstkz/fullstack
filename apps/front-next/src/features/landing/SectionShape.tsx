@@ -1,5 +1,5 @@
+import classNames from 'classnames';
 import * as React from 'react';
-import styled from 'styled-components';
 import { SvgCut } from './SvgCut';
 
 interface SectionShapeProps {
@@ -10,35 +10,25 @@ interface SectionShapeProps {
   color: string;
 }
 
-const _SectionShape = (props: SectionShapeProps) => {
-  const { className } = props;
+export function SectionShape(props: SectionShapeProps) {
+  const { position, color, flip, inverse } = props;
   return (
-    <div className={className}>
-      <SvgCut />
+    <div
+      className={classNames(
+        'absolute left-0 overflow-hidden w-full',
+        ` text-${color}`
+      )}
+      style={{
+        [position]: 0,
+        zIndex: 3,
+        transform: flip
+          ? 'scaleX(-1);'
+          : inverse
+          ? 'rotate(180deg)'
+          : undefined,
+      }}
+    >
+      <SvgCut className="max-w-none fill-current" />
     </div>
   );
-};
-
-export const SectionShape = styled(_SectionShape)`
-  position: absolute;
-  ${props => `${props.position}: 0;`}
-  left: 0;
-  overflow: hidden;
-  ${props => props.inverse && `transform: rotate(180deg);`}
-  ${props => props.flip && `transform: scaleX(-1);`}
-  width: 100%;
-  z-index: 3;
-  svg {
-    fill: ${props => props.color};
-    display: block;
-    max-width: none;
-  }
-  margin: 0;
-  display: flex;
-  display: block;
-  padding-right: 0;
-  align-items: center;
-  justify-content: center;
-  justify-content: center;
-  align-items: center;
-`;
+}

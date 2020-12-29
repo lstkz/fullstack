@@ -86,6 +86,7 @@ module.exports = {
         DEFAULT: BaseColors.blue,
       },
       primary: {
+        100: lighten(BaseThemeColors.primary, 40),
         light: lighten(BaseThemeColors.primary),
         DEFAULT: BaseThemeColors.primary,
         dark: darken(BaseThemeColors.primary),
@@ -107,15 +108,18 @@ module.exports = {
         600: darken(BaseThemeColors.dark, 7.5),
       },
       warning: {
+        250: lighten(BaseThemeColors.warning, 25),
         DEFAULT: BaseThemeColors.warning,
       },
       danger: {
+        250: lighten(BaseThemeColors.danger, 25),
         DEFAULT: BaseThemeColors.danger,
       },
       heading: {
         DEFAULT: '#152c5b',
       },
       success: {
+        350: lighten(BaseColors.green, 35),
         DEFAULT: BaseColors.green,
       },
       green: {
