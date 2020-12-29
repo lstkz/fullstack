@@ -64,6 +64,7 @@ module.exports = {
       black: 'black',
       alpha: {
         black20: 'rgba(255, 255, 255, 0.2)',
+        white90: 'rgba(255, 255, 255, 0.9)',
       },
       gray: {
         100: BaseColors.gray_100,
@@ -119,6 +120,7 @@ module.exports = {
   variants: {
     extend: {
       backgroundColor: ['active'],
+      borderColor: ['active'],
     },
   },
   plugins: [],

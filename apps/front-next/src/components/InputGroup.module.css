@@ -1,0 +1,7 @@
+.inputGroup > *:first-child,
+.inputGroup > *:first-child input {
+  @apply rounded-r-none;
+}
+.inputGroup > *:last-child {
+  @apply rounded-l-none;
+}

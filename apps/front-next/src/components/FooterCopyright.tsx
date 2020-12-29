@@ -1,71 +1,40 @@
 import Link from 'next/link';
 import * as React from 'react';
-import { MEDIA_MD, Theme } from 'src/Theme';
-import styled from 'styled-components';
-import { Divider } from './Divider';
-import { Col, Row } from './Grid';
 
-interface FooterCopyrightProps {
-  className?: string;
+function StyledLink({
+  children,
+  href,
+}: {
+  children: React.ReactNode;
+  href: string;
+}) {
+  return (
+    <Link href={href}>
+      <a className="block text-gray-500 py-1 px-4 hover:text-white">
+        {children}
+      </a>
+    </Link>
+  );
 }
 
-const Links = styled.ul`
-  display: flex;
-  flex-wrap: wrap;
-  padding-left: 0;
-  list-style: none;
-  margin: 0;
-  justify-content: center;
-  a {
-    color: ${Theme.gray_500};
-    display: block;
-    padding: 0.25rem 1rem;
-    &:hover {
-      color: white;
-    }
-  }
-  ${MEDIA_MD} {
-    justify-content: flex-end;
-  }
-`;
-
-const Left = styled(Col)`
-  a {
-    color: rgba(255, 255, 255, 0.9);
-  }
-`;
-
-const _FooterCopyright = (props: FooterCopyrightProps) => {
-  const { className } = props;
+export function FooterCopyright() {
   return (
     <div className="text-sm font-semibold text-center pb-6 md:text-left">
-      <Divider />
+      <div className="sep sep-light mt-6 pb-6" />
       <div className="grid md:grid-cols-2">
         <div>
           © {new Date().getFullYear()}{' '}
           <Link href="/">
-            <a>Fullstack</a>
+            <a className="text-alpha-white90">Fullstack</a>
           </Link>
           . Wszelkie prawa zastrzeżone.
         </div>
-        <div>
-          <Links>
-            <li>
-              <Link href="/privacy">Polityka Prywatności</Link>
-            </li>
-          </Links>
+        <div className="flex flex-wrap justify-center list-none">
+          <li>
+            <StyledLink href="/privacy">Polityka Prywatności</StyledLink>
+          </li>
         </div>
       </div>
     </div>
   );
-};
-
-export const FooterCopyright = styled(_FooterCopyright)`
-  padding-bottom: 1.5rem;
-  font-size: 0.875rem;
-  font-weight: 600;
-  text-align: center;
-  ${MEDIA_MD} {
-    text-align: left;
-  }
-`;
+}

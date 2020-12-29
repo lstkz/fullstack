@@ -12,7 +12,7 @@ export function TargetSection() {
   return (
     <div className="bg-dark relative">
       <div className=" py-24 container">
-        <div className="grid items-center justify-between md:grid-cols-2 gap-24">
+        <div className="grid items-center justify-between md:grid-cols-2 md:gap-24">
           <div>
             <HeadingNext white type={3}>
               Dla kogo jest fullstack.pl?

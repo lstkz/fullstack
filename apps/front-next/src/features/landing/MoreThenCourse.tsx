@@ -113,7 +113,7 @@ export const MoreThenCourse2 = styled(_MoreThenCourse)`
 export function MoreThenCourse() {
   return (
     <div className="container grid my-16 md:grid-cols-2">
-      <div className="pl-16 ">
+      <div className="md:pl-16">
         <HeadingNext type={2}>
           To więcej niż zwykły kurs programowania
         </HeadingNext>

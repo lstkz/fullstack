@@ -22,7 +22,7 @@ function Image(props: ImageProps) {
 
 export function MentorSection() {
   return (
-    <div className="py-24 container grid md:grid-cols-2">
+    <div className="py-24 container grid md:grid-cols-2 gap-4">
       <div className="grid grid-cols-2 gap-4">
         <div className="mt-20">
           <Image className="mb-3" src={require('./assets/mentor_1.jpg')} />
@@ -33,7 +33,7 @@ export function MentorSection() {
           <Image src={require('./assets/mentor_5.jpg')} />
         </div>
       </div>
-      <div className="pl-20">
+      <div className="md:pl-20">
         <HeadingNext type={2} className="mb-3">
           Poznaj mentora 👋
         </HeadingNext>

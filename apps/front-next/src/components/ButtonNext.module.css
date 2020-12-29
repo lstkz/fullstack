@@ -1,0 +1,24 @@
+.btn {
+  @apply inline-flex items-center justify-center transition-all border border-transparent font-semibold leading-normal focus:ring focus:outline-none outline-none whitespace-nowrap;
+}
+
+.type-primary {
+  @apply text-white bg-primary border-primary 
+  hover:bg-primary-600 hover:border-primary-700
+  active:bg-primary-700 active:border-primary-800;
+}
+
+.type-secondary {
+  @apply text-gray-900 bg-secondary border-secondary
+  hover:bg-secondary-600 hover:border-secondary-700
+  active:bg-secondary-700 active:border-secondary-800;
+}
+
+.size-large,
+.size-default {
+  @apply py-3 px-7 rounded-md;
+}
+
+.size-small {
+  @apply text-sm py-2 px-5 rounded-md;
+}

@@ -21,6 +21,13 @@
       rgba(255, 255, 255, 0) 75%
     );
   }
+  .sep-light::before {
+    background: radial-gradient(
+      at center center,
+      rgba(255, 255, 255, 0.2) 0px,
+      rgba(31, 45, 61, 0) 75%
+    );
+  }
 }
 
 svg {
