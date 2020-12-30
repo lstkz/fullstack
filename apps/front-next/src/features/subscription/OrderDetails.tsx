@@ -1,51 +1,13 @@
 import * as React from 'react';
 import { useFormContext } from 'react-hook-form';
 import { SubscriptionPlan } from 'shared';
-import { Col, Row } from 'src/components/Grid';
-import { Heading } from 'src/components/Heading';
+import { HeadingNext } from 'src/components/HeadingNext';
 import { Select } from 'src/components/Select';
-import { MEDIA_MD, Theme } from 'src/Theme';
-import styled from 'styled-components';
 import { SubscriptionFormValues } from './SubscriptionPage';
 
 interface OrderDetailsProps {
-  className?: string;
   subscriptionPlans: SubscriptionPlan[];
 }
-
-const Header = styled.div`
-  padding: 1rem 1.5rem;
-  border-bottom: 1px solid ${Theme.gray_200};
-`;
-
-const Body = styled.div`
-  padding: 1.5rem;
-`;
-
-const Text = styled.div<{ right?: boolean }>`
-  font-weight: 600;
-  font-size: 80%;
-  ${props => props.right && `text-align: right`}
-`;
-
-const BigText = styled.div<{ right?: boolean }>`
-  font-weight: 600;
-  color: ${Theme.headings_color};
-  font-size: 1.1rem;
-  ${props => props.right && `text-align: right;`}
-`;
-
-const Price = styled.div`
-  font-weight: 600;
-  font-size: 0.875rem;
-  text-align: right;
-`;
-
-const BorderRow = styled(Row)`
-  border-top: 1px solid ${Theme.gray_200};
-  padding-top: 1rem;
-  margin-top: 1rem;
-`;
 
 function _round(n: number) {
   return Math.round(n * 100) / 100;
@@ -61,8 +23,17 @@ function _formatPrice(n: number) {
   }).format(_round(n));
 }
 
-const _OrderDetails = (props: OrderDetailsProps) => {
-  const { className, subscriptionPlans } = props;
+function Row(props: React.HTMLAttributes<HTMLDivElement>) {
+  return (
+    <div
+      {...props}
+      className="pt-4 mt-4 border-t border-gray-200 grid grid-cols-2"
+    />
+  );
+}
+
+export function OrderDetails(props: OrderDetailsProps) {
+  const { subscriptionPlans } = props;
   const {
     setValue,
     watch,
@@ -73,9 +44,6 @@ const _OrderDetails = (props: OrderDetailsProps) => {
   React.useEffect(() => {
     register('subscriptionPlanId');
   }, []);
-
-  const leftSize = 8;
-  const rightSize = 12 - leftSize;
 
   const options = React.useMemo(() => {
     return subscriptionPlans.map(item => {
@@ -89,58 +57,37 @@ const _OrderDetails = (props: OrderDetailsProps) => {
   const selectedPlan = subscriptionPlans.find(x => x.id === planType)!;
 
   return (
-    <div className={className}>
-      <Header>
-        <Heading type={6}>Wybierz plan</Heading>
-      </Header>
-      <Body>
+    <div className="flex flex-col relative shadow-lg bg-white border border-gray-200 rounded-md md:sticky md:top-6">
+      <div className="py-4 px-6 border-b border-gray-200">
+        <HeadingNext type={6}>Wybierz plan</HeadingNext>
+      </div>
+      <div className="p-6">
         <Select
           id="subscriptionPlanId"
           onChange={opt => setValue('subscriptionPlanId', opt!.value as any)}
-          valueColor={Theme.headings_color}
+          valueColor="#152c5b"
           value={options.find(x => x.value === planType)}
           options={options}
         />
-        <BorderRow>
-          <Col sm={leftSize}>
-            <Text>Cena netto:</Text>
-          </Col>
-          <Col sm={rightSize}>
-            <Price>{_formatPrice(selectedPlan.price.net)}</Price>
-          </Col>
-        </BorderRow>
-        <BorderRow>
-          <Col sm={leftSize}>
-            <Text>VAT (23%):</Text>
-          </Col>
-          <Col sm={rightSize}>
-            <Price>{_formatPrice(selectedPlan.price.vat)}</Price>
-          </Col>
-        </BorderRow>
-        <BorderRow>
-          <Col sm={leftSize}>
-            <BigText>Do zapłaty:</BigText>
-          </Col>
-          <Col sm={rightSize}>
-            <BigText right>{_formatPrice(selectedPlan.price.total)}</BigText>
-          </Col>
-        </BorderRow>
-      </Body>
+        <Row>
+          <div className="font-semibold text-sm">Cena netto:</div>
+          <div className="font-semibold text-sm text-right">
+            {_formatPrice(selectedPlan.price.net)}
+          </div>
+        </Row>
+        <Row>
+          <div className="font-semibold text-sm">VAT (23%):</div>
+          <div className="font-semibold text-sm text-right">
+            {_formatPrice(selectedPlan.price.vat)}
+          </div>
+        </Row>
+        <Row>
+          <div className="font-semibold text-heading text-lg">Do zapłaty:</div>
+          <div className="font-semibold text-heading text-lg text-right">
+            {_formatPrice(selectedPlan.price.total)}
+          </div>
+        </Row>
+      </div>
     </div>
   );
-};
-
-export const OrderDetails = styled(_OrderDetails)`
-  display: flex;
-  flex-direction: column;
-  position: relative;
-  box-shadow: 0 0 1.25rem rgba(31, 45, 61, 0.05);
-  background-color: #fff;
-  background-clip: border-box;
-  border: 1px solid ${Theme.gray_200};
-  border-radius: 0.375rem;
-  ${MEDIA_MD} {
-    position: sticky;
-    top: 20px;
-  }
-`;
+}

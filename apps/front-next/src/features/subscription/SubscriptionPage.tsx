@@ -1,9 +1,6 @@
 import React from 'react';
-import { Container } from 'src/components/Container';
 import { Dashboard } from 'src/components/Dashboard';
 import { ContextFormInput } from 'src/components/FormInput';
-import { Col, Row } from 'src/components/Grid';
-import { Heading } from 'src/components/Heading';
 import { CheckoutButtons } from './CheckoutButtons';
 import { PaymentOptions } from './PaymentOptions';
 import { SubscriptionPlan } from 'shared';
@@ -12,6 +9,7 @@ import { useErrorModalActions } from '../ErrorModalModule';
 import { api } from 'src/services/api';
 import { OrderDetails } from './OrderDetails';
 import { Validator } from 'src/common/Validator';
+import { HeadingNext } from 'src/components/HeadingNext';
 
 interface SubscriptionPageProps {
   subscriptionPlans: SubscriptionPlan[];
@@ -86,50 +84,40 @@ export function SubscriptionPage(props: SubscriptionPageProps) {
     <FormProvider {...formMethods}>
       <form onSubmit={handleSubmit(onSubmit)}>
         <Dashboard>
-          <Container>
-            <Row my={5}>
-              <Col lg={7} flexOrder={2} lgFlexOrder={1}>
-                <Heading mb={1} type={5}>
-                  Szczegóły płatności
-                </Heading>
-                <Row>
-                  <Col md={6}>
-                    <ContextFormInput name="firstName" label="Imię" />
-                  </Col>
-                  <Col md={6}>
-                    <ContextFormInput name="lastName" label="Nazwisko" />
-                  </Col>
-                </Row>
+          <div className="container grid md:grid-cols-12 gap-8 my-8 md:grid-rows-1 grid-flow-row-dense">
+            <div className="md:col-start-7 md:col-span-6 lg:col-start-8 lg:col-span-5">
+              <OrderDetails subscriptionPlans={subscriptionPlans} />
+            </div>
+            <div className="md:col-start-1 md:col-span-6 lg:col-start-1 lg:col-span-7 ">
+              <HeadingNext className="mb-1" type={5}>
+                Szczegóły płatności
+              </HeadingNext>
+              <div className="grid lg:grid-cols-2 lg:gap-4">
+                <ContextFormInput name="firstName" label="Imię" />
+                <ContextFormInput name="lastName" label="Nazwisko" />
+              </div>
+              <ContextFormInput
+                name="companyName"
+                label="Nazwa firmy (opcjonalnie)"
+              />
+              <ContextFormInput name="companyVat" label="NIP (opcjonalnie)" />
+              <ContextFormInput
+                name="address"
+                label="Adres"
+                placeholder="Ulica, numer budyku i lokalu"
+              />
+              <div className="grid lg:grid-cols-2 lg:gap-4">
                 <ContextFormInput
-                  name="companyName"
-                  label="Nazwa firmy (opcjonalnie)"
+                  name="postalCode"
+                  label="Kod pocztowy"
+                  placeholder="00-000"
                 />
-                <ContextFormInput name="companyVat" label="NIP (opcjonalnie)" />
-                <ContextFormInput
-                  name="address"
-                  label="Adres"
-                  placeholder="Ulica, numer budyku i lokalu"
-                />
-                <Row>
-                  <Col md={6}>
-                    <ContextFormInput
-                      name="postalCode"
-                      label="Kod pocztowy"
-                      placeholder="00-000"
-                    />
-                  </Col>
-                  <Col md={6}>
-                    <ContextFormInput name="city" label="Miasto" />
-                  </Col>
-                </Row>
-                <PaymentOptions />
-                <CheckoutButtons isSubmitting={isSubmitting} isDone={isDone} />
-              </Col>
-              <Col lg={5} flexOrder={1} lgFlexOrder={2} mb={5}>
-                <OrderDetails subscriptionPlans={subscriptionPlans} />
-              </Col>
-            </Row>
-          </Container>
+                <ContextFormInput name="city" label="Miasto" />
+              </div>
+              <PaymentOptions />
+              <CheckoutButtons isSubmitting={isSubmitting} isDone={isDone} />
+            </div>
+          </div>
         </Dashboard>
       </form>
     </FormProvider>

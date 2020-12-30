@@ -1,24 +1,22 @@
 import * as React from 'react';
-import { Button } from 'src/components/Button';
-import styled from 'styled-components';
+import { ButtonNext } from 'src/components/ButtonNext';
 
 interface CheckoutButtonsProps {
-  className?: string;
   isSubmitting: boolean;
   isDone: boolean;
 }
 
-const _CheckoutButtons = (props: CheckoutButtonsProps) => {
-  const { className, isSubmitting, isDone } = props;
+export function CheckoutButtons(props: CheckoutButtonsProps) {
+  const { isSubmitting, isDone } = props;
   return (
-    <div className={className}>
-      <Button type="primary" htmlType="submit" loading={isSubmitting || isDone}>
+    <div>
+      <ButtonNext
+        type="primary"
+        htmlType="submit"
+        loading={isSubmitting || isDone}
+      >
         {isDone ? 'Przekierowywanie do płatności...' : ' Zamawiam i płacę'}
-      </Button>
+      </ButtonNext>
     </div>
   );
-};
-
-export const CheckoutButtons = styled(_CheckoutButtons)`
-  display: block;
-`;
+}
