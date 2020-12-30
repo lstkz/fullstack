@@ -33,22 +33,19 @@ export function Header() {
                     testId="header-menu"
                     dropdown={
                       <DropdownPopup>
-                        <MenuItem>
-                          <Link
-                            data-test="settings-link"
-                            href={createUrl({ name: 'settings' })}
-                          >
-                            Ustawienia
-                          </Link>
+                        <MenuItem
+                          data-test="settings-link"
+                          href={createUrl({ name: 'settings' })}
+                        >
+                          Ustawienia
                         </MenuItem>
                         <MenuSeparator />
-                        <MenuItem red>
-                          <VoidLink
-                            data-test="logout-btn"
-                            onClick={authActions.logout}
-                          >
-                            Wyloguj się
-                          </VoidLink>
+                        <MenuItem
+                          colorClassName="text-danger"
+                          data-test="logout-btn"
+                          onClick={authActions.logout}
+                        >
+                          Wyloguj się
                         </MenuItem>
                       </DropdownPopup>
                     }
