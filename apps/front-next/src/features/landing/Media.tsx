@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { HeadingNext } from 'src/components/HeadingNext';
+import { Heading } from 'src/components/Heading';
 
 interface MediaProps {
   title: React.ReactNode;
@@ -13,9 +13,9 @@ export function Media(props: MediaProps) {
     <div className="flex items-start mb-8">
       <figure className="w-10 flex flex-shrink-0">{icon}</figure>
       <div className="ml-6">
-        <HeadingNext className="mb-1" white type={6}>
+        <Heading className="mb-1" white type={6}>
           {title}
-        </HeadingNext>
+        </Heading>
         <div className="text-white opacity-80">{children}</div>
       </div>
     </div>

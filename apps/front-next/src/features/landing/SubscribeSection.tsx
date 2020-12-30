@@ -9,8 +9,8 @@ import { useErrorModalActions } from 'src/features/ErrorModalModule';
 import { api } from 'src/services/api';
 import { useSubscriptionModalsActions } from 'src/features/SubscriptionModalsModule';
 import { EMAIL_REGEX } from 'shared';
-import { HeadingNext } from 'src/components/HeadingNext';
-import { ButtonNext } from 'src/components/ButtonNext';
+import { Heading } from 'src/components/Heading';
+import { Button } from 'src/components/Button';
 
 interface FormValues {
   email: string;
@@ -44,7 +44,7 @@ export function SubscribeSection() {
       id="subscribe-section"
     >
       <div className="container">
-        <HeadingNext type={2}>Dołącz do mailingu</HeadingNext>
+        <Heading type={2}>Dołącz do mailingu</Heading>
         <div className="text-gray-600">
           Platforma jest w budowie. Podaj swojego maila, a dostaniesz
           powiadomienie jak wystartujemy.
@@ -74,14 +74,14 @@ export function SubscribeSection() {
               />
             }
             append={
-              <ButtonNext
+              <Button
                 testId="subscribe-btn"
                 type="primary"
                 htmlType="submit"
                 loading={isSubmitting}
               >
                 Zapisz się
-              </ButtonNext>
+              </Button>
             }
           />
           <InputFeedback color="danger" data-test="subscribe-error">

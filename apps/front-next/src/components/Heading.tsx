@@ -27,7 +27,7 @@ const fontSize = {
   6: 1,
 } as const;
 
-export function HeadingNext(props: HeadingProps) {
+export function Heading(props: HeadingProps) {
   const { className, type, children, id, white } = props;
   const Tag = tagMap[type];
   return (

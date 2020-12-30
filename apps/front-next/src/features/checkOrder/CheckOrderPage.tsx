@@ -8,8 +8,8 @@ import Confetti from 'react-confetti';
 import { useRouter } from 'next/dist/client/router';
 import { api } from 'src/services/api';
 import { useErrorModalActions } from '../ErrorModalModule';
-import { HeadingNext } from 'src/components/HeadingNext';
-import { ButtonNext } from 'src/components/ButtonNext';
+import { Heading } from 'src/components/Heading';
+import { Button } from 'src/components/Button';
 
 export function CheckOrderPage() {
   const { width, height } = useWindowSize();
@@ -46,9 +46,9 @@ export function CheckOrderPage() {
     if (!isDone) {
       return (
         <>
-          <HeadingNext className="text-center mt-12" type={3}>
+          <Heading className="text-center mt-12" type={3}>
             Oczekiwanie na płatność
-          </HeadingNext>
+          </Heading>
           <div className="flex justify-center py-20">
             <SpinnerBoarder />
           </div>
@@ -58,9 +58,9 @@ export function CheckOrderPage() {
     return (
       <>
         <Confetti width={width} height={height} recycle={false} />
-        <HeadingNext className="text-center mt-12" type={3}>
+        <Heading className="text-center mt-12" type={3}>
           Płatność zakończona pomyślnie
-        </HeadingNext>
+        </Heading>
         <div className="text-center p-8">
           Masz teraz dostęp do wszystkich zasobów platformy.
         </div>
@@ -68,9 +68,9 @@ export function CheckOrderPage() {
           <FontAwesomeIcon icon={faCheckCircle} size="6x" />
         </div>
         <div className="flex justify-center py-20">
-          <ButtonNext type="primary" href="/modules">
+          <Button type="primary" href="/modules">
             Zobacz dostępne moduły
-          </ButtonNext>
+          </Button>
         </div>
       </>
     );

@@ -9,7 +9,7 @@ import { useForm } from 'react-hook-form';
 import { EMAIL_REGEX } from 'shared';
 import { api } from 'src/services/api';
 import { useAuthForm } from 'src/hooks/useAuthForm';
-import { ButtonNext } from 'src/components/ButtonNext';
+import { Button } from 'src/components/Button';
 
 interface FormValues {
   email: string;
@@ -79,7 +79,7 @@ export function LoginPage() {
           })}
           error={errors.password?.message}
         />
-        <ButtonNext
+        <Button
           testId="login-submit"
           type="primary"
           block
@@ -87,7 +87,7 @@ export function LoginPage() {
           htmlType="submit"
         >
           Zaloguj się
-        </ButtonNext>
+        </Button>
         <SocialFormButtons source="login" />
         <div className="text-right mt-4 text-sm">
           <Link

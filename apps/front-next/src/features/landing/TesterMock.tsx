@@ -6,8 +6,8 @@ import * as R from 'remeda';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import * as React from 'react';
 import { SpinnerBoarder } from 'src/components/SpinnerBoarder';
-import { HeadingNext } from 'src/components/HeadingNext';
-import { ButtonNext } from 'src/components/ButtonNext';
+import { Heading } from 'src/components/Heading';
+import { Button } from 'src/components/Button';
 import styles from './TesterMock.module.css';
 import classNames from 'classnames';
 
@@ -50,18 +50,18 @@ export function TesterMock() {
       <div className="p-2 rounded-t-md flex justify-between items-center border-b border-alpha-black20">
         <div className="text-white">
           <div className="text-gray-100 text-sm">Zadanie 2</div>
-          <HeadingNext type={6} white>
+          <Heading type={6} white>
             Cykliczna tablica
-          </HeadingNext>
+          </Heading>
         </div>
-        <ButtonNext
+        <Button
           loading={isLoading}
           size="extra-small"
           type="neutral"
           onClick={animate}
         >
           Testuj
-        </ButtonNext>
+        </Button>
       </div>
       <div className="p-4 flex-auto" ref={contentRef as any}>
         {isLoading ? (

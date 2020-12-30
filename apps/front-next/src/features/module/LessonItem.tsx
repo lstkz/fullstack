@@ -2,7 +2,7 @@ import * as React from 'react';
 import { TimeIcon } from 'src/icons/TimeIcon';
 import { ModuleMedia } from './ModuleMedia';
 import { ModuleLesson } from 'shared';
-import { ButtonNext } from 'src/components/ButtonNext';
+import { Button } from 'src/components/Button';
 
 interface LessonItemProps {
   item: ModuleLesson;
@@ -21,9 +21,9 @@ export function LessonItem(props: LessonItemProps) {
         </div>
       }
       button={
-        <ButtonNext size="small" type="secondary">
+        <Button size="small" type="secondary">
           Obejrzyj
-        </ButtonNext>
+        </Button>
       }
     />
   );

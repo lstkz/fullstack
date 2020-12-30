@@ -2,7 +2,7 @@ import { faTrophy, faAward, faRocket } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import classNames from 'classnames';
 import * as React from 'react';
-import { HeadingNext } from 'src/components/HeadingNext';
+import { Heading } from 'src/components/Heading';
 import { Icon } from 'src/components/Icon';
 import { IconList, IconListItem } from './IconList';
 
@@ -34,18 +34,18 @@ export function MentorSection() {
         </div>
       </div>
       <div className="md:pl-20">
-        <HeadingNext type={2} className="mb-3">
+        <Heading type={2} className="mb-3">
           Poznaj mentora 👋
-        </HeadingNext>
+        </Heading>
         <div className="text-lg font-light">
           Nazywam się Łukasz Sentkiewicz. Jestem programistą z ponad 10-letnim
           doświadczeniem. W latach 2013-2018 wygrałem ponad $1,000,000 na
           TopCoder.com, gdzie robiłem sporo projektów dla takich firm jak NASA,
           DARPA, EPA, Comcast, TopCoder, IBM.
         </div>
-        <HeadingNext type={4} className="mt-6 mb-2">
+        <Heading type={4} className="mt-6 mb-2">
           Moje osiągnięcia
-        </HeadingNext>
+        </Heading>
         <IconList>
           <IconListItem
             icon={

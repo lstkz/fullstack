@@ -7,7 +7,7 @@ import { PASSWORD_MIN_LENGTH } from 'shared';
 import { api } from 'src/services/api';
 import { useAuthForm } from 'src/hooks/useAuthForm';
 import { useRouter } from 'next/dist/client/router';
-import { ButtonNext } from 'src/components/ButtonNext';
+import { Button } from 'src/components/Button';
 
 interface FormValues {
   password: string;
@@ -79,7 +79,7 @@ export function ResetPasswordPage() {
           })}
           error={errors.confirmPassword?.message}
         />
-        <ButtonNext
+        <Button
           testId="change-password-submit"
           type="primary"
           block
@@ -87,7 +87,7 @@ export function ResetPasswordPage() {
           htmlType="submit"
         >
           Zmień Hasło
-        </ButtonNext>
+        </Button>
       </form>
     </FullPageForm>
   );

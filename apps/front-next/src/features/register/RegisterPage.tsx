@@ -10,7 +10,7 @@ import { useForm } from 'react-hook-form';
 import { EMAIL_REGEX, PASSWORD_MIN_LENGTH } from 'shared';
 import { api } from 'src/services/api';
 import { useAuthForm } from 'src/hooks/useAuthForm';
-import { ButtonNext } from 'src/components/ButtonNext';
+import { Button } from 'src/components/Button';
 
 interface FormValues {
   email: string;
@@ -104,7 +104,7 @@ export function RegisterPage() {
           })}
           error={errors.confirmPassword?.message}
         />
-        <ButtonNext
+        <Button
           testId="register-submit"
           type="primary"
           block
@@ -112,7 +112,7 @@ export function RegisterPage() {
           htmlType="submit"
         >
           Załóż konto
-        </ButtonNext>
+        </Button>
         <SocialFormButtons source="register" />
       </form>
     </FullPageForm>

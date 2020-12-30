@@ -1,6 +1,6 @@
 import React from 'react';
 import { Badge } from 'src/components/Badge';
-import { HeadingNext } from 'src/components/HeadingNext';
+import { Heading } from 'src/components/Heading';
 
 interface ModuleMediaProps {
   aboveText: React.ReactNode;
@@ -17,9 +17,9 @@ export function ModuleMedia(props: ModuleMediaProps) {
         <Badge dot type="secondary" />
         <div className="ml-3">
           <div className="text-sm">{aboveText}</div>
-          <HeadingNext type={6} className="leading-5">
+          <Heading type={6} className="leading-5">
             {title}
-          </HeadingNext>
+          </Heading>
           {footer}
         </div>
       </div>

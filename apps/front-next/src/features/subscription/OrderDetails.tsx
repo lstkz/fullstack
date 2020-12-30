@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { useFormContext } from 'react-hook-form';
 import { SubscriptionPlan } from 'shared';
-import { HeadingNext } from 'src/components/HeadingNext';
+import { Heading } from 'src/components/Heading';
 import { Select } from 'src/components/Select';
 import { SubscriptionFormValues } from './SubscriptionPage';
 
@@ -59,7 +59,7 @@ export function OrderDetails(props: OrderDetailsProps) {
   return (
     <div className="flex flex-col relative shadow-lg bg-white border border-gray-200 rounded-md md:sticky md:top-6">
       <div className="py-4 px-6 border-b border-gray-200">
-        <HeadingNext type={6}>Wybierz plan</HeadingNext>
+        <Heading type={6}>Wybierz plan</Heading>
       </div>
       <div className="p-6">
         <Select

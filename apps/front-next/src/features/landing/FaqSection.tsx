@@ -2,15 +2,15 @@ import * as React from 'react';
 import { Accordion, AccordionItem } from 'src/components/AccordionItem';
 import { Theme } from 'src/Theme';
 import { SectionShape } from './SectionShape';
-import { HeadingNext } from 'src/components/HeadingNext';
+import { Heading } from 'src/components/Heading';
 
 export function FaqSection() {
   return (
     <div className="text-white py-28 bg-primary relative">
       <div className="container">
-        <HeadingNext className="mb-12 text-center" type={2} white>
+        <Heading className="mb-12 text-center" type={2} white>
           Najczęstsze pytania
-        </HeadingNext>
+        </Heading>
         <div className="grid lg:grid-cols-2 lg:gap-6">
           <div>
             <Accordion>

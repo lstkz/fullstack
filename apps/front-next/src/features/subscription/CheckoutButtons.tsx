@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { ButtonNext } from 'src/components/ButtonNext';
+import { Button } from 'src/components/Button';
 
 interface CheckoutButtonsProps {
   isSubmitting: boolean;
@@ -10,13 +10,9 @@ export function CheckoutButtons(props: CheckoutButtonsProps) {
   const { isSubmitting, isDone } = props;
   return (
     <div>
-      <ButtonNext
-        type="primary"
-        htmlType="submit"
-        loading={isSubmitting || isDone}
-      >
+      <Button type="primary" htmlType="submit" loading={isSubmitting || isDone}>
         {isDone ? 'Przekierowywanie do płatności...' : ' Zamawiam i płacę'}
-      </ButtonNext>
+      </Button>
     </div>
   );
 }

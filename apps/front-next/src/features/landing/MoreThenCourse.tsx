@@ -11,15 +11,13 @@ import {
 import { Illustration1 } from './Illustration1';
 import { Icon } from 'src/components/Icon';
 import { IconList, IconListItem } from './IconList';
-import { HeadingNext } from 'src/components/HeadingNext';
+import { Heading } from 'src/components/Heading';
 
 export function MoreThenCourse() {
   return (
     <div className="container grid my-16 md:grid-cols-2">
       <div className="md:pl-16">
-        <HeadingNext type={2}>
-          To więcej niż zwykły kurs programowania
-        </HeadingNext>
+        <Heading type={2}>To więcej niż zwykły kurs programowania</Heading>
         <div className="my-6 text-lg font-light">
           Fullstack.pl to kompletna platforma do nauki programowania.
         </div>

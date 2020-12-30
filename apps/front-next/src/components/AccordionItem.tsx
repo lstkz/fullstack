@@ -1,6 +1,6 @@
 import classNames from 'classnames';
 import * as React from 'react';
-import { HeadingNext } from './HeadingNext';
+import { Heading } from './Heading';
 
 interface AccordionItemProps {
   className?: string;
@@ -88,7 +88,7 @@ export function AccordionItem(props: AccordionItemProps) {
           setContentHeight(contentRef.current.clientHeight);
         }}
       >
-        <HeadingNext type={6}>{header}</HeadingNext>
+        <Heading type={6}>{header}</Heading>
         <div className="absolute right-6 top-1/2 text-gray-600 font-bold transform -translate-y-1/2">
           {isExpanded ? '-' : '+'}
         </div>

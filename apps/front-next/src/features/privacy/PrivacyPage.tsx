@@ -1,6 +1,6 @@
 import React from 'react';
 import { Dashboard } from 'src/components/Dashboard';
-import { HeadingNext } from 'src/components/HeadingNext';
+import { Heading } from 'src/components/Heading';
 
 function Ul(props: React.HTMLAttributes<HTMLUListElement>) {
   return <ul {...props} className="mt-1 pl-10 list-disc" />;
@@ -25,9 +25,9 @@ export function PrivacyPage() {
     <Dashboard>
       <div className="container">
         <div className="py-12">
-          <HeadingNext type={2} className="text-center mb-10">
+          <Heading type={2} className="text-center mb-10">
             Polityka prywatności
-          </HeadingNext>
+          </Heading>
           <H3>1. Informacje ogólne</H3>
           <Ol>
             <li>

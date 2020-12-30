@@ -1,17 +1,17 @@
 import React from 'react';
 import { createUrl } from 'src/common/url';
-import { ButtonNext } from 'src/components/ButtonNext';
+import { Button } from 'src/components/Button';
 import { Dashboard } from 'src/components/Dashboard';
-import { HeadingNext } from 'src/components/HeadingNext';
+import { Heading } from 'src/components/Heading';
 import { PricingCard } from 'src/components/PricingCard';
 
 export function PricingPage() {
   return (
     <Dashboard>
       <div className="container">
-        <HeadingNext type={2} className="text-center mt-20">
+        <Heading type={2} className="text-center mt-20">
           Prosta oferta
-        </HeadingNext>
+        </Heading>
         <div className="text-lg font-light text-center mb-12 mt-4">
           Zacznij za darmo albo wykup płatny dostęp do całej platformy.
           <br />W wersji darmowej masz dostęp tylko do teori, bez praktyki.
@@ -28,14 +28,14 @@ export function PricingPage() {
                 'Dostęp do przykładowych rozwiązań przez mentora',
               ]}
               button={
-                <ButtonNext
+                <Button
                   block
                   type="warning"
                   size="small"
                   href={createUrl({ name: 'subscription' })}
                 >
                   Wybróbuj
-                </ButtonNext>
+                </Button>
               }
             />
           </div>
@@ -53,14 +53,14 @@ export function PricingPage() {
                 'Dostęp do społeczności',
               ]}
               button={
-                <ButtonNext
+                <Button
                   block
                   type="neutral"
                   size="small"
                   href={createUrl({ name: 'subscription' })}
                 >
                   Kup
-                </ButtonNext>
+                </Button>
               }
             />
           </div>

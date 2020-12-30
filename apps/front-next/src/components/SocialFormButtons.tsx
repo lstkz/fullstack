@@ -7,7 +7,7 @@ import { useRouter } from 'next/dist/client/router';
 import { api } from 'src/services/api';
 import { useAuthForm } from 'src/hooks/useAuthForm';
 import { useErrorModalActions } from 'src/features/ErrorModalModule';
-import { ButtonNext } from './ButtonNext';
+import { Button } from './Button';
 
 interface SocialFormButtonsProps {
   source: 'login' | 'register';
@@ -70,7 +70,7 @@ export function SocialFormButtons(props: SocialFormButtonsProps) {
     <>
       <div className="text-xs my-4 uppercase text-center">lub</div>
       <div className="grid md:grid-cols-2 gap-8">
-        <ButtonNext
+        <Button
           testId="social-github-btn"
           onClick={() => {
             const params = [
@@ -90,8 +90,8 @@ export function SocialFormButtons(props: SocialFormButtonsProps) {
           loading={github.isSubmitting}
         >
           Github
-        </ButtonNext>
-        <ButtonNext
+        </Button>
+        <Button
           testId="social-google-btn"
           onClick={() => {
             const params = [
@@ -112,7 +112,7 @@ export function SocialFormButtons(props: SocialFormButtonsProps) {
           loading={google.isSubmitting}
         >
           Google
-        </ButtonNext>
+        </Button>
       </div>
     </>
   );

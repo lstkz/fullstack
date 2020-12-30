@@ -1,7 +1,7 @@
 import React from 'react';
 import { Modal, ModalProps } from 'src/components/Modal';
-import { ButtonNext } from './ButtonNext';
-import { HeadingNext } from './HeadingNext';
+import { Button } from './Button';
+import { Heading } from './Heading';
 
 interface SimpleModalProps
   extends Pick<ModalProps, 'isOpen' | 'close' | 'bgColor' | 'testId'> {
@@ -19,21 +19,21 @@ export function SimpleModal(props: SimpleModalProps) {
       isOpen={isOpen}
       close={close}
       footer={
-        <ButtonNext
+        <Button
           testId="close-btn"
           size="small"
           type="secondary"
           onClick={() => close('close-button')}
         >
           Zamknij
-        </ButtonNext>
+        </Button>
       }
     >
       <div className="text-center py-6">
         {icon}
-        <HeadingNext type={4} className="text-center mt-4 mb-3" white>
+        <Heading type={4} className="text-center mt-4 mb-3" white>
           {title}
-        </HeadingNext>
+        </Heading>
         {description}
       </div>
     </Modal>

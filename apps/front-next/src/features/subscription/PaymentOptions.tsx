@@ -7,7 +7,7 @@ import { useFormContext } from 'react-hook-form';
 import { SubscriptionFormValues } from './SubscriptionPage';
 import { InputFeedback } from 'src/components/Input';
 import classNames from 'classnames';
-import { HeadingNext } from 'src/components/HeadingNext';
+import { Heading } from 'src/components/Heading';
 
 export function PaymentOptions() {
   const {
@@ -32,9 +32,9 @@ export function PaymentOptions() {
 
   return (
     <div className="my-4" id="groupId">
-      <HeadingNext className="mb-2" type={5} id="payment-options-label">
+      <Heading className="mb-2" type={5} id="payment-options-label">
         Forma płatności
-      </HeadingNext>
+      </Heading>
       {!tpayGroups ? (
         <div className="flex items-center justify-center">
           <SpinnerBoarder />

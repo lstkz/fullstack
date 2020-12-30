@@ -4,7 +4,7 @@ import { createUrl } from 'src/common/url';
 import { Logo } from 'src/components/Logo';
 import { DISABLE_APP } from 'src/config';
 import { useAuthActions, useUser } from 'src/features/AuthModule';
-import { ButtonNext } from './ButtonNext';
+import { Button } from './Button';
 import { DropdownPopup, MenuItem, MenuSeparator } from './DropdownPopup';
 import { MenuDropdown } from './MenuDropdown';
 import { VoidLink } from './VoidLink';
@@ -63,22 +63,22 @@ export function Header() {
                 </div>
               ) : (
                 <div className="grid gap-4 grid-flow-col-dense auto-cols-max h-auto my-auto">
-                  <ButtonNext
+                  <Button
                     testId="header-login-btn"
                     type="secondary"
                     href={createUrl({ name: 'login' })}
                     size="small"
                   >
                     Zaloguj się
-                  </ButtonNext>
-                  <ButtonNext
+                  </Button>
+                  <Button
                     testId="header-register-btn"
                     type="primary"
                     href={createUrl({ name: 'register' })}
                     size="small"
                   >
                     Załóż konto
-                  </ButtonNext>
+                  </Button>
                 </div>
               )}
             </>

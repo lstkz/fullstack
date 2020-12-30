@@ -9,7 +9,7 @@ import { useErrorModalActions } from '../ErrorModalModule';
 import { api } from 'src/services/api';
 import { OrderDetails } from './OrderDetails';
 import { Validator } from 'src/common/Validator';
-import { HeadingNext } from 'src/components/HeadingNext';
+import { Heading } from 'src/components/Heading';
 
 interface SubscriptionPageProps {
   subscriptionPlans: SubscriptionPlan[];
@@ -89,9 +89,9 @@ export function SubscriptionPage(props: SubscriptionPageProps) {
               <OrderDetails subscriptionPlans={subscriptionPlans} />
             </div>
             <div className="md:col-start-1 md:col-span-6 lg:col-start-1 lg:col-span-7 ">
-              <HeadingNext className="mb-1" type={5}>
+              <Heading className="mb-1" type={5}>
                 Szczegóły płatności
-              </HeadingNext>
+              </Heading>
               <div className="grid lg:grid-cols-2 lg:gap-4">
                 <ContextFormInput name="firstName" label="Imię" />
                 <ContextFormInput name="lastName" label="Nazwisko" />

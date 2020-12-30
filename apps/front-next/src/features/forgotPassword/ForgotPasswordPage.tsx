@@ -9,7 +9,7 @@ import { api } from 'src/services/api';
 import { getErrorMessage } from 'src/common/helper';
 import { createUrl } from 'src/common/url';
 import Link from 'next/link';
-import { ButtonNext } from 'src/components/ButtonNext';
+import { Button } from 'src/components/Button';
 
 interface FormValues {
   email: string;
@@ -64,7 +64,7 @@ export function ForgotPasswordPage() {
           })}
           error={errors.email?.message}
         />
-        <ButtonNext
+        <Button
           testId="reset-password-submit"
           type="primary"
           block
@@ -72,7 +72,7 @@ export function ForgotPasswordPage() {
           htmlType="submit"
         >
           Resetuj Hasło
-        </ButtonNext>
+        </Button>
       </form>
       <div className="text-right text-sm mt-4">
         <Link data-test="login-link" href={createUrl({ name: 'login' })}>

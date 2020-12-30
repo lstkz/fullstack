@@ -1,7 +1,7 @@
 import React from 'react';
 import Link from 'next/link';
 import { SpinnerBoarder } from './SpinnerBoarder';
-import styles from './ButtonNext.module.css';
+import styles from './Button.module.css';
 import classNames from 'classnames';
 
 interface ButtonProps {
@@ -23,7 +23,7 @@ interface ButtonProps {
   testId?: string;
 }
 
-export const ButtonNext = React.forwardRef((props: ButtonProps, ref: any) => {
+export const Button = React.forwardRef((props: ButtonProps, ref: any) => {
   const {
     className,
     onClick,

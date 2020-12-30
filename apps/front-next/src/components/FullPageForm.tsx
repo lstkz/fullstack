@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { HeadingNext } from './HeadingNext';
+import { Heading } from './Heading';
 
 interface AuthFormProps {
   title: string;
@@ -15,7 +15,7 @@ export function FullPageForm(props: AuthFormProps) {
   return (
     <div data-test={testId} className="max-w-lg w-full mx-auto py-32 px-8">
       <div className="text-center mb-8">
-        <HeadingNext type={3}>{title}</HeadingNext>
+        <Heading type={3}>{title}</Heading>
         {subTitle && <div className="mt-1 text-gray-600">{subTitle}</div>}
       </div>
       {children}
