@@ -128,7 +128,7 @@ export function MoreThenCourse() {
               </Icon>
             }
           >
-            Podział na tygodnie nauki.
+            Podział nauki na moduły.
           </IconListItem>
           <IconListItem
             icon={
@@ -137,7 +137,7 @@ export function MoreThenCourse() {
               </Icon>
             }
           >
-            Każdy tydzień zawiera lekcje video i zadania do zrobienia.
+            Każdy moduł zawiera lekcje video i zadania do zrobienia.
           </IconListItem>
           <IconListItem
             icon={

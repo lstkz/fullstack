@@ -25,7 +25,7 @@ export function TargetSection() {
               title="Chcesz się nauczyć programować od zera"
             >
               Wszystko jest tłumaczone krok po kroku. Teoria jest przeplatana na
-              zmianę z praktyką. Nauczysz się najnowszej wersji TypeScripta i
+              zmianę z praktyką. Nauczysz się najnowszych technologii i
               najlepszych praktyk.
             </Media>
             <Media
@@ -40,16 +40,17 @@ export function TargetSection() {
               title="Chcesz z łatwością przechodzić rozmowy rekrutacyjne"
             >
               Ponad 90% kandydatów odpada na praktycznym zadaniu rekrutacyjnym.
-              Wkuwanie na pamięć dziesiątek pytań niewiele daje. Po skończonym
-              kursie, rozmowy o prace będą dużo łatwiejsze.
+              Wkuwanie na pamięć dziesiątek pytań niewiele daje. Po skończeniu
+              kilku modułów, rozmowy o prace będą dużo łatwiejsze.
             </Media>
             <Media
               icon={<MoneyBagIcon />}
               title="Chcesz kiedyś zostać programistą 20k"
             >
-              Topowe stawki są możliwe po 3-4 latach doświadczenia. W kursie
-              będą zadania łatwe oraz trudne, które nakierują Cię na odpowiednią
-              ścieżkę nauki. Wiele osób zatrzymuje się na poziomie podstawowym.
+              Topowe stawki są możliwe po 3-4 latach doświadczenia. Na
+              platformie będą zadania łatwe oraz trudne, które nakierują Cię na
+              odpowiednią ścieżkę nauki. Wiele osób zatrzymuje się na poziomie
+              podstawowym.
             </Media>
           </div>
           <div>

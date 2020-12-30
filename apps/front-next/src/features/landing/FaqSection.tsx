@@ -15,16 +15,12 @@ export function FaqSection() {
           <div>
             <Accordion>
               <AccordionItem header={<>Czego się nauczę konkretnie?</>}>
-                Nauczysz się TypeScripta i rozwiązywania zadań bez frameworków.
-                Na samym początku kariery programisty, kluczowe jest, aby umieć
+                Nauczysz się rozwiązywania zadań, zaczynając od fundamentów. Na
+                samym początku kariery programisty, kluczowe jest, aby umieć
                 przepisywać "logikę biznesową" na kod.
                 <br />
-                Celem tego kursu jest nauka fundamentów, które będą potrzebne w
-                późniejszej pracy frontend i/lub backend developera.
-              </AccordionItem>
-              <AccordionItem header={<>Dla kogo NIE jest ten kurs?</>}>
-                Ten kurs nie jest dla osób, których celem jest tworzenie tylko
-                prostych stron z użyciem HTMLa i CSSów.
+                Następnie zaczniesz się uczyć technologii z frontendu i
+                backendu.
               </AccordionItem>
               <AccordionItem header={<>Jak wyglądają zadania do zrobienia?</>}>
                 Cały kod piszesz w wbudowanym Visual Studio Code w przeglądarce.
@@ -32,12 +28,16 @@ export function FaqSection() {
                 automaczynie, a wynik otrzymasz w parę sekund.
               </AccordionItem>
               <AccordionItem header={<>Ile czasu muszę poświęcić?</>}>
-                Im więcej typ lepiej 🙂. Będziesz musiał(a) poświęcić od 6 do 10
-                godzin dziennie. Niestety, ale nie da się nauczyć programować
-                siedząc 2 godziny przez weekend.
-                <br />
-                Dostęp do kursu jest nieograniczony. Możesz robić zadania przez
-                dowolnie długi czas!
+                Każdy moduł wymaga od 100 do 200 godzin praktyki. <br />
+                Nie ma limitów czasowych na wykonanie zadań.
+              </AccordionItem>
+              <AccordionItem
+                header={
+                  <>Jakie języki programowania i technologie są dostępne?</>
+                }
+              >
+                W pierwszej kolejności będą się pojawiać moduły z TypeScripta,
+                Reacta, Node.JSa, HTML/CSS.
               </AccordionItem>
             </Accordion>
           </div>
@@ -51,16 +51,22 @@ export function FaqSection() {
                 kompletne rozwiązanie video stworzone przez mentora. Ważne jest,
                 aby rozwiązać 80-90% wszystkich zadań samodzielnie.
               </AccordionItem>
+              <AccordionItem
+                header={<>Co jeśli chcę zostać tylko frontend developerem?</>}
+              >
+                Jeżeli nie chcesz zostać fullstackiem, to możesz zrobić tylko te
+                moduły, które Cię interesują. <br />
+                Frontend developerzy mogą pominąć moduły z Node.JS i baz danych.{' '}
+                <br />
+                Backend developerzy mogą pominąć moduły z HTML, CSS i Reacta.
+              </AccordionItem>
               <AccordionItem header={<>Czy jest dostęp do społeczności?</>}>
                 Tak, każda osoba, która kupi kurs, otrzyma dostęp do prywatnego
                 Slacka.
               </AccordionItem>
-              <AccordionItem header={<>Czy otrzymam fakturę VAT?</>}>
-                Tak, możesz otrzymać fakturę z 23% VAT.
-              </AccordionItem>
-              <AccordionItem header={<>Czy są zwroty?</>}>
-                Tak, możesz otrzymać 100% zwrotu pieniędzy do 14-dni od
-                uzyskania dostępu do kursu.
+              <AccordionItem header={<>Ile to kosztuje?</>}>
+                Cena jeszcze nie jest znana. Dostęp do platformy będzie w formie
+                abonamentu.
               </AccordionItem>
             </Accordion>
           </div>

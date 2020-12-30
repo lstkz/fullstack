@@ -18,11 +18,13 @@ export function MainBanner() {
               </div>
             </h2>
             <div className="text-lg mt-6 font-light opacity-80">
-              Nowoczesny kurs TypeScripta i podstaw algorytmiki.
+              Nowoczesna platforma edukacyjna.
               <br />
-              Ponad 300 godzin praktyki.
+              Setki godzin praktyki.
               <br />
-              Jest to pierwszy krok do zostania fullstakiem.
+              Narastający stopień trudności.
+              <br />
+              Zacznij od kompletnych podstaw.
             </div>
           </div>
           <div className="relative">
