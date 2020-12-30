@@ -255,7 +255,7 @@ function createCDN(stack: cdk.Stack) {
     maxCapacity: config.deploy.vmCapacity.count,
   });
 
-  const bucket = createMainBucket(stack);
+  createMainBucket(stack);
   const dockerImage = ecs.ContainerImage.fromAsset(
     Path.join(__dirname, '../../..'),
     {}

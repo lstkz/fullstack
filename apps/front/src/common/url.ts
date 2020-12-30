@@ -1,6 +1,3 @@
-import { getRouterState, RouterLocation } from 'typeless-router';
-import * as R from 'remeda';
-
 export type UrlOptions =
   | {
       name: 'login';
@@ -12,15 +9,16 @@ export type UrlOptions =
       name: 'reset-password';
     }
   | {
-      name: 'courses';
+      name: 'forgot-password';
     }
   | {
-      name: 'course';
+      name: 'module';
       id: string;
     }
   | {
-      name: 'buy-course';
+      name: 'task';
       id: string;
+      taskId: number;
     }
   | {
       name: 'home';
@@ -36,82 +34,27 @@ export type UrlOptions =
     }
   | {
       name: 'privacy';
+    }
+  | {
+      name: 'modules';
+    }
+  | {
+      name: 'subscription';
     };
 
 export function createUrl(options: UrlOptions) {
   switch (options.name) {
     case 'home':
-      return '/courses';
+      return '/modules';
     case 'tos':
       return '/terms';
-    case 'course':
-      return '/course/' + options.id;
-    case 'buy-course':
-      return '/buy-course/' + options.id;
+    case 'module':
+      return '/module/' + options.id;
+    case 'task':
+      return '/module/' + options.id + '/task/' + options.taskId;
     default:
       return '/' + options.name;
   }
-}
-
-export function getRouteParams(name: 'check-order'): { orderId: string };
-export function getRouteParams(name: 'checkout'): { courseId: string };
-export function getRouteParams(name: 'reset-password'): { code: string };
-export function getRouteParams(name: 'confirm'): { code: string };
-export function getRouteParams(name: 'confirm-change-email'): { code: string };
-export function getRouteParams(
-  name:
-    | 'check-order'
-    | 'reset-password'
-    | 'confirm'
-    | 'profile'
-    | 'confirm-change-email'
-    | 'faq'
-    | 'checkout'
-): any {
-  const location = getRouterState().location!;
-  const getLast = () => R.last(location.pathname.split('/'));
-  switch (name) {
-    case 'confirm':
-    case 'confirm-change-email':
-    case 'reset-password': {
-      return {
-        code: getLast(),
-      };
-    }
-    case 'profile': {
-      return {
-        username: getLast(),
-      };
-    }
-    case 'faq': {
-      return {
-        slug: location.pathname === '/faq' ? null : getLast(),
-      };
-    }
-    case 'checkout': {
-      return {
-        courseId: getLast(),
-      };
-    }
-    case 'check-order': {
-      return {
-        orderId: getLast(),
-      };
-    }
-  }
-}
-
-export function isRoute(
-  name: 'register' | 'login' | 'reset-password',
-  location?: RouterLocation | null
-): boolean {
-  const { pathname } = location || getRouterState().location!;
-  switch (name) {
-    default: {
-      return pathname === createUrl({ name });
-    }
-  }
-  return false;
 }
 
 export function parseQueryString(qs: string | null | undefined) {

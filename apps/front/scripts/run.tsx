@@ -13,12 +13,18 @@ export function runScript(
     stdio: 'inherit' as const,
     env: {
       ...process.env,
-      BUGSNAG_API_KEY: config.bugsnag.frontKey.toString(),
       NODE_ENV: nodeEnv,
-      GITHUB_CLIENT_ID: config.github.clientId,
-      GOOGLE_CLIENT_ID: config.google.clientId,
-      API_URL: config.apiBaseUrl,
-      PROTECTED_BASE_URL: config.apiBaseUrl,
+      FS_PUBLIC_BUGSNAG_API_KEY: config.bugsnag.frontKey.toString(),
+      FS_PUBLIC_GITHUB_CLIENT_ID: config.github.clientId,
+      FS_PUBLIC_GOOGLE_CLIENT_ID: config.google.clientId,
+      FS_PUBLIC_API_URL: config.apiBaseUrl,
+      FS_PUBLIC_PROTECTED_BASE_URL: config.apiBaseUrl,
+      FS_PUBLIC_IDLE_TIMEOUT: String(config.vm.idleTimeout),
+      FS_PUBLIC_DISABLE_APP: String(config.disableApp),
+      FS_PUBLIC_LOCAL_VM_BASE_PATH: Path.join(
+        __dirname,
+        '../../../content/modules'
+      ),
     },
   });
 

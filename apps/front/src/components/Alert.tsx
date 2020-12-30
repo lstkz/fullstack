@@ -1,40 +1,23 @@
-import styled, { css } from 'styled-components';
-import { Theme } from 'src/Theme';
 import React from 'react';
+import classNames from 'classnames';
 
 interface AlertProps {
-  className?: string;
   children: React.ReactNode;
   type: 'error';
   testId?: string;
 }
 
-const _Alert = (props: AlertProps) => {
-  const { className, children, testId } = props;
+export function Alert(props: AlertProps) {
+  const { children, testId, type } = props;
   return (
-    <div className={className} data-test={testId}>
+    <div
+      className={classNames(
+        'px-4 py-3 rounded-md mb-8 flex items-center',
+        type === 'error' && 'bg-danger text-white'
+      )}
+      data-test={testId}
+    >
       {children}
     </div>
   );
-};
-
-export const Alert = styled(_Alert)`
-  padding: 10px 12px;
-  border-radius: 4px;
-  margin-bottom: 20px;
-  display: flex;
-  align-items: center;
-  svg {
-    margin-right: 15px;
-  }
-  ${props => {
-    switch (props.type) {
-      case 'error': {
-        return css`
-          background: ${Theme.red};
-          color: white;
-        `;
-      }
-    }
-  }}
-`;
+}

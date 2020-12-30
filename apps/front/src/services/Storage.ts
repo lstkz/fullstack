@@ -1,11 +1,13 @@
+import { createCookie, readCookie, removeCookie } from 'src/common/cookie';
+
 export const getAccessToken = () => {
-  return localStorage.getItem('token');
+  return readCookie('token');
 };
 
 export const setAccessToken = (token: string) => {
-  localStorage.setItem('token', token);
+  createCookie('token', token);
 };
 
 export const clearAccessToken = () => {
-  localStorage.removeItem('token');
+  removeCookie('token');
 };

@@ -1,10 +1,7 @@
-import { getValidateResult, AnySchema } from 'schema';
-import * as Rx from 'src/rx';
-import { GlobalActions } from 'src/features/global/interface';
-import { ActionLike } from 'typeless';
-import { AuthData } from 'shared';
-import { RouterActions } from 'typeless-router';
-import { PROTECTED_BASE_URL } from 'src/config';
+import { GetServerSideProps, NextPageContext } from 'next';
+import { APIClient } from 'shared';
+import { API_URL, DISABLE_APP } from 'src/config';
+import { readCookieFromString } from './cookie';
 
 export class UnreachableCaseError extends Error {
   constructor(val: never) {
@@ -12,31 +9,6 @@ export class UnreachableCaseError extends Error {
       `Unreachable case: ${typeof val === 'string' ? val : JSON.stringify(val)}`
     );
   }
-}
-
-function fixErrorMessage(message: string) {
-  if (message === 'is required') {
-    return 'Pole wymagane';
-  }
-  if (message === 'must a valid email') {
-    return 'Niepoprawny email';
-  }
-  if (message === 'length must be at least 5 characters long') {
-    return 'Hasło musi mieć przynajmniej 5 znaków';
-  }
-
-  return message[0].toUpperCase() + message.slice(1);
-}
-
-export function validate(
-  errors: any,
-  values: any,
-  schema: AnySchema<any, any>
-) {
-  getValidateResult(values, schema).errors.reduce((ret, err) => {
-    ret[err.path[0]] = fixErrorMessage(err.message);
-    return ret;
-  }, errors as any);
 }
 
 export function getErrorMessage(e: any) {
@@ -47,29 +19,29 @@ export function getErrorMessage(e: any) {
   return message.replace('ContractError: ', '');
 }
 
-export const handleAppError = () =>
-  Rx.catchLog<ActionLike, Rx.Observable<ActionLike>>((e: any) => {
-    return Rx.of(GlobalActions.showErrorModal(getErrorMessage(e)));
-  });
+// export const handleAppError = () =>
+//   Rx.catchLog<ActionLike, Rx.Observable<ActionLike>>((e: any) => {
+//     return Rx.of(GlobalActions.showErrorModal(getErrorMessage(e)));
+//   });
 
-interface HandleAuthOptions {
-  authData: AuthData;
-  reset: () => any;
-  action$: Rx.Observable<any>;
-}
+// interface HandleAuthOptions {
+//   authData: AuthData;
+//   reset: () => any;
+//   action$: Rx.Observable<any>;
+// }
 
-export function handleAuth(options: HandleAuthOptions) {
-  const { authData, reset, action$ } = options;
-  return Rx.mergeObs(
-    action$
-      .pipe(
-        Rx.waitForType(RouterActions.locationChange),
-        Rx.map(() => reset())
-      )
-      .pipe(Rx.delay(1000)),
-    Rx.of(GlobalActions.auth(authData))
-  );
-}
+// export function handleAuth(options: HandleAuthOptions) {
+//   const { authData, reset, action$ } = options;
+//   return Rx.mergeObs(
+//     action$
+//       .pipe(
+//         Rx.waitForType(RouterActions.locationChange),
+//         Rx.map(() => reset())
+//       )
+//       .pipe(Rx.delay(1000)),
+//     Rx.of(GlobalActions.auth(authData))
+//   );
+// }
 
 export function getSolutionsSortCriteria(
   sortOrder: 'likes' | 'newest' | 'oldest'
@@ -147,32 +119,32 @@ export function toggleMapValue<
   return copy;
 }
 
-const BUNDLE_ID = 'CHALLENGE_BUNDLE_SCRIPT';
+// const BUNDLE_ID = 'CHALLENGE_BUNDLE_SCRIPT';
 
-function removeBundle() {
-  const existing = document.getElementById(BUNDLE_ID);
-  if (existing) {
-    existing.remove();
-  }
-}
+// function removeBundle() {
+//   const existing = document.getElementById(BUNDLE_ID);
+//   if (existing) {
+//     existing.remove();
+//   }
+// }
 
-export function loadBundle(detailsBundleS3Key: string) {
-  return new Rx.Observable<any>(subscriber => {
-    removeBundle();
-    const script = document.createElement('script');
-    script.type = 'text/javascript';
-    script.src = PROTECTED_BASE_URL + detailsBundleS3Key;
-    script.setAttribute('id', BUNDLE_ID);
-    (window as any).ChallengeJSONP = (module: any) => {
-      subscriber.next(module.Details);
-      subscriber.complete();
-    };
-    document.body.appendChild(script);
-    return () => {
-      removeBundle();
-    };
-  });
-}
+// export function loadBundle(detailsBundleS3Key: string) {
+//   return new Rx.Observable<any>(subscriber => {
+//     removeBundle();
+//     const script = document.createElement('script');
+//     script.type = 'text/javascript';
+//     script.src = PROTECTED_BASE_URL + detailsBundleS3Key;
+//     script.setAttribute('id', BUNDLE_ID);
+//     (window as any).ChallengeJSONP = (module: any) => {
+//       subscriber.next(module.Details);
+//       subscriber.complete();
+//     };
+//     document.body.appendChild(script);
+//     return () => {
+//       removeBundle();
+//     };
+//   });
+// }
 
 export function opacityHex(hex: string, opacity: number) {
   const shorthandRegex = /^#?([a-f\d])([a-f\d])([a-f\d])$/i;
@@ -209,3 +181,56 @@ export function isMenuHighlighted(
 }
 
 export const isConfirmKey = (code: string) => code === 'Enter' || code === ' ';
+
+export const ensureNotLoggedIn: GetServerSideProps = async context => {
+  if (readCookieFromString(context.req.headers['cookie'], 'token')) {
+    return {
+      redirect: {
+        destination: '/modules',
+        permanent: false,
+      },
+    };
+  }
+
+  return {
+    props: {},
+  };
+};
+
+export const wrapDisabled: (
+  fn: GetServerSideProps
+) => GetServerSideProps = fn => async context => {
+  if (DISABLE_APP) {
+    return {
+      redirect: {
+        destination: '/',
+        permanent: false,
+      },
+    };
+  }
+  return fn(context);
+};
+
+export function createSSRClient<
+  T extends {
+    req?: NextPageContext['req'];
+  }
+>(ctx: T) {
+  const token = readCookieFromString(
+    ctx?.req?.headers['cookie'] ?? '',
+    'token'
+  );
+  return new APIClient(API_URL, () => token, fetch);
+}
+
+export function safeAssign<T>(obj: T, values: Partial<T>) {
+  return Object.assign(obj, values);
+}
+
+export function safeExtend<T, U>(obj: T, values: U): T & U {
+  return Object.assign(obj, values);
+}
+
+export function safeKeys<T>(obj: T): Array<keyof T> {
+  return Object.keys(obj) as any;
+}
