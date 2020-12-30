@@ -63,11 +63,11 @@ export function init() {
       }
       if (build) {
         const buildOptions = { stage };
-        await Promise.all([buildApp('front-next', buildOptions)]);
+        await Promise.all([buildApp('front', buildOptions)]);
       }
 
       if (cdnBucket) {
-        await uploadS3('front-next/.next/static', cdnBucket, '_next/static/');
+        await uploadS3('front/.next/static', cdnBucket, '_next/static/');
       }
 
       await cpToPromise(

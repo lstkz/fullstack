@@ -1,39 +1,23 @@
+import classNames from 'classnames';
 import * as React from 'react';
-import styled from 'styled-components';
-import { Button } from './Button';
-import { Input } from './Input';
+import styles from './InputGroup.module.css';
 
 interface InputGroupProps {
   className?: string;
   input: React.ReactElement;
   append?: React.ReactElement;
-
   size?: 'small' | 'default' | 'large' | 'extra-large';
 }
 
-const _InputGroup = (props: InputGroupProps) => {
+export function InputGroup(props: InputGroupProps) {
   const { className, input, append, size } = props;
   return (
-    <div className={className}>
-      {React.cloneElement(input, { size })}
+    <div className={classNames('flex', className, styles.inputGroup)}>
+      {React.cloneElement(input, {
+        size,
+        className: 'flex-auto',
+      })}
       {append && React.cloneElement(append, { size })}
     </div>
   );
-};
-
-export const InputGroup = styled(_InputGroup)`
-  display: flex;
-  ${Input} {
-    flex: 1 1 auto;
-    width: 1%;
-    min-width: 0;
-  }
-  ${Input} input {
-    border-top-right-radius: 0;
-    border-bottom-right-radius: 0;
-  }
-  ${Button} {
-    border-top-left-radius: 0;
-    border-bottom-left-radius: 0;
-  }
-`;
+}

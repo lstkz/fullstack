@@ -84,5 +84,5 @@ jobs:
 
       - name: test front
         run: |
-          cd apps/front-next
+          cd apps/front
           yarn run test

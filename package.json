@@ -2,7 +2,7 @@
   "name": "fullstack-dev",
   "private": true,
   "scripts": {
-    "start:web": "cd apps/front-next && yarn run start",
+    "start:web": "cd apps/front && yarn run start",
     "start:api": "cd apps/api && yarn run start:api",
     "start:worker": "cd apps/api && yarn run start:worker"
   },
@@ -13,7 +13,7 @@
     "packages/*",
     "packages-public/*",
     "apps/api",
-    "apps/front-next",
+    "apps/front",
     "content"
   ],
   "dependencies": {

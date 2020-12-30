@@ -1,8 +1,6 @@
+import classNames from 'classnames';
 import * as React from 'react';
-import { Theme } from 'src/Theme';
-import styled from 'styled-components';
 import { Heading } from './Heading';
-import { spacerStyle } from './_spacer';
 
 interface AccordionItemProps {
   className?: string;
@@ -51,43 +49,7 @@ export function Accordion(props: AccordionProps) {
   );
 }
 
-const Header = styled.div`
-  padding: 1.5rem 1.75rem;
-  svg {
-    margin-right: 1rem;
-  }
-  position: relative;
-  cursor: pointer;
-  :after {
-    content: '+';
-    position: absolute;
-    right: 1.5rem;
-    top: 50%;
-    transform: translateY(-50%);
-    font-family: 'Nunito Sans', sans-serif;
-    font-weight: 700;
-    color: ${Theme.gray_600};
-  }
-  &[aria-expanded='true']:after {
-    content: '-';
-  }
-  ${spacerStyle};
-`;
-const Content = styled.div`
-  flex: 1 1 auto;
-  min-height: 1px;
-  padding: 1.75rem;
-  padding-top: 0;
-  color: ${Theme.gray_600};
-  overflow: hidden;
-`;
-
-const AnimateHeight = styled.div`
-  overflow: hidden;
-  transition: height ease-in 200ms;
-`;
-
-const _AccordionItem = (props: AccordionItemProps) => {
+export function AccordionItem(props: AccordionItemProps) {
   const { className, header, children } = props;
   const [isExpanded, setIsExpanded] = React.useState(false);
   const [contentHeight, setContentHeight] = React.useState(0);
@@ -108,8 +70,14 @@ const _AccordionItem = (props: AccordionItemProps) => {
     };
   }, []);
   return (
-    <div className={className}>
-      <Header
+    <div
+      className={classNames(
+        'flex flex-col rounded-xl bg-white mb-6',
+        className
+      )}
+    >
+      <div
+        className="py-6 px-7 relative cursor-pointer"
         aria-expanded={isExpanded}
         role="button"
         onClick={() => {
@@ -121,9 +89,16 @@ const _AccordionItem = (props: AccordionItemProps) => {
         }}
       >
         <Heading type={6}>{header}</Heading>
-      </Header>
-      <AnimateHeight style={{ height: isExpanded ? contentHeight : 0 }}>
-        <Content
+        <div className="absolute right-6 top-1/2 text-gray-600 font-bold transform -translate-y-1/2">
+          {isExpanded ? '-' : '+'}
+        </div>
+      </div>
+      <div
+        className="overflow-hidden transition-all"
+        style={{ height: isExpanded ? contentHeight : 0 }}
+      >
+        <div
+          className="p-7 pt-0 flex-auto overflow-hidden text-gray-600"
           ref={(node: any) => {
             if (node) {
               contentRef.current = node;
@@ -132,17 +107,8 @@ const _AccordionItem = (props: AccordionItemProps) => {
           }}
         >
           {children}
-        </Content>
-      </AnimateHeight>
+        </div>
+      </div>
     </div>
   );
-};
-
-export const AccordionItem = styled(_AccordionItem)`
-  display: flex;
-  flex-direction: column;
-  border-radius: 0.75rem;
-  background-color: #fff;
-  margin-bottom: 1.5rem;
-  ${spacerStyle};
-`;
+}

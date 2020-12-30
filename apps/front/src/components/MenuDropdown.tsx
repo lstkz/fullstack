@@ -1,12 +1,6 @@
 import React from 'react';
-import styled from 'styled-components';
 import * as PopperJS from 'popper.js';
 import { Manager, Reference, Popper } from 'react-popper';
-import { Transition } from 'react-spring/renderprops';
-
-const DropdownWrapper = styled.div`
-  z-index: 2;
-`;
 
 interface MenuDropdownProps {
   children: React.ReactElement;
@@ -39,6 +33,7 @@ export function MenuDropdown(props: MenuDropdownProps) {
       document.removeEventListener('click', onClick);
     };
   }, [isOpen]);
+
   return (
     <Manager>
       <Reference>
@@ -47,53 +42,42 @@ export function MenuDropdown(props: MenuDropdownProps) {
             'data-dropdown-toggle': true,
             'data-test': testId,
             ref: ref,
-            onClick: () => {
+            onClick: (e: MouseEvent) => {
+              e.stopPropagation();
               setOpen(!isOpen);
             },
           })
         }
       </Reference>
-      <Transition
-        items={isOpen}
-        config={(_, state) =>
-          state === 'leave' ? { duration: 0 } : { duration: 200 }
-        }
-        from={{ opacity: 0 }}
-        enter={{ opacity: 1 }}
-        leave={{ opacity: 0 }}
+      <Popper
+        modifiers={{
+          preventOverflow: {
+            enabled: true,
+            boundariesElement:
+              typeof document === 'undefined' ? undefined : document.body,
+          },
+        }}
+        placement={placement || 'bottom-start'}
       >
-        {open =>
-          open &&
-          (animatedStyle => (
-            <Popper
-              modifiers={{
-                preventOverflow: {
-                  enabled: true,
-                  boundariesElement: document.body,
-                },
+        {({ ref, style, placement: _placement }) =>
+          isOpen && (
+            <div
+              ref={ref}
+              style={{ ...style, zIndex: 2 }}
+              data-placement={_placement}
+              onClick={e => {
+                if (isClickable(e.target as any)) {
+                  return;
+                }
+                e.nativeEvent.stopPropagation();
+                e.nativeEvent.stopImmediatePropagation();
               }}
-              placement={placement || 'bottom-start'}
             >
-              {({ ref, style, placement: _placement }) => (
-                <DropdownWrapper
-                  ref={ref}
-                  style={{ ...style, ...(open ? animatedStyle : {}) }}
-                  data-placement={_placement}
-                  onClick={e => {
-                    if (isClickable(e.target as any)) {
-                      return;
-                    }
-                    e.nativeEvent.stopPropagation();
-                    e.nativeEvent.stopImmediatePropagation();
-                  }}
-                >
-                  {dropdown}
-                </DropdownWrapper>
-              )}
-            </Popper>
-          ))
+              {dropdown}
+            </div>
+          )
         }
-      </Transition>
+      </Popper>
     </Manager>
   );
 }
