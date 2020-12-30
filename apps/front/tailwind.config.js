@@ -46,7 +46,12 @@ function lighten(color, n = 10) {
 }
 
 module.exports = {
-  purge: [],
+  purge: {
+    content: ['./src/**/*.ts', './src/**/*.tsx'],
+    options: {
+      safelist: [/^text-/, /^bg-/],
+    },
+  },
   darkMode: false, // or 'media' or 'class'
   theme: {
     extend: {},

@@ -1,7 +1,7 @@
 **/node_modules
 **/dist
 **/.cache
-**/.next
+**/.next/cache
 **/build
 **/coverage
 **/.env*
