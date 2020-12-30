@@ -36,6 +36,7 @@ export const ButtonNext = React.forwardRef((props: ButtonProps, ref: any) => {
     href,
     type,
     size,
+    block,
   } = props;
   const inner = (
     <>
@@ -51,6 +52,7 @@ export const ButtonNext = React.forwardRef((props: ButtonProps, ref: any) => {
     styles.btn,
     styles['type-' + type],
     styles['size-' + (size ?? 'default')],
+    block && 'w-full',
     className,
   ];
 

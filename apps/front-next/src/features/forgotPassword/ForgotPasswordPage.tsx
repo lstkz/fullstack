@@ -1,8 +1,6 @@
 import React from 'react';
 import { Alert } from 'src/components/Alert';
 import { PasswordResetSuccess } from './PasswordResetSuccess';
-import styled from 'styled-components';
-import { Button } from 'src/components/Button';
 import { FormInput } from 'src/components/FormInput';
 import { useForm } from 'react-hook-form';
 import { EMAIL_REGEX } from 'shared';
@@ -11,12 +9,7 @@ import { api } from 'src/services/api';
 import { getErrorMessage } from 'src/common/helper';
 import { createUrl } from 'src/common/url';
 import Link from 'next/link';
-
-const BottomWrapper = styled.div`
-  text-align: right;
-  font-size: 0.8rem;
-  margin-top: 1rem;
-`;
+import { ButtonNext } from 'src/components/ButtonNext';
 
 interface FormValues {
   email: string;
@@ -71,7 +64,7 @@ export function ForgotPasswordPage() {
           })}
           error={errors.email?.message}
         />
-        <Button
+        <ButtonNext
           testId="reset-password-submit"
           type="primary"
           block
@@ -79,13 +72,13 @@ export function ForgotPasswordPage() {
           htmlType="submit"
         >
           Resetuj Hasło
-        </Button>
+        </ButtonNext>
       </form>
-      <BottomWrapper>
+      <div className="text-right text-sm mt-4">
         <Link data-test="login-link" href={createUrl({ name: 'login' })}>
           Wróć do logowania
         </Link>
-      </BottomWrapper>
+      </div>
     </FullPageForm>
   );
 }

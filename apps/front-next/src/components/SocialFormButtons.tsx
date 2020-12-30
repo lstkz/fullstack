@@ -1,23 +1,13 @@
 import * as R from 'remeda';
-import styled from 'styled-components';
 import React from 'react';
 import { GithubIcon } from 'src/icons/GithubIcon';
 import { GoogleIcon } from 'src/icons/GoogleIcon';
 import { GITHUB_CLIENT_ID, GOOGLE_CLIENT_ID } from 'src/config';
-import { spacerStyle } from 'src/components/_spacer';
-import { Row, Col } from 'src/components/Grid';
-import { Button } from 'src/components/Button';
 import { useRouter } from 'next/dist/client/router';
 import { api } from 'src/services/api';
 import { useAuthForm } from 'src/hooks/useAuthForm';
 import { useErrorModalActions } from 'src/features/ErrorModalModule';
-
-const Or = styled.div`
-  font-size: 0.75rem;
-  text-transform: uppercase;
-  text-align: center;
-  ${spacerStyle}
-`;
+import { ButtonNext } from './ButtonNext';
 
 interface SocialFormButtonsProps {
   source: 'login' | 'register';
@@ -78,56 +68,52 @@ export function SocialFormButtons(props: SocialFormButtonsProps) {
 
   return (
     <>
-      <Or py={3}>lub</Or>
-      <Row>
-        <Col md={6}>
-          <Button
-            testId="social-github-btn"
-            onClick={() => {
-              const params = [
-                `client_id=${GITHUB_CLIENT_ID}`,
-                `redirect_uri=${encodeURIComponent(
-                  window.origin + `/${source}?auth=github`
-                )}`,
-                `scope=${encodeURIComponent('user:email')}`,
-              ];
-              window.location.href = `https://github.com/login/oauth/authorize?${params.join(
-                '&'
-              )}`;
-            }}
-            type="neutral"
-            block
-            icon={<GithubIcon size={20} />}
-            loading={github.isSubmitting}
-          >
-            Github
-          </Button>
-        </Col>
-        <Col md={6}>
-          <Button
-            testId="social-google-btn"
-            onClick={() => {
-              const params = [
-                `client_id=${GOOGLE_CLIENT_ID}`,
-                `redirect_uri=${encodeURIComponent(
-                  window.origin + `/${source}?auth=google`
-                )}`,
-                `scope=email`,
-                `response_type=token`,
-              ];
-              window.location.href = `https://accounts.google.com/o/oauth2/auth?${params.join(
-                '&'
-              )}`;
-            }}
-            type="neutral"
-            block
-            icon={<GoogleIcon size={20} />}
-            loading={google.isSubmitting}
-          >
-            Google
-          </Button>
-        </Col>
-      </Row>
+      <div className="text-xs my-4 uppercase text-center">lub</div>
+      <div className="grid md:grid-cols-2 gap-8">
+        <ButtonNext
+          testId="social-github-btn"
+          onClick={() => {
+            const params = [
+              `client_id=${GITHUB_CLIENT_ID}`,
+              `redirect_uri=${encodeURIComponent(
+                window.origin + `/${source}?auth=github`
+              )}`,
+              `scope=${encodeURIComponent('user:email')}`,
+            ];
+            window.location.href = `https://github.com/login/oauth/authorize?${params.join(
+              '&'
+            )}`;
+          }}
+          type="neutral"
+          block
+          icon={<GithubIcon size={20} />}
+          loading={github.isSubmitting}
+        >
+          Github
+        </ButtonNext>
+        <ButtonNext
+          testId="social-google-btn"
+          onClick={() => {
+            const params = [
+              `client_id=${GOOGLE_CLIENT_ID}`,
+              `redirect_uri=${encodeURIComponent(
+                window.origin + `/${source}?auth=google`
+              )}`,
+              `scope=email`,
+              `response_type=token`,
+            ];
+            window.location.href = `https://accounts.google.com/o/oauth2/auth?${params.join(
+              '&'
+            )}`;
+          }}
+          type="neutral"
+          block
+          icon={<GoogleIcon size={20} />}
+          loading={google.isSubmitting}
+        >
+          Google
+        </ButtonNext>
+      </div>
     </>
   );
 }

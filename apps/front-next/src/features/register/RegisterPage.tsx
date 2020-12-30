@@ -4,13 +4,13 @@ import { Alert } from 'src/components/Alert';
 import { SocialFormButtons } from 'src/components/SocialFormButtons';
 import { FullPageForm } from 'src/components/FullPageForm';
 import { FormInput } from 'src/components/FormInput';
-import { Button } from 'src/components/Button';
 import { createUrl } from 'src/common/url';
 import Link from 'next/link';
 import { useForm } from 'react-hook-form';
 import { EMAIL_REGEX, PASSWORD_MIN_LENGTH } from 'shared';
 import { api } from 'src/services/api';
 import { useAuthForm } from 'src/hooks/useAuthForm';
+import { ButtonNext } from 'src/components/ButtonNext';
 
 interface FormValues {
   email: string;
@@ -104,7 +104,7 @@ export function RegisterPage() {
           })}
           error={errors.confirmPassword?.message}
         />
-        <Button
+        <ButtonNext
           testId="register-submit"
           type="primary"
           block
@@ -112,7 +112,7 @@ export function RegisterPage() {
           htmlType="submit"
         >
           Załóż konto
-        </Button>
+        </ButtonNext>
         <SocialFormButtons source="register" />
       </form>
     </FullPageForm>
