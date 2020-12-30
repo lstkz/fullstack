@@ -43,6 +43,14 @@ function createLoadBalancer(stack: cdk.Stack, vpc: ec2.IVpc) {
       messageBody: 'ok',
     }),
   });
+  loadBalancer.addListener('HttpListener', {
+    protocol: elbv2.ApplicationProtocol.HTTP,
+    defaultAction: elbv2.ListenerAction.redirect({
+      protocol: elbv2.ApplicationProtocol.HTTPS,
+      port: '443',
+      permanent: true,
+    }),
+  });
   return { loadBalancer, lbListener };
 }
 
@@ -50,8 +58,7 @@ function createTasks(
   stack: cdk.Stack,
   cluster: ecs.Cluster,
   dockerImage: ecs.AssetImage,
-  lbListener: elbv2.ApplicationListener,
-  loadBalancer: elbv2.ApplicationLoadBalancer
+  lbListener: elbv2.ApplicationListener
 ) {
   const apiTask = new ecs.Ec2TaskDefinition(stack, 'ApiTask', {});
   const workerTask = new ecs.Ec2TaskDefinition(stack, 'WorkerTask', {});
@@ -254,7 +261,7 @@ function createCDN(stack: cdk.Stack) {
     {}
   );
   const { loadBalancer, lbListener } = createLoadBalancer(stack, vpc);
-  createTasks(stack, cluster, dockerImage, lbListener, loadBalancer);
+  createTasks(stack, cluster, dockerImage, lbListener);
   const cdnDist = createCDN(stack);
 
   const zone = route53.HostedZone.fromHostedZoneAttributes(
