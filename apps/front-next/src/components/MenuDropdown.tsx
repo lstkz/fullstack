@@ -1,12 +1,6 @@
 import React from 'react';
-import styled from 'styled-components';
 import * as PopperJS from 'popper.js';
 import { Manager, Reference, Popper } from 'react-popper';
-// import { Transition } from 'react-spring/renderprops';
-
-const DropdownWrapper = styled.div`
-  z-index: 2;
-`;
 
 interface MenuDropdownProps {
   children: React.ReactElement;
@@ -67,9 +61,9 @@ export function MenuDropdown(props: MenuDropdownProps) {
       >
         {({ ref, style, placement: _placement }) =>
           isOpen && (
-            <DropdownWrapper
+            <div
               ref={ref}
-              style={{ ...style }}
+              style={{ ...style, zIndex: 2 }}
               data-placement={_placement}
               onClick={e => {
                 if (isClickable(e.target as any)) {
@@ -80,52 +74,10 @@ export function MenuDropdown(props: MenuDropdownProps) {
               }}
             >
               {dropdown}
-            </DropdownWrapper>
+            </div>
           )
         }
       </Popper>
-
-      {/* <Transition
-        items={isOpen}
-        config={(_, state) =>
-          state === 'leave' ? { duration: 0 } : { duration: 200 }
-        }
-        from={{ opacity: 0 }}
-        enter={{ opacity: 1 }}
-        leave={{ opacity: 0 }}
-      >
-        {open =>
-          open &&
-          (animatedStyle => (
-            <Popper
-              modifiers={{
-                preventOverflow: {
-                  enabled: true,
-                  boundariesElement: document.body,
-                },
-              }}
-              placement={placement || 'bottom-start'}
-            >
-              {({ ref, style, placement: _placement }) => (
-                <DropdownWrapper
-                  ref={ref}
-                  style={{ ...style, ...(open ? animatedStyle : {}) }}
-                  data-placement={_placement}
-                  onClick={e => {
-                    if (isClickable(e.target as any)) {
-                      return;
-                    }
-                    e.nativeEvent.stopPropagation();
-                    e.nativeEvent.stopImmediatePropagation();
-                  }}
-                >
-                  {dropdown}
-                </DropdownWrapper>
-              )}
-            </Popper>
-          ))
-        }
-      </Transition> */}
     </Manager>
   );
 }

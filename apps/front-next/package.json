@@ -24,7 +24,6 @@
     "@types/react-select": "^3.0.10",
     "@types/tinycolor2": "^1.4.2",
     "autoprefixer": "^10.1.0",
-    "babel-plugin-styled-components": "^1.12.0",
     "classnames": "^2.2.6",
     "immer": "8.0.0",
     "next": "^10.0.4",
@@ -42,7 +41,6 @@
     "react-split-pane": "^0.1.92",
     "react-use": "^15.3.4",
     "reconnecting-websocket": "^4.4.0",
-    "styled-components": "^5.2.0",
     "tailwindcss": "^2.0.1",
     "tinycolor2": "^1.4.2",
     "use-immer": "^0.4.2"

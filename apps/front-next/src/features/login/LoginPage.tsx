@@ -3,20 +3,13 @@ import { Alert } from 'src/components/Alert';
 import { SocialFormButtons } from 'src/components/SocialFormButtons';
 import { FullPageForm } from 'src/components/FullPageForm';
 import { FormInput } from 'src/components/FormInput';
-import { Button } from 'src/components/Button';
-import styled from 'styled-components';
 import { createUrl } from 'src/common/url';
 import Link from 'next/link';
 import { useForm } from 'react-hook-form';
 import { EMAIL_REGEX } from 'shared';
 import { api } from 'src/services/api';
 import { useAuthForm } from 'src/hooks/useAuthForm';
-
-const ForgotWrapper = styled.div`
-  text-align: right;
-  font-size: 0.8rem;
-  margin-top: 1rem;
-`;
+import { Button } from 'src/components/Button';
 
 interface FormValues {
   email: string;
@@ -96,14 +89,14 @@ export function LoginPage() {
           Zaloguj się
         </Button>
         <SocialFormButtons source="login" />
-        <ForgotWrapper>
+        <div className="text-right mt-4 text-sm">
           <Link
             data-test="reset-password-link"
             href={createUrl({ name: 'forgot-password' })}
           >
             Resetuj hasło
           </Link>
-        </ForgotWrapper>
+        </div>
       </form>
     </FullPageForm>
   );

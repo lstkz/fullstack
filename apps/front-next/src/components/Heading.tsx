@@ -1,15 +1,12 @@
 import * as React from 'react';
-import { Theme } from 'src/Theme';
-import styled from 'styled-components';
-import { SpacerProps, spacerStyle } from './_spacer';
+import cn from 'classnames';
 
-interface HeadingProps extends SpacerProps {
+interface HeadingProps {
   className?: string;
   children: React.ReactNode;
   type: 1 | 2 | 3 | 4 | 5 | 6;
-  white?: boolean;
-  center?: boolean;
   id?: string;
+  white?: boolean;
 }
 
 const tagMap = {
@@ -22,34 +19,27 @@ const tagMap = {
 } as const;
 
 const fontSize = {
-  1: 2.5,
-  2: 2,
-  3: 1.75,
-  4: 1.5,
-  5: 1.25,
+  1: '5xl',
+  2: '4xl',
+  3: '3xl',
+  4: '2xl',
+  5: 'xl',
   6: 1,
 } as const;
 
-const _Heading = (props: HeadingProps) => {
-  const { className, type, children, id } = props;
+export function Heading(props: HeadingProps) {
+  const { className, type, children, id, white } = props;
   const Tag = tagMap[type];
   return (
-    <Tag id={id} className={className}>
+    <Tag
+      id={id}
+      className={cn(
+        `font-semibold text-${fontSize[type]}`,
+        white ? 'text-white' : 'text-heading',
+        className
+      )}
+    >
       {children}
     </Tag>
   );
-};
-
-export const Heading = styled(_Heading)`
-  display: block;
-  font-weight: 600;
-  font-family: inherit;
-  font-weight: 600;
-  line-height: 1.5;
-  font-size: ${props => fontSize[props.type]}rem;
-  color: ${Theme.headings_color};
-  margin: 0;
-  ${props => props.white && `color: white;`}
-  ${props => props.center && `text-align: center;`}
-  ${spacerStyle}
-`;
+}

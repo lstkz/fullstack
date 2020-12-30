@@ -1,68 +1,15 @@
 import * as React from 'react';
-import Color from 'tinycolor2';
-import { Heading } from 'src/components/Heading';
 import { SpinnerBoarder } from 'src/components/SpinnerBoarder';
-import { MEDIA_MD, Theme } from 'src/Theme';
-import styled, { css } from 'styled-components';
 import { TPayGroup } from 'shared';
 import { api } from 'src/services/api';
 import { useErrorModalActions } from '../ErrorModalModule';
 import { useFormContext } from 'react-hook-form';
 import { SubscriptionFormValues } from './SubscriptionPage';
 import { InputFeedback } from 'src/components/Input';
+import classNames from 'classnames';
+import { Heading } from 'src/components/Heading';
 
-interface PaymentOptionsProps {
-  className?: string;
-}
-
-const SpinnerWrapper = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 4rem 0;
-`;
-
-const Item = styled.button<{ selected?: boolean }>`
-  padding: 0.5rem;
-  box-shadow: 0 0 1.25rem rgba(31, 45, 61, 0.05);
-  border: 1px solid ${Theme.gray_200};
-  border-radius: 0.375rem;
-  box-shadow: 0 0 1.25rem rgba(31, 45, 61, 0.05);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: white;
-  &:hover {
-    cursor: pointer;
-  }
-  &:focus {
-    outline: none;
-    box-shadow: 0 0 0 0.2rem
-      ${Color(Theme.primary).setAlpha(0.25).toRgbString()};
-  }
-  ${props =>
-    props.selected &&
-    css`
-      border-color: ${Theme.primary};
-    `}
-
-  img {
-    max-width: 100%;
-    max-height: 100%;
-  }
-`;
-
-const Grid = styled.div`
-  display: grid;
-  grid-gap: 0.5rem;
-  grid-template-columns: 1fr 1fr 1fr;
-  ${MEDIA_MD} {
-    grid-template-columns: 1fr 1fr 1fr 1fr;
-  }
-`;
-
-const _PaymentOptions = (props: PaymentOptionsProps) => {
-  const { className } = props;
+export function PaymentOptions() {
   const {
     setValue,
     watch,
@@ -84,29 +31,36 @@ const _PaymentOptions = (props: PaymentOptionsProps) => {
   }, []);
 
   return (
-    <div className={className} id="groupId">
-      <Heading mb={2} type={5} id="payment-options-label">
+    <div className="my-4" id="groupId">
+      <Heading className="mb-2" type={5} id="payment-options-label">
         Forma płatności
       </Heading>
       {!tpayGroups ? (
-        <SpinnerWrapper>
+        <div className="flex items-center justify-center">
           <SpinnerBoarder />
-        </SpinnerWrapper>
+        </div>
       ) : (
         <>
-          <Grid role="radiogroup" aria-labelledby="payment-options-label">
+          <div
+            className="grid grid-cols-3 lg:grid-cols-4 gap-2"
+            role="radiogroup"
+            aria-labelledby="payment-options-label"
+          >
             {tpayGroups.map(item => (
-              <Item
+              <button
                 type="button"
                 key={item.id}
                 role="radio"
                 aria-checked={item.id === groupId}
-                selected={item.id === groupId}
                 onClick={() =>
                   setValue('groupId', item.id, {
                     shouldValidate: true,
                   })
                 }
+                className={classNames(
+                  'p-2 shadow-sm border rounded-md flex items-center justify-center bg-white cursor-pointer focus:ring focus:outline-none transition-shadow',
+                  item.id === groupId ? 'border-primary' : 'border-gray-200'
+                )}
                 aria-label={item.name}
               >
                 <img
@@ -114,10 +68,11 @@ const _PaymentOptions = (props: PaymentOptionsProps) => {
                   alt={item.name}
                   title={item.name}
                   src={item.img}
+                  className="max-h-full max-w-full"
                 />
-              </Item>
+              </button>
             ))}
-          </Grid>
+          </div>
           {errors.groupId?.message && (
             <InputFeedback color="danger">
               {errors.groupId?.message}
@@ -127,9 +82,4 @@ const _PaymentOptions = (props: PaymentOptionsProps) => {
       )}
     </div>
   );
-};
-
-export const PaymentOptions = styled(_PaymentOptions)`
-  display: block;
-  margin: 1rem 0;
-`;
+}

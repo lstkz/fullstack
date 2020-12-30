@@ -1,43 +1,15 @@
 import { faCheckCircle } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React from 'react';
-import { Container } from 'src/components/Container';
 import { Dashboard } from 'src/components/Dashboard';
-import { Heading } from 'src/components/Heading';
 import { SpinnerBoarder } from 'src/components/SpinnerBoarder';
-import { Theme } from 'src/Theme';
 import { useWindowSize } from 'react-use';
 import Confetti from 'react-confetti';
-import styled from 'styled-components';
-import { Button } from 'src/components/Button';
 import { useRouter } from 'next/dist/client/router';
 import { api } from 'src/services/api';
 import { useErrorModalActions } from '../ErrorModalModule';
-
-const Center = styled.div`
-  display: flex;
-  justify-content: center;
-  padding: 5rem 0;
-`;
-
-const Wrapper = styled.div`
-  box-shadow: 0 0 1.25rem rgba(31, 45, 61, 0.05);
-  background-color: #fff;
-  background-clip: border-box;
-  border: 1px solid #eaecf3;
-  border-radius: 0.375rem;
-  margin: 4rem 0;
-`;
-
-const Text = styled.div`
-  padding: 2rem;
-  text-align: center;
-`;
-
-const CheckWrapper = styled.div`
-  text-align: center;
-  color: ${Theme.green};
-`;
+import { Heading } from 'src/components/Heading';
+import { Button } from 'src/components/Button';
 
 export function CheckOrderPage() {
   const { width, height } = useWindowSize();
@@ -74,39 +46,41 @@ export function CheckOrderPage() {
     if (!isDone) {
       return (
         <>
-          <Heading type={3} center mt={5}>
+          <Heading className="text-center mt-12" type={3}>
             Oczekiwanie na płatność
           </Heading>
-          <Center>
+          <div className="flex justify-center py-20">
             <SpinnerBoarder />
-          </Center>
+          </div>
         </>
       );
     }
     return (
       <>
         <Confetti width={width} height={height} recycle={false} />
-        <Heading type={3} center mt={5}>
+        <Heading className="text-center mt-12" type={3}>
           Płatność zakończona pomyślnie
         </Heading>
-        <Text>Masz teraz dostęp do wszystkich zasobów platformy.</Text>
-        <CheckWrapper>
+        <div className="text-center p-8">
+          Masz teraz dostęp do wszystkich zasobów platformy.
+        </div>
+        <div className="text-success text-center">
           <FontAwesomeIcon icon={faCheckCircle} size="6x" />
-        </CheckWrapper>
-        <Center>
+        </div>
+        <div className="flex justify-center py-20">
           <Button type="primary" href="/modules">
             Zobacz dostępne moduły
           </Button>
-        </Center>
+        </div>
       </>
     );
   };
 
   return (
     <Dashboard>
-      <Container>
-        <Wrapper>{renderContent()}</Wrapper>
-      </Container>
+      <div className="container shadow-sm bg-white border border-gray-200 rounded-md my-16">
+        {renderContent()}
+      </div>
     </Dashboard>
   );
 }

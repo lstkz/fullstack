@@ -11,8 +11,8 @@ import { TsIcon } from 'src/icons/TsIcon';
 import { ProgressBar } from 'src/components/ProgressBar';
 import { Module } from 'shared';
 import Link from 'next/link';
-import { HeadingNext } from 'src/components/HeadingNext';
-import { ButtonNext } from 'src/components/ButtonNext';
+import { Heading } from 'src/components/Heading';
+import { Button } from 'src/components/Button';
 
 interface ModuleInfoProps {
   className?: string;
@@ -50,19 +50,19 @@ export const ModuleInfo = (props: ModuleInfoProps) => {
               })}
               data-test="title"
             >
-              <HeadingNext type={5}>{module.name}</HeadingNext>
+              <Heading type={5}>{module.name}</Heading>
             </Link>
           </div>
           <div>{module.description}</div>
         </div>
         <div className="flex justify-end items-center mt-4 md:m-0">
-          <ButtonNext
+          <Button
             testId="show-btn"
             type="secondary"
             href={createUrl({ name: 'module', id: module.id })}
           >
             Pokaż
-          </ButtonNext>
+          </Button>
         </div>
       </div>
       <div className="sep py-4 mt-4 text-xs text-gray-600 font-light">

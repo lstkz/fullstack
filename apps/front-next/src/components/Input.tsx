@@ -54,7 +54,7 @@ export function Input(props: InputProps) {
     ...rest
   } = props;
   return (
-    <div className={className}>
+    <div className={className || 'mb-4'}>
       {label && (
         <label
           className="text-gray-600 text-sm mb-2 font-medium"

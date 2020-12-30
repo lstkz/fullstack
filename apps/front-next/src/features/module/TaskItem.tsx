@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { ModuleTask } from 'shared';
 import { createUrl } from 'src/common/url';
-import { ButtonNext } from 'src/components/ButtonNext';
+import { Button } from 'src/components/Button';
 import { ModuleMedia } from './ModuleMedia';
 
 interface TaskItemProps {
@@ -16,7 +16,7 @@ export function TaskItem(props: TaskItemProps) {
       aboveText={`Zadanie ${item.id}${item.isExample ? ' (Przykład)' : ''}`}
       title={item.name}
       button={
-        <ButtonNext
+        <Button
           size="small"
           type="secondary"
           href={createUrl({
@@ -26,7 +26,7 @@ export function TaskItem(props: TaskItemProps) {
           })}
         >
           Rozwiąż
-        </ButtonNext>
+        </Button>
       }
     />
   );

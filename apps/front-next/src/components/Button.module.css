@@ -16,10 +16,17 @@
 }
 
 .type-neutral {
-  @apply border bg-white text-gray-900 border-white
-  hover:bg-gray-200 hover:border-gray-200
+  @apply border-2 bg-white text-gray-900 border-gray-300
+  hover:bg-gray-200 hover:border-gray-200 
   active:bg-gray-300 active:border-gray-300
   focus:ring-alpha-white20;
+}
+
+.type-warning {
+  @apply text-white bg-warning border-warning 
+  hover:bg-warning-600 hover:border-warning-700
+  active:bg-warning-700 active:border-warning-800 
+  focus:ring-warning-250;
 }
 
 .size-large,

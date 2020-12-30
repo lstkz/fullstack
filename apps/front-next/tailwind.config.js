@@ -110,6 +110,9 @@ module.exports = {
       warning: {
         250: lighten(BaseThemeColors.warning, 25),
         DEFAULT: BaseThemeColors.warning,
+        600: darken(BaseThemeColors.warning, 7.5),
+        700: darken(BaseThemeColors.warning, 10),
+        800: darken(BaseThemeColors.warning, 12.5),
       },
       danger: {
         250: lighten(BaseThemeColors.danger, 25),

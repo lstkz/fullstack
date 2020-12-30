@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { ModuleDetails } from 'shared';
-import { HeadingNext } from 'src/components/HeadingNext';
+import { Heading } from 'src/components/Heading';
 import { LessonItem } from './LessonItem';
 
 interface LessonsSectionProps {
@@ -11,9 +11,9 @@ export function LessonsSection(props: LessonsSectionProps) {
   const { module } = props;
   return (
     <div>
-      <HeadingNext type={4} className="mb-3">
+      <Heading type={4} className="mb-3">
         Lekcje video
-      </HeadingNext>
+      </Heading>
       {module.lessons.map(item => (
         <LessonItem key={item.id} item={item} />
       ))}

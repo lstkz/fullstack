@@ -6,7 +6,7 @@ import { MoneyBagIcon } from 'src/icons/MoneyBagIcon';
 import { Illustration3 } from './Illustration3';
 import { Media } from './Media';
 import { SectionShape } from './SectionShape';
-import { HeadingNext } from 'src/components/HeadingNext';
+import { Heading } from 'src/components/Heading';
 
 export function TargetSection() {
   return (
@@ -14,9 +14,9 @@ export function TargetSection() {
       <div className=" py-24 container">
         <div className="grid items-center justify-between md:grid-cols-2 md:gap-24">
           <div>
-            <HeadingNext white type={3}>
+            <Heading white type={3}>
               Dla kogo jest fullstack.pl?
-            </HeadingNext>
+            </Heading>
             <div className="text-white opacity-80 mt-2 mb-12">
               Ta platforma jest odpowiednia dla Ciebie, jeżeli:
             </div>

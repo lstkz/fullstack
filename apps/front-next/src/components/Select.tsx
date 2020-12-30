@@ -6,8 +6,6 @@ import ReactSelectCreatable, {
   Props as CreatableProps,
 } from 'react-select/creatable';
 import { Props } from 'react-select/src/Select';
-import { Theme } from 'src/Theme';
-import { createGlobalStyle } from 'styled-components';
 import AsyncPaginate, {
   Props as AsyncPaginateProps,
 } from 'react-select-async-paginate';
@@ -20,44 +18,12 @@ export interface SelectProps<OptionType> extends Props<OptionType> {
 export interface CreatableSelectProps<OptionType>
   extends CreatableProps<OptionType, false> {}
 
-const SelectStyles = createGlobalStyle`
-  .react-select__single-value {
-    &&& {
-      color: ${Theme.body_color};
-    }
-  }
-  .react-select__control {
-    &&& {
-      border: 1px solid ${Theme.gray_200};
-      border-radius: 5px;
-      background-color: #fff;
-      transition: border-color 0.2s ease;
-      color: ${Theme.body_color};
-      min-height: 40px;
-    }
-  }
-  .react-select__control--is-focused {
-    &&& {
-      border-color: ${Theme.primary};
-      background-color: #fff;
-      box-shadow: inset 0 1px 1px rgba(31, 45, 61, 0.075),
-        0 0 20px rgba(12, 102, 255, 0.1);
-    }
-  }
-  .react-select__placeholder {
-    &&& {
-      opacity: 1;
-      color: ${Theme.gray_600};
-    }
-  }
-`;
-
 const themeProp = (theme: SelectTheme) => ({
   ...theme,
   colors: {
     ...theme.colors,
-    primary: Theme.blue,
-    neutral20: Theme.gray_200,
+    primary: '#008aff',
+    neutral20: '#eaecf3',
   },
 });
 
@@ -72,7 +38,6 @@ export function Select<T>(props: SelectProps<T>) {
   }
   return (
     <>
-      <SelectStyles />
       <ReactSelect
         instanceId={id}
         {...props}
@@ -89,7 +54,6 @@ export function Select<T>(props: SelectProps<T>) {
 export function CreatableSelect<T>(props: CreatableSelectProps<T>) {
   return (
     <>
-      <SelectStyles />
       <ReactSelectCreatable<T>
         {...props}
         placeholder={props.placeholder || 'Select...'}
@@ -103,7 +67,6 @@ export function CreatableSelect<T>(props: CreatableSelectProps<T>) {
 export function AsyncSelect<T>(props: AsyncPaginateProps<T>) {
   return (
     <>
-      <SelectStyles />
       <AsyncPaginate<T>
         SelectComponent={Select as any}
         {...props}

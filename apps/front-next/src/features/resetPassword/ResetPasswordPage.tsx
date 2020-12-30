@@ -2,12 +2,12 @@ import React from 'react';
 import { Alert } from 'src/components/Alert';
 import { FullPageForm } from 'src/components/FullPageForm';
 import { FormInput } from 'src/components/FormInput';
-import { Button } from 'src/components/Button';
 import { useForm } from 'react-hook-form';
 import { PASSWORD_MIN_LENGTH } from 'shared';
 import { api } from 'src/services/api';
 import { useAuthForm } from 'src/hooks/useAuthForm';
 import { useRouter } from 'next/dist/client/router';
+import { Button } from 'src/components/Button';
 
 interface FormValues {
   password: string;

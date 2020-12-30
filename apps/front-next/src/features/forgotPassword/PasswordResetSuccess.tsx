@@ -1,34 +1,17 @@
 import * as React from 'react';
-import styled from 'styled-components';
 import { FullPageForm } from 'src/components/FullPageForm';
 import { MailSuccessIcon } from 'src/icons/MailSuccessIcon';
-import { Theme } from 'src/Theme';
-
-const Content = styled.div`
-  border-radius: 5px;
-  background: ${Theme.success};
-  text-align: center;
-  padding: 15px 45px 30px;
-  color: white;
-`;
-
-const Icon = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin-bottom: 10px;
-`;
 
 export function PasswordResetSuccess() {
   return (
     <FullPageForm testId="reset-password-success" title="Resetuj Hasło">
-      <Content>
-        <Icon>
+      <div className="rounded-lg bg-success text-center text-white px-14 pt-4 pb-8">
+        <div className="mb-3 flex items-center justify-center">
           <MailSuccessIcon />
-        </Icon>
+        </div>
         Wiadomość z linkiem do resetowania hasła została wysłana na Twój adres
         e-mail.
-      </Content>
+      </div>
     </FullPageForm>
   );
 }

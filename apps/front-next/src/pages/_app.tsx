@@ -1,5 +1,4 @@
 import React from 'react';
-import { GlobalStyles } from 'src/components/GlobalStyles';
 import _NextApp, { AppContext, AppProps } from 'next/app';
 import Head from 'next/head';
 import { config } from '@fortawesome/fontawesome-svg-core';
@@ -11,6 +10,7 @@ import { User } from 'shared';
 import { ConfirmEmailChecker } from 'src/features/ConfirmEmailChecker';
 import { createSSRClient } from 'src/common/helper';
 import '../styles/global.css';
+import '../styles/react-select.css';
 // import 'tailwindcss/tailwind.css';
 
 config.autoAddCss = false;
@@ -45,7 +45,6 @@ function App({ Component, pageProps, initialUser }: AppProps & GlobalProps) {
         <title>Fullstack</title>
         <link rel="icon" type="image/png" href="/favicon-32x32.png?2" />
       </Head>
-      <GlobalStyles />
       <AuthModule initialUser={initialUser}>
         <SubscriptionModalsModule>
           <ErrorModalModule>
