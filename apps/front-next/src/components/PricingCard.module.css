@@ -1,0 +1,15 @@
+.card {
+  @apply relative shadow-md border border-gray-200 rounded-xl transition-all transform hover:scale-110;
+}
+
+.blueCard {
+  @apply bg-primary;
+}
+
+.blueCard div {
+  @apply text-white;
+}
+
+.blueCard li {
+  @apply opacity-80;
+}
