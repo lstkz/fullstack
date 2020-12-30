@@ -1,6 +1,5 @@
 import React from 'react';
 import { Module } from 'shared';
-import { Container } from 'src/components/Container';
 import { Dashboard } from 'src/components/Dashboard';
 import { ModuleInfo } from './ModuleInfo';
 
@@ -12,11 +11,11 @@ export function ModulesPage(props: ModulesPageProps) {
   const { modules } = props;
   return (
     <Dashboard>
-      <Container data-test="courses-page" mt>
+      <div className="container mt-4" data-test="courses-page">
         {modules.map(item => (
           <ModuleInfo key={item.id} module={item} />
         ))}
-      </Container>
+      </div>
     </Dashboard>
   );
 }

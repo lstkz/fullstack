@@ -5,13 +5,13 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import * as React from 'react';
-import { Heading } from 'src/components/Heading';
+import { HeadingNext } from 'src/components/HeadingNext';
 import { Stat } from './Stat';
 
 export function ModuleSummary() {
   return (
     <div className="bg-white border border-gray-200 my-4 p-7 rounded-xl shadow-sm">
-      <Heading type={5}>Podsumowanie</Heading>
+      <HeadingNext type={5}>Podsumowanie</HeadingNext>
       <div className="grid md:grid-cols-3 gap-8 mt-4 gap-y-4">
         <Stat
           icon={<FontAwesomeIcon icon={faGraduationCap} />}

@@ -1,6 +1,5 @@
 import React from 'react';
 import { createUrl } from 'src/common/url';
-import { Button } from 'src/components/Button';
 import { ButtonNext } from 'src/components/ButtonNext';
 import { Dashboard } from 'src/components/Dashboard';
 import { HeadingNext } from 'src/components/HeadingNext';
@@ -54,14 +53,14 @@ export function PricingPage() {
                 'Dostęp do społeczności',
               ]}
               button={
-                <Button
+                <ButtonNext
                   block
                   type="neutral"
                   size="small"
                   href={createUrl({ name: 'subscription' })}
                 >
                   Kup
-                </Button>
+                </ButtonNext>
               }
             />
           </div>
