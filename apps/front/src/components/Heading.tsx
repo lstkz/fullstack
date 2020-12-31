@@ -27,11 +27,12 @@ const fontSize = {
   6: 1,
 } as const;
 
-export function Heading(props: HeadingProps) {
+export const Heading = React.forwardRef((props: HeadingProps, ref: any) => {
   const { className, type, children, id, white } = props;
   const Tag = tagMap[type];
   return (
     <Tag
+      ref={ref}
       id={id}
       className={cn(
         `font-semibold text-${fontSize[type]}`,
@@ -42,4 +43,4 @@ export function Heading(props: HeadingProps) {
       {children}
     </Tag>
   );
-}
+});

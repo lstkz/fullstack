@@ -100,7 +100,7 @@ module.exports = {
         800: darken(BaseThemeColors.primary, 12.5),
       },
       secondary: {
-        ring: Color(BaseThemeColors.secondary).setAlpha(0.25).toRgbString(),
+        ring: Color(BaseThemeColors.secondary).setAlpha(0.35).toRgbString(),
         400: lighten(BaseThemeColors.secondary),
         DEFAULT: BaseThemeColors.secondary,
         600: darken(BaseThemeColors.secondary, 7.5),

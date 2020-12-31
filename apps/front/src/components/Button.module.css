@@ -1,5 +1,5 @@
 .btn {
-  @apply inline-flex items-center justify-center transition-all border border-transparent font-semibold leading-normal focus:ring focus:outline-none outline-none whitespace-nowrap;
+  @apply inline-flex items-center justify-center transition-all border border-transparent font-semibold leading-normal focus:ring focus:outline-none outline-none whitespace-nowrap hover:no-underline;
 }
 
 .type-primary {
@@ -12,7 +12,7 @@
   @apply text-gray-900 bg-secondary border-secondary
   hover:bg-secondary-600 hover:border-secondary-700
   active:bg-secondary-700 active:border-secondary-800
-  focus:ring-alpha-white20;
+  focus:ring-secondary-ring;
 }
 
 .type-neutral {

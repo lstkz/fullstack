@@ -26,6 +26,7 @@ export const getModule = createContract('module.getModule')
       lessons: module.lessons.map(item => ({
         id: item.id,
         name: item.name,
+        sources: item.sources,
       })),
       tasks: module.tasks.map(item => ({
         id: item.id,

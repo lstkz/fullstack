@@ -6,10 +6,11 @@ import { Button } from 'src/components/Button';
 
 interface LessonItemProps {
   item: ModuleLesson;
+  onWatch: () => void;
 }
 
 export function LessonItem(props: LessonItemProps) {
-  const { item } = props;
+  const { item, onWatch } = props;
   return (
     <ModuleMedia
       aboveText={`Lekcja ${item.id}`}
@@ -21,7 +22,7 @@ export function LessonItem(props: LessonItemProps) {
         </div>
       }
       button={
-        <Button size="small" type="secondary">
+        <Button size="small" type="secondary" onClick={onWatch}>
           Obejrzyj
         </Button>
       }
