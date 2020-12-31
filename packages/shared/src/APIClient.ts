@@ -85,6 +85,17 @@ export class APIClient {
   }): Promise<void> {
     return this.call('module.submitSolution', { values });
   }
+  module_updateLessonProgress(
+    moduleId: string,
+    lessonId: number,
+    values: { isWatched: boolean }
+  ): Promise<void> {
+    return this.call('module.updateLessonProgress', {
+      moduleId,
+      lessonId,
+      values,
+    });
+  }
   module_updateModule(values: {
     name: string;
     isPending: boolean;
@@ -92,7 +103,7 @@ export class APIClient {
     lessons: {
       name: string;
       id: number;
-      sources: { resolution: number; s3Key: string }[];
+      sources: { url: string; resolution: string }[];
     }[];
     tasks: {
       name: string;
@@ -100,6 +111,7 @@ export class APIClient {
       isExample: boolean;
       detailsS3Key: string;
       sourceS3Key: string;
+      htmlS3Key: string;
       testsInfo: {
         resultHash: string;
         files: { path: string; hash: string }[];

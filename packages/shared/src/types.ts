@@ -90,6 +90,7 @@ export interface ModuleLesson {
   id: number;
   name: string;
   sources: VideoUpload[];
+  isWatched: boolean;
 }
 
 export interface ModuleTask {
