@@ -74,7 +74,7 @@ export function LessonModalModule(props: LessonModalProps) {
           bgColor="dark-600"
           header={
             <Heading type={4} white className="px-6">
-              {lesson.name}
+              Lekcja {lesson.id}: {lesson.name}
             </Heading>
           }
           size="full"

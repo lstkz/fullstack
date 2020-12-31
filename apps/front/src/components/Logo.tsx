@@ -20,7 +20,7 @@ export function Logo(props: LogoProps) {
         <a>
           <h1
             className={classNames(
-              'font-bold ',
+              'font-bold',
               type === 'dark' ? 'text-heading' : 'text-white',
               titleClassName ?? 'text-3xl'
             )}
