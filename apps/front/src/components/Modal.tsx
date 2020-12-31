@@ -5,7 +5,7 @@ import classNames from 'classnames';
 import { ModalContainer } from './ModalContainer';
 
 interface ModalContentProps {
-  bgColor?: 'primary' | 'success' | 'danger' | 'warning';
+  bgColor?: 'primary' | 'success' | 'danger' | 'warning' | 'dark-600' | 'black';
 }
 
 export interface ModalProps extends ModalContentProps {
@@ -13,7 +13,7 @@ export interface ModalProps extends ModalContentProps {
   isOpen: boolean;
   close: (source: 'close-button' | 'background' | 'esc') => void;
   children: React.ReactNode;
-  size?: 'lg' | 'md' | 'sm';
+  size?: 'lg' | 'md' | 'sm' | 'full';
   maxHeight?: string;
   noBackgroundClose?: boolean;
   testId?: string;
@@ -36,6 +36,7 @@ export function Modal(props: ModalProps) {
     bgColor,
     ...contentProps
   } = props;
+  const modalRef = React.useRef<HTMLDivElement | null>(null);
 
   React.useEffect(() => {
     if (!isOpen) {
@@ -57,6 +58,12 @@ export function Modal(props: ModalProps) {
 
   const borderClass = bgColor ? 'border-alpha-white07' : 'border-gray-200';
 
+  React.useEffect(() => {
+    if (isOpen) {
+      modalRef.current?.focus();
+    }
+  }, [isOpen]);
+
   return (
     <ModalContainer isOpen={isOpen}>
       <div
@@ -76,16 +83,20 @@ export function Modal(props: ModalProps) {
       >
         <div
           className={classNames(
-            'relative flex flex-col w-full bg-white rounded-xl outline-none mx-auto my-7 shadow-lg md:shadow-2xl',
+            'relative flex flex-col w-full bg-white outline-none mx-auto my-7 shadow-lg md:shadow-2xl',
             bgColor && `text-white bg-${bgColor}`,
-            size === 'md' || (!size && 'md:max-w-xl')
+            size === 'md' || (!size && 'md:max-w-xl'),
+            size !== 'full' && 'rounded-xl'
           )}
           {...contentProps}
           data-test={testId}
           tabIndex={-1}
           role="modal"
+          ref={modalRef}
           style={{
-            maxWidth: size === 'lg' ? '80%' : undefined,
+            maxWidth:
+              size === 'full' ? '100%' : size === 'lg' ? '80%' : undefined,
+            height: size === 'full' ? '100%' : undefined,
           }}
         >
           {header && (
@@ -97,7 +108,7 @@ export function Modal(props: ModalProps) {
             >
               {header}
               <VoidLink
-                className="p-5 leading-none font-semibold -m-4 ml-auto opacity-75 text-xl border border-dotted border-transparent focus:border-gray-200 hover:opacity-100 cursor-pointer text-alpha-white60 outline-none"
+                className="p-5 leading-none font-semibold -m-4 ml-auto opacity-75 text-xl border border-dotted border-transparent focus:border-gray-200 hover:opacity-100 cursor-pointer text-alpha-white60 outline-none hover:no-underline"
                 data-test="close-btn"
                 onClick={() => close('close-button')}
                 aria-label="close"

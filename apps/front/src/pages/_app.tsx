@@ -11,7 +11,7 @@ import { ConfirmEmailChecker } from 'src/features/ConfirmEmailChecker';
 import { createSSRClient } from 'src/common/helper';
 import '../styles/global.css';
 import '../styles/react-select.css';
-import '../styles/videojs.css';
+import '../styles/plyr.css';
 // import 'tailwindcss/tailwind.css';
 
 config.autoAddCss = false;

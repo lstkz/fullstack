@@ -5,6 +5,7 @@ import { LessonsSection } from './LessonsSection';
 import { TasksSection } from './TasksSection';
 import { ModuleSummary } from './ModuleSummary';
 import { Heading } from 'src/components/Heading';
+import { LessonModalModule } from './LessonModalModule';
 
 interface ModulePageProps {
   module: ModuleDetails;
@@ -13,17 +14,19 @@ interface ModulePageProps {
 export function ModulePage(props: ModulePageProps) {
   const { module } = props;
   return (
-    <Dashboard>
-      <div className="container mt-4" data-test="module-page">
-        <Heading type={3} className="my-4">
-          {module.name}
-        </Heading>
-        <ModuleSummary />
-        <div className="grid md:grid-cols-2 gap-7">
-          <LessonsSection module={module} />
-          <TasksSection module={module} />
+    <LessonModalModule>
+      <Dashboard>
+        <div className="container mt-4" data-test="module-page">
+          <Heading type={3} className="my-4">
+            {module.name}
+          </Heading>
+          <ModuleSummary />
+          <div className="grid md:grid-cols-2 gap-7">
+            <LessonsSection module={module} />
+            <TasksSection module={module} />
+          </div>
         </div>
-      </div>
-    </Dashboard>
+      </Dashboard>
+    </LessonModalModule>
   );
 }

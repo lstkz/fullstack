@@ -11,7 +11,6 @@ interface ModalContainerProps {
 
 export function ModalContainer(props: ModalContainerProps) {
   const { children, isOpen } = props;
-  const modalRef = React.useRef<HTMLDivElement | null>(null);
 
   React.useLayoutEffect(() => {
     if (!isOpen) {
@@ -24,12 +23,6 @@ export function ModalContainer(props: ModalContainerProps) {
     return () => {
       document.body.style.overflow = '';
     };
-  }, [isOpen]);
-
-  React.useEffect(() => {
-    if (isOpen) {
-      modalRef.current?.focus();
-    }
   }, [isOpen]);
 
   return (
@@ -47,10 +40,7 @@ export function ModalContainer(props: ModalContainerProps) {
           unmountOnExit
           mountOnEnter
         >
-          <FocusContainer data-focus-root>
-            <div ref={modalRef} tabIndex={-1}></div>
-            {children}
-          </FocusContainer>
+          <FocusContainer data-focus-root>{children}</FocusContainer>
         </CSSTransition>
       </>
     </Portal>
