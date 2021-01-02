@@ -1,9 +1,10 @@
 import React from 'react';
 import Plyr from 'plyr';
-import { VideoUpload } from 'shared';
+import { useModulePageActions } from './ModulePage';
+import { ModuleLesson } from 'shared';
 
 interface PlayerProps {
-  sources: VideoUpload[];
+  lesson: ModuleLesson;
 }
 
 declare module 'react' {
@@ -13,7 +14,8 @@ declare module 'react' {
 }
 
 export function Player(props: PlayerProps) {
-  const { sources } = props;
+  const { lesson } = props;
+  const { markLessonWatched } = useModulePageActions();
 
   const ref = React.useRef<HTMLVideoElement>(null);
 
@@ -28,6 +30,10 @@ export function Player(props: PlayerProps) {
   React.useLayoutEffect(() => {
     const player = new Plyr(ref.current!, {
       ratio: '16:9',
+      displayDuration: true,
+    });
+    player.on('ended', () => {
+      markLessonWatched(lesson.id);
     });
     return () => {
       player.destroy();
@@ -42,7 +48,7 @@ export function Player(props: PlayerProps) {
         maxHeight: '80vh',
       }}
     >
-      {sources.map(item => (
+      {lesson.sources.map(item => (
         <source
           key={item.url}
           src={item.url}

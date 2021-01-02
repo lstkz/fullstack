@@ -1,17 +1,17 @@
 import React from 'react';
-import { ModuleLesson } from 'shared';
 import { Heading } from 'src/components/Heading';
 import { Modal } from 'src/components/Modal';
 import { useImmer } from 'use-immer';
+import { useOptionalLesson } from './ModulePage';
 import { Player } from './Player';
 
 interface Actions {
-  show: (lesson: ModuleLesson) => void;
+  show: (lessonId: number) => void;
   hide: () => void;
 }
 interface State {
   isOpen: boolean;
-  lesson: ModuleLesson | null;
+  lessonId: number | null;
 }
 
 const LessonModalContext = React.createContext<{
@@ -25,7 +25,7 @@ export interface LessonModalProps {
 
 export function LessonModalModule(props: LessonModalProps) {
   const { children } = props;
-  const [state, setState] = useImmer<State>({ isOpen: false, lesson: null });
+  const [state, setState] = useImmer<State>({ isOpen: false, lessonId: null });
   const actions = React.useMemo<Actions>(
     () => ({
       hide: () =>
@@ -33,16 +33,17 @@ export function LessonModalModule(props: LessonModalProps) {
           draft.isOpen = false;
         }),
 
-      show: lesson => {
+      show: lessonId => {
         setState(draft => {
           draft.isOpen = true;
-          draft.lesson = lesson;
+          draft.lessonId = lessonId;
         });
       },
     }),
     []
   );
-  const { isOpen, lesson } = state;
+  const { isOpen, lessonId } = state;
+  const lesson = useOptionalLesson(lessonId);
   React.useLayoutEffect(() => {
     if (!isOpen) {
       return;
@@ -82,7 +83,7 @@ export function LessonModalModule(props: LessonModalProps) {
           close={actions.hide}
         >
           <div className="-m-6 bg-black" style={{ maxHeight: '80vh' }}>
-            <Player sources={lesson.sources} />
+            <Player key={lesson.id} lesson={lesson} />
           </div>
         </Modal>
       )}

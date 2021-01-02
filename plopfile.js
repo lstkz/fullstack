@@ -79,4 +79,22 @@ module.exports = function generate(plop) {
       },
     ],
   });
+  plop.setGenerator('module', {
+    prompts: [
+      {
+        type: 'input',
+        name: 'name',
+        message: 'choose feature name in PascalCase (e.g. ErrorModal)',
+        basePath: '.',
+      },
+    ],
+    actions: [
+      {
+        type: 'addMany',
+        destination: path.join(__dirname, 'apps/front/src/components'),
+        base: '.blueprints/module',
+        templateFiles: '.blueprints/module/**/**',
+      },
+    ],
+  });
 };

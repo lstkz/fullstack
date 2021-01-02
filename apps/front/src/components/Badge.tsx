@@ -22,7 +22,7 @@ export function Badge(props: BadgeProps) {
       className={classNames(
         'inline-block text-sm font-bold text-center rounded-md transition-all flex-shrink-0',
         dot ? 'w-3 h-3 rounded-full mr-1' : 'px-1 py-2',
-        type === 'secondary' && 'bg-secondary'
+        `bg-${type}`
       )}
     >
       {children}

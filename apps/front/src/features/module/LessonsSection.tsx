@@ -1,17 +1,12 @@
 import * as React from 'react';
-import { ModuleDetails } from 'shared';
 import { Heading } from 'src/components/Heading';
 import { LessonItem } from './LessonItem';
 import { useLessonModalActions } from './LessonModalModule';
+import { useModule } from './ModulePage';
 
-interface LessonsSectionProps {
-  module: ModuleDetails;
-}
-
-export function LessonsSection(props: LessonsSectionProps) {
-  const { module } = props;
+export function LessonsSection() {
+  const module = useModule();
   const { show: showLessonModal } = useLessonModalActions();
-
   return (
     <div>
       <Heading type={4} className="mb-3">
@@ -22,7 +17,7 @@ export function LessonsSection(props: LessonsSectionProps) {
           key={item.id}
           item={item}
           onWatch={() => {
-            showLessonModal(item);
+            showLessonModal(item.id);
           }}
         />
       ))}

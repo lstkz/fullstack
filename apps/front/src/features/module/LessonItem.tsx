@@ -13,6 +13,7 @@ export function LessonItem(props: LessonItemProps) {
   const { item, onWatch } = props;
   return (
     <ModuleMedia
+      type={item.isWatched ? 'success' : 'pending'}
       aboveText={`Lekcja ${item.id}`}
       title={item.name}
       footer={
