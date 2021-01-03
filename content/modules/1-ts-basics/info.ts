@@ -138,5 +138,14 @@ Moduł zawiera lekcje i zadania dla osób, które chcą zacząć swoją przygod�
       htmlS3Key: '',
       testsInfo: require('./task-3/tests-info.json'),
     },
+    {
+      id: 4,
+      isExample: true,
+      name: 'Okrągła suma',
+      detailsS3Key: '',
+      sourceS3Key: '',
+      htmlS3Key: '',
+      testsInfo: require('./task-4/tests-info.json'),
+    },
   ],
 };

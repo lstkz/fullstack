@@ -1,5 +1,5 @@
 {
-  "name": "middle-number",
+  "name": "task-1",
   "scripts": {
     "test": "jest",
     "submit": "fs-tester"
