@@ -183,5 +183,14 @@ Moduł zawiera lekcje i zadania dla osób, które chcą zacząć swoją przygod�
       htmlS3Key: '',
       testsInfo: require('./task-8/tests-info.json'),
     },
+    {
+      id: 9,
+      isExample: false,
+      name: 'Brakująca liczba',
+      detailsS3Key: '',
+      sourceS3Key: '',
+      htmlS3Key: '',
+      testsInfo: require('./task-9/tests-info.json'),
+    },
   ],
 };
