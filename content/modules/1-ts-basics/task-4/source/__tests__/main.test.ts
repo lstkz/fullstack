@@ -30,6 +30,8 @@ test.each([
     [100000, 1, 2, 3, 4],
     [1, 0],
   ],
+  [[1, 2, 3], [1, 2, 7], null],
+  [[9], [1], null],
 ])('.roundSum(%p, %p)', (arr1, arr2, expected) => {
   expect(roundSum(arr1, arr2)).toEqual(expected);
 });

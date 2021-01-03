@@ -17,7 +17,14 @@ export function Details() {
         argumenty dwie tablice liczb całkowitych. Znajdź takie dwie liczby po
         jednej z każdej tablicy, aby ich suma kończyła się na <Code>00</Code>.
       </div>
-      <TaskFnArguments>
+      <TaskFnArguments
+        footer={
+          <>
+            Możesz założyć, że każda tablica będzie zawierała min. 1 element i
+            każdy element nie będzie ujemny.
+          </>
+        }
+      >
         <li>
           <Code>arr1: number[]</Code> - Pierwsza tablica.
         </li>
@@ -25,7 +32,7 @@ export function Details() {
           <Code>arr2: number[]</Code> - Druga tablica.
         </li>
       </TaskFnArguments>
-      Możesz założyć, że każda tablica będzie zawierała min. 1 element.
+
       <TaskFnReturn>
         <Code>[number, number] | null</Code> - Para liczb, gdzie pierwszy
         element to indeks z pierwszej tablicy, a drugi element to indeks z
