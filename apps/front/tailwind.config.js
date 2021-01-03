@@ -69,6 +69,8 @@ module.exports = {
       white: 'white',
       black: 'black',
       alpha: {
+        black30: 'rgba(0, 0, 0, 0.3)',
+        black80: 'rgba(0, 0, 0, 0.8)',
         black20: 'rgba(255, 255, 255, 0.2)',
         white90: 'rgba(255, 255, 255, 0.9)',
         white10: 'rgba(255, 255, 255, 0.1)',
@@ -100,7 +102,7 @@ module.exports = {
         800: darken(BaseThemeColors.primary, 12.5),
       },
       secondary: {
-        ring: Color(BaseThemeColors.secondary).setAlpha(0.25).toRgbString(),
+        ring: Color(BaseThemeColors.secondary).setAlpha(0.35).toRgbString(),
         400: lighten(BaseThemeColors.secondary),
         DEFAULT: BaseThemeColors.secondary,
         600: darken(BaseThemeColors.secondary, 7.5),
@@ -111,6 +113,8 @@ module.exports = {
         400: lighten(BaseThemeColors.dark),
         DEFAULT: BaseThemeColors.dark,
         600: darken(BaseThemeColors.dark, 7.5),
+        700: darken(BaseThemeColors.dark, 10),
+        800: darken(BaseThemeColors.dark, 12.5),
       },
       warning: {
         250: lighten(BaseThemeColors.warning, 25),

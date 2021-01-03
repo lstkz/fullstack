@@ -17,8 +17,8 @@ export const updateModule = createContract('module.updateModule')
           name: S.string(),
           sources: S.array().items(
             S.object().keys({
-              resolution: S.number(),
-              s3Key: S.string(),
+              resolution: S.string(),
+              url: S.string(),
             })
           ),
         })

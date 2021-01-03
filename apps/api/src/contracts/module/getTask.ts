@@ -14,6 +14,7 @@ export async function getActiveTask(moduleId: string, taskId: number) {
     },
     {
       projection: {
+        isPending: 1,
         'tasks.$': 1,
       },
     }

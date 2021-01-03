@@ -1,21 +1,25 @@
 import * as React from 'react';
-import { ModuleDetails } from 'shared';
 import { Heading } from 'src/components/Heading';
 import { LessonItem } from './LessonItem';
+import { useLessonModalActions } from './LessonModalModule';
+import { useModule } from './ModulePage';
 
-interface LessonsSectionProps {
-  module: ModuleDetails;
-}
-
-export function LessonsSection(props: LessonsSectionProps) {
-  const { module } = props;
+export function LessonsSection() {
+  const module = useModule();
+  const { show: showLessonModal } = useLessonModalActions();
   return (
     <div>
       <Heading type={4} className="mb-3">
         Lekcje video
       </Heading>
       {module.lessons.map(item => (
-        <LessonItem key={item.id} item={item} />
+        <LessonItem
+          key={item.id}
+          item={item}
+          onWatch={() => {
+            showLessonModal(item.id);
+          }}
+        />
       ))}
     </div>
   );

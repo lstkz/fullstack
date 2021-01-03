@@ -19,6 +19,10 @@ export interface AppConfig {
     sesRegion: string;
     s3Bucket: string;
     s3CDNBucket: string;
+    uploadAssetsCredentials?: {
+      accessKey: string;
+      secretKey: string;
+    };
   };
   vm: {
     launchTemplateId: string;

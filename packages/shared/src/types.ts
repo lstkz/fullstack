@@ -15,8 +15,8 @@ export interface SubscriptionResult {
 }
 
 export interface VideoUpload {
-  resolution: number;
-  s3Key: string;
+  resolution: string;
+  url: string;
 }
 
 export interface TPayGroup {
@@ -89,6 +89,8 @@ export interface Module {
 export interface ModuleLesson {
   id: number;
   name: string;
+  sources: VideoUpload[];
+  isWatched: boolean;
 }
 
 export interface ModuleTask {

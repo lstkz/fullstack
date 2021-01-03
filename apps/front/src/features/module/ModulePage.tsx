@@ -1,29 +1,103 @@
-import { ModuleDetails } from 'shared';
 import React from 'react';
+import { ModuleDetails } from 'shared';
 import { Dashboard } from 'src/components/Dashboard';
-import { LessonsSection } from './LessonsSection';
-import { TasksSection } from './TasksSection';
-import { ModuleSummary } from './ModuleSummary';
 import { Heading } from 'src/components/Heading';
+import { api } from 'src/services/api';
+import { useImmer } from 'use-immer';
+import { LessonModalModule } from './LessonModalModule';
+import { LessonsSection } from './LessonsSection';
+import { ModuleSummary } from './ModuleSummary';
+import { TasksSection } from './TasksSection';
 
-interface ModulePageProps {
+interface Actions {
+  markLessonWatched: (lessonId: number) => void;
+}
+
+interface State {
+  module: ModuleDetails;
+}
+
+const ModulePageContext = React.createContext<{
+  state: State;
+  actions: Actions;
+}>(null!);
+
+export interface ModulePageProps {
   module: ModuleDetails;
 }
 
 export function ModulePage(props: ModulePageProps) {
-  const { module } = props;
+  const [state, setState] = useImmer<State>({ module: props.module });
+  const { module } = state;
+
+  const actions = React.useMemo<Actions>(
+    () => ({
+      markLessonWatched: lessonId => {
+        setState(draft => {
+          draft.module.lessons.forEach(lesson => {
+            if (lesson.id === lessonId) {
+              lesson.isWatched = true;
+            }
+          });
+        });
+        api
+          .module_updateLessonProgress(module.id, lessonId, {
+            isWatched: true,
+          })
+          .catch(console.error);
+      },
+    }),
+    []
+  );
+
   return (
     <Dashboard>
-      <div className="container mt-4" data-test="module-page">
-        <Heading type={3} className="my-4">
-          {module.name}
-        </Heading>
-        <ModuleSummary />
-        <div className="grid md:grid-cols-2 gap-7">
-          <LessonsSection module={module} />
-          <TasksSection module={module} />
-        </div>
-      </div>
+      <ModulePageContext.Provider
+        value={{
+          state,
+          actions,
+        }}
+      >
+        <LessonModalModule>
+          <div className="container mt-4" data-test="module-page">
+            <Heading type={3} className="my-4">
+              {module.name}
+            </Heading>
+            <ModuleSummary />
+            <div className="grid md:grid-cols-2 gap-7">
+              <LessonsSection />
+              <TasksSection />
+            </div>
+          </div>
+        </LessonModalModule>
+      </ModulePageContext.Provider>
     </Dashboard>
   );
+}
+
+function useContext() {
+  const context = React.useContext(ModulePageContext);
+  if (!context) {
+    throw new Error('ModulePageContext is not set');
+  }
+  return context;
+}
+
+export function useModulePageActions() {
+  return useContext().actions;
+}
+
+export function useOptionalLesson(lessonId: number | null) {
+  const { lessons } = useContext().state.module;
+  return React.useMemo(() => {
+    return lessons.find(x => x.id === lessonId);
+  }, [lessonId, lessons]);
+}
+
+export function useLesson(lessonId: number) {
+  return useOptionalLesson(lessonId)!;
+}
+
+export function useModule() {
+  return useContext().state.module;
 }

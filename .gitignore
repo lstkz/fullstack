@@ -20,6 +20,7 @@ dist-source
 */config/dev.ts
 */config/*.key.txt
 */config/stage.ts
+content/modules/*/_videos
 
 # Runtime data
 pids

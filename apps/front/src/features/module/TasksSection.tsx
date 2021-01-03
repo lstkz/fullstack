@@ -1,14 +1,10 @@
 import * as React from 'react';
-import { ModuleDetails } from 'shared';
 import { Heading } from 'src/components/Heading';
+import { useModule } from './ModulePage';
 import { TaskItem } from './TaskItem';
 
-interface TasksSectionProps {
-  module: ModuleDetails;
-}
-
-export function TasksSection(props: TasksSectionProps) {
-  const { module } = props;
+export function TasksSection() {
+  const module = useModule();
   return (
     <div>
       <Heading type={4} className="mb-3">

@@ -25,8 +25,8 @@ it('should insert and update a module', async () => {
             name: 'l1',
             sources: [
               {
-                resolution: 720,
-                s3Key: 'aaa',
+                resolution: '720',
+                url: 'aaa',
               },
             ],
           },
@@ -61,8 +61,8 @@ it('should insert and update a module', async () => {
             "name": "l1",
             "sources": Array [
               Object {
-                "resolution": 720,
-                "s3Key": "aaa",
+                "resolution": "720",
+                "url": "aaa",
               },
             ],
           },
@@ -99,8 +99,8 @@ it('should insert and update a module', async () => {
             name: 'l1',
             sources: [
               {
-                resolution: 720,
-                s3Key: 'aaa',
+                resolution: '720',
+                url: 'aaa',
               },
             ],
           },
@@ -109,8 +109,8 @@ it('should insert and update a module', async () => {
             name: 'l2',
             sources: [
               {
-                resolution: 720,
-                s3Key: 'bbb',
+                resolution: '720',
+                url: 'bbb',
               },
             ],
           },
@@ -145,8 +145,8 @@ it('should insert and update a module', async () => {
             "name": "l1",
             "sources": Array [
               Object {
-                "resolution": 720,
-                "s3Key": "aaa",
+                "resolution": "720",
+                "url": "aaa",
               },
             ],
           },
@@ -155,8 +155,8 @@ it('should insert and update a module', async () => {
             "name": "l2",
             "sources": Array [
               Object {
-                "resolution": 720,
-                "s3Key": "bbb",
+                "resolution": "720",
+                "url": "bbb",
               },
             ],
           },
