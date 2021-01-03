@@ -147,5 +147,14 @@ Moduł zawiera lekcje i zadania dla osób, które chcą zacząć swoją przygod�
       htmlS3Key: '',
       testsInfo: require('./task-4/tests-info.json'),
     },
+    {
+      id: 5,
+      isExample: true,
+      name: 'Wygrane pod rząd',
+      detailsS3Key: '',
+      sourceS3Key: '',
+      htmlS3Key: '',
+      testsInfo: require('./task-5/tests-info.json'),
+    },
   ],
 };
