@@ -165,5 +165,14 @@ Moduł zawiera lekcje i zadania dla osób, które chcą zacząć swoją przygod�
       htmlS3Key: '',
       testsInfo: require('./task-6/tests-info.json'),
     },
+    {
+      id: 7,
+      isExample: false,
+      name: 'Cykliczna tablica',
+      detailsS3Key: '',
+      sourceS3Key: '',
+      htmlS3Key: '',
+      testsInfo: require('./task-7/tests-info.json'),
+    },
   ],
 };
