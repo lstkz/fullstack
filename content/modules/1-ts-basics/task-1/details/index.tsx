@@ -13,7 +13,7 @@ export function Details() {
     <TaskWrapper>
       <TaskTitle>Środkowa Liczba</TaskTitle>
       <div>
-        Zaimplemenuj funkcję <Code>middleNumber</Code>, która przyjmuje 3
+        Zaimplementuj funkcję <Code>middleNumber</Code>, która przyjmuje 3
         argumenty. Funkcja powinna zwracać liczbę, która znajduje się pomiedzy
         dwiema pozostałymi (jest większa lub równa od liczby pierwszej i
         mniejsza lub równa od liczba drugiej).

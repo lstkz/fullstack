@@ -156,5 +156,14 @@ Moduł zawiera lekcje i zadania dla osób, które chcą zacząć swoją przygod�
       htmlS3Key: '',
       testsInfo: require('./task-5/tests-info.json'),
     },
+    {
+      id: 6,
+      isExample: false,
+      name: 'Clamp',
+      detailsS3Key: '',
+      sourceS3Key: '',
+      htmlS3Key: '',
+      testsInfo: require('./task-6/tests-info.json'),
+    },
   ],
 };

@@ -13,7 +13,7 @@ export function Details() {
     <TaskWrapper>
       <TaskTitle>Wygrane pod rząd</TaskTitle>
       <div>
-        Zaimplemenuj funkcję <Code>maxStreak</Code>, która oblicza maksymalną
+        Zaimplementuj funkcję <Code>maxStreak</Code>, która oblicza maksymalną
         ilość wygranych pod rząd gracza. Funkcja, przyjmuje jako argument
         tablice liczb, gdzie <Code>0</Code> oznacza przegraną, a <Code>1</Code>{' '}
         oznacza wygraną.
