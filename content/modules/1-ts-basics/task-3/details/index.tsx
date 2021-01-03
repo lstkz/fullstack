@@ -15,7 +15,7 @@ export function Details() {
       <div>
         Zaimplementuj funkcję <Code>warmestMonth</Code>, która zwraca numer
         miesiąca, który był najcieplejszy. Jeżeli dwa lub więcej miesięcy ma
-        taką samą najwyższą tempaturę, zwróć <Code>null</Code>.
+        taką samą najwyższą temperaturę, zwróć <Code>null</Code>.
       </div>
       <TaskFnArguments>
         <li>
@@ -27,8 +27,8 @@ export function Details() {
 
       <TaskFnReturn>
         <Code>number | null</Code> - Numer najcieplejszego miesiąca lub{' '}
-        <Code>null</Code>, jeżeli było kilka najciepelszych miesięcy. Numery
-        miesięcy zaczynaja się od <Code>1</Code>. (1 - styczeń, 2 - luty, ...,
+        <Code>null</Code>, jeżeli było kilka najciepleszych miesięcy. Numery
+        miesięcy zaczynają się od <Code>1</Code>. (1 - styczeń, 2 - luty, ...,
         12 - grudzień).
       </TaskFnReturn>
 
