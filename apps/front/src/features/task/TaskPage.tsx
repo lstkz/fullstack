@@ -11,6 +11,7 @@ import { HighlightStyles } from './HighlightStyles';
 import { VMIframe } from './VMIframe';
 import { SolvedModal } from './SolvedModal';
 import { useDetails } from './useDetails';
+import { useReportPracticeTime } from './useReportPracticeTime';
 
 export interface TaskPageProps {
   task: ModuleTaskDetails;
@@ -26,6 +27,7 @@ export function TaskPage(props: TaskPageProps) {
   const { isIdle } = useVMPing(isReady);
   const task = useTaskUpdates(props.task);
   const header = <TaskHeader task={task} />;
+  useReportPracticeTime(task, isReady && vmUrl != null && !isIdle);
   if (isIdle) {
     return <IdleScreen header={header} />;
   }

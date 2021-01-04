@@ -77,6 +77,12 @@ export class APIClient {
   ): Promise<TaskTestInfo> {
     return this.call('module.getTaskTestInfo', { moduleId, taskId });
   }
+  module_reportPracticeTime(
+    moduleId: string,
+    taskId: number
+  ): Promise<unknown> {
+    return this.call('module.reportPracticeTime', { moduleId, taskId });
+  }
   module_submitSolution(values: {
     moduleId: string;
     taskId: number;

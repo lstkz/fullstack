@@ -19,30 +19,6 @@ export function getErrorMessage(e: any) {
   return message.replace('ContractError: ', '');
 }
 
-// export const handleAppError = () =>
-//   Rx.catchLog<ActionLike, Rx.Observable<ActionLike>>((e: any) => {
-//     return Rx.of(GlobalActions.showErrorModal(getErrorMessage(e)));
-//   });
-
-// interface HandleAuthOptions {
-//   authData: AuthData;
-//   reset: () => any;
-//   action$: Rx.Observable<any>;
-// }
-
-// export function handleAuth(options: HandleAuthOptions) {
-//   const { authData, reset, action$ } = options;
-//   return Rx.mergeObs(
-//     action$
-//       .pipe(
-//         Rx.waitForType(RouterActions.locationChange),
-//         Rx.map(() => reset())
-//       )
-//       .pipe(Rx.delay(1000)),
-//     Rx.of(GlobalActions.auth(authData))
-//   );
-// }
-
 export function getSolutionsSortCriteria(
   sortOrder: 'likes' | 'newest' | 'oldest'
 ) {
@@ -118,33 +94,6 @@ export function toggleMapValue<
   }
   return copy;
 }
-
-// const BUNDLE_ID = 'CHALLENGE_BUNDLE_SCRIPT';
-
-// function removeBundle() {
-//   const existing = document.getElementById(BUNDLE_ID);
-//   if (existing) {
-//     existing.remove();
-//   }
-// }
-
-// export function loadBundle(detailsBundleS3Key: string) {
-//   return new Rx.Observable<any>(subscriber => {
-//     removeBundle();
-//     const script = document.createElement('script');
-//     script.type = 'text/javascript';
-//     script.src = PROTECTED_BASE_URL + detailsBundleS3Key;
-//     script.setAttribute('id', BUNDLE_ID);
-//     (window as any).ChallengeJSONP = (module: any) => {
-//       subscriber.next(module.Details);
-//       subscriber.complete();
-//     };
-//     document.body.appendChild(script);
-//     return () => {
-//       removeBundle();
-//     };
-//   });
-// }
 
 export function opacityHex(hex: string, opacity: number) {
   const shorthandRegex = /^#?([a-f\d])([a-f\d])([a-f\d])$/i;
@@ -233,4 +182,33 @@ export function safeExtend<T, U>(obj: T, values: U): T & U {
 
 export function safeKeys<T>(obj: T): Array<keyof T> {
   return Object.keys(obj) as any;
+}
+
+export function getTimeSuffix(n: number) {
+  if (n === 1) {
+    return 'a';
+  }
+  const rem100 = n % 100;
+  if (rem100 > 10 && rem100 <= 20) {
+    return '';
+  }
+  const rem10 = rem100 % 10;
+  if (rem10 >= 2 && rem10 <= 4) {
+    return 'y';
+  }
+  return '';
+}
+
+export function formatDuration(totalMinutes: number) {
+  if (!totalMinutes) {
+    return '0 godzin';
+  }
+  const hours = Math.floor(totalMinutes / 60);
+  const minutes = totalMinutes % 60;
+  return [
+    hours && `${hours} godzin${getTimeSuffix(hours)}`,
+    minutes && `${minutes} minut${getTimeSuffix(minutes)}`,
+  ]
+    .filter(Boolean)
+    .join(' ');
 }
