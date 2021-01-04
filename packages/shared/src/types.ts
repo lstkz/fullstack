@@ -97,6 +97,7 @@ export interface ModuleTask {
   id: number;
   name: string;
   isExample: boolean;
+  isSolved: boolean;
 }
 
 export interface ModuleDetails extends Module {
@@ -104,14 +105,12 @@ export interface ModuleDetails extends Module {
   tasks: ModuleTask[];
 }
 
-export interface ModuleTaskDetails {
-  id: number;
+export interface ModuleTaskDetails extends ModuleTask {
   moduleId: string;
-  name: string;
-  isExample: boolean;
   detailsUrl: string;
   htmlUrl: string;
   isSolved: boolean;
+  nextTask: ModuleTask | null;
 }
 
 export interface TaskTestInfo {

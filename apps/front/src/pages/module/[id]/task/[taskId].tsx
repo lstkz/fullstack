@@ -1,8 +1,10 @@
 import { GetServerSideProps } from 'next';
 import { createSSRClient } from 'src/common/helper';
-import { TaskPage } from 'src/features/task/TaskPage';
+import { TaskPage, TaskPageProps } from 'src/features/task/TaskPage';
 
-export default TaskPage;
+export default function TaskPageWrapper(props: TaskPageProps) {
+  return <TaskPage {...props} key={props.task.id} />;
+}
 
 export const getServerSideProps: GetServerSideProps = async ctx => {
   const api = createSSRClient(ctx);

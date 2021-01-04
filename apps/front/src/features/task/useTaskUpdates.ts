@@ -1,16 +1,13 @@
 import React from 'react';
 import { AppSocketMsg, ModuleTaskDetails } from 'shared';
 import WS from 'reconnecting-websocket';
-import { API_URL, IS_SSR } from 'src/config';
+import { API_URL } from 'src/config';
 import { getAccessToken } from 'src/services/Storage';
 
 export function useTaskUpdates(defaultTask: ModuleTaskDetails) {
   const [task, setTask] = React.useState(defaultTask);
 
-  React.useEffect(() => {
-    if (IS_SSR) {
-      return;
-    }
+  React.useLayoutEffect(() => {
     const socketUrl =
       API_URL.replace(/^http/, 'ws') +
       '/?token=' +

@@ -19,6 +19,12 @@ export const TaskSolutionCollection = createCollection<TaskSolutionModel>(
     },
     {
       key: {
+        userId: 1,
+        moduleId: 1,
+      },
+    },
+    {
+      key: {
         solutionS3Key: 1,
       },
       unique: true,

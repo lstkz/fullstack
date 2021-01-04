@@ -5,6 +5,36 @@ import { LessonProgressCollection } from '../../collections/LessonProgress';
 import { ModuleCollection } from '../../collections/Module';
 import { AppError } from '../../common/errors';
 import { createContract, createRpcBinding } from '../../lib';
+import { ObjectId } from 'mongodb';
+import { TaskSolutionCollection } from '../../collections/TaskSolution';
+
+async function _getLessonProgressMap(
+  moduleId: string,
+  userId: ObjectId | undefined
+) {
+  if (!userId) {
+    return {};
+  }
+  const items = await LessonProgressCollection.findAll({
+    userId: userId,
+    moduleId: moduleId,
+  });
+  return R.indexBy(items, x => x.lessonId);
+}
+
+async function _getTaskSolvedMap(
+  moduleId: string,
+  userId: ObjectId | undefined
+) {
+  if (!userId) {
+    return {};
+  }
+  const items = await TaskSolutionCollection.findAll({
+    userId: userId,
+    moduleId: moduleId,
+  });
+  return R.indexBy(items, x => x.taskId);
+}
 
 export const getModule = createContract('module.getModule')
   .params('user', 'id')
@@ -21,13 +51,10 @@ export const getModule = createContract('module.getModule')
     if (module.isPending) {
       throw new AppError('Module is pending');
     }
-    const lessonProgressItems = user
-      ? await LessonProgressCollection.findAll({
-          userId: user._id,
-          moduleId: id,
-        })
-      : [];
-    const lessonProgressMap = R.indexBy(lessonProgressItems, x => x.lessonId);
+    const [lessonProgressMap, taskSolvedMap] = await Promise.all([
+      _getLessonProgressMap(id, user?._id),
+      _getTaskSolvedMap(id, user?._id),
+    ]);
     return {
       id: module._id,
       name: module.name,
@@ -42,6 +69,7 @@ export const getModule = createContract('module.getModule')
         id: item.id,
         name: item.name,
         isExample: item.isExample,
+        isSolved: !!taskSolvedMap[item.id],
       })),
     };
   });

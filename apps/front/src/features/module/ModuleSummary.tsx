@@ -15,7 +15,7 @@ export function ModuleSummary() {
     return {
       lessonsWatched: module.lessons.filter(x => x.isWatched).length,
       lessonsTotal: module.lessons.length,
-      tasksDone: 0,
+      tasksDone: module.tasks.filter(x => x.isSolved).length,
       tasksTotal: module.tasks.length,
       practiceTime: '25 godzin',
     };
