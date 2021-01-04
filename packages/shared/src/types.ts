@@ -115,6 +115,7 @@ export interface ModuleTaskDetails extends ModuleTask {
   isSolved: boolean;
   nextTask: ModuleTask | null;
   hasHint: boolean;
+  hasVideoSolution: boolean;
   isHintOpened: boolean;
   isSolutionOpened: boolean;
 }

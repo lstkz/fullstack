@@ -3,9 +3,10 @@ import { AppSocketMsg, ModuleTaskDetails } from 'shared';
 import WS from 'reconnecting-websocket';
 import { API_URL } from 'src/config';
 import { getAccessToken } from 'src/services/Storage';
+import { useImmer } from 'use-immer';
 
 export function useTaskUpdates(defaultTask: ModuleTaskDetails) {
-  const [task, setTask] = React.useState(defaultTask);
+  const [task, setTask] = useImmer(defaultTask);
 
   React.useLayoutEffect(() => {
     const socketUrl =
@@ -18,9 +19,8 @@ export function useTaskUpdates(defaultTask: ModuleTaskDetails) {
       if (msg.type === 'TaskSolved') {
         const { moduleId, taskId } = msg.payload;
         if (task.moduleId === moduleId && task.id === taskId) {
-          setTask({
-            ...task,
-            isSolved: true,
+          setTask(draft => {
+            draft.isSolved = true;
           });
         }
       }
@@ -31,5 +31,5 @@ export function useTaskUpdates(defaultTask: ModuleTaskDetails) {
     };
   }, []);
 
-  return task;
+  return [task, setTask] as const;
 }

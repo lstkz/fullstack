@@ -14,6 +14,7 @@ import { useDetails } from './useDetails';
 import { useReportPracticeTime } from './useReportPracticeTime';
 import { TaskHintModule } from './TaskHintModule';
 import { TaskHeaderContainer } from './TaskHeaderContainer';
+import { TaskVideoSolutionModule } from './TaskVideoSolutionModule';
 
 export interface TaskPageProps {
   task: ModuleTaskDetails;
@@ -27,7 +28,7 @@ export function TaskPage(props: TaskPageProps) {
   const { vmUrl, isReady } = useVMWaiter(props);
   const details = useDetails(props.task);
   const { isIdle } = useVMPing(isReady);
-  const task = useTaskUpdates(props.task);
+  const [task, setTask] = useTaskUpdates(props.task);
 
   useReportPracticeTime(task, isReady && vmUrl != null && !isIdle);
   if (isIdle) {
@@ -45,8 +46,10 @@ export function TaskPage(props: TaskPageProps) {
     <div className="flex h-full flex-col">
       <SolvedModal task={task} />
       <HighlightStyles />
-      <TaskHintModule task={task}>
-        <TaskHeader task={task} />
+      <TaskHintModule task={task} setTask={setTask}>
+        <TaskVideoSolutionModule task={task} setTask={setTask}>
+          <TaskHeader task={task} />
+        </TaskVideoSolutionModule>
       </TaskHintModule>
       <div className="flex-1 relative">
         <TaskSplitPane

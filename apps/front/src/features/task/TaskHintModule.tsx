@@ -7,7 +7,7 @@ import { ConfirmModal } from 'src/components/ConfirmModal';
 import { Modal } from 'src/components/Modal';
 import { SimpleModal } from 'src/components/SimpleModal';
 import { api } from 'src/services/api';
-import { useImmer } from 'use-immer';
+import { Updater, useImmer } from 'use-immer';
 import { useErrorModalActions } from '../ErrorModalModule';
 
 interface Actions {
@@ -20,7 +20,6 @@ interface State {
   isHintOpen: boolean;
   isWaitOpen: boolean;
   remainingTime: number;
-  needConfirm: boolean;
 }
 
 const TaskHintContext = React.createContext<{
@@ -31,10 +30,11 @@ const TaskHintContext = React.createContext<{
 export interface TaskHintProps {
   children: React.ReactNode;
   task: ModuleTaskDetails;
+  setTask: Updater<ModuleTaskDetails>;
 }
 
 export function TaskHintModule(props: TaskHintProps) {
-  const { children, task } = props;
+  const { children, task, setTask } = props;
   const { show: showError } = useErrorModalActions();
   const [state, setState] = useImmer<State>({
     isConfirmOpen: false,
@@ -42,16 +42,7 @@ export function TaskHintModule(props: TaskHintProps) {
     isHintOpen: false,
     isWaitOpen: false,
     remainingTime: 0,
-    needConfirm: !task.isHintOpened,
   });
-
-  React.useEffect(() => {
-    if (task.isSolved) {
-      setState(draft => {
-        draft.needConfirm = false;
-      });
-    }
-  }, [task.isSolved]);
 
   const closeConfirm = () =>
     setState(draft => {
@@ -80,8 +71,10 @@ export function TaskHintModule(props: TaskHintProps) {
         const html = await fetch(result.url).then(res => res.text());
         setState(draft => {
           draft.isHintOpen = true;
-          draft.needConfirm = false;
           draft.hintHtml = html;
+        });
+        setTask(draft => {
+          draft.isHintOpened = true;
         });
       }
     } catch (e) {
@@ -96,16 +89,16 @@ export function TaskHintModule(props: TaskHintProps) {
   const actions = React.useMemo<Actions>(
     () => ({
       showHint: () => {
-        if (state.needConfirm) {
+        if (task.isHintOpened || task.isSolved) {
+          void loadHint();
+        } else {
           setState(draft => {
             draft.isConfirmOpen = true;
           });
-        } else {
-          void loadHint();
         }
       },
     }),
-    [state.needConfirm]
+    [task.isHintOpened, task.isSolved]
   );
 
   const {

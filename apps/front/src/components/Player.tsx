@@ -1,10 +1,10 @@
 import React from 'react';
 import Plyr from 'plyr';
-import { useModulePageActions } from './ModulePage';
-import { ModuleLesson } from 'shared';
+import { VideoUpload } from 'shared';
 
 interface PlayerProps {
-  lesson: ModuleLesson;
+  sources: VideoUpload[];
+  onEnd?: () => void;
 }
 
 declare module 'react' {
@@ -14,9 +14,7 @@ declare module 'react' {
 }
 
 export function Player(props: PlayerProps) {
-  const { lesson } = props;
-  const { markLessonWatched } = useModulePageActions();
-
+  const { sources, onEnd } = props;
   const ref = React.useRef<HTMLVideoElement>(null);
 
   const resolutionMap: Record<string, number> = {
@@ -32,9 +30,9 @@ export function Player(props: PlayerProps) {
       ratio: '16:9',
       displayDuration: true,
     });
-    player.on('ended', () => {
-      markLessonWatched(lesson.id);
-    });
+    if (onEnd) {
+      player.on('ended', onEnd);
+    }
     return () => {
       player.destroy();
     };
@@ -48,7 +46,7 @@ export function Player(props: PlayerProps) {
         maxHeight: '80vh',
       }}
     >
-      {lesson.sources.map(item => (
+      {sources.map(item => (
         <source
           key={item.url}
           src={item.url}

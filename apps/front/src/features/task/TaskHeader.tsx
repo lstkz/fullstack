@@ -11,6 +11,7 @@ import { MenuDropdown } from 'src/components/MenuDropdown';
 import { VoidLink } from 'src/components/VoidLink';
 import { TaskHeaderContainer } from './TaskHeaderContainer';
 import { useTaskHintActions } from './TaskHintModule';
+import { useTaskVideoSolutionActions } from './TaskVideoSolutionModule';
 
 interface TaskHeaderProps {
   task: ModuleTaskDetails;
@@ -19,6 +20,7 @@ interface TaskHeaderProps {
 export function TaskHeader(props: TaskHeaderProps) {
   const { task } = props;
   const { showHint } = useTaskHintActions();
+  const { showVideoSolution } = useTaskVideoSolutionActions();
   return (
     <TaskHeaderContainer>
       <div className="py-1">
@@ -41,9 +43,11 @@ export function TaskHeader(props: TaskHeaderProps) {
               </>
             )}
 
-            {task.hasHint && (
+            {task.hasVideoSolution && (
               <>
-                <MenuItem data-test="solution-btn">Pokaż rozwiązanie</MenuItem>
+                <MenuItem data-test="solution-btn" onClick={showVideoSolution}>
+                  Pokaż rozwiązanie
+                </MenuItem>
               </>
             )}
             {/* <MenuSeparator /> */}
