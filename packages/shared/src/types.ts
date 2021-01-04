@@ -114,6 +114,8 @@ export interface ModuleTaskDetails extends ModuleTask {
   isSolved: boolean;
   nextTask: ModuleTask | null;
   hasHint: boolean;
+  isHintOpened: boolean;
+  isSolutionOpened: boolean;
 }
 
 export interface TaskTestInfo {

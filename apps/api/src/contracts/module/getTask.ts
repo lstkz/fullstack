@@ -72,8 +72,8 @@ async function _getNextTask(
   };
 }
 
-async function _setViewed(moduleId: string, taskId: number, userId: ObjectId) {
-  await UserTaskTimeInfoCollection.findOneAndUpdate(
+async function _setOpened(moduleId: string, taskId: number, userId: ObjectId) {
+  const ret = await UserTaskTimeInfoCollection.findOneAndUpdate(
     {
       moduleId,
       taskId,
@@ -86,8 +86,10 @@ async function _setViewed(moduleId: string, taskId: number, userId: ObjectId) {
     },
     {
       upsert: true,
+      returnOriginal: false,
     }
   );
+  return ret.value!;
 }
 
 export const getTask = createContract('module.getTask')
@@ -99,10 +101,10 @@ export const getTask = createContract('module.getTask')
   })
   .returns<ModuleTaskDetails>()
   .fn(async (user, moduleId, taskId) => {
-    const [task, isSolved] = await Promise.all([
+    const [task, isSolved, taskInfo] = await Promise.all([
       getActiveTask(moduleId, taskId),
       _getIsSolved(moduleId, taskId, user._id),
-      _setViewed(moduleId, taskId, user._id),
+      _setOpened(moduleId, taskId, user._id),
     ]);
     return {
       id: task.id,
@@ -113,6 +115,8 @@ export const getTask = createContract('module.getTask')
       detailsUrl: config.cdnBaseUrl + '/' + task.detailsS3Key,
       htmlUrl: config.cdnBaseUrl + '/' + task.htmlS3Key,
       hasHint: task.hintHtmlS3Key != null,
+      isHintOpened: taskInfo.hintViewedAt != null,
+      isSolutionOpened: taskInfo.solutionViewedAt != null,
       nextTask: await _getNextTask(moduleId, taskId + 1, user._id),
     };
   });
