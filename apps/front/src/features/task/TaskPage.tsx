@@ -11,8 +11,9 @@ import { useTaskUpdates } from './useTaskUpdates';
 import { TaskSplitPane } from './TaskSplitPane';
 import { HighlightStyles } from './HighlightStyles';
 import { VMIframe } from './VMIframe';
+import { SolvedModal } from './SolvedModal';
 
-interface TaskPageProps {
+export interface TaskPageProps {
   task: ModuleTaskDetails;
   isReady: boolean;
   vmUrl: string | null;
@@ -26,10 +27,7 @@ if (!IS_SSR) {
 
 function useDetails(task: ModuleTaskDetails) {
   const [details, setDetails] = React.useState<React.ReactNode | null>(null);
-  React.useEffect(() => {
-    if (IS_SSR) {
-      return;
-    }
+  React.useLayoutEffect(() => {
     const script = document.createElement('script');
     script.type = 'text/javascript';
     script.src = task.detailsUrl;
@@ -63,6 +61,7 @@ export function TaskPage(props: TaskPageProps) {
   };
   return (
     <div className="flex h-full flex-col">
+      <SolvedModal task={task} />
       <HighlightStyles />
       {header}
       <div className="flex-1 relative">

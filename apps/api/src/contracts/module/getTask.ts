@@ -1,4 +1,6 @@
 import { config } from 'config';
+import { ObjectId } from 'mongodb';
+import * as R from 'remeda';
 import { S } from 'schema';
 import { ModuleTaskDetails } from 'shared';
 import { ModuleCollection } from '../../collections/Module';
@@ -6,7 +8,7 @@ import { TaskSolutionCollection } from '../../collections/TaskSolution';
 import { AppError } from '../../common/errors';
 import { createContract, createRpcBinding } from '../../lib';
 
-export async function getActiveTask(moduleId: string, taskId: number) {
+export async function getActiveTaskOrNull(moduleId: string, taskId: number) {
   const module = await ModuleCollection.findOne(
     {
       _id: moduleId,
@@ -20,13 +22,52 @@ export async function getActiveTask(moduleId: string, taskId: number) {
     }
   );
   if (!module || module.isPending || !module.tasks.length) {
-    throw new AppError('Task not found');
+    return null;
   }
   if (module.tasks.length > 1) {
     throw new Error('Expected only 1 task result');
   }
 
   return module.tasks[0];
+}
+
+export async function getActiveTask(moduleId: string, taskId: number) {
+  const task = await getActiveTaskOrNull(moduleId, taskId);
+  if (!task) {
+    throw new AppError('Task not found');
+  }
+  return task;
+}
+
+async function _getIsSolved(
+  moduleId: string,
+  taskId: number,
+  userId: ObjectId
+) {
+  const solvedTask = await TaskSolutionCollection.findOne({
+    moduleId,
+    taskId,
+    userId,
+  });
+  return !!solvedTask;
+}
+
+async function _getNextTask(
+  moduleId: string,
+  nextTaskId: number,
+  userId: ObjectId
+) {
+  const [nextTask, isSolved] = await Promise.all([
+    getActiveTaskOrNull(moduleId, nextTaskId),
+    _getIsSolved(moduleId, nextTaskId, userId),
+  ]);
+  if (!nextTask) {
+    return null;
+  }
+  return {
+    ...R.pick(nextTask, ['id', 'name', 'isExample']),
+    isSolved,
+  };
 }
 
 export const getTask = createContract('module.getTask')
@@ -38,22 +79,19 @@ export const getTask = createContract('module.getTask')
   })
   .returns<ModuleTaskDetails>()
   .fn(async (user, moduleId, taskId) => {
-    const [task, solvedTask] = await Promise.all([
+    const [task, isSolved] = await Promise.all([
       getActiveTask(moduleId, taskId),
-      TaskSolutionCollection.findOne({
-        moduleId,
-        taskId,
-        userId: user._id,
-      }),
+      _getIsSolved(moduleId, taskId, user._id),
     ]);
     return {
       id: task.id,
       moduleId,
-      isSolved: solvedTask != null,
+      isSolved,
       name: task.name,
       isExample: task.isExample,
       detailsUrl: config.cdnBaseUrl + '/' + task.detailsS3Key,
       htmlUrl: config.cdnBaseUrl + '/' + task.htmlS3Key,
+      nextTask: await _getNextTask(moduleId, taskId + 1, user._id),
     };
   });
 

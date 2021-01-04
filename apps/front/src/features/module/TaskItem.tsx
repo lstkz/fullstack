@@ -13,7 +13,7 @@ export function TaskItem(props: TaskItemProps) {
   const { moduleId, item } = props;
   return (
     <ModuleMedia
-      type="pending"
+      type={item.isSolved ? 'success' : 'pending'}
       aboveText={`Zadanie ${item.id}${item.isExample ? ' (Przykład)' : ''}`}
       title={item.name}
       button={

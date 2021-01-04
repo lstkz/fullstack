@@ -126,6 +126,35 @@ it('should return a task', async () => {
       "isSolved": false,
       "moduleId": "m1",
       "name": "task 2",
+      "nextTask": null,
+    }
+  `);
+});
+
+it('should return a task (with next)', async () => {
+  const task = await execContract(
+    getTask,
+    {
+      moduleId: 'm1',
+      taskId: 1,
+    },
+    'user1_token'
+  );
+  expect(task).toMatchInlineSnapshot(`
+    Object {
+      "detailsUrl": "https://example.org/details-1.js",
+      "htmlUrl": "https://example.org/1.html",
+      "id": 1,
+      "isExample": false,
+      "isSolved": false,
+      "moduleId": "m1",
+      "name": "task 1",
+      "nextTask": Object {
+        "id": 2,
+        "isExample": false,
+        "isSolved": false,
+        "name": "task 2",
+      },
     }
   `);
 });

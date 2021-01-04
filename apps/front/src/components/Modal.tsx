@@ -118,14 +118,16 @@ export function Modal(props: ModalProps) {
             </div>
           )}
           <div className="relative flex-auto p-6">{children}</div>
-          <div
-            className={classNames(
-              'flex flex-wrap items-center justify-end rounded-b-xl p-5',
-              borderClass
-            )}
-          >
-            {footer}
-          </div>
+          {footer && (
+            <div
+              className={classNames(
+                'flex flex-wrap items-center justify-end rounded-b-xl p-5',
+                borderClass
+              )}
+            >
+              {footer}
+            </div>
+          )}
         </div>
       </div>
     </ModalContainer>
