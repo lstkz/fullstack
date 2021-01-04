@@ -112,6 +112,7 @@ export async function createModules() {
         sourceS3Key: 'sourceS3Key',
         htmlS3Key: 'htmlS3Key',
         hintHtmlS3Key: null,
+        videoSolution: null,
         testsInfo: {
           files: [],
           resultHash: 'hash',

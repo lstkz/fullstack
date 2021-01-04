@@ -38,6 +38,7 @@ it('should insert and update a module', async () => {
             detailsS3Key: 'details key',
             sourceS3Key: 'source key',
             htmlS3Key: 'html key',
+            videoSolution: null,
             hintHtmlS3Key: null,
             isExample: false,
             testsInfo: {
@@ -82,6 +83,7 @@ it('should insert and update a module', async () => {
               "files": Array [],
               "resultHash": "hash",
             },
+            "videoSolution": null,
           },
         ],
       },
@@ -130,6 +132,12 @@ it('should insert and update a module', async () => {
               files: [],
               resultHash: 'hash',
             },
+            videoSolution: [
+              {
+                resolution: '720',
+                url: 'aqw',
+              },
+            ],
           },
         ],
       },
@@ -178,6 +186,12 @@ it('should insert and update a module', async () => {
               "files": Array [],
               "resultHash": "hash",
             },
+            "videoSolution": Array [
+              Object {
+                "resolution": "720",
+                "url": "aqw",
+              },
+            ],
           },
         ],
       },

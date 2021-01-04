@@ -1,4 +1,4 @@
-import { ModuleTaskUpload, ModuleUpload } from 'shared';
+import { ModuleTaskUpload, ModuleUpload, VideoUpload } from 'shared';
 
 const sampleSources = [
   {
@@ -18,11 +18,17 @@ const sampleSources = [
   },
 ];
 
-function _getTask(
-  id: number,
-  name: string,
-  isExample = false
-): ModuleTaskUpload {
+function _getTask({
+  id,
+  name,
+  isExample = false,
+  videoSolution = null,
+}: {
+  id: number;
+  name: string;
+  isExample?: boolean;
+  videoSolution?: VideoUpload[];
+}): ModuleTaskUpload {
   return {
     id,
     isExample: isExample,
@@ -31,6 +37,7 @@ function _getTask(
     sourceS3Key: '',
     htmlS3Key: '',
     hintHtmlS3Key: null,
+    videoSolution,
     testsInfo: require(`./task-${id}/tests-info.json`),
   };
 }
@@ -128,14 +135,14 @@ Moduł zawiera lekcje i zadania dla osób, które chcą zacząć swoją przygod�
     },
   ],
   tasks: [
-    _getTask(1, 'Środkowa liczba', true),
-    _getTask(2, 'Pełna kwota', true),
-    _getTask(3, 'Najcieplejszy miesiac', true),
-    _getTask(4, 'Okrągła suma', true),
-    _getTask(5, 'Wygrane pod rząd', true),
-    _getTask(6, 'Clamp'),
-    _getTask(7, 'Cykliczna tablica'),
-    _getTask(8, 'Niedokładne liczby'),
-    _getTask(9, 'Brakująca liczba'),
+    _getTask({ id: 1, name: 'Środkowa liczba', isExample: true }),
+    _getTask({ id: 2, name: 'Pełna kwota', isExample: true }),
+    _getTask({ id: 3, name: 'Najcieplejszy miesiac', isExample: true }),
+    _getTask({ id: 4, name: 'Okrągła suma', isExample: true }),
+    _getTask({ id: 5, name: 'Wygrane pod rząd', isExample: true }),
+    _getTask({ id: 6, name: 'Clamp', videoSolution: sampleSources }),
+    _getTask({ id: 7, name: 'Cykliczna tablica' }),
+    _getTask({ id: 8, name: 'Niedokładne liczby' }),
+    _getTask({ id: 9, name: 'Brakująca liczba' }),
   ],
 };

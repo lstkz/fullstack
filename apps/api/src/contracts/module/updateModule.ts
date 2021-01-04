@@ -3,6 +3,14 @@ import * as R from 'remeda';
 import { ModuleCollection } from '../../collections/Module';
 import { createContract, createRpcBinding } from '../../lib';
 
+const getVideoSourcesSchema = () =>
+  S.array().items(
+    S.object().keys({
+      resolution: S.string(),
+      url: S.string(),
+    })
+  );
+
 export const updateModule = createContract('module.updateModule')
   .params('values')
   .schema({
@@ -15,12 +23,7 @@ export const updateModule = createContract('module.updateModule')
         S.object().keys({
           id: S.number(),
           name: S.string(),
-          sources: S.array().items(
-            S.object().keys({
-              resolution: S.string(),
-              url: S.string(),
-            })
-          ),
+          sources: getVideoSourcesSchema(),
         })
       ),
       tasks: S.array().items(
@@ -41,6 +44,7 @@ export const updateModule = createContract('module.updateModule')
               })
             ),
           }),
+          videoSolution: getVideoSourcesSchema().nullable(),
         })
       ),
     }),

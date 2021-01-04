@@ -24,6 +24,7 @@ export interface ModuleTaskModel {
   htmlS3Key: string;
   hintHtmlS3Key: string | null;
   testsInfo: TaskTestsInfo;
+  videoSolution: VideoUpload[] | null;
 }
 
 export interface ModuleModel {

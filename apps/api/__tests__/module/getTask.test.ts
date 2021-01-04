@@ -27,6 +27,7 @@ beforeEach(async () => {
           sourceS3Key: '',
           htmlS3Key: '1.html',
           hintHtmlS3Key: null,
+          videoSolution: null,
           testsInfo: {
             files: [],
             resultHash: 'hash',
@@ -40,6 +41,7 @@ beforeEach(async () => {
           sourceS3Key: '',
           htmlS3Key: '2.html',
           hintHtmlS3Key: null,
+          videoSolution: null,
           testsInfo: {
             files: [],
             resultHash: 'hash',
@@ -62,6 +64,7 @@ beforeEach(async () => {
           sourceS3Key: '',
           htmlS3Key: '3.html',
           hintHtmlS3Key: null,
+          videoSolution: null,
           testsInfo: {
             files: [],
             resultHash: 'hash',
