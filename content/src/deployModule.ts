@@ -122,6 +122,11 @@ async function _buildDetails(moduleName: string, tasks: TaskInfo[]) {
   });
 }
 
+function _nodeToMarkup(component: string) {
+  const node = React.createElement(component);
+  return ReactDOMServer.renderToStaticMarkup(node);
+}
+
 function _getTasksInfo(module: ModuleUpload) {
   const tasks: TaskInfo[] = [];
 
@@ -129,18 +134,28 @@ function _getTasksInfo(module: ModuleUpload) {
   module.tasks.map(task => {
     const taskDir = Path.join(moduleDir, 'task-' + task.id);
     const detailsPath = Path.join(taskDir, 'details', 'index.tsx');
+    const hintPath = Path.join(taskDir, 'details', 'hint.tsx');
     if (!fs.existsSync(detailsPath)) {
       throw new Error(`${detailsPath} doesn't exist`);
     }
     const uniqName = `${task.id}`;
     const distFileName = `${uniqName}.js`;
-    const component = require(detailsPath).Details;
-    const node = React.createElement(component);
-    const detailsHTML = ReactDOMServer.renderToStaticMarkup(node);
+    const detailsHTML = _nodeToMarkup(require(detailsPath).Details);
+    const hintDetailsHTML = fs.existsSync(hintPath)
+      ? _nodeToMarkup(require(hintPath).Hint)
+      : null;
     const htmlFilePath = tmp.fileSync({
       postfix: '.html',
     }).name;
     fs.writeFileSync(htmlFilePath, detailsHTML);
+    const hintHtmlFilePath = hintDetailsHTML
+      ? tmp.fileSync({
+          postfix: '.html',
+        }).name
+      : null;
+    if (hintHtmlFilePath) {
+      fs.writeFileSync(hintHtmlFilePath, hintDetailsHTML!);
+    }
     tasks.push({
       task,
       taskDir,
@@ -148,6 +163,7 @@ function _getTasksInfo(module: ModuleUpload) {
       distFileName,
       uniqName,
       htmlFilePath,
+      hintHtmlFilePath,
       distFilePath: Path.join(moduleDir, 'dist', distFileName),
       sourceTarPath: Path.join(moduleDir, 'dist', `${uniqName}.tar.gz`),
     });
@@ -174,8 +190,12 @@ async function _uploadTasks(tasks: TaskInfo[]) {
           { path: info.htmlFilePath, out: 'htmlS3Key' as const },
           { path: info.distFilePath, out: 'detailsS3Key' as const },
           { path: info.sourceTarPath, out: 'sourceS3Key' as const },
+          { path: info.hintHtmlFilePath, out: 'hintHtmlS3Key' as const },
         ].map(async file => {
           const { out, path } = file;
+          if (!path) {
+            return;
+          }
           const contentType = mime.lookup(path);
           const ext = path.endsWith('.tar.gz') ? '.tar.gz' : Path.extname(path);
           if (!ext) {

@@ -58,6 +58,7 @@ export interface ModuleTaskUpload {
   detailsS3Key: string;
   sourceS3Key: string;
   htmlS3Key: string;
+  hintHtmlS3Key: string | null;
   testsInfo: UploadTestsInfo;
 }
 
@@ -112,6 +113,9 @@ export interface ModuleTaskDetails extends ModuleTask {
   htmlUrl: string;
   isSolved: boolean;
   nextTask: ModuleTask | null;
+  hasHint: boolean;
+  isHintOpened: boolean;
+  isSolutionOpened: boolean;
 }
 
 export interface TaskTestInfo {
@@ -129,3 +133,14 @@ export interface TaskSolvedSocketMsg {
 }
 
 export type AppSocketMsg = TaskSolvedSocketMsg;
+
+export type TaskHintResult =
+  | {
+      type: 'ok';
+      url: string;
+    }
+  | {
+      type: 'wait';
+      waitTime: number;
+      remainingTime: number;
+    };

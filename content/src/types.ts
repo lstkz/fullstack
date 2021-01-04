@@ -15,6 +15,7 @@ export interface TaskInfo {
   distFilePath: string;
   sourceTarPath: string;
   htmlFilePath: string;
+  hintHtmlFilePath: string | null;
 }
 
 export interface TaskUpload {
@@ -23,4 +24,5 @@ export interface TaskUpload {
   detailsS3Key: string;
   sourceS3Key: string;
   htmlS3Key: string;
+  hintHtmlS3Key: string | null;
 }

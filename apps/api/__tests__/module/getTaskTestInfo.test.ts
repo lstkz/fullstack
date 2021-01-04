@@ -25,6 +25,7 @@ beforeEach(async () => {
           detailsS3Key: 'details-1.js',
           sourceS3Key: 'source.tar.gz',
           htmlS3Key: '1.html',
+          hintHtmlS3Key: null,
           testsInfo: {
             files: [
               {

@@ -6,6 +6,7 @@ import {
   Module,
   ModuleDetails,
   ModuleTaskDetails,
+  TaskHintResult,
   TaskTestInfo,
   TPayGroup,
   SubscriptionPlan,
@@ -71,6 +72,12 @@ export class APIClient {
   module_getTask(moduleId: string, taskId: number): Promise<ModuleTaskDetails> {
     return this.call('module.getTask', { moduleId, taskId });
   }
+  module_getTaskHint(
+    moduleId: string,
+    taskId: number
+  ): Promise<TaskHintResult> {
+    return this.call('module.getTaskHint', { moduleId, taskId });
+  }
   module_getTaskTestInfo(
     moduleId: string,
     taskId: number
@@ -118,6 +125,7 @@ export class APIClient {
       detailsS3Key: string;
       sourceS3Key: string;
       htmlS3Key: string;
+      hintHtmlS3Key: string | null;
       testsInfo: {
         resultHash: string;
         files: { path: string; hash: string }[];
