@@ -22,6 +22,7 @@ export interface ModuleTaskModel {
   detailsS3Key: string;
   sourceS3Key: string;
   htmlS3Key: string;
+  hintHtmlS3Key: string | null;
   testsInfo: TaskTestsInfo;
 }
 

@@ -41,7 +41,7 @@ export const Button = React.forwardRef((props: ButtonProps, ref: any) => {
   const inner = (
     <>
       {(loading || icon) && (
-        <div className="mr-3">
+        <div className="mr-3 flex items-center">
           {loading ? <SpinnerBoarder size="sm" /> : icon}
         </div>
       )}

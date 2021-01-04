@@ -12,6 +12,8 @@ import { VMIframe } from './VMIframe';
 import { SolvedModal } from './SolvedModal';
 import { useDetails } from './useDetails';
 import { useReportPracticeTime } from './useReportPracticeTime';
+import { TaskHintModule } from './TaskHintModule';
+import { TaskHeaderContainer } from './TaskHeaderContainer';
 
 export interface TaskPageProps {
   task: ModuleTaskDetails;
@@ -26,10 +28,10 @@ export function TaskPage(props: TaskPageProps) {
   const details = useDetails(props.task);
   const { isIdle } = useVMPing(isReady);
   const task = useTaskUpdates(props.task);
-  const header = <TaskHeader task={task} />;
+
   useReportPracticeTime(task, isReady && vmUrl != null && !isIdle);
   if (isIdle) {
-    return <IdleScreen header={header} />;
+    return <IdleScreen header={<TaskHeaderContainer />} />;
   }
 
   const renderIframe = () => {
@@ -38,15 +40,22 @@ export function TaskPage(props: TaskPageProps) {
     }
     return <VMIframe vmUrl={vmUrl} />;
   };
+
   return (
     <div className="flex h-full flex-col">
       <SolvedModal task={task} />
       <HighlightStyles />
-      {header}
+      <TaskHintModule task={task}>
+        <TaskHeader task={task} />
+      </TaskHintModule>
       <div className="flex-1 relative">
         <TaskSplitPane
           details={
-            details ?? <div dangerouslySetInnerHTML={{ __html: detailsHtml }} />
+            <>
+              {details ?? (
+                <div dangerouslySetInnerHTML={{ __html: detailsHtml }} />
+              )}
+            </>
           }
           ide={renderIframe()}
         />

@@ -34,7 +34,7 @@ export function Details() {
         </li>
         <li>
           <Code>max: number</Code> - Maksymalna wartość. Możesz założyć, że{' '}
-          <Code>max</Code> będzie wieksze lub równe <Code>min</Code>.
+          <Code>max</Code> będzie większe lub równe <Code>min</Code>.
         </li>
       </TaskFnArguments>
 

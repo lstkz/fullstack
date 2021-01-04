@@ -6,7 +6,7 @@ import { Heading } from './Heading';
 interface SimpleModalProps
   extends Pick<ModalProps, 'isOpen' | 'close' | 'bgColor' | 'testId'> {
   icon: React.ReactNode;
-  header: React.ReactNode;
+  header?: React.ReactNode;
   title: React.ReactNode;
   description: React.ReactNode;
 }

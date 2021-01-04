@@ -1,6 +1,16 @@
-import { Logo } from 'src/components/Logo';
 import * as React from 'react';
+import { faQuestionCircle } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { ModuleTaskDetails } from 'shared';
+import {
+  DropdownPopup,
+  MenuItem,
+  MenuSeparator,
+} from 'src/components/DropdownPopup';
+import { MenuDropdown } from 'src/components/MenuDropdown';
+import { VoidLink } from 'src/components/VoidLink';
+import { TaskHeaderContainer } from './TaskHeaderContainer';
+import { useTaskHintActions } from './TaskHintModule';
 
 interface TaskHeaderProps {
   task: ModuleTaskDetails;
@@ -8,9 +18,9 @@ interface TaskHeaderProps {
 
 export function TaskHeader(props: TaskHeaderProps) {
   const { task } = props;
+  const { showHint } = useTaskHintActions();
   return (
-    <div className="flex justify-between items-center h-8 px-4 bg-dark">
-      <Logo type="light" titleClassName="text-xl " />
+    <TaskHeaderContainer>
       <div className="py-1">
         {task.isSolved && (
           <div className="px-3 py-1 text-xs bg-green-800 rounded-md text-white">
@@ -18,6 +28,28 @@ export function TaskHeader(props: TaskHeaderProps) {
           </div>
         )}
       </div>
-    </div>
+      <MenuDropdown
+        testId="header-menu"
+        dropdown={
+          <DropdownPopup>
+            {task.hasHint && (
+              <>
+                <MenuItem data-test="hint-btn" onClick={showHint}>
+                  Pokaż wskazówkę
+                </MenuItem>
+                <MenuSeparator />
+              </>
+            )}
+            <MenuItem data-test="solution-btn">Pokaż rozwiązanie</MenuItem>
+            <MenuSeparator />
+            <MenuItem data-test="report-issue-btn">Zgłoś problem</MenuItem>
+          </DropdownPopup>
+        }
+      >
+        <VoidLink type="primary" className="ml-2 text-white px-1">
+          <FontAwesomeIcon icon={faQuestionCircle} />
+        </VoidLink>
+      </MenuDropdown>
+    </TaskHeaderContainer>
   );
 }

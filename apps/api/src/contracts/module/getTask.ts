@@ -5,7 +5,9 @@ import { S } from 'schema';
 import { ModuleTaskDetails } from 'shared';
 import { ModuleCollection } from '../../collections/Module';
 import { TaskSolutionCollection } from '../../collections/TaskSolution';
+import { UserTaskTimeInfoCollection } from '../../collections/UserTaskTimeInfo';
 import { AppError } from '../../common/errors';
+import { getCurrentDate } from '../../common/helper';
 import { createContract, createRpcBinding } from '../../lib';
 
 export async function getActiveTaskOrNull(moduleId: string, taskId: number) {
@@ -70,6 +72,24 @@ async function _getNextTask(
   };
 }
 
+async function _setViewed(moduleId: string, taskId: number, userId: ObjectId) {
+  await UserTaskTimeInfoCollection.findOneAndUpdate(
+    {
+      moduleId,
+      taskId,
+      userId,
+    },
+    {
+      $setOnInsert: {
+        openedAt: getCurrentDate(),
+      },
+    },
+    {
+      upsert: true,
+    }
+  );
+}
+
 export const getTask = createContract('module.getTask')
   .params('user', 'moduleId', 'taskId')
   .schema({
@@ -82,6 +102,7 @@ export const getTask = createContract('module.getTask')
     const [task, isSolved] = await Promise.all([
       getActiveTask(moduleId, taskId),
       _getIsSolved(moduleId, taskId, user._id),
+      _setViewed(moduleId, taskId, user._id),
     ]);
     return {
       id: task.id,
@@ -91,6 +112,7 @@ export const getTask = createContract('module.getTask')
       isExample: task.isExample,
       detailsUrl: config.cdnBaseUrl + '/' + task.detailsS3Key,
       htmlUrl: config.cdnBaseUrl + '/' + task.htmlS3Key,
+      hasHint: task.hintHtmlS3Key != null,
       nextTask: await _getNextTask(moduleId, taskId + 1, user._id),
     };
   });

@@ -1,4 +1,4 @@
-import { ModuleUpload } from 'shared';
+import { ModuleTaskUpload, ModuleUpload } from 'shared';
 
 const sampleSources = [
   {
@@ -17,6 +17,23 @@ const sampleSources = [
       'https://cdn.fullstack.pl/assets/sample-720p.3624bbf94bc8491650e64a72f58b0529.mp4',
   },
 ];
+
+function _getTask(
+  id: number,
+  name: string,
+  isExample = false
+): ModuleTaskUpload {
+  return {
+    id,
+    isExample: isExample,
+    name,
+    detailsS3Key: '',
+    sourceS3Key: '',
+    htmlS3Key: '',
+    hintHtmlS3Key: null,
+    testsInfo: require(`./task-${id}/tests-info.json`),
+  };
+}
 
 export const info: ModuleUpload = {
   id: '1-ts-basics',
@@ -111,86 +128,14 @@ Moduł zawiera lekcje i zadania dla osób, które chcą zacząć swoją przygod�
     },
   ],
   tasks: [
-    {
-      id: 1,
-      isExample: true,
-      name: 'Środkowa liczba',
-      detailsS3Key: '',
-      sourceS3Key: '',
-      htmlS3Key: '',
-      testsInfo: require('./task-1/tests-info.json'),
-    },
-    {
-      id: 2,
-      isExample: true,
-      name: 'Pełna kwota',
-      detailsS3Key: '',
-      sourceS3Key: '',
-      htmlS3Key: '',
-      testsInfo: require('./task-2/tests-info.json'),
-    },
-    {
-      id: 3,
-      isExample: true,
-      name: 'Najcieplejszy miesiac',
-      detailsS3Key: '',
-      sourceS3Key: '',
-      htmlS3Key: '',
-      testsInfo: require('./task-3/tests-info.json'),
-    },
-    {
-      id: 4,
-      isExample: true,
-      name: 'Okrągła suma',
-      detailsS3Key: '',
-      sourceS3Key: '',
-      htmlS3Key: '',
-      testsInfo: require('./task-4/tests-info.json'),
-    },
-    {
-      id: 5,
-      isExample: true,
-      name: 'Wygrane pod rząd',
-      detailsS3Key: '',
-      sourceS3Key: '',
-      htmlS3Key: '',
-      testsInfo: require('./task-5/tests-info.json'),
-    },
-    {
-      id: 6,
-      isExample: false,
-      name: 'Clamp',
-      detailsS3Key: '',
-      sourceS3Key: '',
-      htmlS3Key: '',
-      testsInfo: require('./task-6/tests-info.json'),
-    },
-    {
-      id: 7,
-      isExample: false,
-      name: 'Cykliczna tablica',
-      detailsS3Key: '',
-      sourceS3Key: '',
-      htmlS3Key: '',
-      testsInfo: require('./task-7/tests-info.json'),
-    },
-    {
-      id: 8,
-      isExample: false,
-      name: 'Niedokładne liczby',
-      detailsS3Key: '',
-      sourceS3Key: '',
-      htmlS3Key: '',
-      testsInfo: require('./task-8/tests-info.json'),
-    },
-    {
-      id: 9,
-      isExample: false,
-      name: 'Brakująca liczba',
-      detailsS3Key: '',
-      sourceS3Key: '',
-      htmlS3Key: '',
-      testsInfo: require('./task-9/tests-info.json'),
-    },
+    _getTask(1, 'Środkowa liczba', true),
+    _getTask(2, 'Pełna kwota', true),
+    _getTask(3, 'Najcieplejszy miesiac', true),
+    _getTask(4, 'Okrągła suma', true),
+    _getTask(5, 'Wygrane pod rząd', true),
+    _getTask(6, 'Clamp'),
+    _getTask(7, 'Cykliczna tablica'),
+    _getTask(8, 'Niedokładne liczby'),
+    _getTask(9, 'Brakująca liczba'),
   ],
 };
