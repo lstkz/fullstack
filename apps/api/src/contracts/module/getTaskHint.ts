@@ -3,7 +3,7 @@ import { S } from 'schema';
 import { TaskHintResult } from 'shared';
 import { UserTaskTimeInfoCollection } from '../../collections/UserTaskTimeInfo';
 import { AppError } from '../../common/errors';
-import { getDuration } from '../../common/helper';
+import { getCurrentDate, getDuration } from '../../common/helper';
 import { createContract, createRpcBinding } from '../../lib';
 import { getActiveTask } from './getTask';
 
@@ -29,6 +29,10 @@ export const getTaskHint = createContract('module.getTaskHint')
     });
     if (!timeInfo || !timeInfo.openedAt) {
       throw new AppError(`Task was never opened`);
+    }
+    if (!timeInfo.hintViewedAt) {
+      timeInfo.hintViewedAt = getCurrentDate();
+      await UserTaskTimeInfoCollection.update(timeInfo, ['hintViewedAt']);
     }
     const remainingTime = timeInfo.openedAt.getTime() + minTime - Date.now();
     if (remainingTime > 0) {

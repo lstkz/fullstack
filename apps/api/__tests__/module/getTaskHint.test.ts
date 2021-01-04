@@ -104,7 +104,7 @@ it('should return wait type', async () => {
 
 it('should return a url', async () => {
   Date.now = () => 1000;
-  await execContract(
+  let task = await execContract(
     getTask,
     {
       moduleId: 'm1',
@@ -112,6 +112,7 @@ it('should return a url', async () => {
     },
     'user1_token'
   );
+  expect(task.isHintOpened).toEqual(false);
   Date.now = () => getDuration(2, 'h');
   const ret = await execContract(
     getTaskHint,
@@ -125,4 +126,13 @@ it('should return a url', async () => {
     type: 'ok',
     url: 'http://cdn.example.org/hint',
   });
+  task = await execContract(
+    getTask,
+    {
+      moduleId: 'm1',
+      taskId: 1,
+    },
+    'user1_token'
+  );
+  expect(task.isHintOpened).toEqual(true);
 });

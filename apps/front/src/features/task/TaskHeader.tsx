@@ -40,9 +40,14 @@ export function TaskHeader(props: TaskHeaderProps) {
                 <MenuSeparator />
               </>
             )}
-            <MenuItem data-test="solution-btn">Pokaż rozwiązanie</MenuItem>
-            <MenuSeparator />
-            <MenuItem data-test="report-issue-btn">Zgłoś problem</MenuItem>
+
+            {task.hasHint && (
+              <>
+                <MenuItem data-test="solution-btn">Pokaż rozwiązanie</MenuItem>
+              </>
+            )}
+            {/* <MenuSeparator /> */}
+            {/* <MenuItem data-test="report-issue-btn">Zgłoś problem</MenuItem> */}
           </DropdownPopup>
         }
       >

@@ -20,6 +20,7 @@ interface State {
   isHintOpen: boolean;
   isWaitOpen: boolean;
   remainingTime: number;
+  needConfirm: boolean;
 }
 
 const TaskHintContext = React.createContext<{
@@ -41,17 +42,16 @@ export function TaskHintModule(props: TaskHintProps) {
     isHintOpen: false,
     isWaitOpen: false,
     remainingTime: 0,
+    needConfirm: !task.isHintOpened,
   });
-  const actions = React.useMemo<Actions>(
-    () => ({
-      showHint: () => {
-        setState(draft => {
-          draft.isConfirmOpen = true;
-        });
-      },
-    }),
-    []
-  );
+
+  React.useEffect(() => {
+    if (task.isSolved) {
+      setState(draft => {
+        draft.needConfirm = false;
+      });
+    }
+  }, [task.isSolved]);
 
   const closeConfirm = () =>
     setState(draft => {
@@ -68,7 +68,7 @@ export function TaskHintModule(props: TaskHintProps) {
       draft.isHintOpen = false;
     });
 
-  const showHint = async () => {
+  const loadHint = async () => {
     try {
       const result = await api.module_getTaskHint(task.moduleId, task.id);
       if (result.type === 'wait') {
@@ -80,6 +80,7 @@ export function TaskHintModule(props: TaskHintProps) {
         const html = await fetch(result.url).then(res => res.text());
         setState(draft => {
           draft.isHintOpen = true;
+          draft.needConfirm = false;
           draft.hintHtml = html;
         });
       }
@@ -91,6 +92,21 @@ export function TaskHintModule(props: TaskHintProps) {
       });
     }
   };
+
+  const actions = React.useMemo<Actions>(
+    () => ({
+      showHint: () => {
+        if (state.needConfirm) {
+          setState(draft => {
+            draft.isConfirmOpen = true;
+          });
+        } else {
+          void loadHint();
+        }
+      },
+    }),
+    [state.needConfirm]
+  );
 
   const {
     isConfirmOpen,
@@ -138,7 +154,7 @@ export function TaskHintModule(props: TaskHintProps) {
         title="Potwierdź pokazanie wskazówki"
         isOpen={isConfirmOpen}
         close={closeConfirm}
-        confirm={showHint}
+        confirm={loadHint}
       >
         Jeżeli zdecydujesz się na pokazanie wskazówki, maksymalna możliwa ilość
         punktów do zdobycia będzie wynosić <strong>50</strong> zamiast{' '}
