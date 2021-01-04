@@ -40,7 +40,7 @@ export function useVMPing(isReady: boolean) {
       document.addEventListener(name, onActivity);
     });
     const targetIdleTimeout = IDLE_TIMEOUT - 60 * 1000;
-    const idleTimeoutId = setInterval(() => {
+    const idleIntervalId = setInterval(() => {
       if (lastPing && lastPing + targetIdleTimeout < Date.now()) {
         setIsIdle(true);
       }
@@ -54,7 +54,7 @@ export function useVMPing(isReady: boolean) {
     window.addEventListener('message', onVmPing);
 
     return () => {
-      clearInterval(idleTimeoutId);
+      clearInterval(idleIntervalId);
       DEFAULT_EVENTS.forEach(name => {
         document.removeEventListener(name, onActivity);
       });

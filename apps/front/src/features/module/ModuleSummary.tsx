@@ -5,6 +5,7 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import * as React from 'react';
+import { formatDuration } from 'src/common/helper';
 import { Heading } from 'src/components/Heading';
 import { useModule } from './ModulePage';
 import { Stat } from './Stat';
@@ -17,7 +18,9 @@ export function ModuleSummary() {
       lessonsTotal: module.lessons.length,
       tasksDone: module.tasks.filter(x => x.isSolved).length,
       tasksTotal: module.tasks.length,
-      practiceTime: '25 godzin',
+      practiceTime: formatDuration(
+        module.tasks.reduce((ret, task) => ret + (task.practiceTime ?? 0), 0)
+      ),
     };
   }, [module]);
   return (

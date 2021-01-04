@@ -98,6 +98,7 @@ export interface ModuleTask {
   name: string;
   isExample: boolean;
   isSolved: boolean;
+  practiceTime?: number;
 }
 
 export interface ModuleDetails extends Module {
