@@ -128,6 +128,7 @@ it('should return a task', async () => {
     Object {
       "detailsUrl": "https://example.org/details-2.js",
       "hasHint": false,
+      "hasVideoSolution": false,
       "htmlUrl": "https://example.org/2.html",
       "id": 2,
       "isExample": false,
@@ -154,6 +155,7 @@ it('should return a task (with next)', async () => {
     Object {
       "detailsUrl": "https://example.org/details-1.js",
       "hasHint": false,
+      "hasVideoSolution": false,
       "htmlUrl": "https://example.org/1.html",
       "id": 1,
       "isExample": false,
