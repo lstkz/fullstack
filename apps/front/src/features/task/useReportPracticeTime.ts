@@ -16,7 +16,7 @@ export function useReportPracticeTime(
       api
         .module_reportPracticeTime(task.moduleId, task.id)
         .catch(console.error);
-    report();
+    void report();
     const reportIntervalId = setInterval(report, REPORT_INTERVAL);
     return () => {
       clearInterval(reportIntervalId);
