@@ -86,6 +86,10 @@ export interface Module {
   id: string;
   name: string;
   description: string;
+  progress: number;
+  totalTasks: number;
+  totalLessons: number;
+  estimatedPracticeTimeHours: number;
 }
 
 export interface ModuleLesson {
@@ -101,9 +105,13 @@ export interface ModuleTask {
   isExample: boolean;
   isSolved: boolean;
   practiceTime?: number;
+  score: number;
 }
 
-export interface ModuleDetails extends Module {
+export interface ModuleDetails {
+  id: string;
+  name: string;
+  description: string;
   lessons: ModuleLesson[];
   tasks: ModuleTask[];
 }
@@ -112,7 +120,6 @@ export interface ModuleTaskDetails extends ModuleTask {
   moduleId: string;
   detailsUrl: string;
   htmlUrl: string;
-  isSolved: boolean;
   nextTask: ModuleTask | null;
   hasHint: boolean;
   hasVideoSolution: boolean;
@@ -131,6 +138,7 @@ export interface TaskSolvedSocketMsg {
     userId: string;
     moduleId: string;
     taskId: number;
+    score: number;
   };
 }
 

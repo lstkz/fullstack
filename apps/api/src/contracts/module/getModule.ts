@@ -6,8 +6,8 @@ import { ModuleCollection } from '../../collections/Module';
 import { AppError } from '../../common/errors';
 import { createContract, createRpcBinding } from '../../lib';
 import { ObjectId } from 'mongodb';
-import { TaskSolutionCollection } from '../../collections/TaskSolution';
 import { TaskPracticeTimeCollection } from '../../collections/TaskPracticeTime';
+import { TaskScoreCollection } from '../../collections/TaskScore';
 
 async function _getLessonProgressMap(
   moduleId: string,
@@ -30,7 +30,7 @@ async function _getTaskSolvedMap(
   if (!userId) {
     return {};
   }
-  const items = await TaskSolutionCollection.findAll({
+  const items = await TaskScoreCollection.findAll({
     userId: userId,
     moduleId: moduleId,
   });
@@ -90,6 +90,7 @@ export const getModule = createContract('module.getModule')
         name: item.name,
         isExample: item.isExample,
         isSolved: !!taskSolvedMap[item.id],
+        score: taskSolvedMap[item.id]?.score ?? 0,
         practiceTime: practiceTimeMap[item.id]?.totalTimeMinutes ?? 0,
       })),
     };

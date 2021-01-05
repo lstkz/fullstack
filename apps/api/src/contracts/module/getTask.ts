@@ -4,7 +4,7 @@ import * as R from 'remeda';
 import { S } from 'schema';
 import { ModuleTaskDetails } from 'shared';
 import { ModuleCollection } from '../../collections/Module';
-import { TaskSolutionCollection } from '../../collections/TaskSolution';
+import { TaskScoreCollection } from '../../collections/TaskScore';
 import { UserTaskTimeInfoCollection } from '../../collections/UserTaskTimeInfo';
 import { AppError } from '../../common/errors';
 import { getCurrentDate } from '../../common/helper';
@@ -41,17 +41,16 @@ export async function getActiveTask(moduleId: string, taskId: number) {
   return task;
 }
 
-async function _getIsSolved(
-  moduleId: string,
-  taskId: number,
-  userId: ObjectId
-) {
-  const solvedTask = await TaskSolutionCollection.findOne({
+async function _getScore(moduleId: string, taskId: number, userId: ObjectId) {
+  const taskScore = await TaskScoreCollection.findOne({
     moduleId,
     taskId,
     userId,
   });
-  return !!solvedTask;
+  return {
+    isSolved: taskScore != null,
+    score: taskScore?.score ?? 0,
+  };
 }
 
 async function _getNextTask(
@@ -59,16 +58,16 @@ async function _getNextTask(
   nextTaskId: number,
   userId: ObjectId
 ) {
-  const [nextTask, isSolved] = await Promise.all([
+  const [nextTask, score] = await Promise.all([
     getActiveTaskOrNull(moduleId, nextTaskId),
-    _getIsSolved(moduleId, nextTaskId, userId),
+    _getScore(moduleId, nextTaskId, userId),
   ]);
   if (!nextTask) {
     return null;
   }
   return {
     ...R.pick(nextTask, ['id', 'name', 'isExample']),
-    isSolved,
+    ...score,
   };
 }
 
@@ -101,15 +100,15 @@ export const getTask = createContract('module.getTask')
   })
   .returns<ModuleTaskDetails>()
   .fn(async (user, moduleId, taskId) => {
-    const [task, isSolved, taskInfo] = await Promise.all([
+    const [task, score, taskInfo] = await Promise.all([
       getActiveTask(moduleId, taskId),
-      _getIsSolved(moduleId, taskId, user._id),
+      _getScore(moduleId, taskId, user._id),
       _setOpened(moduleId, taskId, user._id),
     ]);
     return {
       id: task.id,
       moduleId,
-      isSolved,
+      ...score,
       name: task.name,
       isExample: task.isExample,
       detailsUrl: config.cdnBaseUrl + '/' + task.detailsS3Key,

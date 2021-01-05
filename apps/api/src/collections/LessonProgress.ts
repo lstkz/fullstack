@@ -13,6 +13,11 @@ export const LessonProgressCollection = createCollection<LessonProgressModel>(
   [
     {
       key: {
+        userId: 1,
+      },
+    },
+    {
+      key: {
         moduleId: 1,
         userId: 1,
       },

@@ -1,6 +1,6 @@
 import { config } from 'config';
 import { AssignedVMCollection, VMStatus } from '../src/collections/AssignedVM';
-import { ModuleCollection } from '../src/collections/Module';
+import { ModuleCollection, ModuleTaskModel } from '../src/collections/Module';
 import { SubscriptionPlanCollection } from '../src/collections/SubscriptionPlan';
 import { UserCollection } from '../src/collections/User';
 import { md5 } from '../src/common/helper';
@@ -96,6 +96,28 @@ export async function createSubscriptionPlans() {
   ]);
 }
 
+export function getTaskData(id: number): ModuleTaskModel {
+  return {
+    id: id,
+    name: `task ${id}`,
+    isExample: false,
+    detailsS3Key: `detailsS3Key ${id}`,
+    sourceS3Key: `sourceS3Key ${id}`,
+    htmlS3Key: `htmlS3Key ${id}`,
+    hintHtmlS3Key: `hintHtmlS3Key ${id}`,
+    videoSolution: [
+      {
+        resolution: '720',
+        url: 'http://example.org/solution.mp4',
+      },
+    ],
+    testsInfo: {
+      files: [],
+      resultHash: 'hash',
+    },
+  };
+}
+
 export async function createModules() {
   await ModuleCollection.insertOne({
     _id: 'm1',
@@ -103,6 +125,7 @@ export async function createModules() {
     description: 'test module 1',
     isPending: false,
     lessons: [],
+    estimatedPracticeTimeHours: 1,
     tasks: [
       {
         id: 1,

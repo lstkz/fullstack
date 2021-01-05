@@ -138,6 +138,7 @@ it('should return a task', async () => {
       "moduleId": "m1",
       "name": "task 2",
       "nextTask": null,
+      "score": 0,
     }
   `);
 });
@@ -169,7 +170,9 @@ it('should return a task (with next)', async () => {
         "isExample": false,
         "isSolved": false,
         "name": "task 2",
+        "score": 0,
       },
+      "score": 0,
     }
   `);
 });
