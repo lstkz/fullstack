@@ -50,6 +50,7 @@ Naucz się kompletnych podstaw Typescripta i algorytmiki.
 Moduł zawiera lekcje i zadania dla osób, które chcą zacząć swoją przygodę z programowaniem.
 `.trim(),
   isPending: false,
+  estimatedPracticeTimeHours: 100,
   lessons: [
     {
       id: 1,

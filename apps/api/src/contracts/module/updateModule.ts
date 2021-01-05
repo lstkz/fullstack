@@ -19,6 +19,7 @@ export const updateModule = createContract('module.updateModule')
       isPending: S.boolean(),
       name: S.string(),
       description: S.string(),
+      estimatedPracticeTimeHours: S.number(),
       lessons: S.array().items(
         S.object().keys({
           id: S.number(),
