@@ -3,11 +3,13 @@ import { S } from 'schema';
 import { TaskHintResult } from 'shared';
 import { UserTaskTimeInfoCollection } from '../../collections/UserTaskTimeInfo';
 import { AppError } from '../../common/errors';
-import { getCurrentDate, getDuration } from '../../common/helper';
+import {
+  checkIsTaskSolved,
+  getCurrentDate,
+  getRemainingTimeResult,
+} from '../../common/helper';
 import { createContract, createRpcBinding } from '../../lib';
 import { getActiveTask } from './getTask';
-
-const minTime = getDuration(1, 'h');
 
 export const getTaskHint = createContract('module.getTaskHint')
   .params('user', 'moduleId', 'taskId')
@@ -22,6 +24,7 @@ export const getTaskHint = createContract('module.getTaskHint')
     if (!task.hintHtmlS3Key) {
       throw new AppError(`Task doesn't have a hint`);
     }
+    const isSolved = await checkIsTaskSolved(user._id, moduleId, taskId);
     const timeInfo = await UserTaskTimeInfoCollection.findOne({
       moduleId,
       taskId,
@@ -30,17 +33,15 @@ export const getTaskHint = createContract('module.getTaskHint')
     if (!timeInfo || !timeInfo.openedAt) {
       throw new AppError(`Task was never opened`);
     }
-    if (!timeInfo.hintViewedAt) {
-      timeInfo.hintViewedAt = getCurrentDate();
-      await UserTaskTimeInfoCollection.update(timeInfo, ['hintViewedAt']);
-    }
-    const remainingTime = timeInfo.openedAt.getTime() + minTime - Date.now();
-    if (remainingTime > 0) {
-      return {
-        type: 'wait',
-        waitTime: minTime,
-        remainingTime: remainingTime,
-      };
+    if (!isSolved) {
+      if (!timeInfo.hintViewedAt) {
+        timeInfo.hintViewedAt = getCurrentDate();
+        await UserTaskTimeInfoCollection.update(timeInfo, ['hintViewedAt']);
+      }
+      const remainingResult = getRemainingTimeResult(timeInfo.openedAt);
+      if (remainingResult) {
+        return remainingResult;
+      }
     }
     return {
       type: 'ok',

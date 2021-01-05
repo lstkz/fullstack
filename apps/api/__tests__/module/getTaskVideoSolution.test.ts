@@ -1,8 +1,9 @@
 import { ModuleCollection } from '../../src/collections/Module';
+import { TaskScoreCollection } from '../../src/collections/TaskScore';
 import { getTask } from '../../src/contracts/module/getTask';
 import { getTaskHint } from '../../src/contracts/module/getTaskHint';
 import { getTaskVideoSolution } from '../../src/contracts/module/getTaskSolution';
-import { execContract, setupDb } from '../helper';
+import { execContract, getId, setupDb } from '../helper';
 import {
   addSubscription,
   getTaskData,
@@ -36,6 +37,8 @@ beforeEach(async () => {
           ...getTaskData(2),
           videoSolution: null,
         },
+
+        getTaskData(3, true),
       ],
     },
   ]);
@@ -104,4 +107,52 @@ it('should return sources', async () => {
   task = await execContract(getTask, params, 'user1_token');
 
   expect(task.isSolutionOpened).toEqual(true);
+});
+
+it('should return sources if task is solved', async () => {
+  await TaskScoreCollection.insertOne({
+    ...params,
+    userId: getId(1),
+    score: 100,
+    scoredAt: new Date(0),
+  });
+  await execContract(getTask, params, 'user1_token');
+  const ret = await execContract(getTaskVideoSolution, params, 'user1_token');
+  expect(ret).toEqual({
+    type: 'ok',
+    sources: [
+      {
+        resolution: '720',
+        url: 'http://example.org/solution.mp4',
+      },
+    ],
+  });
+});
+
+it('should return sources if task is an example', async () => {
+  await execContract(
+    getTask,
+    {
+      ...params,
+      taskId: 3,
+    },
+    'user1_token'
+  );
+  const ret = await execContract(
+    getTaskVideoSolution,
+    {
+      ...params,
+      taskId: 3,
+    },
+    'user1_token'
+  );
+  expect(ret).toEqual({
+    type: 'ok',
+    sources: [
+      {
+        resolution: '720',
+        url: 'http://example.org/solution.mp4',
+      },
+    ],
+  });
 });

@@ -15,6 +15,7 @@ import { useReportPracticeTime } from './useReportPracticeTime';
 import { TaskHintModule } from './TaskHintModule';
 import { TaskHeaderContainer } from './TaskHeaderContainer';
 import { TaskVideoSolutionModule } from './TaskVideoSolutionModule';
+import { TaskSummary } from './TaskSummary';
 
 export interface TaskPageProps {
   task: ModuleTaskDetails;
@@ -43,26 +44,27 @@ export function TaskPage(props: TaskPageProps) {
   };
 
   return (
-    <div className="flex h-full flex-col">
-      <SolvedModal task={task} />
-      <HighlightStyles />
-      <TaskHintModule task={task} setTask={setTask}>
-        <TaskVideoSolutionModule task={task} setTask={setTask}>
+    <TaskHintModule task={task} setTask={setTask}>
+      <TaskVideoSolutionModule task={task} setTask={setTask}>
+        <div className="flex h-full flex-col">
+          <SolvedModal task={task} />
+          <HighlightStyles />
           <TaskHeader task={task} />
-        </TaskVideoSolutionModule>
-      </TaskHintModule>
-      <div className="flex-1 relative">
-        <TaskSplitPane
-          details={
-            <>
-              {details ?? (
-                <div dangerouslySetInnerHTML={{ __html: detailsHtml }} />
-              )}
-            </>
-          }
-          ide={renderIframe()}
-        />
-      </div>
-    </div>
+          <div className="flex-1 relative">
+            <TaskSplitPane
+              details={
+                <>
+                  <TaskSummary task={task} />
+                  {details ?? (
+                    <div dangerouslySetInnerHTML={{ __html: detailsHtml }} />
+                  )}
+                </>
+              }
+              ide={renderIframe()}
+            />
+          </div>
+        </div>
+      </TaskVideoSolutionModule>
+    </TaskHintModule>
   );
 }
