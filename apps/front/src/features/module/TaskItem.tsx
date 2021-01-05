@@ -16,6 +16,13 @@ export function TaskItem(props: TaskItemProps) {
       type={item.isSolved ? 'success' : 'pending'}
       aboveText={`Zadanie ${item.id}${item.isExample ? ' (Przykład)' : ''}`}
       title={item.name}
+      footer={
+        item.score > 0 && (
+          <div className="flex items-center ">
+            <span className="text-xs">Punkty: {item.score}</span>
+          </div>
+        )
+      }
       button={
         <Button
           size="small"

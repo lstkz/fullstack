@@ -1,30 +1,13 @@
 import { ModuleCollection } from '../../src/collections/Module';
 import { getModule } from '../../src/contracts/module/getModule';
 import { execContract, setupDb } from '../helper';
-import { registerSampleUsers } from '../seed-data';
+import { getModuleData, registerSampleUsers } from '../seed-data';
 
 setupDb();
 
 beforeEach(async () => {
   await registerSampleUsers();
-  await ModuleCollection.insertMany([
-    {
-      _id: 'm1',
-      name: 'module 1',
-      description: 'desc 1',
-      isPending: false,
-      lessons: [],
-      tasks: [],
-    },
-    {
-      _id: 'm2',
-      name: 'module 2',
-      description: 'desc 2',
-      isPending: true,
-      lessons: [],
-      tasks: [],
-    },
-  ]);
+  await ModuleCollection.insertMany([getModuleData(1), getModuleData(2, true)]);
 });
 
 it('should get a module as anonymous', async () => {

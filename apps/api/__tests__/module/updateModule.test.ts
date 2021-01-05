@@ -19,6 +19,7 @@ it('should insert and update a module', async () => {
         name: 'module 1',
         description: 'desc 1',
         isPending: false,
+        estimatedPracticeTimeHours: 10,
         lessons: [
           {
             id: 1,
@@ -56,6 +57,7 @@ it('should insert and update a module', async () => {
       Object {
         "_id": "m1",
         "description": "desc 1",
+        "estimatedPracticeTimeHours": 10,
         "isPending": false,
         "lessons": Array [
           Object {
@@ -97,6 +99,7 @@ it('should insert and update a module', async () => {
         name: 'module 2',
         description: 'desc 2',
         isPending: false,
+        estimatedPracticeTimeHours: 20,
         lessons: [
           {
             id: 1,
@@ -149,6 +152,7 @@ it('should insert and update a module', async () => {
       Object {
         "_id": "m1",
         "description": "desc 2",
+        "estimatedPracticeTimeHours": 20,
         "isPending": false,
         "lessons": Array [
           Object {
@@ -209,6 +213,7 @@ it('should throw if not admin', async () => {
           name: 'module 1',
           description: 'desc 1',
           isPending: false,
+          estimatedPracticeTimeHours: 1,
           lessons: [],
           tasks: [],
         },

@@ -1,6 +1,10 @@
 import { config } from 'config';
 import { AssignedVMCollection, VMStatus } from '../src/collections/AssignedVM';
-import { ModuleCollection } from '../src/collections/Module';
+import {
+  ModuleCollection,
+  ModuleModel,
+  ModuleTaskModel,
+} from '../src/collections/Module';
 import { SubscriptionPlanCollection } from '../src/collections/SubscriptionPlan';
 import { UserCollection } from '../src/collections/User';
 import { md5 } from '../src/common/helper';
@@ -96,6 +100,45 @@ export async function createSubscriptionPlans() {
   ]);
 }
 
+export function getTaskData(id: number, isExample = false): ModuleTaskModel {
+  return {
+    id: id,
+    name: `task ${id}`,
+    isExample,
+    detailsS3Key: `detailsS3Key_${id}.js`,
+    sourceS3Key: `sourceS3Key_${id}.js`,
+    htmlS3Key: `htmlS3Key_${id}.html`,
+    hintHtmlS3Key: `hintHtmlS3Key_${id}.html`,
+    videoSolution: [
+      {
+        resolution: '720',
+        url: 'http://example.org/solution.mp4',
+      },
+    ],
+    testsInfo: {
+      files: [
+        {
+          hash: '111',
+          path: 'main.ts',
+        },
+      ],
+      resultHash: 'hash123',
+    },
+  };
+}
+
+export function getModuleData(id: number, isPending = false): ModuleModel {
+  return {
+    _id: `m${id}`,
+    name: `module ${id}`,
+    description: `desc ${id}`,
+    isPending: isPending,
+    estimatedPracticeTimeHours: id * 10,
+    lessons: [],
+    tasks: [],
+  };
+}
+
 export async function createModules() {
   await ModuleCollection.insertOne({
     _id: 'm1',
@@ -103,6 +146,7 @@ export async function createModules() {
     description: 'test module 1',
     isPending: false,
     lessons: [],
+    estimatedPracticeTimeHours: 1,
     tasks: [
       {
         id: 1,

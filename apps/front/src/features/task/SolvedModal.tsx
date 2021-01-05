@@ -43,8 +43,12 @@ export function SolvedModal(props: SolvedModalProps) {
         </Heading>
         <div className="mb-4">
           Udało Ci się rozwiąząć zadanie poprawnie.
-          <br />
-          Ilość punktów: <strong>100</strong>.
+          {!task.isExample && (
+            <>
+              <br />
+              Ilość punktów: <strong>{task.score}</strong>.
+            </>
+          )}
         </div>
         <Button
           testId="solution-btn"

@@ -2,6 +2,7 @@ import {
   faCode,
   faGraduationCap,
   faHourglassHalf,
+  faMedal,
 } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import * as React from 'react';
@@ -21,12 +22,14 @@ export function ModuleSummary() {
       practiceTime: formatDuration(
         module.tasks.reduce((ret, task) => ret + (task.practiceTime ?? 0), 0)
       ),
+      points: module.tasks.reduce((ret, task) => ret + task.score, 0),
+      totalPoints: module.tasks.filter(x => !x.isExample).length * 100,
     };
   }, [module]);
   return (
     <div className="bg-white border border-gray-200 my-4 p-7 rounded-xl shadow-sm">
       <Heading type={5}>Podsumowanie</Heading>
-      <div className="grid md:grid-cols-3 gap-8 mt-4 gap-y-4">
+      <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8 mt-4 gap-y-4">
         <Stat
           icon={<FontAwesomeIcon icon={faGraduationCap} />}
           title="Obejrzane lekcje"
@@ -36,6 +39,11 @@ export function ModuleSummary() {
           icon={<FontAwesomeIcon icon={faCode} />}
           title="Zrobione zadania"
           value={`${stats.tasksDone}/${stats.tasksTotal}`}
+        />
+        <Stat
+          icon={<FontAwesomeIcon icon={faMedal} />}
+          title="Zdobyte punkty"
+          value={`${stats.points}/${stats.totalPoints}`}
         />
         <Stat
           icon={<FontAwesomeIcon icon={faHourglassHalf} />}

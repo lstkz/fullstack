@@ -2,7 +2,12 @@ import { config } from 'config';
 import { ModuleCollection } from '../../src/collections/Module';
 import { getTaskTestInfo } from '../../src/contracts/module/getTaskTestInfo';
 import { execContract, setupDb } from '../helper';
-import { addSubscription, registerSampleUsers } from '../seed-data';
+import {
+  addSubscription,
+  getModuleData,
+  getTaskData,
+  registerSampleUsers,
+} from '../seed-data';
 
 setupDb();
 
@@ -12,36 +17,8 @@ beforeEach(async () => {
   await registerSampleUsers();
   await ModuleCollection.insertMany([
     {
-      _id: 'm1',
-      name: 'module 1',
-      description: 'desc 1',
-      isPending: false,
-      lessons: [],
-      tasks: [
-        {
-          id: 1,
-          name: 'task 1',
-          isExample: false,
-          detailsS3Key: 'details-1.js',
-          sourceS3Key: 'source.tar.gz',
-          htmlS3Key: '1.html',
-          hintHtmlS3Key: null,
-          videoSolution: null,
-          testsInfo: {
-            files: [
-              {
-                hash: 'hash1',
-                path: 'path1',
-              },
-              {
-                hash: 'hash2',
-                path: 'path2',
-              },
-            ],
-            resultHash: 'hash',
-          },
-        },
-      ],
+      ...getModuleData(1),
+      tasks: [getTaskData(1)],
     },
   ]);
   await addSubscription(1);
@@ -72,15 +49,11 @@ it('should return data', async () => {
     )
   ).toMatchInlineSnapshot(`
     Object {
-      "sourceUrl": "https://example.org/source.tar.gz",
+      "sourceUrl": "https://example.org/sourceS3Key_1.js",
       "testFiles": Array [
         Object {
-          "hash": "hash1",
-          "path": "path1",
-        },
-        Object {
-          "hash": "hash2",
-          "path": "path2",
+          "hash": "111",
+          "path": "main.ts",
         },
       ],
     }

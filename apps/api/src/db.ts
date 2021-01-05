@@ -24,6 +24,7 @@ import {
   OptionalId,
   WithId,
   ClientSession,
+  CollectionAggregationOptions,
 } from 'mongodb';
 const dbSessionStorage = new AsyncLocalStorage<ClientSession>();
 
@@ -96,10 +97,10 @@ interface CustomDbCollection<TSchema> {
 }
 
 export interface DbCollection<TSchema> extends CustomDbCollection<TSchema> {
-  // aggregate<T>(
-  //   pipeline?: object[],
-  //   options?: CollectionAggregationOptions
-  // ): AggregationCursor<T>;
+  aggregate<T>(
+    pipeline?: object[],
+    options?: CollectionAggregationOptions
+  ): Promise<T[]>;
   insertOne(
     docs: OptionalId<TSchema>,
     options?: CollectionInsertOneOptions
@@ -186,6 +187,9 @@ export function createCollection<T>(
   };
 
   const ret: DbCollection<T> = {
+    async aggregate(...args) {
+      return (await exec('aggregate', 2, args)).toArray();
+    },
     insertOne(...args) {
       return exec('insertOne', 2, args);
     },

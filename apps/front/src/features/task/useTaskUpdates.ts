@@ -17,10 +17,11 @@ export function useTaskUpdates(defaultTask: ModuleTaskDetails) {
     const onMessage = (e: MessageEvent<any>) => {
       const msg = JSON.parse(e.data) as AppSocketMsg;
       if (msg.type === 'TaskSolved') {
-        const { moduleId, taskId } = msg.payload;
+        const { moduleId, taskId, score } = msg.payload;
         if (task.moduleId === moduleId && task.id === taskId) {
           setTask(draft => {
             draft.isSolved = true;
+            draft.score = score;
           });
         }
       }

@@ -68,12 +68,18 @@ export const ModuleInfo = (props: ModuleInfoProps) => {
       <div className="sep py-4 mt-4 text-xs text-gray-600 font-light">
         <div className="md:grid grid-cols-2">
           <div className="flex items-end">
-            <Stat icon={faGraduationCap} text="20 lekcji" />
-            <Stat icon={faCode} text="30 zadań" />
-            <Stat icon={faHourglassHalf} text="20 godzin praktyki" />
+            <Stat
+              icon={faGraduationCap}
+              text={`${module.totalLessons} lekcji`}
+            />
+            <Stat icon={faCode} text={`${module.totalTasks} zadań`} />
+            <Stat
+              icon={faHourglassHalf}
+              text={`${module.estimatedPracticeTimeHours} godzin praktyki`}
+            />
           </div>
           <div className="mt-4 md:m-0">
-            <ProgressBar title="Postęp" progress={25} />
+            <ProgressBar title="Postęp" progress={module.progress} />
           </div>
         </div>
       </div>
