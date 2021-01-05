@@ -2,11 +2,13 @@ import { S } from 'schema';
 import { TaskVideoResult } from 'shared';
 import { UserTaskTimeInfoCollection } from '../../collections/UserTaskTimeInfo';
 import { AppError } from '../../common/errors';
-import { getCurrentDate, getDuration } from '../../common/helper';
+import {
+  checkIsTaskSolved,
+  getCurrentDate,
+  getRemainingTimeResult,
+} from '../../common/helper';
 import { createContract, createRpcBinding } from '../../lib';
 import { getActiveTask } from './getTask';
-
-const minTime = getDuration(1, 'h');
 
 export const getTaskVideoSolution = createContract(
   'module.getTaskVideoSolution'
@@ -23,6 +25,7 @@ export const getTaskVideoSolution = createContract(
     if (!task.videoSolution) {
       throw new AppError(`Task doesn't have a video solution`);
     }
+    const isSolved = await checkIsTaskSolved(user._id, moduleId, taskId);
     const timeInfo = await UserTaskTimeInfoCollection.findOne({
       moduleId,
       taskId,
@@ -31,21 +34,18 @@ export const getTaskVideoSolution = createContract(
     if (!timeInfo || !timeInfo.openedAt) {
       throw new AppError(`Task was never opened`);
     }
-    if (!timeInfo.hintViewedAt) {
-      throw new AppError(`Hint was never opened`);
-    }
-    if (!timeInfo.solutionViewedAt) {
-      timeInfo.solutionViewedAt = getCurrentDate();
-      await UserTaskTimeInfoCollection.update(timeInfo, ['solutionViewedAt']);
-    }
-    const remainingTime =
-      timeInfo.hintViewedAt.getTime() + minTime - Date.now();
-    if (remainingTime > 0) {
-      return {
-        type: 'wait',
-        waitTime: minTime,
-        remainingTime: remainingTime,
-      };
+    if (!isSolved && !task.isExample) {
+      if (!timeInfo.hintViewedAt) {
+        throw new AppError(`Hint was never opened`);
+      }
+      if (!timeInfo.solutionViewedAt) {
+        timeInfo.solutionViewedAt = getCurrentDate();
+        await UserTaskTimeInfoCollection.update(timeInfo, ['solutionViewedAt']);
+      }
+      const remainingResult = getRemainingTimeResult(timeInfo.hintViewedAt);
+      if (remainingResult) {
+        return remainingResult;
+      }
     }
     return {
       type: 'ok',

@@ -98,7 +98,7 @@ export function TaskVideoSolutionModule(props: TaskVideoSolutionProps) {
   const actions = React.useMemo<Actions>(
     () => ({
       showVideoSolution: () => {
-        if (task.isSolutionOpened || task.isSolved) {
+        if (task.isSolutionOpened || task.isSolved || task.isExample) {
           void loadSolution();
         } else {
           setState(draft => {

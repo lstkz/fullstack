@@ -10,6 +10,7 @@ import { createUrl } from 'src/common/url';
 import { Button } from 'src/components/Button';
 import { Heading } from 'src/components/Heading';
 import { Modal } from 'src/components/Modal';
+import { useTaskVideoSolutionActions } from './TaskVideoSolutionModule';
 
 interface SolvedModalProps {
   task: ModuleTaskDetails;
@@ -19,6 +20,7 @@ export function SolvedModal(props: SolvedModalProps) {
   const { task } = props;
   const [isOpen, setIsOpen] = React.useState(false);
   const originalIsSolved = React.useMemo(() => task.isSolved, []);
+  const { showVideoSolution } = useTaskVideoSolutionActions();
 
   React.useEffect(() => {
     if (!originalIsSolved && task.isSolved) {
@@ -55,7 +57,8 @@ export function SolvedModal(props: SolvedModalProps) {
           size="small"
           type="secondary"
           onClick={() => {
-            //
+            close();
+            showVideoSolution();
           }}
         >
           <FontAwesomeIcon className="mr-2" icon={faVideo} />

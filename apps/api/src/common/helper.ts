@@ -1,6 +1,8 @@
 import crypto from 'crypto';
+import { ObjectID } from 'mongodb';
 import cryptoAsync from 'mz/crypto';
 import { Response } from 'node-fetch';
+import { TaskScoreCollection } from '../collections/TaskScore';
 import { AppUser } from '../types';
 
 const SECURITY = {
@@ -170,4 +172,30 @@ export function getDefaultVMId(user: AppUser) {
 
 export function getCurrentDate() {
   return new Date(Date.now());
+}
+
+export async function checkIsTaskSolved(
+  userId: ObjectID,
+  moduleId: string,
+  taskId: number
+) {
+  const count = await TaskScoreCollection.countDocuments({
+    userId,
+    moduleId,
+    taskId,
+  });
+  return count != 0;
+}
+
+export function getRemainingTimeResult(baseTime: Date) {
+  const minTime = getDuration(1, 'h');
+  const remainingTime = baseTime.getTime() + minTime - Date.now();
+  if (remainingTime > 0) {
+    return {
+      type: 'wait' as const,
+      waitTime: minTime,
+      remainingTime: remainingTime,
+    };
+  }
+  return null;
 }
