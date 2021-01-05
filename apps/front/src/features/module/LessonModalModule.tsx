@@ -1,9 +1,9 @@
 import React from 'react';
-import { Heading } from 'src/components/Heading';
-import { Modal } from 'src/components/Modal';
+import { PlayerModal } from 'src/components/PlayerModal';
 import { useImmer } from 'use-immer';
-import { useOptionalLesson } from './ModulePage';
-import { Player } from './Player';
+import { useModulePageActions, useOptionalLesson } from './ModulePage';
+import { Player } from '../../components/Player';
+import { useOnKey } from 'src/hooks/useOnKey';
 
 interface Actions {
   show: (lessonId: number) => void;
@@ -44,20 +44,13 @@ export function LessonModalModule(props: LessonModalProps) {
   );
   const { isOpen, lessonId } = state;
   const lesson = useOptionalLesson(lessonId);
-  React.useLayoutEffect(() => {
-    if (!isOpen) {
-      return;
-    }
-    const onKeyPress = (ev: KeyboardEvent) => {
-      if (ev.key === 'Escape') {
-        actions.hide();
-      }
-    };
-    document.addEventListener('keydown', onKeyPress);
-    return () => {
-      document.removeEventListener('keydown', onKeyPress);
-    };
-  }, [isOpen]);
+  useOnKey({
+    isEnabled: isOpen,
+    key: 'Escape',
+    fn: actions.hide,
+  });
+
+  const { markLessonWatched } = useModulePageActions();
 
   return (
     <div>
@@ -71,21 +64,23 @@ export function LessonModalModule(props: LessonModalProps) {
       </LessonModalContext.Provider>
 
       {lesson && (
-        <Modal
-          bgColor="dark-600"
+        <PlayerModal
           header={
-            <Heading type={4} white className="px-6">
+            <>
               Lekcja {lesson.id}: {lesson.name}
-            </Heading>
+            </>
           }
-          size="full"
           isOpen={isOpen}
           close={actions.hide}
         >
-          <div className="-m-6 bg-black" style={{ maxHeight: '80vh' }}>
-            <Player key={lesson.id} lesson={lesson} />
-          </div>
-        </Modal>
+          <Player
+            key={lesson.id}
+            sources={lesson.sources}
+            onEnd={() => {
+              markLessonWatched(lesson.id);
+            }}
+          />
+        </PlayerModal>
       )}
     </div>
   );

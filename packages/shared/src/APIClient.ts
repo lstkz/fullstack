@@ -7,6 +7,7 @@ import {
   ModuleDetails,
   ModuleTaskDetails,
   TaskHintResult,
+  TaskVideoResult,
   TaskTestInfo,
   TPayGroup,
   SubscriptionPlan,
@@ -78,6 +79,12 @@ export class APIClient {
   ): Promise<TaskHintResult> {
     return this.call('module.getTaskHint', { moduleId, taskId });
   }
+  module_getTaskVideoSolution(
+    moduleId: string,
+    taskId: number
+  ): Promise<TaskVideoResult> {
+    return this.call('module.getTaskVideoSolution', { moduleId, taskId });
+  }
   module_getTaskTestInfo(
     moduleId: string,
     taskId: number
@@ -130,6 +137,7 @@ export class APIClient {
         resultHash: string;
         files: { path: string; hash: string }[];
       };
+      videoSolution: { url: string; resolution: string }[] | null;
     }[];
     id: string;
   }): Promise<unknown> {

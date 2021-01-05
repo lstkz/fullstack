@@ -60,6 +60,7 @@ export interface ModuleTaskUpload {
   htmlS3Key: string;
   hintHtmlS3Key: string | null;
   testsInfo: UploadTestsInfo;
+  videoSolution: VideoUpload[] | null;
 }
 
 export interface TestFileInfo {
@@ -114,6 +115,7 @@ export interface ModuleTaskDetails extends ModuleTask {
   isSolved: boolean;
   nextTask: ModuleTask | null;
   hasHint: boolean;
+  hasVideoSolution: boolean;
   isHintOpened: boolean;
   isSolutionOpened: boolean;
 }
@@ -134,13 +136,22 @@ export interface TaskSolvedSocketMsg {
 
 export type AppSocketMsg = TaskSolvedSocketMsg;
 
+export interface TaskWaitResult {
+  type: 'wait';
+  waitTime: number;
+  remainingTime: number;
+}
+
 export type TaskHintResult =
   | {
       type: 'ok';
       url: string;
     }
+  | TaskWaitResult;
+
+export type TaskVideoResult =
   | {
-      type: 'wait';
-      waitTime: number;
-      remainingTime: number;
-    };
+      type: 'ok';
+      sources: VideoUpload[];
+    }
+  | TaskWaitResult;

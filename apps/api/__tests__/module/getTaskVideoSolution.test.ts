@@ -1,11 +1,18 @@
 import { ModuleCollection } from '../../src/collections/Module';
-import { getDuration } from '../../src/common/helper';
 import { getTask } from '../../src/contracts/module/getTask';
 import { getTaskHint } from '../../src/contracts/module/getTaskHint';
+import { getTaskVideoSolution } from '../../src/contracts/module/getTaskSolution';
 import { execContract, setupDb } from '../helper';
 import { addSubscription, registerSampleUsers } from '../seed-data';
 
 setupDb();
+
+const params = {
+  moduleId: 'm1',
+  taskId: 1,
+};
+
+const waitStep = 1000 * 60 * 60;
 
 beforeEach(async () => {
   await registerSampleUsers();
@@ -27,7 +34,12 @@ beforeEach(async () => {
           sourceS3Key: '',
           htmlS3Key: '1.html',
           hintHtmlS3Key: 'hint',
-          videoSolution: null,
+          videoSolution: [
+            {
+              resolution: '720',
+              url: 'video-solution.mp4',
+            },
+          ],
           testsInfo: {
             files: [],
             resultHash: 'hash',
@@ -52,51 +64,41 @@ beforeEach(async () => {
   ]);
 });
 
-it('should throw if no hint', async () => {
+it('should throw if no video solution', async () => {
   await expect(
     execContract(
-      getTaskHint,
+      getTaskVideoSolution,
       {
         moduleId: 'm1',
         taskId: 2,
       },
       'user1_token'
     )
-  ).rejects.toThrow("Task doesn't have a hint");
+  ).rejects.toThrow("Task doesn't have a video solution");
 });
 
 it('should throw if never opened', async () => {
   await expect(
-    execContract(
-      getTaskHint,
-      {
-        moduleId: 'm1',
-        taskId: 1,
-      },
-      'user1_token'
-    )
+    execContract(getTaskVideoSolution, params, 'user1_token')
   ).rejects.toThrow('Task was never opened');
 });
 
-it('should return wait type', async () => {
+it('should throw if hint never opened', async () => {
   Date.now = () => 1000;
-  await execContract(
-    getTask,
-    {
-      moduleId: 'm1',
-      taskId: 1,
-    },
-    'user1_token'
-  );
-  Date.now = () => 2000;
-  const ret = await execContract(
-    getTaskHint,
-    {
-      moduleId: 'm1',
-      taskId: 1,
-    },
-    'user1_token'
-  );
+  await execContract(getTask, params, 'user1_token');
+  await expect(
+    execContract(getTaskVideoSolution, params, 'user1_token')
+  ).rejects.toThrow('Hint was never opened');
+});
+
+it('should return wait type', async () => {
+  let now = 1000;
+  Date.now = () => now;
+  await execContract(getTask, params, 'user1_token');
+  now += waitStep;
+  await execContract(getTaskHint, params, 'user1_token');
+  now += 1000;
+  const ret = await execContract(getTaskVideoSolution, params, 'user1_token');
   expect(ret).toEqual({
     remainingTime: 3599000,
     type: 'wait',
@@ -104,37 +106,25 @@ it('should return wait type', async () => {
   });
 });
 
-it('should return a url', async () => {
-  Date.now = () => 1000;
-  let task = await execContract(
-    getTask,
-    {
-      moduleId: 'm1',
-      taskId: 1,
-    },
-    'user1_token'
-  );
-  expect(task.isHintOpened).toEqual(false);
-  Date.now = () => getDuration(2, 'h');
-  const ret = await execContract(
-    getTaskHint,
-    {
-      moduleId: 'm1',
-      taskId: 1,
-    },
-    'user1_token'
-  );
+it('should return sources', async () => {
+  let now = 1000;
+  Date.now = () => now;
+  let task = await execContract(getTask, params, 'user1_token');
+  expect(task.isSolutionOpened).toEqual(false);
+  now += waitStep;
+  await execContract(getTaskHint, params, 'user1_token');
+  now += waitStep;
+  const ret = await execContract(getTaskVideoSolution, params, 'user1_token');
   expect(ret).toEqual({
     type: 'ok',
-    url: 'http://cdn.example.org/hint',
+    sources: [
+      {
+        resolution: '720',
+        url: 'video-solution.mp4',
+      },
+    ],
   });
-  task = await execContract(
-    getTask,
-    {
-      moduleId: 'm1',
-      taskId: 1,
-    },
-    'user1_token'
-  );
-  expect(task.isHintOpened).toEqual(true);
+  task = await execContract(getTask, params, 'user1_token');
+
+  expect(task.isSolutionOpened).toEqual(true);
 });

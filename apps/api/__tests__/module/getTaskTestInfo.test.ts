@@ -26,6 +26,7 @@ beforeEach(async () => {
           sourceS3Key: 'source.tar.gz',
           htmlS3Key: '1.html',
           hintHtmlS3Key: null,
+          videoSolution: null,
           testsInfo: {
             files: [
               {

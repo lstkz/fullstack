@@ -115,6 +115,7 @@ export const getTask = createContract('module.getTask')
       detailsUrl: config.cdnBaseUrl + '/' + task.detailsS3Key,
       htmlUrl: config.cdnBaseUrl + '/' + task.htmlS3Key,
       hasHint: task.hintHtmlS3Key != null,
+      hasVideoSolution: task.videoSolution != null,
       isHintOpened: taskInfo.hintViewedAt != null,
       isSolutionOpened: taskInfo.solutionViewedAt != null,
       nextTask: await _getNextTask(moduleId, taskId + 1, user._id),
