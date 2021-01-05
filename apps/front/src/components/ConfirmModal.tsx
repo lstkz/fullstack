@@ -6,6 +6,7 @@ import { Heading } from './Heading';
 import { Modal } from './Modal';
 
 interface ConfirmModalProps {
+  testId?: string;
   children: React.ReactNode;
   title: React.ReactNode;
   isOpen: boolean;
@@ -14,11 +15,11 @@ interface ConfirmModalProps {
 }
 
 export function ConfirmModal(props: ConfirmModalProps) {
-  const { children, title, confirm } = props;
+  const { children, title, confirm, ...rest } = props;
 
   return (
     <Modal
-      {...props}
+      {...rest}
       bgColor="danger"
       footer={
         <div className="grid grid-cols-2 gap-4">

@@ -15,6 +15,20 @@ export function TaskSummary(props: TaskSummaryProps) {
   if (!task.isSolved && !task.isExample) {
     return null;
   }
+
+  const watchBtn = (
+    <div className="flex items-center">
+      <Button
+        testId="watch-btn"
+        size="small"
+        type="secondary"
+        onClick={showVideoSolution}
+      >
+        <FontAwesomeIcon className="mr-2" icon={faVideo} />
+        Obejrzyj
+      </Button>
+    </div>
+  );
   return (
     <div className="border-b border-gray-200 pb-4 mb-4 text-sm">
       {task.isSolved && !task.isExample && (
@@ -25,15 +39,7 @@ export function TaskSummary(props: TaskSummaryProps) {
             <br />
             Możesz teraz obejrzeć rozwiązanie wzorcowe przez mentora.
           </div>
-          <Button
-            testId="solution-btn"
-            size="small"
-            type="secondary"
-            onClick={showVideoSolution}
-          >
-            <FontAwesomeIcon className="mr-2" icon={faVideo} />
-            Obejrzyj
-          </Button>
+          {watchBtn}
         </div>
       )}
       {task.isExample && (
@@ -44,15 +50,7 @@ export function TaskSummary(props: TaskSummaryProps) {
             Możesz obejrzeć rozwiązanie lub spróbować rozwiązać zadanie
             samodzielnie.
           </div>
-          <Button
-            testId="solution-btn"
-            size="small"
-            type="secondary"
-            onClick={showVideoSolution}
-          >
-            <FontAwesomeIcon className="mr-2" icon={faVideo} />
-            Obejrzyj
-          </Button>
+          {watchBtn}
         </div>
       )}
     </div>

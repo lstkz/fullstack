@@ -37,6 +37,7 @@ export class Engine {
   private requestCount: Record<string, number> = {};
   private jestFns: Record<string, jest.Mock> = {};
   private mockedBundle: string | null = null;
+  private mockedHint: string | null = null;
 
   private incCount(name: string) {
     if (!this.requestCount[name]) {
@@ -65,6 +66,10 @@ export class Engine {
     this.mockedBundle = mockedBundle;
   }
 
+  setMockedHint(mockedHint: string | null) {
+    this.mockedHint = mockedHint;
+  }
+
   async setup() {
     const server = http.createServer(async (req, res) => {
       try {
@@ -83,6 +88,18 @@ export class Engine {
             }
           })
           `);
+          res.end();
+          return;
+        }
+        if (this.mockedBundle && req.url.endsWith('/task.html')) {
+          res.setHeader('content-type', 'text/html');
+          res.write(`<div>${this.mockedBundle}</div>`);
+          res.end();
+          return;
+        }
+        if (this.mockedHint && req.url.endsWith('/hint.html')) {
+          res.setHeader('content-type', 'text/html');
+          res.write(`<div>${this.mockedHint}</div>`);
           res.end();
           return;
         }

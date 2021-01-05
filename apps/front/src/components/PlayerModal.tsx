@@ -13,6 +13,7 @@ export function PlayerModal(props: PlayerModalProps) {
   const { header, children, isOpen, close } = props;
   return (
     <Modal
+      testId="player-modal"
       bgColor="dark-600"
       header={
         <Heading type={4} white className="px-6">

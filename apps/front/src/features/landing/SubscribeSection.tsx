@@ -84,7 +84,7 @@ export function SubscribeSection() {
               </Button>
             }
           />
-          <InputFeedback color="danger" data-test="subscribe-error">
+          <InputFeedback color="danger" testId="subscribe-error">
             {errors.email?.message}
           </InputFeedback>
         </div>

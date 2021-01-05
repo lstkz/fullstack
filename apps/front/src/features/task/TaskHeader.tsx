@@ -31,7 +31,7 @@ export function TaskHeader(props: TaskHeaderProps) {
         )}
       </div>
       <MenuDropdown
-        testId="header-menu"
+        testId="task-help-menu"
         dropdown={
           <DropdownPopup>
             {task.hasHint && (

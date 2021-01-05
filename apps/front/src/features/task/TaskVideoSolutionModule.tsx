@@ -101,13 +101,19 @@ export function TaskVideoSolutionModule(props: TaskVideoSolutionProps) {
         if (task.isSolutionOpened || task.isSolved || task.isExample) {
           void loadSolution();
         } else {
-          setState(draft => {
-            draft.isConfirmOpen = true;
-          });
+          if (!task.isHintOpened) {
+            setState(draft => {
+              draft.isHintRequiredOpen = true;
+            });
+          } else {
+            setState(draft => {
+              draft.isConfirmOpen = true;
+            });
+          }
         }
       },
     }),
-    [task.isSolutionOpened, task.isSolved]
+    [task.isSolutionOpened, task.isSolved, task.isHintOpened]
   );
 
   const {
@@ -131,11 +137,12 @@ export function TaskVideoSolutionModule(props: TaskVideoSolutionProps) {
         </PlayerModal>
       )}
       <SimpleModal
+        testId="hint-required-modal"
         bgColor="primary"
         isOpen={isHintRequiredOpen}
         close={closeHintRequired}
         icon={<FontAwesomeIcon size="4x" icon={faInfoCircle} />}
-        title="Rozwiązanie jeszcze niedostępne"
+        title="Przeczytaj wskazówkę"
         description={
           <div>
             Rozwiązanie jest dostępne dopiero przeczytaniu wskazówki.
@@ -145,6 +152,7 @@ export function TaskVideoSolutionModule(props: TaskVideoSolutionProps) {
         }
       />
       <SimpleModal
+        testId="solution-pending-modal"
         bgColor="primary"
         isOpen={isWaitOpen}
         close={closeWait}
@@ -163,6 +171,7 @@ export function TaskVideoSolutionModule(props: TaskVideoSolutionProps) {
       />
 
       <ConfirmModal
+        testId="confirm-modal"
         title="Potwierdź pokazanie rozwiązania"
         isOpen={isConfirmOpen}
         close={closeConfirm}
