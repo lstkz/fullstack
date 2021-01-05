@@ -3,7 +3,12 @@ import { getDuration } from '../../src/common/helper';
 import { getTask } from '../../src/contracts/module/getTask';
 import { getTaskHint } from '../../src/contracts/module/getTaskHint';
 import { execContract, setupDb } from '../helper';
-import { addSubscription, registerSampleUsers } from '../seed-data';
+import {
+  addSubscription,
+  getModuleData,
+  getTaskData,
+  registerSampleUsers,
+} from '../seed-data';
 
 setupDb();
 
@@ -13,39 +18,16 @@ beforeEach(async () => {
 
   await ModuleCollection.insertMany([
     {
-      _id: 'm1',
-      name: 'module 1',
-      description: 'desc 1',
-      isPending: false,
-      lessons: [],
+      ...getModuleData(1),
       tasks: [
         {
-          id: 1,
-          name: 'task 1',
-          isExample: false,
-          detailsS3Key: 'details-1.js',
-          sourceS3Key: '',
-          htmlS3Key: '1.html',
-          hintHtmlS3Key: 'hint',
+          ...getTaskData(1),
           videoSolution: null,
-          testsInfo: {
-            files: [],
-            resultHash: 'hash',
-          },
         },
         {
-          id: 2,
-          name: 'task 2',
-          isExample: false,
-          detailsS3Key: 'details-2.js',
-          sourceS3Key: '',
-          htmlS3Key: '2.html',
+          ...getTaskData(2),
           hintHtmlS3Key: null,
           videoSolution: null,
-          testsInfo: {
-            files: [],
-            resultHash: 'hash',
-          },
         },
       ],
     },
@@ -124,10 +106,12 @@ it('should return a url', async () => {
     },
     'user1_token'
   );
-  expect(ret).toEqual({
-    type: 'ok',
-    url: 'http://cdn.example.org/hint',
-  });
+  expect(ret).toMatchInlineSnapshot(`
+    Object {
+      "type": "ok",
+      "url": "http://cdn.example.org/hintHtmlS3Key_1.html",
+    }
+  `);
   task = await execContract(
     getTask,
     {

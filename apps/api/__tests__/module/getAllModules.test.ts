@@ -3,7 +3,7 @@ import { ModuleCollection } from '../../src/collections/Module';
 import { TaskScoreCollection } from '../../src/collections/TaskScore';
 import { getAllModules } from '../../src/contracts/module/getAllModules';
 import { execContract, getId, setupDb } from '../helper';
-import { getTaskData, registerSampleUsers } from '../seed-data';
+import { getModuleData, getTaskData, registerSampleUsers } from '../seed-data';
 
 setupDb();
 
@@ -11,10 +11,7 @@ beforeEach(async () => {
   await registerSampleUsers();
   await ModuleCollection.insertMany([
     {
-      _id: 'm1',
-      name: 'module 1',
-      description: 'desc 1',
-      isPending: false,
+      ...getModuleData(1),
       lessons: [
         {
           id: 1,
@@ -28,13 +25,9 @@ beforeEach(async () => {
         },
       ],
       tasks: [getTaskData(1), getTaskData(2)],
-      estimatedPracticeTimeHours: 10,
     },
     {
-      _id: 'm2',
-      name: 'module 2',
-      description: 'desc 2',
-      isPending: true,
+      ...getModuleData(2, true),
       lessons: [
         {
           id: 1,
@@ -43,7 +36,6 @@ beforeEach(async () => {
         },
       ],
       tasks: [getTaskData(1)],
-      estimatedPracticeTimeHours: 20,
     },
   ]);
 });

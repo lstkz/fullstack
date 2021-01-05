@@ -2,7 +2,7 @@ import { ModuleCollection } from '../../src/collections/Module';
 import { getModule } from '../../src/contracts/module/getModule';
 import { updateLessonProgress } from '../../src/contracts/module/updateLessonProgress';
 import { execContract, setupDb } from '../helper';
-import { registerSampleUsers } from '../seed-data';
+import { getModuleData, registerSampleUsers } from '../seed-data';
 
 setupDb();
 
@@ -10,10 +10,7 @@ beforeEach(async () => {
   await registerSampleUsers();
   await ModuleCollection.insertMany([
     {
-      _id: 'm1',
-      name: 'module 1',
-      description: 'desc 1',
-      isPending: false,
+      ...getModuleData(1),
       lessons: [
         {
           id: 1,
@@ -26,13 +23,9 @@ beforeEach(async () => {
           sources: [],
         },
       ],
-      tasks: [],
     },
     {
-      _id: 'm2',
-      name: 'module 2',
-      description: 'desc 2',
-      isPending: true,
+      ...getModuleData(2, true),
       lessons: [
         {
           id: 1,
@@ -40,7 +33,6 @@ beforeEach(async () => {
           sources: [],
         },
       ],
-      tasks: [],
     },
   ]);
 });

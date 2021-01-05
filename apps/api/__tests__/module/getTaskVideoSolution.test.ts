@@ -3,7 +3,11 @@ import { getTask } from '../../src/contracts/module/getTask';
 import { getTaskHint } from '../../src/contracts/module/getTaskHint';
 import { getTaskVideoSolution } from '../../src/contracts/module/getTaskSolution';
 import { execContract, setupDb } from '../helper';
-import { addSubscription, registerSampleUsers } from '../seed-data';
+import {
+  addSubscription,
+  getTaskData,
+  registerSampleUsers,
+} from '../seed-data';
 
 setupDb();
 
@@ -24,40 +28,13 @@ beforeEach(async () => {
       name: 'module 1',
       description: 'desc 1',
       isPending: false,
+      estimatedPracticeTimeHours: 1,
       lessons: [],
       tasks: [
+        getTaskData(1),
         {
-          id: 1,
-          name: 'task 1',
-          isExample: false,
-          detailsS3Key: 'details-1.js',
-          sourceS3Key: '',
-          htmlS3Key: '1.html',
-          hintHtmlS3Key: 'hint',
-          videoSolution: [
-            {
-              resolution: '720',
-              url: 'video-solution.mp4',
-            },
-          ],
-          testsInfo: {
-            files: [],
-            resultHash: 'hash',
-          },
-        },
-        {
-          id: 2,
-          name: 'task 2',
-          isExample: false,
-          detailsS3Key: 'details-2.js',
-          sourceS3Key: '',
-          htmlS3Key: '2.html',
-          hintHtmlS3Key: null,
+          ...getTaskData(2),
           videoSolution: null,
-          testsInfo: {
-            files: [],
-            resultHash: 'hash',
-          },
         },
       ],
     },
@@ -120,7 +97,7 @@ it('should return sources', async () => {
     sources: [
       {
         resolution: '720',
-        url: 'video-solution.mp4',
+        url: 'http://example.org/solution.mp4',
       },
     ],
   });

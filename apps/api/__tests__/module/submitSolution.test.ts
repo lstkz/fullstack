@@ -7,7 +7,12 @@ import { checkS3KeyExists } from '../../src/common/aws-helper';
 import { submitSolution } from '../../src/contracts/module/submitSolution';
 import { dispatchSocketMsg } from '../../src/dispatch';
 import { execContract, getId, setupDb } from '../helper';
-import { addSubscription, registerSampleUsers } from '../seed-data';
+import {
+  addSubscription,
+  getModuleData,
+  getTaskData,
+  registerSampleUsers,
+} from '../seed-data';
 
 jest.mock('../../src/common/aws-helper');
 jest.mock('../../src/dispatch');
@@ -33,41 +38,8 @@ beforeEach(async () => {
   await addSubscription(1);
   await ModuleCollection.insertMany([
     {
-      _id: 'm1',
-      name: 'module 1',
-      description: 'desc 1',
-      isPending: false,
-      lessons: [],
-      tasks: [
-        {
-          id: 1,
-          name: 'task 1',
-          isExample: true,
-          detailsS3Key: 'details-1.js',
-          sourceS3Key: 'source.tar.gz',
-          htmlS3Key: '1.html',
-          hintHtmlS3Key: null,
-          videoSolution: null,
-          testsInfo: {
-            files: [],
-            resultHash: 'hash123',
-          },
-        },
-        {
-          id: 2,
-          name: 'task 2',
-          isExample: false,
-          detailsS3Key: 'details-1.js',
-          sourceS3Key: 'source.tar.gz',
-          htmlS3Key: '1.html',
-          hintHtmlS3Key: null,
-          videoSolution: null,
-          testsInfo: {
-            files: [],
-            resultHash: 'hash123',
-          },
-        },
-      ],
+      ...getModuleData(1),
+      tasks: [getTaskData(1, true), getTaskData(2)],
     },
   ]);
   mocked_checkS3KeyExists.mockImplementation(async () => true);
