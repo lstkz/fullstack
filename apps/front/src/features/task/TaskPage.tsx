@@ -33,7 +33,9 @@ export function TaskPage(props: TaskPageProps) {
 
   useReportPracticeTime(task, isReady && vmUrl != null && !isIdle);
   if (isIdle) {
-    return <IdleScreen header={<TaskHeaderContainer />} />;
+    return (
+      <IdleScreen header={<TaskHeaderContainer moduleId={task.moduleId} />} />
+    );
   }
 
   const renderIframe = () => {
