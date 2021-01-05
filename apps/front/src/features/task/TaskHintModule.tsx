@@ -112,6 +112,7 @@ export function TaskHintModule(props: TaskHintProps) {
   return (
     <>
       <Modal
+        testId="hint-modal"
         isOpen={isHintOpen}
         close={closeHint}
         footer={
@@ -125,9 +126,13 @@ export function TaskHintModule(props: TaskHintProps) {
           </Button>
         }
       >
-        <div dangerouslySetInnerHTML={{ __html: hintHtml ?? '' }}></div>
+        <div
+          data-test="hint-content"
+          dangerouslySetInnerHTML={{ __html: hintHtml ?? '' }}
+        ></div>
       </Modal>
       <SimpleModal
+        testId="hint-pending-modal"
         bgColor="primary"
         isOpen={isWaitOpen}
         close={closeWait}
@@ -144,6 +149,7 @@ export function TaskHintModule(props: TaskHintProps) {
         }
       />
       <ConfirmModal
+        testId="confirm-modal"
         title="Potwierdź pokazanie wskazówki"
         isOpen={isConfirmOpen}
         close={closeConfirm}

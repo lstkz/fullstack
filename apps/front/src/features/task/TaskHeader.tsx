@@ -25,13 +25,16 @@ export function TaskHeader(props: TaskHeaderProps) {
     <TaskHeaderContainer moduleId={task.moduleId}>
       <div className="py-1">
         {task.isSolved && (
-          <div className="px-3 py-1 text-xs bg-green-800 rounded-md text-white">
+          <div
+            data-test="solved-badge"
+            className="px-3 py-1 text-xs bg-green-800 rounded-md text-white"
+          >
             Rozwiązano
           </div>
         )}
       </div>
       <MenuDropdown
-        testId="header-menu"
+        testId="task-help-menu"
         dropdown={
           <DropdownPopup>
             {task.hasHint && (

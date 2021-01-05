@@ -23,12 +23,14 @@ interface InputFeedbackProps {
   color?: 'primary' | 'warning' | 'danger';
   children?: React.ReactNode;
   className?: string;
+  testId?: string;
 }
 export function InputFeedback(props: InputFeedbackProps) {
-  const { color, children, className } = props;
+  const { color, children, className, testId } = props;
 
   return (
     <div
+      data-test={testId}
       className={classNames(
         'text-sm font-light mt-2 text-left',
         className,

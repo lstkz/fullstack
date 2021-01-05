@@ -19,6 +19,9 @@ describe('login', () => {
         },
       };
     });
+    engine.mock('module_getAllModules', () => {
+      return [];
+    });
     await page.goto(WEBSITE_URL + '/login');
     await $('@login-input').type('a@example.org');
     await $('@password-input').type('pass');

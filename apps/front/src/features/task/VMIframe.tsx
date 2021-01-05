@@ -1,6 +1,7 @@
 import React from 'react';
 import {
   API_URL,
+  IS_TEST,
   LOCAL_VM_BASE_PATH,
   LOCAL_VM_URL,
   USE_LOCAL_VM,
@@ -19,7 +20,7 @@ export function VMIframe(props: VMIframeProps) {
 
   React.useLayoutEffect(() => {
     let [base, hash] = vmUrl.split('#');
-    if (USE_LOCAL_VM) {
+    if (USE_LOCAL_VM && !IS_TEST) {
       base = LOCAL_VM_URL;
       hash = hash
         .replace('/home/ubuntu', LOCAL_VM_BASE_PATH)
