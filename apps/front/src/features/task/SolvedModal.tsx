@@ -48,7 +48,7 @@ export function SolvedModal(props: SolvedModalProps) {
           {!task.isExample && (
             <>
               <br />
-              Ilość punktów: <strong>{task.score}</strong>.
+              Ilość punktów: <strong data-test="score">{task.score}</strong>.
             </>
           )}
         </div>

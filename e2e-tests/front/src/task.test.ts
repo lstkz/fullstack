@@ -1,6 +1,7 @@
 import { ModuleTaskDetails } from 'shared';
 import { API_PORT, WEBSITE_URL } from './config';
 import { initEngine, waitForCall } from './utils';
+import { MockSocket } from './lib/MockSocket';
 
 const engine = initEngine(page);
 
@@ -289,5 +290,83 @@ describe('video solution', () => {
     await _navigate();
     await $('@watch-btn').click();
     await $('@player-modal').expect.toBeVisible();
+  });
+});
+
+describe('solving', () => {
+  let mockSocket: MockSocket = null!;
+  beforeEach(async () => {
+    mockSocket = new MockSocket(page);
+    await mockSocket.init();
+  });
+
+  function _sendSolved() {
+    return mockSocket.sendMessage({
+      type: 'TaskSolved',
+      payload: {
+        moduleId: task.moduleId,
+        taskId: task.id,
+        score: 100,
+        userId: 'user1',
+      },
+    });
+  }
+
+  it('should not display a badge if not solved', async () => {
+    await _navigate();
+    await $('@solved-badge').expect.toBeHidden();
+  });
+
+  it('should display a badge if solved', async () => {
+    task.isSolved = true;
+    await _navigate();
+    await $('@solved-badge').expect.toBeVisible();
+  });
+
+  it('should display a success modal', async () => {
+    engine.mock('module_getTaskVideoSolution', () => {
+      return videoSolution;
+    });
+    await _navigate();
+    await _sendSolved();
+    await $('@solved-modal').expect.toBeVisible();
+    await $('@solved-modal @score').expect.toMatch('100');
+    await $('@next-task-btn').expect.toBeHidden();
+    await $('@solved-badge').expect.toBeVisible();
+    await $('@solved-modal @solution-btn').click();
+    await $('@player-modal').expect.toBeVisible();
+    await $('@solved-modal').expect.toBeHidden();
+  });
+
+  it('should display a success modal (with next task)', async () => {
+    task.nextTask = {
+      id: 2,
+      isExample: false,
+      isSolved: false,
+      name: 'foobar',
+      score: 0,
+      practiceTime: 0,
+    };
+    await _navigate();
+    await _sendSolved();
+    await $('@solved-modal').expect.toBeVisible();
+    await $('@solved-modal @score').expect.toMatch('100');
+    await $('@next-task-btn').expect.toMatch('foobar');
+    await $('@next-task-btn').expect.toMatchAttr('href', '/module/m-1/task/2');
+  });
+
+  it('should display a success modal for example task', async () => {
+    task.isExample = true;
+    await _navigate();
+    await _sendSolved();
+    await $('@solved-modal').expect.toBeVisible();
+    await $('@solved-modal @score').expect.toBeHidden();
+  });
+
+  it('should not show a success modal if already solved', async () => {
+    task.isSolved = true;
+    await _navigate();
+    await _sendSolved();
+    await $('@solved-modal').expect.toBeHidden();
   });
 });
