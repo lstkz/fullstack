@@ -32,8 +32,9 @@ export const completePurchase = createContract('subscription.completePurchase')
       };
       await UserSubscriptionCollection.insertOne(userSubscription);
       user.hasSubscription = true;
+      const currentExpiration = user.subscriptionExpiration ?? 0;
       user.subscriptionExpiration = DateFns.addMonths(
-        Date.now(),
+        currentExpiration > Date.now() ? currentExpiration : Date.now(),
         plan.type === 'annual' ? 12 : 1
       );
       await UserCollection.update(user, [
