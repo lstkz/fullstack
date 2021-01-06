@@ -7,7 +7,38 @@ setupDb();
 
 beforeEach(async () => {
   await registerSampleUsers();
-  await ModuleCollection.insertMany([getModuleData(1), getModuleData(2, true)]);
+  await ModuleCollection.insertMany([
+    {
+      ...getModuleData(1),
+      lessons: [
+        {
+          id: 1,
+          name: 'l1',
+          sources: [
+            {
+              resolution: '720',
+              url: '720.mp4',
+            },
+          ],
+        },
+        {
+          id: 2,
+          name: 'l2',
+          sources: [
+            {
+              resolution: '720',
+              url: '720.mp4',
+            },
+            {
+              resolution: '1080',
+              url: '1080.mp4',
+            },
+          ],
+        },
+      ],
+    },
+    getModuleData(2, true),
+  ]);
 });
 
 it('should get a module as anonymous', async () => {
@@ -18,7 +49,20 @@ it('should get a module as anonymous', async () => {
     Object {
       "description": "desc 1",
       "id": "m1",
-      "lessons": Array [],
+      "lessons": Array [
+        Object {
+          "id": 1,
+          "isWatched": false,
+          "name": "l1",
+          "sources": Array [],
+        },
+        Object {
+          "id": 2,
+          "isWatched": false,
+          "name": "l2",
+          "sources": Array [],
+        },
+      ],
       "name": "module 1",
       "tasks": Array [],
     }
@@ -37,7 +81,34 @@ it('should get a module as logged in', async () => {
     Object {
       "description": "desc 1",
       "id": "m1",
-      "lessons": Array [],
+      "lessons": Array [
+        Object {
+          "id": 1,
+          "isWatched": false,
+          "name": "l1",
+          "sources": Array [
+            Object {
+              "resolution": "720",
+              "url": "720.mp4",
+            },
+          ],
+        },
+        Object {
+          "id": 2,
+          "isWatched": false,
+          "name": "l2",
+          "sources": Array [
+            Object {
+              "resolution": "720",
+              "url": "720.mp4",
+            },
+            Object {
+              "resolution": "1080",
+              "url": "1080.mp4",
+            },
+          ],
+        },
+      ],
       "name": "module 1",
       "tasks": Array [],
     }
