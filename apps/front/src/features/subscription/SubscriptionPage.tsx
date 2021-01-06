@@ -2,7 +2,7 @@ import React from 'react';
 import { Dashboard } from 'src/components/Dashboard';
 import { CheckoutButtons } from './CheckoutButtons';
 import { PaymentOptions } from './PaymentOptions';
-import { SubscriptionPlan } from 'shared';
+import { CustomerInfo, SubscriptionPlan } from 'shared';
 import { FormProvider, useForm } from 'react-hook-form';
 import { useErrorModalActions } from '../ErrorModalModule';
 import { api } from 'src/services/api';
@@ -17,6 +17,7 @@ import {
 
 interface SubscriptionPageProps {
   subscriptionPlans: SubscriptionPlan[];
+  info: CustomerInfo | null;
 }
 export interface SubscriptionFormValues extends UserInfoFormFields {
   groupId: number;
@@ -24,12 +25,13 @@ export interface SubscriptionFormValues extends UserInfoFormFields {
 }
 
 export function SubscriptionPage(props: SubscriptionPageProps) {
-  const { subscriptionPlans } = props;
+  const { subscriptionPlans, info } = props;
   const [isSubmitting, setIsSubmitting] = React.useState(false);
   const [isDone, setIsDone] = React.useState(false);
   const errorModalActions = useErrorModalActions();
   const formMethods = useForm<SubscriptionFormValues>({
     defaultValues: {
+      ...(info ?? {}),
       subscriptionPlanId: subscriptionPlans.find(x => x.type === 'annual')?.id,
     },
     resolver: data => {

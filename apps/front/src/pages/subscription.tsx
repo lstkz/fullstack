@@ -7,9 +7,11 @@ export default SubscriptionPage;
 export const getServerSideProps: GetServerSideProps = async ctx => {
   ctx.req;
   const api = createSSRClient(ctx);
+  const [subscriptionPlans, info] = await Promise.all([
+    api.subscriptionPlan_getAllSubscriptionPlans(),
+    api.user_getGeneralInfo(),
+  ]);
   return {
-    props: {
-      subscriptionPlans: await api.subscriptionPlan_getAllSubscriptionPlans(),
-    },
+    props: { subscriptionPlans, info },
   };
 };
