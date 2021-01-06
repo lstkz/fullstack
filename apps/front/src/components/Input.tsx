@@ -1,5 +1,6 @@
 import * as React from 'react';
 import classNames from 'classnames';
+import { cx } from 'src/common/helper';
 
 type BaseProps = Pick<
   React.InputHTMLAttributes<HTMLInputElement>,
@@ -31,7 +32,7 @@ export function InputFeedback(props: InputFeedbackProps) {
   return (
     <div
       data-test={testId}
-      className={classNames(
+      className={cx(
         'text-sm font-light mt-2 text-left',
         className,
         color && `text-${color}`

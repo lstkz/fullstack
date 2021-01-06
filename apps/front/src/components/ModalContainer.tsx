@@ -1,6 +1,7 @@
 import React from 'react';
 import { CSSTransition } from 'react-transition-group';
 import { Portal } from 'src/components/Portal';
+import { useLayoutEffectFix } from 'src/hooks/useLayoutEffectFix';
 import { FocusContainer } from './FocusContainer';
 import styles from './ModalContainer.module.css';
 
@@ -12,7 +13,7 @@ interface ModalContainerProps {
 export function ModalContainer(props: ModalContainerProps) {
   const { children, isOpen } = props;
 
-  React.useLayoutEffect(() => {
+  useLayoutEffectFix(() => {
     if (!isOpen) {
       return;
     }

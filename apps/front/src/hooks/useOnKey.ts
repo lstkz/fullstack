@@ -1,4 +1,4 @@
-import React from 'react';
+import { useLayoutEffectFix } from './useLayoutEffectFix';
 
 interface UseOnKeyOptions {
   key: string;
@@ -8,7 +8,7 @@ interface UseOnKeyOptions {
 
 export function useOnKey(options: UseOnKeyOptions) {
   const { key, fn, isEnabled = true } = options;
-  React.useLayoutEffect(() => {
+  useLayoutEffectFix(() => {
     if (!isEnabled) {
       return;
     }

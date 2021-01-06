@@ -14,12 +14,16 @@ import {
   UserInfoFormFields,
   validateUserInfoForm,
 } from 'src/components/UserInfoForm';
+import { FormCheckbox } from 'src/components/FormCheckbox';
+import Link from 'next/link';
+import { createUrl } from 'src/common/url';
 
 interface SubscriptionPageProps {
   subscriptionPlans: SubscriptionPlan[];
   info: CustomerInfo | null;
 }
 export interface SubscriptionFormValues extends UserInfoFormFields {
+  acceptTerms: boolean;
   groupId: number;
   subscriptionPlanId: string;
 }
@@ -38,6 +42,7 @@ export function SubscriptionPage(props: SubscriptionPageProps) {
       return new Validator(data)
         .touch(validateUserInfoForm)
         .required('groupId', 'Wybierz formę płatności')
+        .required('acceptTerms', 'Musisz zaakceptować regulamin')
         .validate();
     },
   });
@@ -46,7 +51,7 @@ export function SubscriptionPage(props: SubscriptionPageProps) {
   const onSubmit = async (values: SubscriptionFormValues) => {
     setIsSubmitting(true);
     try {
-      const { subscriptionPlanId, groupId, ...customer } = values;
+      const { subscriptionPlanId, groupId, acceptTerms, ...customer } = values;
       const { paymentUrl } = await api.subscription_purchase({
         subscriptionPlanId,
         tpayGroup: groupId,
@@ -77,6 +82,17 @@ export function SubscriptionPage(props: SubscriptionPageProps) {
               </Heading>
               <UserInfoForm />
               <PaymentOptions />
+              <FormCheckbox name="acceptTerms">
+                *Akceptuję{' '}
+                <Link
+                  href={createUrl({
+                    name: 'tos',
+                  })}
+                >
+                  <a>regulamin</a>
+                </Link>
+                .
+              </FormCheckbox>
               <CheckoutButtons isSubmitting={isSubmitting} isDone={isDone} />
             </div>
           </div>

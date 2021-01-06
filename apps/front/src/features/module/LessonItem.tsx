@@ -3,6 +3,8 @@ import { TimeIcon } from 'src/icons/TimeIcon';
 import { ModuleMedia } from './ModuleMedia';
 import { ModuleLesson } from 'shared';
 import { Button } from 'src/components/Button';
+import { useUser } from '../AuthModule';
+import { createUrl } from 'src/common/url';
 
 interface LessonItemProps {
   item: ModuleLesson;
@@ -11,6 +13,7 @@ interface LessonItemProps {
 
 export function LessonItem(props: LessonItemProps) {
   const { item, onWatch } = props;
+  const user = useUser();
   return (
     <ModuleMedia
       type={item.isWatched ? 'success' : 'pending'}
@@ -23,9 +26,21 @@ export function LessonItem(props: LessonItemProps) {
         </div>
       }
       button={
-        <Button size="small" type="secondary" onClick={onWatch}>
-          Obejrzyj
-        </Button>
+        user ? (
+          <Button size="small" type="secondary" onClick={onWatch}>
+            Obejrzyj
+          </Button>
+        ) : (
+          <Button
+            href={createUrl({
+              name: 'register',
+            })}
+            size="small"
+            type="secondary"
+          >
+            Obejrzyj
+          </Button>
+        )
       }
     />
   );

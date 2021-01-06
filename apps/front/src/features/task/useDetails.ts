@@ -2,6 +2,7 @@ import React from 'react';
 import { ModuleTaskDetails } from 'shared';
 import Prism from 'prismjs';
 import { IS_SSR } from 'src/config';
+import { useLayoutEffectFix } from 'src/hooks/useLayoutEffectFix';
 
 if (!IS_SSR) {
   window.React = React;
@@ -10,7 +11,7 @@ if (!IS_SSR) {
 
 export function useDetails(task: ModuleTaskDetails) {
   const [details, setDetails] = React.useState<React.ReactNode | null>(null);
-  React.useLayoutEffect(() => {
+  useLayoutEffectFix(() => {
     const script = document.createElement('script');
     script.type = 'text/javascript';
     script.src = task.detailsUrl;

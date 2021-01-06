@@ -7,5 +7,6 @@ export function mapUser(user: UserModel): User {
     email: user.email,
     isVerified: user.isVerified,
     isAdmin: user.isAdmin,
+    hasSubscription: user.hasSubscription ?? false,
   };
 }

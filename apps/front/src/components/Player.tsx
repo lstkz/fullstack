@@ -1,6 +1,7 @@
 import React from 'react';
 import Plyr from 'plyr';
 import { VideoUpload } from 'shared';
+import { useLayoutEffectFix } from 'src/hooks/useLayoutEffectFix';
 
 interface PlayerProps {
   sources: VideoUpload[];
@@ -25,7 +26,7 @@ export function Player(props: PlayerProps) {
     '5k': 2880,
   };
 
-  React.useLayoutEffect(() => {
+  useLayoutEffectFix(() => {
     const player = new Plyr(ref.current!, {
       ratio: '16:9',
       displayDuration: true,

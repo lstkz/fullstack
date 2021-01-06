@@ -11,7 +11,7 @@ export class Validator<T extends object> {
 
   required(field: keyof T, message?: string) {
     const value: any = this.data[field];
-    if (!this.errors[field] && (value == null || value == '')) {
+    if (!this.errors[field] && !value && value !== 0) {
       this.errors[field] = message ?? 'Pole wymagane';
     }
     return this;

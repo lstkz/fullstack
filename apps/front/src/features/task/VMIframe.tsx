@@ -6,6 +6,7 @@ import {
   LOCAL_VM_URL,
   USE_LOCAL_VM,
 } from 'src/config';
+import { useLayoutEffectFix } from 'src/hooks/useLayoutEffectFix';
 import { getAccessToken } from 'src/services/Storage';
 
 interface VMIframeProps {
@@ -18,7 +19,7 @@ export function VMIframe(props: VMIframeProps) {
     undefined
   );
 
-  React.useLayoutEffect(() => {
+  useLayoutEffectFix(() => {
     let [base, hash] = vmUrl.split('#');
     if (USE_LOCAL_VM && !IS_TEST) {
       base = LOCAL_VM_URL;

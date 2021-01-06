@@ -60,6 +60,13 @@ export function Header() {
                       <div className="caret ml-2" />
                     </VoidLink>
                   </MenuDropdown>
+                  {!user.hasSubscription && (
+                    <Link href={createUrl({ name: 'subscription' })}>
+                      <Button type="primary" size="small" className="ml-4">
+                        Kup PRO
+                      </Button>
+                    </Link>
+                  )}
                 </div>
               ) : (
                 <div className="grid gap-4 grid-flow-col-dense auto-cols-max h-auto my-auto">
