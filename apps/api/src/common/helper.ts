@@ -3,6 +3,7 @@ import { ObjectID } from 'mongodb';
 import cryptoAsync from 'mz/crypto';
 import { Response } from 'node-fetch';
 import { TaskScoreCollection } from '../collections/TaskScore';
+import { UserModel } from '../collections/User';
 import { AppUser } from '../types';
 
 const SECURITY = {
@@ -198,4 +199,14 @@ export function getRemainingTimeResult(baseTime: Date) {
     };
   }
   return null;
+}
+
+export function getUserNotificationSettings(user: UserModel) {
+  return (
+    user.notifications ?? {
+      newsletter: true,
+      newContent: true,
+      subscriptionRemainder: true,
+    }
+  );
 }

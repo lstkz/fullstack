@@ -186,3 +186,9 @@ export interface Order {
   date: string;
   amount: number;
 }
+
+export interface NotificationSettings {
+  newsletter: boolean;
+  newContent: boolean;
+  subscriptionRemainder: boolean;
+}
