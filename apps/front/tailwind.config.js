@@ -131,10 +131,15 @@ module.exports = {
         DEFAULT: '#152c5b',
       },
       success: {
+        250: lighten(BaseThemeColors.green, 25),
         350: lighten(BaseColors.green, 35),
         DEFAULT: BaseColors.green,
+        600: darken(BaseColors.green, 7.5),
+        700: darken(BaseColors.green, 10),
+        800: darken(BaseColors.green, 12.5),
       },
       green: {
+        250: lighten(BaseThemeColors.green, 25),
         DEFAULT: BaseColors.green,
         600: darken(BaseColors.green, 7.5),
         700: darken(BaseColors.green, 10),

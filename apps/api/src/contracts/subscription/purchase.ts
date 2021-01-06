@@ -10,6 +10,8 @@ import {
 import { randomUniqString } from '../../common/helper';
 import { config } from 'config';
 import { dispatchEvent } from '../../dispatch';
+import { getCustomerSchema } from 'shared';
+import { updateGeneralInfo } from '../user/updateGeneralInfo';
 
 export const purchase = createContract('subscription.purchase')
   .params('user', 'values')
@@ -18,15 +20,7 @@ export const purchase = createContract('subscription.purchase')
     values: S.object().keys({
       subscriptionPlanId: S.string(),
       tpayGroup: S.number(),
-      customer: S.object().keys({
-        firstName: S.string(),
-        lastName: S.string(),
-        companyName: S.string().optional(),
-        companyVat: S.string().optional(),
-        address: S.string(),
-        postalCode: S.string(),
-        city: S.string(),
-      }),
+      customer: getCustomerSchema(),
     }),
   })
   .returns<{ paymentUrl: string }>()
@@ -57,6 +51,7 @@ export const purchase = createContract('subscription.purchase')
       userId: user._id,
     };
     await SubscriptionOrderCollection.insertOne(order);
+    await updateGeneralInfo(user, order.customer);
 
     const tpayTransaction = await createTPayTransaction({
       crc: orderId,

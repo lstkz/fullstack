@@ -11,7 +11,14 @@ interface ButtonProps {
   soft?: boolean;
   outline?: boolean;
   loading?: boolean;
-  type: 'primary' | 'secondary' | 'danger' | 'dark' | 'neutral' | 'warning';
+  type:
+    | 'primary'
+    | 'secondary'
+    | 'danger'
+    | 'dark'
+    | 'neutral'
+    | 'warning'
+    | 'success';
   size?: 'extra-small' | 'small' | 'default' | 'large' | 'extra-large';
   href?: string;
   icon?: React.ReactNode;

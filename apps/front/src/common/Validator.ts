@@ -1,4 +1,5 @@
 import { FieldError, ResolverResult } from 'react-hook-form';
+import { EMAIL_REGEX } from 'shared';
 import { safeKeys } from './helper';
 
 export class Validator<T extends object> {
@@ -12,6 +13,22 @@ export class Validator<T extends object> {
     const value: any = this.data[field];
     if (!this.errors[field] && (value == null || value == '')) {
       this.errors[field] = message ?? 'Pole wymagane';
+    }
+    return this;
+  }
+
+  email(field: keyof T, message?: string) {
+    const value: any = this.data[field];
+    if (!this.errors[field] && !EMAIL_REGEX.test(value ?? '')) {
+      this.errors[field] = message ?? 'Niepoprawny email';
+    }
+    return this;
+  }
+
+  minLength(field: keyof T, minLength: number, message?: string) {
+    const value: any = this.data[field];
+    if (!this.errors[field] && value.length < minLength) {
+      this.errors[field] = message ?? `Minimum ${minLength} znaków`;
     }
     return this;
   }

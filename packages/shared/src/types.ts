@@ -164,3 +164,13 @@ export type TaskVideoResult =
       sources: VideoUpload[];
     }
   | TaskWaitResult;
+
+export interface CustomerInfo {
+  firstName: string;
+  lastName: string;
+  companyName?: string;
+  companyVat?: string;
+  address: string;
+  postalCode: string;
+  city: string;
+}

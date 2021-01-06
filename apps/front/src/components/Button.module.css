@@ -29,6 +29,13 @@
   focus:ring-warning-250;
 }
 
+.type-success {
+  @apply text-white bg-success border-success 
+  hover:bg-success-600 hover:border-success-700
+  active:bg-success-700 active:border-success-800 
+  focus:ring-success-250;
+}
+
 .size-large,
 .size-default {
   @apply py-3 px-7 rounded-md;

@@ -5,8 +5,8 @@ import { ContextFormInput } from './FormInput';
 export interface UserInfoFormFields {
   firstName: string;
   lastName: string;
-  companyName: string;
-  companyVat: string;
+  companyName?: string;
+  companyVat?: string;
   address: string;
   postalCode: string;
   city: string;
