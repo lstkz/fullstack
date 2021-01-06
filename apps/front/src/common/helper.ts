@@ -223,3 +223,30 @@ export const cx = (...classes: ClassValue[]) =>
 export function formatShortDate(data: string | Date) {
   return DateFns.format(new Date(data), 'dd/MM/yyyy');
 }
+
+export const createGetServerSideProps: (
+  fn: GetServerSideProps
+) => GetServerSideProps = fn => async context => {
+  try {
+    return await fn(context);
+  } catch (e) {
+    const status = e.res?.status;
+    if (status == 401) {
+      return {
+        redirect: {
+          destination: '/login',
+          permanent: false,
+        },
+      };
+    }
+    if (status == 403 && e.message == 'Subscription required') {
+      return {
+        redirect: {
+          destination: '/subscription',
+          permanent: false,
+        },
+      };
+    }
+    throw e;
+  }
+};

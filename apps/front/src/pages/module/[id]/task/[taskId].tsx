@@ -1,12 +1,11 @@
-import { GetServerSideProps } from 'next';
-import { createSSRClient } from 'src/common/helper';
+import { createGetServerSideProps, createSSRClient } from 'src/common/helper';
 import { TaskPage, TaskPageProps } from 'src/features/task/TaskPage';
 
 export default function TaskPageWrapper(props: TaskPageProps) {
   return <TaskPage {...props} key={props.task.id} />;
 }
 
-export const getServerSideProps: GetServerSideProps = async ctx => {
+export const getServerSideProps = createGetServerSideProps(async ctx => {
   const api = createSSRClient(ctx);
   const moduleId = ctx.query.id as string;
   const taskId = Number(ctx.query.taskId as string);
@@ -27,4 +26,4 @@ export const getServerSideProps: GetServerSideProps = async ctx => {
       detailsHtml,
     },
   };
-};
+});
