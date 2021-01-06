@@ -67,7 +67,7 @@ export function SettingsPageTemplate(props: SettingsPageTemplateProps) {
             );
           })}
         </ul>
-        <div>{children}</div>
+        <div className="pb-8">{children}</div>
       </div>
     </Dashboard>
   );

@@ -16,9 +16,9 @@ export class Validator<T extends object> {
     return this;
   }
 
-  custom(field: keyof T, fn: () => string | null) {
+  custom(field: keyof T, fn: (data: T) => string | null) {
     if (!this.errors[field]) {
-      const error = fn();
+      const error = fn(this.data);
       if (error) {
         this.errors[field] = error;
       }
@@ -44,5 +44,10 @@ export class Validator<T extends object> {
       errors: {},
       values: this.data as any,
     };
+  }
+
+  touch(fn: (validator: this) => void) {
+    fn(this);
+    return this;
   }
 }

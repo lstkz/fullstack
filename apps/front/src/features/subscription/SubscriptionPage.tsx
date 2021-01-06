@@ -1,6 +1,5 @@
 import React from 'react';
 import { Dashboard } from 'src/components/Dashboard';
-import { ContextFormInput } from 'src/components/FormInput';
 import { CheckoutButtons } from './CheckoutButtons';
 import { PaymentOptions } from './PaymentOptions';
 import { SubscriptionPlan } from 'shared';
@@ -10,18 +9,16 @@ import { api } from 'src/services/api';
 import { OrderDetails } from './OrderDetails';
 import { Validator } from 'src/common/Validator';
 import { Heading } from 'src/components/Heading';
+import {
+  UserInfoForm,
+  UserInfoFormFields,
+  validateUserInfoForm,
+} from 'src/components/UserInfoForm';
 
 interface SubscriptionPageProps {
   subscriptionPlans: SubscriptionPlan[];
 }
-export interface SubscriptionFormValues {
-  firstName: string;
-  lastName: string;
-  companyName: string;
-  companyVat: string;
-  address: string;
-  postalCode: string;
-  city: string;
+export interface SubscriptionFormValues extends UserInfoFormFields {
   groupId: number;
   subscriptionPlanId: string;
 }
@@ -37,24 +34,8 @@ export function SubscriptionPage(props: SubscriptionPageProps) {
     },
     resolver: data => {
       return new Validator(data)
-        .required('firstName')
-        .required('lastName')
-        .required('address')
-        .required('postalCode')
-        .required('city')
+        .touch(validateUserInfoForm)
         .required('groupId', 'Wybierz formę płatności')
-        .custom('companyName', () => {
-          if (data.companyVat && !data.companyName) {
-            return 'Pole wymagane jeśli NIP nie jest puste';
-          }
-          return null;
-        })
-        .custom('companyVat', () => {
-          if (!data.companyVat && data.companyName) {
-            return 'Pole wymagane jeśli Nazwa firmy nie jest puste';
-          }
-          return null;
-        })
         .validate();
     },
   });
@@ -92,28 +73,7 @@ export function SubscriptionPage(props: SubscriptionPageProps) {
               <Heading className="mb-1" type={5}>
                 Szczegóły płatności
               </Heading>
-              <div className="grid lg:grid-cols-2 lg:gap-4">
-                <ContextFormInput name="firstName" label="Imię" />
-                <ContextFormInput name="lastName" label="Nazwisko" />
-              </div>
-              <ContextFormInput
-                name="companyName"
-                label="Nazwa firmy (opcjonalnie)"
-              />
-              <ContextFormInput name="companyVat" label="NIP (opcjonalnie)" />
-              <ContextFormInput
-                name="address"
-                label="Adres"
-                placeholder="Ulica, numer budyku i lokalu"
-              />
-              <div className="grid lg:grid-cols-2 lg:gap-4">
-                <ContextFormInput
-                  name="postalCode"
-                  label="Kod pocztowy"
-                  placeholder="00-000"
-                />
-                <ContextFormInput name="city" label="Miasto" />
-              </div>
+              <UserInfoForm />
               <PaymentOptions />
               <CheckoutButtons isSubmitting={isSubmitting} isDone={isDone} />
             </div>
