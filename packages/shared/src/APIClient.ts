@@ -16,6 +16,7 @@ import {
   AuthData,
   CustomerInfo,
   User,
+  NotificationSettings,
 } from './types';
 // IMPORTS END
 
@@ -223,6 +224,9 @@ export class APIClient {
   user_getMe(): Promise<User> {
     return this.call('user.getMe', {});
   }
+  user_getNotificationSettings(): Promise<NotificationSettings> {
+    return this.call('user.getNotificationSettings', {});
+  }
   user_githubLogin(code: string): Promise<AuthData> {
     return this.call('user.githubLogin', { code });
   }
@@ -249,6 +253,13 @@ export class APIClient {
   }
   user_updateEmail(newEmail: string): Promise<void> {
     return this.call('user.updateEmail', { newEmail });
+  }
+  user_updateNotificationSettings(values: {
+    newsletter: boolean;
+    newContent: boolean;
+    subscriptionRemainder: boolean;
+  }): Promise<unknown> {
+    return this.call('user.updateNotificationSettings', { values });
   }
   user_updatePassword(password: string): Promise<void> {
     return this.call('user.updatePassword', { password });

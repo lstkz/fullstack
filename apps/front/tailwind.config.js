@@ -151,6 +151,7 @@ module.exports = {
     extend: {
       backgroundColor: ['active'],
       borderColor: ['active'],
+      borderWidth: ['first'],
     },
   },
   plugins: [],

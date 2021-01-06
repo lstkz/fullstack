@@ -1,5 +1,5 @@
 import { ObjectID } from 'mongodb';
-import { CustomerInfo } from 'shared';
+import { CustomerInfo, NotificationSettings } from 'shared';
 import { safeExtend } from '../common/helper';
 import { createCollection } from '../db';
 
@@ -15,6 +15,7 @@ export interface UserModel {
   hasSubscription?: boolean;
   subscriptionExpiration?: Date;
   info?: CustomerInfo | null;
+  notifications?: NotificationSettings | null;
 }
 
 export const UserCollection = safeExtend(
