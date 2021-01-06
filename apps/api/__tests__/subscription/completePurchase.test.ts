@@ -3,13 +3,14 @@ import { UserCollection } from '../../src/collections/User';
 import * as DateFns from 'date-fns';
 import { UserSubscriptionCollection } from '../../src/collections/UserSubscription';
 import { completeCourseOrderEvent } from '../../src/contracts/subscription/completePurchase';
-import { getId, setupDb } from '../helper';
+import { execContract, getId, setupDb } from '../helper';
 import {
   createSubscriptionPlans,
   getCustomerData,
   getPrice,
   registerSampleUsers,
 } from '../seed-data';
+import { getSubscriptionStatus } from '../../src/contracts/subscription/getSubscriptionStatus';
 
 setupDb();
 
@@ -38,13 +39,13 @@ it('should complete purchase', async () => {
   await completeCourseOrderEvent.options.handler('123', {
     orderId: 'order-abc',
   });
-  const user = await UserCollection.findByIdOrThrow(userId);
   const userSubs = await UserSubscriptionCollection.findAll({ userId: userId });
-  expect(user.hasSubscription).toEqual(true);
-  expect(user.subscriptionExpiration).toBeDefined();
+  const status = await execContract(getSubscriptionStatus, {}, 'user1_token');
+  expect(status.hasSubscription).toEqual(true);
+  expect(status.expires).toBeDefined();
   expect(
     DateFns.isSameMonth(
-      user.subscriptionExpiration!,
+      new Date(status.expires!),
       DateFns.addMonths(Date.now(), 1)
     )
   ).toBeTruthy();
@@ -62,4 +63,28 @@ it('should complete purchase (parallel)', async () => {
   ]);
   const userSubs = await UserSubscriptionCollection.findAll({ userId: userId });
   expect(userSubs).toHaveLength(1);
+});
+
+it('should should extend expiration', async () => {
+  await UserCollection.findOneAndUpdate(
+    {
+      _id: userId,
+    },
+    {
+      $set: {
+        hasSubscription: true,
+        subscriptionExpiration: DateFns.addMonths(Date.now(), 1),
+      },
+    }
+  );
+  await completeCourseOrderEvent.options.handler('123', {
+    orderId: 'order-abc',
+  });
+  const status = await execContract(getSubscriptionStatus, {}, 'user1_token');
+  expect(
+    DateFns.isSameMonth(
+      new Date(status.expires!),
+      DateFns.addMonths(Date.now(), 2)
+    )
+  ).toBeTruthy();
 });

@@ -9,6 +9,8 @@ import {
   TaskHintResult,
   TaskVideoResult,
   TaskTestInfo,
+  Order,
+  SubscriptionStatus,
   TPayGroup,
   SubscriptionPlan,
   AuthData,
@@ -149,6 +151,12 @@ export class APIClient {
     orderId: string
   ): Promise<{ status: 'NOT_PAID' | 'PAID' }> {
     return this.call('subscription.checkStatus', { orderId });
+  }
+  subscription_getOrders(): Promise<Order[]> {
+    return this.call('subscription.getOrders', {});
+  }
+  subscription_getSubscriptionStatus(): Promise<SubscriptionStatus> {
+    return this.call('subscription.getSubscriptionStatus', {});
   }
   subscription_getTPayGroups(): Promise<TPayGroup[]> {
     return this.call('subscription.getTPayGroups', {});

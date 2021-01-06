@@ -1,3 +1,4 @@
+import * as DateFns from 'date-fns';
 import { GetServerSideProps, NextPageContext } from 'next';
 import { APIClient } from 'shared';
 import classNames from 'classnames';
@@ -218,3 +219,7 @@ export function formatDuration(totalMinutes: number) {
 
 export const cx = (...classes: ClassValue[]) =>
   overrideTailwindClasses(classNames(...classes));
+
+export function formatShortDate(data: string | Date) {
+  return DateFns.format(new Date(data), 'dd/MM/yyyy');
+}

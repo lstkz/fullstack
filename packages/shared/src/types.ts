@@ -174,3 +174,15 @@ export interface CustomerInfo {
   postalCode: string;
   city: string;
 }
+
+export interface SubscriptionStatus {
+  hasSubscription: boolean;
+  expires: string | null;
+}
+
+export interface Order {
+  id: string;
+  name: string;
+  date: string;
+  amount: number;
+}
