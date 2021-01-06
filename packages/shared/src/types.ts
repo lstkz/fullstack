@@ -3,6 +3,7 @@ export interface User {
   email: string;
   isAdmin?: boolean;
   isVerified: boolean;
+  hasSubscription: boolean;
 }
 
 export interface AuthData {

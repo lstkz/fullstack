@@ -13,6 +13,7 @@ export const getMe = createContract('user.getMe')
       id: user._id.toHexString(),
       email: user.email,
       isVerified: user.isVerified,
+      hasSubscription: user.hasSubscription,
     };
   });
 
