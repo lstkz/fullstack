@@ -1,14 +1,14 @@
-import React from 'react';
 import { AppSocketMsg, ModuleTaskDetails } from 'shared';
 import WS from 'reconnecting-websocket';
 import { API_URL } from 'src/config';
 import { getAccessToken } from 'src/services/Storage';
 import { useImmer } from 'use-immer';
+import { useLayoutEffectFix } from 'src/hooks/useLayoutEffectFix';
 
 export function useTaskUpdates(defaultTask: ModuleTaskDetails) {
   const [task, setTask] = useImmer(defaultTask);
 
-  React.useLayoutEffect(() => {
+  useLayoutEffectFix(() => {
     const socketUrl =
       API_URL.replace(/^http/, 'ws') +
       '/?token=' +

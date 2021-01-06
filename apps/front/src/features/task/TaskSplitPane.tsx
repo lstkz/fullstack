@@ -1,5 +1,6 @@
 import React from 'react';
 import SplitPane from 'react-split-pane';
+import { useLayoutEffectFix } from 'src/hooks/useLayoutEffectFix';
 
 interface TaskSplitPaneProps {
   details: React.ReactNode;
@@ -13,11 +14,9 @@ export function TaskSplitPane(props: TaskSplitPaneProps) {
   const [isDragging, setIsDragging] = React.useState(false);
   const [size, setSize] = React.useState(DEFAULT_SIZE);
 
-  if (typeof window !== 'undefined') {
-    React.useLayoutEffect(() => {
-      setSize(Number(localStorage.taskPaneWidth) || DEFAULT_SIZE);
-    }, []);
-  }
+  useLayoutEffectFix(() => {
+    setSize(Number(localStorage.taskPaneWidth) || DEFAULT_SIZE);
+  }, []);
 
   return (
     <SplitPane
