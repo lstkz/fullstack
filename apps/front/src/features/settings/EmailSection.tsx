@@ -46,9 +46,7 @@ export function EmailSection() {
 
   return (
     <>
-      <Heading type={5} className="mt-6">
-        Zmień Email
-      </Heading>
+      <Heading type={5}>Zmień Email</Heading>
       <FormProvider {...formMethods}>
         <form onSubmit={handleSubmit(onSubmit)}>
           <ContextFormInput name="email" label="Email" />

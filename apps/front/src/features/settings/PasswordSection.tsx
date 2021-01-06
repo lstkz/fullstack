@@ -39,9 +39,7 @@ export function PasswordSection() {
 
   return (
     <>
-      <Heading type={5} className="mt-6">
-        Zmień Hasło
-      </Heading>
+      <Heading type={5}>Zmień Hasło</Heading>
       <FormProvider {...formMethods}>
         <form onSubmit={handleSubmit(onSubmit)}>
           <ContextFormInput

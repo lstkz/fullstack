@@ -14,7 +14,9 @@ export function SettingsPage(props: SettingsPageProps) {
   return (
     <SettingsPageTemplate>
       <UserInfoSection info={info} />
+      <div className="border-t border-gray-200 my-8" />
       <EmailSection />
+      <div className="border-t border-gray-200 my-8" />
       <PasswordSection />
     </SettingsPageTemplate>
   );
