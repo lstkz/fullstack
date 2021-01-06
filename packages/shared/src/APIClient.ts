@@ -12,6 +12,7 @@ import {
   TPayGroup,
   SubscriptionPlan,
   AuthData,
+  CustomerInfo,
   User,
 } from './types';
 // IMPORTS END
@@ -118,8 +119,10 @@ export class APIClient {
   }
   module_updateModule(values: {
     name: string;
-    isPending: boolean;
     description: string;
+    estimatedPracticeTimeHours: number;
+    id: string;
+    isPending: boolean;
     lessons: {
       name: string;
       id: number;
@@ -139,7 +142,6 @@ export class APIClient {
       };
       videoSolution: { url: string; resolution: string }[] | null;
     }[];
-    id: string;
   }): Promise<unknown> {
     return this.call('module.updateModule', { values });
   }
@@ -150,6 +152,17 @@ export class APIClient {
   }
   subscription_getTPayGroups(): Promise<TPayGroup[]> {
     return this.call('subscription.getTPayGroups', {});
+  }
+  user_updateGeneralInfo(info: {
+    firstName: string;
+    lastName: string;
+    address: string;
+    postalCode: string;
+    city: string;
+    companyName?: string | undefined;
+    companyVat?: string | undefined;
+  }): Promise<unknown> {
+    return this.call('user.updateGeneralInfo', { info });
   }
   subscription_purchase(values: {
     customer: {
@@ -196,6 +209,9 @@ export class APIClient {
   ): Promise<AuthData> {
     return this.call('user.confirmResetPassword', { code, newPassword });
   }
+  user_getGeneralInfo(): Promise<CustomerInfo | null> {
+    return this.call('user.getGeneralInfo', {});
+  }
   user_getMe(): Promise<User> {
     return this.call('user.getMe', {});
   }
@@ -222,6 +238,12 @@ export class APIClient {
   }
   user_resetPassword(email: string): Promise<void> {
     return this.call('user.resetPassword', { email });
+  }
+  user_updateEmail(newEmail: string): Promise<void> {
+    return this.call('user.updateEmail', { newEmail });
+  }
+  user_updatePassword(password: string): Promise<void> {
+    return this.call('user.updatePassword', { password });
   }
   vm_assignVM(): Promise<{ isReady: boolean }> {
     return this.call('vm.assignVM', {});

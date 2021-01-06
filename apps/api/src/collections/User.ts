@@ -1,4 +1,5 @@
 import { ObjectID } from 'mongodb';
+import { CustomerInfo } from 'shared';
 import { safeExtend } from '../common/helper';
 import { createCollection } from '../db';
 
@@ -13,6 +14,7 @@ export interface UserModel {
   githubId?: number;
   hasSubscription?: boolean;
   subscriptionExpiration?: Date;
+  info?: CustomerInfo | null;
 }
 
 export const UserCollection = safeExtend(
@@ -33,7 +35,7 @@ export const UserCollection = safeExtend(
   ]),
   {
     findOneByEmail(email: string) {
-      return UserCollection.findOne({ email_lowered: email });
+      return UserCollection.findOne({ email_lowered: email.toLowerCase() });
     },
   }
 );

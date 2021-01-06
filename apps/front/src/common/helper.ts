@@ -1,7 +1,10 @@
 import { GetServerSideProps, NextPageContext } from 'next';
 import { APIClient } from 'shared';
+import classNames from 'classnames';
+import { overrideTailwindClasses } from 'tailwind-override';
 import { API_URL, DISABLE_APP } from 'src/config';
 import { readCookieFromString } from './cookie';
+import { ClassValue } from 'classnames/types';
 
 export class UnreachableCaseError extends Error {
   constructor(val: never) {
@@ -212,3 +215,6 @@ export function formatDuration(totalMinutes: number) {
     .filter(Boolean)
     .join(' ');
 }
+
+export const cx = (...classes: ClassValue[]) =>
+  overrideTailwindClasses(classNames(...classes));

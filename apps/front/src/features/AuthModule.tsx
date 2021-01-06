@@ -6,6 +6,7 @@ import { useImmer } from 'use-immer';
 
 interface Actions {
   setUser: (user: User) => void;
+  updateEmail: (email: string) => void;
   logout: () => void;
 }
 
@@ -33,6 +34,10 @@ export function AuthModule(props: AuthModuleProps) {
       setUser: user =>
         setState(draft => {
           draft.user = user;
+        }),
+      updateEmail: email =>
+        setState(draft => {
+          draft.user!.email = email;
         }),
 
       logout: async () => {

@@ -1,4 +1,5 @@
 import { ObjectID } from 'mongodb';
+import { CustomerInfo } from 'shared';
 import { createCollection } from '../db';
 
 export interface SubscriptionOrderModel {
@@ -19,15 +20,7 @@ export interface SubscriptionOrderModel {
   };
   status: 'NOT_PAID' | 'PAID';
   paidAt?: Date;
-  customer: {
-    firstName: string;
-    lastName: string;
-    companyName?: string;
-    companyVat?: string;
-    address: string;
-    postalCode: string;
-    city: string;
-  };
+  customer: CustomerInfo;
 }
 
 export const SubscriptionOrderCollection = createCollection<SubscriptionOrderModel>(
