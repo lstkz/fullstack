@@ -44,7 +44,7 @@ function _getTask({
 
 export const info: ModuleUpload = {
   id: '1-ts-basics',
-  name: 'Podstawy Typescripta i algorytmiki',
+  name: 'Typescript i algorytmika - podstawy',
   description: `
 Naucz się kompletnych podstaw Typescripta i algorytmiki.
 Moduł zawiera lekcje i zadania dla osób, które chcą zacząć swoją przygodę z programowaniem.

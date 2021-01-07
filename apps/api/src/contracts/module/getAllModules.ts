@@ -12,6 +12,7 @@ interface ModuleResult {
   _id: string;
   name: string;
   description: string;
+  isPending: boolean;
   estimatedPracticeTimeHours: number;
   totalTasks: number;
   totalLessons: number;
@@ -72,6 +73,7 @@ export const getAllModules = createContract('module.getAllModules')
           name: 1,
           description: 1,
           estimatedPracticeTimeHours: 1,
+          isPending: 1,
           totalTasks: { $size: '$tasks' },
           totalLessons: { $size: '$lessons' },
         },

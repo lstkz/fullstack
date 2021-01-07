@@ -168,9 +168,6 @@ function _getTasksInfo(module: ModuleUpload) {
       sourceTarPath: Path.join(moduleDir, 'dist', `${uniqName}.tar.gz`),
     });
   });
-  if (!tasks.length) {
-    throw new Error(`No tasks in ${module.id}`);
-  }
   return tasks;
 }
 
