@@ -3,11 +3,13 @@ import { createUrl } from 'src/common/url';
 import { Button } from 'src/components/Button';
 import { Dashboard } from 'src/components/Dashboard';
 import { Heading } from 'src/components/Heading';
+import { HeadTitle } from 'src/components/HeadTitle';
 import { PricingCard } from 'src/components/PricingCard';
 
 export function PricingPage() {
   return (
     <Dashboard>
+      <HeadTitle title="Cennik" />
       <div className="container">
         <Heading type={2} className="text-center mt-20">
           Prosta oferta

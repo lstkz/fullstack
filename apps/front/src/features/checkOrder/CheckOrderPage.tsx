@@ -10,6 +10,7 @@ import { api } from 'src/services/api';
 import { useErrorModalActions } from '../ErrorModalModule';
 import { Heading } from 'src/components/Heading';
 import { Button } from 'src/components/Button';
+import { HeadTitle } from 'src/components/HeadTitle';
 
 export function CheckOrderPage() {
   const { width, height } = useWindowSize();
@@ -78,6 +79,7 @@ export function CheckOrderPage() {
 
   return (
     <Dashboard>
+      <HeadTitle title="Oczekiwanie na płatność" />
       <div className="container shadow-sm bg-white border border-gray-200 rounded-md my-16">
         {renderContent()}
       </div>
