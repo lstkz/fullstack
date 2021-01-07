@@ -10,6 +10,7 @@ import { EMAIL_REGEX } from 'shared';
 import { api } from 'src/services/api';
 import { useAuthForm } from 'src/hooks/useAuthForm';
 import { Button } from 'src/components/Button';
+import { HeadTitle } from 'src/components/HeadTitle';
 
 interface FormValues {
   email: string;
@@ -38,6 +39,7 @@ export function LoginPage() {
         </>
       }
     >
+      <HeadTitle title="Logowanie" />
       <form onSubmit={handleSubmit(onSubmit)}>
         {error && (
           <Alert testId="login-error" type="error">

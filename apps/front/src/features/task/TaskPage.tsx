@@ -16,6 +16,7 @@ import { TaskHintModule } from './TaskHintModule';
 import { TaskHeaderContainer } from './TaskHeaderContainer';
 import { TaskVideoSolutionModule } from './TaskVideoSolutionModule';
 import { TaskSummary } from './TaskSummary';
+import { HeadTitle } from 'src/components/HeadTitle';
 
 export interface TaskPageProps {
   task: ModuleTaskDetails;
@@ -47,6 +48,7 @@ export function TaskPage(props: TaskPageProps) {
 
   return (
     <TaskHintModule task={task} setTask={setTask}>
+      <HeadTitle title={task.name} />
       <TaskVideoSolutionModule task={task} setTask={setTask}>
         <div className="flex h-full flex-col">
           <SolvedModal task={task} />

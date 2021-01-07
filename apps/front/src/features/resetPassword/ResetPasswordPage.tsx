@@ -8,6 +8,7 @@ import { api } from 'src/services/api';
 import { useAuthForm } from 'src/hooks/useAuthForm';
 import { useRouter } from 'next/dist/client/router';
 import { Button } from 'src/components/Button';
+import { HeadTitle } from 'src/components/HeadTitle';
 
 interface FormValues {
   password: string;
@@ -31,6 +32,7 @@ export function ResetPasswordPage() {
       title="Zmień Hasło"
       subTitle={<>Ustaw nowe hasło</>}
     >
+      <HeadTitle title="Zmień Hasło" />
       <form onSubmit={handleSubmit(onSubmit)}>
         {error && (
           <Alert testId="reset-password-error" type="error">

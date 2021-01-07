@@ -4,6 +4,7 @@ import Link from 'next/link';
 import React from 'react';
 import { Dashboard } from 'src/components/Dashboard';
 import { Heading } from 'src/components/Heading';
+import { HeadTitle } from 'src/components/HeadTitle';
 
 interface SettingsPageTemplateProps {
   children: React.ReactNode;
@@ -32,6 +33,7 @@ export function SettingsPageTemplate(props: SettingsPageTemplateProps) {
   }, [router.pathname]);
   return (
     <Dashboard>
+      <HeadTitle title={activeItem?.name ?? ''} />
       <div className="container mt-12 max-w-3xl">
         <div className="text-xs uppercase text-gray-600">Ustawienia</div>
         <Heading type={3}>{activeItem?.name}</Heading>

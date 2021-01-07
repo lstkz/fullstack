@@ -10,6 +10,7 @@ import { getErrorMessage } from 'src/common/helper';
 import { createUrl } from 'src/common/url';
 import Link from 'next/link';
 import { Button } from 'src/components/Button';
+import { HeadTitle } from 'src/components/HeadTitle';
 
 interface FormValues {
   email: string;
@@ -39,6 +40,7 @@ export function ForgotPasswordPage() {
 
   return (
     <FullPageForm testId="reset-password-form" title="Resetuj Hasło">
+      <HeadTitle title="Resetuj Hasło" />
       <form onSubmit={handleSubmit(onSubmit)}>
         {error && (
           <Alert testId="reset-password-error" type="error">

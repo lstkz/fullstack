@@ -17,6 +17,7 @@ import {
 import { FormCheckbox } from 'src/components/FormCheckbox';
 import Link from 'next/link';
 import { createUrl } from 'src/common/url';
+import { HeadTitle } from 'src/components/HeadTitle';
 
 interface SubscriptionPageProps {
   subscriptionPlans: SubscriptionPlan[];
@@ -70,6 +71,7 @@ export function SubscriptionPage(props: SubscriptionPageProps) {
 
   return (
     <FormProvider {...formMethods}>
+      <HeadTitle title="Kup abonament" />
       <form onSubmit={handleSubmit(onSubmit)}>
         <Dashboard>
           <div className="container grid md:grid-cols-12 gap-8 my-8 md:grid-rows-1 grid-flow-row-dense">

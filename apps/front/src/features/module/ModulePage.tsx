@@ -2,6 +2,7 @@ import React from 'react';
 import { ModuleDetails } from 'shared';
 import { Dashboard } from 'src/components/Dashboard';
 import { Heading } from 'src/components/Heading';
+import { HeadTitle } from 'src/components/HeadTitle';
 import { api } from 'src/services/api';
 import { useImmer } from 'use-immer';
 import { LessonModalModule } from './LessonModalModule';
@@ -52,6 +53,7 @@ export function ModulePage(props: ModulePageProps) {
 
   return (
     <Dashboard>
+      <HeadTitle title={module.name} />
       <ModulePageContext.Provider
         value={{
           state,
