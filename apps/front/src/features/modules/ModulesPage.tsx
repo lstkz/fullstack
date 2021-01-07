@@ -11,7 +11,7 @@ export function ModulesPage(props: ModulesPageProps) {
   const { modules } = props;
   return (
     <Dashboard>
-      <div className="container mt-4" data-test="courses-page">
+      <div className="container mt-4 max-w-4xl mb-8" data-test="courses-page">
         {modules.map(item => (
           <ModuleInfo key={item.id} module={item} />
         ))}

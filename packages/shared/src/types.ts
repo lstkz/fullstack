@@ -89,6 +89,7 @@ export interface Module {
   name: string;
   description: string;
   progress: number;
+  isPending: boolean;
   totalTasks: number;
   totalLessons: number;
   estimatedPracticeTimeHours: number;
