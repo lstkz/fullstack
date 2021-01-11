@@ -178,5 +178,6 @@ Moduł zawiera lekcje i zadania dla osób, które chcą zacząć swoją przygod�
       videoSolution: sampleSources,
     }),
     _getTask({ id: 9, name: 'Brakująca liczba', videoSolution: sampleSources }),
+    _getTask({ id: 10, name: 'Gra w światełka', videoSolution: sampleSources }),
   ],
 };
