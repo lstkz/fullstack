@@ -1,9 +1,6 @@
 import crypto from 'crypto';
-import { ObjectID } from 'mongodb';
 import cryptoAsync from 'mz/crypto';
 import { Response } from 'node-fetch';
-import { TaskScoreCollection } from '../collections/TaskScore';
-import { UserModel } from '../collections/User';
 import { AppUser } from '../types';
 
 const SECURITY = {
@@ -175,19 +172,6 @@ export function getCurrentDate() {
   return new Date(Date.now());
 }
 
-export async function checkIsTaskSolved(
-  userId: ObjectID,
-  moduleId: string,
-  taskId: number
-) {
-  const count = await TaskScoreCollection.countDocuments({
-    userId,
-    moduleId,
-    taskId,
-  });
-  return count != 0;
-}
-
 export function getRemainingTimeResult(baseTime: Date) {
   const minTime = getDuration(1, 'h');
   const remainingTime = baseTime.getTime() + minTime - Date.now();
@@ -201,12 +185,6 @@ export function getRemainingTimeResult(baseTime: Date) {
   return null;
 }
 
-export function getUserNotificationSettings(user: UserModel) {
-  return (
-    user.notifications ?? {
-      newsletter: true,
-      newContent: true,
-      subscriptionRemainder: true,
-    }
-  );
+export function sleep(timeout: number) {
+  return new Promise(resolve => setTimeout(resolve, timeout));
 }

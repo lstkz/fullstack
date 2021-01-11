@@ -2,6 +2,7 @@ import * as R from 'remeda';
 import amqplib from 'amqplib';
 import { reportError, reportInfo } from '../common/bugsnag';
 import { UnreachableCaseError } from '../common/errors';
+import { sleep } from '../common/helper';
 
 export interface AmpqMessage<T = any> {
   id: string;
@@ -80,12 +81,18 @@ export class Ampq {
   private isReconnecting = false;
   private hostNameIndex = 0;
   private modes: AmpqMode[] = [];
+  private processingCount = 0;
+  private isShutdown = false;
+  private consumeTagMap: Record<string, string> = {};
 
   constructor(private options: AmpqOptions) {
     this.hostNameIndex = Math.round(Math.random() * 100) % options.hosts.length;
   }
 
   async connect(modes?: AmpqMode[]) {
+    if (this.isShutdown) {
+      return;
+    }
     if (modes) {
       this.modes = modes;
     }
@@ -155,6 +162,27 @@ export class Ampq {
 
   async publishSocket(msg: AmpqPublishMessage) {
     await this.retryPublishMessage('socket', msg);
+  }
+
+  async shutdown() {
+    console.log('[AMPQ] shuting down');
+    this.isShutdown = true;
+    await Promise.all([
+      Object.values(this.consumeTagMap).map(tag =>
+        this.channel!.cancel(tag).catch(R.noop)
+      ),
+    ]);
+    if (this.processingCount) {
+      console.log('[AMPQ] waiting for pending handlers');
+    }
+    while (this.processingCount) {
+      await sleep(100);
+    }
+    console.log('[AMPQ] closing channel');
+    await this.channel!.close();
+    console.log('[AMPQ] closing connection');
+    await this.connection!.close();
+    console.log('[AMPQ] shutdown success');
   }
 
   private async retryPublishMessage(
@@ -275,8 +303,8 @@ export class Ampq {
     });
     await channel.bindQueue(queueName, EVENTS_EXCHANGE, '');
 
-    await channel.consume(queueName, async msg => {
-      await this.processMessage({
+    await this.consume(channel, queueName, async msg => {
+      await this.processMessageWrapped({
         channel,
         msg,
         onMessage: async message => {
@@ -302,8 +330,8 @@ export class Ampq {
       deadLetterRoutingKey: TASKS_QUEUE,
     });
 
-    await channel.consume(TASKS_QUEUE, async msg => {
-      await this.processMessage({
+    await this.consume(channel, TASKS_QUEUE, async msg => {
+      await this.processMessageWrapped({
         channel,
         msg,
         onMessage: async message => {
@@ -328,8 +356,8 @@ export class Ampq {
     });
     const queueName = tmpQueue.queue;
     await channel.bindQueue(queueName, SOCKETS_EXCHANGE, '');
-    await channel.consume(queueName, async msg => {
-      await this.processMessage({
+    await this.consume(channel, queueName, async msg => {
+      await this.processMessageWrapped({
         channel,
         msg,
         onMessage: async message => {
@@ -350,6 +378,24 @@ export class Ampq {
         queueName,
       });
     });
+  }
+
+  private async consume(
+    channel: amqplib.Channel,
+    queueName: string,
+    onMessage: (msg: amqplib.ConsumeMessage | null) => void
+  ) {
+    const ret = await channel.consume(queueName, onMessage);
+    this.consumeTagMap[queueName] = ret.consumerTag;
+  }
+
+  private async processMessageWrapped(options: ProcessMessageOptions) {
+    this.processingCount++;
+    try {
+      await this.processMessage(options);
+    } finally {
+      this.processingCount--;
+    }
   }
 
   private async processMessage(options: ProcessMessageOptions) {

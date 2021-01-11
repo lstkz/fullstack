@@ -1,7 +1,7 @@
 import { S } from 'schema';
 import { NotificationSettings } from 'shared';
 import { UserCollection } from '../../collections/User';
-import { getUserNotificationSettings } from '../../common/helper';
+import { getUserNotificationSettings } from '../../common/db-helper';
 import { createContract, createRpcBinding } from '../../lib';
 
 export const getNotificationSettings = createContract(
