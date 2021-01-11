@@ -1,5 +1,5 @@
 {
-  "name": "task-10",
+  "name": "task-11",
   "scripts": {
     "test": "jest",
     "submit": "fs-tester"
@@ -17,6 +17,6 @@
   },
   "fs": {
     "moduleId": "1-ts-basics",
-    "taskId": 10
+    "taskId": 11
   }
 }
