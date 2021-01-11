@@ -5,6 +5,7 @@ import { AppEvent, AppEventType, AppTask, AppTaskType, AppUser } from './types';
 import { config } from 'config';
 import { Ampq } from './ampq/Ampq';
 import { ObjectID } from 'mongodb';
+import { addShownDownAction } from './shutdown';
 
 export interface CreateRpcBindingOptions {
   verified?: true;
@@ -124,3 +125,5 @@ export const ampq = new Ampq({
   ...config.rabbit,
   eventQueueSuffix: config.api.eventQueueSuffix,
 });
+
+addShownDownAction(50, () => ampq.shutdown());

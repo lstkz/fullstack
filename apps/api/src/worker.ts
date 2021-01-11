@@ -4,6 +4,7 @@ import { getBindings } from './common/bindings';
 import { logger } from './common/logger';
 import { connect } from './db';
 import { startSchedular } from './schedular';
+import { setupGracefulShutdown } from './shutdown';
 
 async function start() {
   await connect();
@@ -40,3 +41,5 @@ start().catch(e => {
   });
   process.exit(1);
 });
+
+setupGracefulShutdown();

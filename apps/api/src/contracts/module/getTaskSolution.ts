@@ -1,12 +1,9 @@
 import { S } from 'schema';
 import { TaskVideoResult } from 'shared';
 import { UserTaskTimeInfoCollection } from '../../collections/UserTaskTimeInfo';
+import { checkIsTaskSolved } from '../../common/db-helper';
 import { AppError } from '../../common/errors';
-import {
-  checkIsTaskSolved,
-  getCurrentDate,
-  getRemainingTimeResult,
-} from '../../common/helper';
+import { getCurrentDate, getRemainingTimeResult } from '../../common/helper';
 import { createContract, createRpcBinding } from '../../lib';
 import { getActiveTask } from './getTask';
 

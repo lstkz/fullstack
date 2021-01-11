@@ -3,6 +3,8 @@ import http from 'http';
 import bodyParser from 'body-parser';
 import compression from 'compression';
 import cors from 'cors';
+import util from 'util';
+import stoppable from 'stoppable';
 import { logger } from './common/logger';
 import { connect, createCollections } from './db';
 import { domainMiddleware } from './middlewares/domainMiddleware';
@@ -13,9 +15,11 @@ import { config } from 'config';
 import { ampq } from './lib';
 import { reportError } from './common/bugsnag';
 import { startSockets } from './socket';
+import { addShownDownAction, setupGracefulShutdown } from './shutdown';
+import { getDuration } from './common/helper';
 
 const app = express();
-const server = http.createServer(app);
+const server = stoppable(http.createServer(app), getDuration(30, 's'));
 startSockets(server);
 
 Promise.all([connect(), ampq.connect(['publish', 'socket'])])
@@ -44,6 +48,15 @@ Promise.all([connect(), ampq.connect(['publish', 'socket'])])
         `Express HTTP server listening on port ${config.api.port} in ${process.env.NODE_ENV} mode`
       );
     });
+
+    stoppable(server, getDuration(30, 's'));
+    const asyncServerStop = util.promisify(server.stop).bind(server);
+
+    addShownDownAction(100, async () => {
+      console.log('[Server] shuting down');
+      await asyncServerStop();
+      console.log('[Server] shutdown success');
+    });
   })
   .catch(e => {
     reportError({
@@ -55,3 +68,5 @@ Promise.all([connect(), ampq.connect(['publish', 'socket'])])
     });
     process.exit(1);
   });
+
+setupGracefulShutdown();
