@@ -199,5 +199,10 @@ Moduł zawiera lekcje i zadania dla osób, które chcą zacząć swoją przygod�
       name: 'Trójkąt',
       videoSolution: sampleSources,
     }),
+    _getTask({
+      id: 15,
+      name: 'Banknoty',
+      videoSolution: sampleSources,
+    }),
   ],
 };

@@ -16,6 +16,7 @@ import { intervals } from './task-11/source/src/main';
 import { floorNumber } from './task-12/source/src/main';
 import { awesomeTriples } from './task-13/source/src/main';
 import { triangle } from './task-14/source/src/main';
+import { banknotes } from './task-15/source/src/main';
 
 const target = process.argv[2];
 
@@ -484,6 +485,27 @@ const generatorMap = {
         .create(randomNaturalMax(), randomNaturalMax(), randomNaturalMax())
         .create(randomNaturalMax(), randomNaturalMax(), randomNaturalMax())
         .create(randomNaturalMax(), randomNaturalMax(), randomNaturalMax());
+    },
+  },
+  15: {
+    fnName: 'banknotes',
+    inputArgs: [{ name: 'amount', type: 'number' }],
+    fn: () => {
+      addFixed(banknotes)
+        .create(8)
+        .create(3)
+        .create(10)
+        .create(101)
+        .create(30)
+        .create(265)
+        .create(99)
+        .create(1e9)
+        .create(randomNaturalMax())
+        .create(randomNaturalMax())
+        .create(randomNaturalMax())
+        .create(randomNaturalMax())
+        .create(randomNaturalMax())
+        .create(randomNaturalMax());
     },
   },
 };
