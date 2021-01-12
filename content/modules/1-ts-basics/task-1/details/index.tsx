@@ -6,6 +6,7 @@ import {
   TaskFnArguments,
   TaskFnReturn,
   TaskFnExamples,
+  TaskRange,
 } from 'ui';
 
 export function Details() {
@@ -20,13 +21,9 @@ export function Details() {
       </div>
       <TaskFnArguments
         footer={
-          <div>
-            Każda liczba jest z zakresu:{' '}
-            <Code>
-              {'<'}-10<sup>9</sup> - 10<sup>9</sup>
-              {'>'}
-            </Code>
-          </div>
+          <TaskRange min={[-10, 9]} max={[10, 9]}>
+            Każda liczba jest z zakresu:
+          </TaskRange>
         }
       >
         <li>

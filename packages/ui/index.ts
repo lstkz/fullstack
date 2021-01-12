@@ -6,3 +6,4 @@ export * from './src/TaskSection';
 export * from './src/TaskFnArguments';
 export * from './src/TaskFnReturn';
 export * from './src/TaskFnExamples';
+export * from './src/TaskRange';

@@ -4,6 +4,7 @@ import Path from 'path';
 import prettier from 'prettier';
 import { floorNumber } from './task-12/source/src/main';
 import { middleNumber } from './task-1/source/src/main';
+import { roundCurrency } from './task-2/source/src/main';
 
 const target = process.argv[2];
 
@@ -50,6 +51,22 @@ const generatorMap = {
         .create(-1, -100, -10)
         .create(-2, -1, 0)
         .create(0, 0, 0);
+    },
+  },
+  2: {
+    fnName: 'roundCurrency',
+    inputArgs: [{ name: 'amount', type: 'number' }],
+    fn: () => {
+      addFixed(roundCurrency)
+        .create(1.101)
+        .create(10.59999)
+        .create(4.123)
+        .create(4.44499)
+        .create(1000)
+        .create(651.3333)
+        .create(51.9999)
+        .create(0)
+        .create(1.000001);
     },
   },
   12: {
