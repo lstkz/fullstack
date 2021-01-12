@@ -1,9 +1,41 @@
 {
-  "resultHash": "a8fa437f7e3de87d54f59da56725090d94427b9d1a63149388a85cbc74f7dc45",
+  "resultHash": "d46d74d66e8feffbda5195ceba478df5dc470a45f4bf7b4ef32f109aaebd0f1f",
   "files": [
     {
+      "path": "/data/10.in.json",
+      "hash": "3def60f9f12dd86a4bab8e4bcec24fbd"
+    },
+    {
+      "path": "/data/10.out.json",
+      "hash": "6d0b5e353301d1a8d493a732b23eea0d"
+    },
+    {
+      "path": "/data/11.in.json",
+      "hash": "526842fa6a0ea9074df9b25537ee2232"
+    },
+    {
+      "path": "/data/11.out.json",
+      "hash": "03a5398404f97f5b8fb200f55089b7f4"
+    },
+    {
+      "path": "/data/7.in.json",
+      "hash": "c5baf9758e3546f976b9e9313b257256"
+    },
+    {
+      "path": "/data/8.in.json",
+      "hash": "e2903b70eb4306e6dc1af13597ea4cba"
+    },
+    {
+      "path": "/data/9.in.json",
+      "hash": "400d59f5aa4ed04f38844e725d0c43b1"
+    },
+    {
+      "path": "/data/9.out.json",
+      "hash": "45b3ecd8d6c63d4b4e213e8184359fc3"
+    },
+    {
       "path": "/main.test.ts",
-      "hash": "a5d62ded1b9daf36f8a1e29ae1d8ba8c"
+      "hash": "33aebfd65d068d55ac841fb7eb83f0da"
     }
   ]
 }

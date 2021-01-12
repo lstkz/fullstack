@@ -6,6 +6,7 @@ import {
   TaskFnArguments,
   TaskFnReturn,
   TaskFnExamples,
+  TaskRange,
 } from 'ui';
 
 export function Details() {
@@ -19,17 +20,15 @@ export function Details() {
       </div>
       <TaskFnArguments>
         <li>
-          <Code>arr: number[]</Code> - Tablica do podzielenia. Zakres liczby
-          elementów:{' '}
-          <Code>
-            {'<'}1 - 500{'>'}
-          </Code>
-          . Zakres elementu:{' '}
-          <Code>
-            {'<'}1 - 10<sup>5</sup>
-            {'>'}
-          </Code>
-          .
+          <Code>arr: number[]</Code> - Tablica do podzielenia.
+          <br />
+          <TaskRange min={1} max={500}>
+            Zakres liczby elementów:
+          </TaskRange>
+          <br />
+          <TaskRange min={1} max={[10, 5]}>
+            Zakres elementu:
+          </TaskRange>
         </li>
       </TaskFnArguments>
 
