@@ -21,6 +21,7 @@ import { equalCards } from './task-16/source/src/main';
 import { revertSubArray } from './task-17/source/src/main';
 import { calcPages } from './task-18/source/src/main';
 import { targetArraySum } from './task-19/source/src/main';
+import { sumTwoGreatest } from './task-20/source/src/main';
 
 const target = process.argv[2];
 
@@ -621,6 +622,41 @@ const generatorMap = {
       create(1000, 7, 8);
       create(1000, 1, 999);
       create(1000, 0, 1000);
+    },
+  },
+  20: {
+    fnName: 'sumTwoGreatest',
+    inputArgs: [
+      { name: 'arr1', type: 'number[]' },
+      { name: 'arr2', type: 'number[]' },
+    ],
+    fn: () => {
+      addFixed(sumTwoGreatest)
+        .create([11, 2], [7])
+        .create([10, 10, 11], [11, 10])
+        .create([10, 10, 11], [11, 10])
+        .create([1, 2, 3], [3, 2, 1])
+        .create([-100, -101, -102], [-10, -20, -30]);
+
+      const create = (n: number, m: number) => {
+        const input1 = Array<number>(n)
+          .fill(0)
+          .map(() => randomMax());
+        const input2 = Array<number>(m)
+          .fill(0)
+          .map(() => randomPositiveMax(1e5));
+        const testInput = [input1, input2] as const;
+        testCases.push({
+          in: testInput,
+          out: sumTwoGreatest(...testInput),
+        });
+      };
+      create(1, 100);
+      create(100, 1);
+      create(1000, 1237);
+      create(2541, 7841);
+      create(5000, 2);
+      create(1e5, 1e5);
     },
   },
 };

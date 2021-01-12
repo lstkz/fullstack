@@ -224,5 +224,10 @@ Moduł zawiera lekcje i zadania dla osób, które chcą zacząć swoją przygod�
       name: 'Docelowa suma',
       videoSolution: sampleSources,
     }),
+    _getTask({
+      id: 20,
+      name: 'Suma dwóch najwiekszych',
+      videoSolution: sampleSources,
+    }),
   ],
 };
