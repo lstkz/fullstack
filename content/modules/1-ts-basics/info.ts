@@ -184,5 +184,10 @@ Moduł zawiera lekcje i zadania dla osób, które chcą zacząć swoją przygod�
       name: 'Przedziały liczb',
       videoSolution: sampleSources,
     }),
+    _getTask({
+      id: 12,
+      name: 'Piętro',
+      videoSolution: sampleSources,
+    }),
   ],
 };
