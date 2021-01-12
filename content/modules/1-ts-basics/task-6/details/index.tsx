@@ -6,6 +6,7 @@ import {
   TaskFnArguments,
   TaskFnReturn,
   TaskFnExamples,
+  TaskRange,
 } from 'ui';
 
 export function Details() {
@@ -25,7 +26,13 @@ export function Details() {
         Jeżeli <Code>n</Code> znajduje się pomiędzy <Code>min</Code> i{' '}
         <Code>max</Code>, zwróć <Code>n</Code>.
       </div>
-      <TaskFnArguments>
+      <TaskFnArguments
+        footer={
+          <TaskRange min={[-10, -9]} max={[10, 9]}>
+            Zakres każdej liczby:
+          </TaskRange>
+        }
+      >
         <li>
           <Code>n: number</Code> - Liczba do sprawdzenia.
         </li>

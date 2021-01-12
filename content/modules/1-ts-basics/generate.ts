@@ -8,11 +8,20 @@ import { roundCurrency } from './task-2/source/src/main';
 import { warmestMonth } from './task-3/source/src/main';
 import { roundSum } from './task-4/source/src/main';
 import { maxStreak } from './task-5/source/src/main';
+import { clamp } from './task-6/source/src/main';
 
 const target = process.argv[2];
 
 function randomInt() {
   return crypto.randomBytes(4).readUInt32BE(0);
+}
+
+function randomMax() {
+  let ret = randomInt() % (1e9 + 1);
+  if (randomInt() % 2) {
+    ret *= -1;
+  }
+  return ret;
 }
 
 const testCases: Array<{
@@ -131,6 +140,31 @@ const generatorMap = {
         .create([1, 0, 1, 1])
         .create([1, 1, 0, 1, 1])
         .create([1, 1, 1, 0]);
+    },
+  },
+  6: {
+    fnName: 'clamp',
+    inputArgs: [
+      { name: 'n', type: 'number' },
+      { name: 'min', type: 'number' },
+      { name: 'max', type: 'number' },
+    ],
+    fn: () => {
+      addFixed(clamp)
+        .create(0, 2, 5)
+        .create(10, 2, 5)
+        .create(3, 2, 5)
+        .create(-3, -2, 5)
+        .create(-3, 0, 0)
+        .create(1234, -100000, 100000)
+        .create(-1234, -100000, 100000)
+        .create(0, 0, 0)
+        .create(2, 1, 3)
+        .create(randomMax(), randomMax(), randomMax())
+        .create(randomMax(), randomMax(), randomMax())
+        .create(randomMax(), randomMax(), randomMax())
+        .create(randomMax(), randomMax(), randomMax())
+        .create(randomMax(), randomMax(), randomMax());
     },
   },
   12: {
