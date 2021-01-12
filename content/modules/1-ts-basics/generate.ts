@@ -10,6 +10,7 @@ import { roundSum } from './task-4/source/src/main';
 import { maxStreak } from './task-5/source/src/main';
 import { clamp } from './task-6/source/src/main';
 import { cycledIndex } from './task-7/source/src/main';
+import { inaccurateNumbersEqual } from './task-8/source/src/main';
 
 const target = process.argv[2];
 
@@ -202,6 +203,26 @@ const generatorMap = {
       create(40);
       create(70);
       create(100);
+    },
+  },
+  8: {
+    fnName: 'inaccurateNumbersEqual',
+    inputArgs: [
+      { name: 'a', type: 'number' },
+      { name: 'b', type: 'number' },
+      { name: 'p', type: 'number' },
+    ],
+    fn: () => {
+      addFixed(inaccurateNumbersEqual)
+        .create(1.1, 1.2, 0)
+        .create(1.1, 1.2, 1)
+        .create(1.12, 1.13, 1)
+        .create(1.12, 1.15, 1)
+        .create(0.99, 0.989999, 2)
+        .create(0.123456, 0.123455, 5)
+        .create(0.123456, 0.12345, 5)
+        .create(0.12345678, 0.12345678, 7)
+        .create(1.12345671, 1.1234567, 7);
     },
   },
   12: {

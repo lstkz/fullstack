@@ -6,6 +6,7 @@ import {
   TaskFnArguments,
   TaskFnReturn,
   TaskFnExamples,
+  TaskRange,
 } from 'ui';
 
 export function Details() {
@@ -18,20 +19,27 @@ export function Details() {
       </div>
       <TaskFnArguments>
         <li>
-          <Code>a: number</Code> - Pierwsza liczba.
+          <Code>a: number</Code> - Pierwsza liczba. <br />
+          <TaskRange min={[-10, 9]} max={[10, 9]}>
+            Zakres:
+          </TaskRange>
         </li>
         <li>
           <Code>b: number</Code> - Druga liczba.
+          <br />
+          <TaskRange min={[-10, 9]} max={[10, 9]}>
+            Zakres:
+          </TaskRange>
         </li>
         <li>
           <Code>p: number</Code> - Precyzja zaokrąglenia. <Code>0</Code> oznacza
           zaokrąglenie do liczby całkowitej. <Code>1</Code> oznacza zaokrąglenie
           do 1 liczby po przecinku, <Code>2</Code> oznacza zaokrąglenie do 2
-          liczby po przecinku, itd. Zakres liczby{' '}
-          <Code>
-            {'<'}0 - 7{'>'}
-          </Code>
-          .
+          liczby po przecinku, itd.
+          <br />
+          <TaskRange min={0} max={7}>
+            Zakres:
+          </TaskRange>
         </li>
       </TaskFnArguments>
 
