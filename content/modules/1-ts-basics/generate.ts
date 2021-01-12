@@ -12,6 +12,7 @@ import { cycledIndex } from './task-7/source/src/main';
 import { inaccurateNumbersEqual } from './task-8/source/src/main';
 import { missingNumber } from './task-9/source/src/main';
 import { lightsGame } from './task-10/source/src/main';
+import { intervals } from './task-11/source/src/main';
 import { floorNumber } from './task-12/source/src/main';
 
 const target = process.argv[2];
@@ -321,7 +322,6 @@ const generatorMap = {
         buttonCount: number,
         actionCount: number
       ) => {
-        const randomInt = () => crypto.randomBytes(4).readUInt32BE(0);
         const toggleButtons = Array<number[]>(buttonCount)
           .fill([])
           .map(() =>
@@ -345,6 +345,41 @@ const generatorMap = {
       create(20, 20, 20);
       create(20, 50, 50);
       create(20, 50, 50);
+    },
+  },
+  11: {
+    fnName: 'intervals',
+    inputArgs: [{ name: 'arr', type: 'number[]' }],
+    fn: () => {
+      addFixed(intervals)
+        .create([1, 2, 3, 4, 6])
+        .create([1, 3, 5])
+        .create([1, 2, 3])
+        .create([1, 1, 3, 3, 4]);
+
+      const create = (n: number, max: number) => {
+        const arr = Array<number>(n).fill(randomInt() % max);
+        for (let i = 1; i < arr.length; i++) {
+          if (randomInt() % 3 === 0) {
+            arr[i] = arr[i - 1] + 1;
+          } else {
+            arr[i] = randomInt() % max;
+          }
+        }
+        const testInput = [arr] as const;
+
+        testCases.push({
+          in: testInput,
+          out: intervals(...testInput),
+        });
+      };
+      create(10, 5);
+      create(20, 10);
+      create(30, 100);
+      create(30, 20000);
+      create(200, 20000);
+      create(500, 20);
+      create(500, 20000);
     },
   },
   12: {

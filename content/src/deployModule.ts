@@ -29,8 +29,9 @@ async function _collectSources(tasks: TaskInfo[]) {
     tasks.map(async task => {
       const sourceDir = Path.join(task.taskDir, 'source');
       const dir = tmp.dirSync();
-      const allFiles = await getAllFiles(sourceDir, x =>
-        ['node_modules'].includes(x)
+      const allFiles = await getAllFiles(
+        sourceDir,
+        x => ['node_modules'].includes(x) || x.includes('yarn.lock')
       );
       await Promise.all(
         allFiles.map(async file => {
