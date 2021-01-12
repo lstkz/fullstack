@@ -6,6 +6,7 @@ import {
   TaskFnArguments,
   TaskFnReturn,
   TaskFnExamples,
+  TaskRange,
 } from 'ui';
 
 export function Details() {
@@ -20,18 +21,20 @@ export function Details() {
       </div>
       <TaskFnArguments>
         <li>
-          <Code>a: number</Code> - pierwsza liczba
-        </li>
-        <li>
-          <Code>b: number</Code> - druga liczba
-        </li>
-        <li>
-          <Code>c: number</Code> - trzecia liczba
+          <Code>a: number</Code> - Foo.
+          <br />
+          <TaskRange min={1} max={[10, 5]}>
+            Zakres liczby elementów:
+          </TaskRange>
+          <br />
+          <TaskRange min={[-10, 9]} max={[-10, 9]}>
+            Zakres elementu:
+          </TaskRange>
         </li>
       </TaskFnArguments>
 
       <TaskFnReturn>
-        <Code>number</Code> - środkowa liczba
+        <Code>number</Code> - Foo.
       </TaskFnReturn>
 
       <TaskFnExamples
