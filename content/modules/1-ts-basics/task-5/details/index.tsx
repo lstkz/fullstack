@@ -6,6 +6,7 @@ import {
   TaskFnArguments,
   TaskFnReturn,
   TaskFnExamples,
+  TaskRange,
 } from 'ui';
 
 export function Details() {
@@ -21,7 +22,10 @@ export function Details() {
       <TaskFnArguments>
         <li>
           <Code>arr: number[]</Code> - Tablica wyników gracza. Możesz założyć,
-          że tablica zawiera tylko liczby <Code>0</Code> i <Code>1</Code>.
+          że tablica zawiera tylko liczby <Code>0</Code> i <Code>1</Code>.{' '}
+          <TaskRange min={0} max={100}>
+            Zakres liczby elementów:
+          </TaskRange>
         </li>
       </TaskFnArguments>
 

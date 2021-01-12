@@ -7,6 +7,7 @@ import { middleNumber } from './task-1/source/src/main';
 import { roundCurrency } from './task-2/source/src/main';
 import { warmestMonth } from './task-3/source/src/main';
 import { roundSum } from './task-4/source/src/main';
+import { maxStreak } from './task-5/source/src/main';
 
 const target = process.argv[2];
 
@@ -111,6 +112,25 @@ const generatorMap = {
         .create([1, 100000, 2, 3, 4], [100000, 1, 2, 3, 4])
         .create([1, 2, 3], [1, 2, 7])
         .create([9], [1]);
+    },
+  },
+  5: {
+    fnName: 'maxStreak',
+    inputArgs: [{ name: 'arr', type: 'number[]' }],
+    fn: () => {
+      addFixed(maxStreak)
+        .create([1, 1, 0])
+        .create([1, 0, 1, 0, 1])
+        .create([0, 0])
+        .create([1, 1, 0, 1, 1, 1])
+        .create([1, 1, 0, 1, 1, 0, 1])
+        .create([])
+        .create([0, 0, 0, 0, 0, 0, 0, 0, 0, 0])
+        .create([1, 1, 1, 1, 1, 1, 1, 1, 1, 1])
+        .create([0, 1, 1])
+        .create([1, 0, 1, 1])
+        .create([1, 1, 0, 1, 1])
+        .create([1, 1, 1, 0]);
     },
   },
   12: {
