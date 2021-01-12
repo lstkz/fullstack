@@ -214,5 +214,10 @@ Moduł zawiera lekcje i zadania dla osób, które chcą zacząć swoją przygod�
       name: 'Odwróć część tablicy',
       videoSolution: sampleSources,
     }),
+    _getTask({
+      id: 18,
+      name: 'Strong',
+      videoSolution: sampleSources,
+    }),
   ],
 };

@@ -19,6 +19,7 @@ import { triangle } from './task-14/source/src/main';
 import { banknotes } from './task-15/source/src/main';
 import { equalCards } from './task-16/source/src/main';
 import { revertSubArray } from './task-17/source/src/main';
+import { calcPages } from './task-18/source/src/main';
 
 const target = process.argv[2];
 
@@ -560,6 +561,30 @@ const generatorMap = {
       create(1000, 0, 999);
       create(10000, 0, 9999);
       create(10000, 1, 5000);
+    },
+  },
+  18: {
+    fnName: 'calcPages',
+    inputArgs: [
+      { name: 'arr', type: 'number[]' },
+      { name: 'start', type: 'number' },
+      { name: 'end', type: 'number' },
+    ],
+    fn: () => {
+      addFixed(calcPages)
+        .create(10, 5)
+        .create(11, 5)
+        .create(1, 100)
+        .create(0, 100)
+        .create(1000, 100)
+        .create(1543, 13)
+        .create(7541469, 13)
+        .create(7541469, 1)
+        .create(0, 1)
+        .create(randomNaturalMax(), randomPositiveMax(1000))
+        .create(randomNaturalMax(), randomPositiveMax(1000))
+        .create(randomNaturalMax(), randomPositiveMax(1000))
+        .create(randomNaturalMax(), randomPositiveMax(1000));
     },
   },
 };
