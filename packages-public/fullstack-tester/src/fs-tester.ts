@@ -55,9 +55,9 @@ async function start() {
       '--reporters="default"',
       '--reporters="fullstack-tester/dist/FsReporter.js"',
       '--runTestsByPath=true',
-      ...testInfo.testFiles.map(
-        item => `--testPathPattern=${_getTestRelativePath(item.path)}`
-      ),
+      ...testInfo.testFiles
+        .filter(file => file.path.includes('.test.'))
+        .map(item => `--testPathPattern=${_getTestRelativePath(item.path)}`),
     ],
     {
       env: process.env,
