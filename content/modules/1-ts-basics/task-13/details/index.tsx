@@ -23,9 +23,11 @@ export function Details() {
             <Code>k</Code> oznacza indeks trzeciej.
           </li>
           <li>
-            <Code>{'arr[i]^2 + arr[j]^2 < arr[k]^2'}</Code> - suma kwadratów
-            dwóch pierwszych liczb powinna być mniejsza od kwadratu liczby
-            trzeciej.
+            <Code>
+              arr[i]<sup>2</sup> + arr[j]<sup>2</sup> {'<'} arr[k]<sup>2</sup>
+            </Code>{' '}
+            - suma kwadratów dwóch pierwszych liczb powinna być mniejsza od
+            kwadratu liczby trzeciej.
           </li>
         </ul>
       </div>
