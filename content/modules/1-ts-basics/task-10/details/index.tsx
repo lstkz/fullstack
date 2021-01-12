@@ -6,6 +6,7 @@ import {
   TaskFnArguments,
   TaskFnReturn,
   TaskFnExamples,
+  TaskRange,
 } from 'ui';
 
 export function Details() {
@@ -20,11 +21,11 @@ export function Details() {
       </div>
       <TaskFnArguments>
         <li>
-          <Code>lightCount: number</Code> - Liczba światełek. Zakres:{' '}
-          <Code>
-            {'<'}1 - 20{'>'}
-          </Code>
-          .
+          <Code>lightCount: number</Code> - Liczba światełek.
+          <br />
+          <TaskRange min={1} max={20}>
+            Zakres:
+          </TaskRange>
         </li>
         <li>
           <Code>toggleButtons: number[][]</Code> - Definicja przycisków. i-ty
@@ -45,22 +46,18 @@ export function Details() {
           Drugi przycisk zmienia stan pierwszego i trzeciego światełka i nie
           zmienia stanu drugiego.
           <br />
-          Zakres liczby przycisków:{' '}
-          <Code>
-            {'<'}1 - 50{'>'}
-          </Code>
-          .
+          <TaskRange min={1} max={50}>
+            Zakres liczby przycisków:
+          </TaskRange>
         </li>
         <li>
           <Code>actions: number[]</Code> - Lista wykonanych akcji (wciśniętych
           przycisków). i-ty element oznacza indeks wciśniętego przycisku
           (numerowane od 0).
           <br />
-          Zakres liczby akcji:{' '}
-          <Code>
-            {'<'}1 - 50{'>'}
-          </Code>
-          .
+          <TaskRange min={1} max={50}>
+            Zakres liczby akcji:
+          </TaskRange>
         </li>
       </TaskFnArguments>
 

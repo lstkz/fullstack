@@ -2,7 +2,6 @@ import crypto from 'crypto';
 import fs from 'fs';
 import Path from 'path';
 import prettier from 'prettier';
-import { floorNumber } from './task-12/source/src/main';
 import { middleNumber } from './task-1/source/src/main';
 import { roundCurrency } from './task-2/source/src/main';
 import { warmestMonth } from './task-3/source/src/main';
@@ -12,6 +11,8 @@ import { clamp } from './task-6/source/src/main';
 import { cycledIndex } from './task-7/source/src/main';
 import { inaccurateNumbersEqual } from './task-8/source/src/main';
 import { missingNumber } from './task-9/source/src/main';
+import { lightsGame } from './task-10/source/src/main';
+import { floorNumber } from './task-12/source/src/main';
 
 const target = process.argv[2];
 
@@ -268,6 +269,82 @@ const generatorMap = {
       create(50);
       create(80);
       create(100);
+    },
+  },
+  10: {
+    fnName: 'lightsGame',
+    inputArgs: [
+      { name: 'lightCount', type: 'number' },
+      { name: 'toggleButtons', type: 'number[][]' },
+      { name: 'actions', type: 'number[]' },
+    ],
+    fn: () => {
+      addFixed(lightsGame)
+        .create(
+          2,
+          [
+            [1, 1],
+            [0, 0],
+          ],
+          [0]
+        )
+        .create(
+          2,
+          [
+            [1, 1],
+            [0, 0],
+          ],
+          [0, 0]
+        )
+        .create(
+          2,
+          [
+            [0, 1],
+            [1, 0],
+            [1, 1],
+            [1, 0],
+          ],
+          [1, 0, 1, 0, 0, 0, 0]
+        )
+        .create(
+          2,
+          [
+            [1, 0],
+            [0, 1],
+          ],
+          [0, 1, 1]
+        )
+        .create(3, [[1, 0, 1]], [0]);
+
+      const create = (
+        lightCount: number,
+        buttonCount: number,
+        actionCount: number
+      ) => {
+        const randomInt = () => crypto.randomBytes(4).readUInt32BE(0);
+        const toggleButtons = Array<number[]>(buttonCount)
+          .fill([])
+          .map(() =>
+            Array<number>(lightCount)
+              .fill(0)
+              .map(() => randomInt() % 2)
+          );
+        const actions = Array<number>(actionCount)
+          .fill(0)
+          .map(() => randomInt() % buttonCount);
+
+        const testInput = [lightCount, toggleButtons, actions] as const;
+        testCases.push({
+          in: testInput,
+          out: lightsGame(...testInput),
+        });
+      };
+      create(10, 2, 3);
+      create(10, 5, 4);
+      create(3, 25, 20);
+      create(20, 20, 20);
+      create(20, 50, 50);
+      create(20, 50, 50);
     },
   },
   12: {
