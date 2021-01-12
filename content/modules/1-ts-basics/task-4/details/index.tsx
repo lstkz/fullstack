@@ -6,6 +6,7 @@ import {
   TaskFnArguments,
   TaskFnReturn,
   TaskFnExamples,
+  TaskRange,
 } from 'ui';
 
 export function Details() {
@@ -20,8 +21,12 @@ export function Details() {
       <TaskFnArguments
         footer={
           <>
-            Możesz założyć, że każda tablica będzie zawierała min. 1 element i
-            każdy element nie będzie ujemny.
+            <TaskRange min={1} max={100}>
+              Zakres liczby elementów w każdej tablicy:
+            </TaskRange>{' '}
+            <TaskRange min={1} max={[10, 9]}>
+              Zakres elementu:
+            </TaskRange>
           </>
         }
       >
@@ -60,6 +65,10 @@ null
 // Przykład 5
 roundSum([201, 100, 301], [50, 1, 2, 0])
 [1, 3]
+
+// Przykład 6
+roundSum([5], [5])
+null
       `}
       />
     </TaskWrapper>

@@ -6,6 +6,7 @@ import { floorNumber } from './task-12/source/src/main';
 import { middleNumber } from './task-1/source/src/main';
 import { roundCurrency } from './task-2/source/src/main';
 import { warmestMonth } from './task-3/source/src/main';
+import { roundSum } from './task-4/source/src/main';
 
 const target = process.argv[2];
 
@@ -87,6 +88,31 @@ const generatorMap = {
         .create([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]);
     },
   },
+  4: {
+    fnName: 'roundSum',
+    inputArgs: [
+      { name: 'arr1', type: 'number[]' },
+      { name: 'arr2', type: 'number[]' },
+    ],
+    fn: () => {
+      addFixed(roundSum)
+        .create([60, 40], [10, 20, 30, 40])
+        .create([50, 40], [150])
+        .create([1, 2, 3, 4], [1, 2, 3])
+        .create([60, 40], [40, 60])
+        .create([201, 100, 301], [50, 1, 2, 0])
+        .create([5], [5])
+        .create(
+          [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16],
+          [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16]
+        )
+        .create([98], [1])
+        .create([100000, 1, 2, 3, 4], [1, 100000, 2, 3, 4])
+        .create([1, 100000, 2, 3, 4], [100000, 1, 2, 3, 4])
+        .create([1, 2, 3], [1, 2, 7])
+        .create([9], [1]);
+    },
+  },
   12: {
     fnName: 'floorNumber',
     inputArgs: [
@@ -153,7 +179,7 @@ function isLongIO(data: any): boolean {
     return false;
   }
   if (Array.isArray(data)) {
-    if (data.length > 15) {
+    if (data.length > 20) {
       return true;
     }
     return data.some(isLongIO);
@@ -189,7 +215,7 @@ testCases.forEach((testCase, i) => {
     ensureDir(testsDataDir);
     const outFileName = `${nr}.out.json`;
     const outFilePath = Path.join(testsDataDir, outFileName);
-    fs.writeFileSync(outFilePath, serializedIn);
+    fs.writeFileSync(outFilePath, serializedOut);
     body += `.toEqual(require('./data/${outFileName}'));`;
   } else {
     body += `.toEqual(${serializedOut});`;
