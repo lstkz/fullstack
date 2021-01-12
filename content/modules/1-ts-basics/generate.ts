@@ -11,6 +11,7 @@ import { maxStreak } from './task-5/source/src/main';
 import { clamp } from './task-6/source/src/main';
 import { cycledIndex } from './task-7/source/src/main';
 import { inaccurateNumbersEqual } from './task-8/source/src/main';
+import { missingNumber } from './task-9/source/src/main';
 
 const target = process.argv[2];
 
@@ -223,6 +224,50 @@ const generatorMap = {
         .create(0.123456, 0.12345, 5)
         .create(0.12345678, 0.12345678, 7)
         .create(1.12345671, 1.1234567, 7);
+    },
+  },
+  9: {
+    fnName: 'missingNumber',
+    inputArgs: [
+      { name: 'arr', type: 'Array<number | null>' },
+      { name: 'sum', type: 'number' },
+    ],
+    fn: () => {
+      addFixed(missingNumber)
+        .create([1, 1, 2, null], 6)
+        .create([1, 1, null, 10, 2, 2], 26)
+        .create([5, null], 10)
+        .create([null, 1, 2, 3, 2, 3], 12)
+        .create([null, 1000, 1000, 999, 999, 1], 4000)
+        .create([null, 1000, 1000, 999, 999, 998, 998, 997], 7988);
+
+      const create = (n: number) => {
+        const arr = [];
+        const set = new Set<number>();
+        let sum = 0;
+        for (let i = 0; i < n / 2; i++) {
+          let n: number = null!;
+          do {
+            n = (randomInt() % 1000) + 1;
+          } while (set.has(n));
+          set.add(n);
+          arr.push(n);
+          arr.push(n);
+          sum += 2 * n;
+        }
+        const idx = randomInt() % arr.length;
+        arr[idx] = null;
+        arr.sort(() => randomMax());
+        const testInput = [arr, sum] as const;
+        testCases.push({
+          in: testInput,
+          out: missingNumber(...testInput),
+        });
+      };
+      create(20);
+      create(50);
+      create(80);
+      create(100);
     },
   },
   12: {
