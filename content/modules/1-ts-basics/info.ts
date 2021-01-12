@@ -189,5 +189,10 @@ Moduł zawiera lekcje i zadania dla osób, które chcą zacząć swoją przygod�
       name: 'Piętro',
       videoSolution: sampleSources,
     }),
+    _getTask({
+      id: 13,
+      name: 'Wspaniałe trójki',
+      videoSolution: sampleSources,
+    }),
   ],
 };

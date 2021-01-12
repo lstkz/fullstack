@@ -14,6 +14,7 @@ import { missingNumber } from './task-9/source/src/main';
 import { lightsGame } from './task-10/source/src/main';
 import { intervals } from './task-11/source/src/main';
 import { floorNumber } from './task-12/source/src/main';
+import { awesomeTriples } from './task-13/source/src/main';
 
 const target = process.argv[2];
 
@@ -21,8 +22,8 @@ function randomInt() {
   return crypto.randomBytes(4).readUInt32BE(0);
 }
 
-function randomMax() {
-  let ret = randomInt() % (1e9 + 1);
+function randomMax(max = 1e9 + 1) {
+  let ret = randomInt() % max;
   if (randomInt() % 2) {
     ret *= -1;
   }
@@ -419,6 +420,32 @@ const generatorMap = {
       create(1000, 10000);
       create(1000, 10000);
       create(1000, 10000);
+    },
+  },
+  13: {
+    fnName: 'awesomeTriples',
+    inputArgs: [{ name: 'arr', type: 'number[]' }],
+    fn: () => {
+      const create = (n: number) => {
+        const input = Array<number>(n)
+          .fill(0)
+          .map(() => randomMax(1e4));
+
+        const testInput = [input] as const;
+        testCases.push({
+          in: testInput,
+          out: awesomeTriples(...testInput),
+        });
+      };
+      addFixed(awesomeTriples)
+        .create([1, 2, 3])
+        .create([1, 2, 3, 3])
+        .create([10, 10, 20, 30]);
+      create(10);
+      create(20);
+      create(50);
+      create(100);
+      create(100);
     },
   },
 };
