@@ -18,6 +18,7 @@ import { awesomeTriples } from './task-13/source/src/main';
 import { triangle } from './task-14/source/src/main';
 import { banknotes } from './task-15/source/src/main';
 import { equalCards } from './task-16/source/src/main';
+import { revertSubArray } from './task-17/source/src/main';
 
 const target = process.argv[2];
 
@@ -526,6 +527,39 @@ const generatorMap = {
         .create(['6d', '5c'], ['5c', '6d'])
         .create(['5c', '6d'], ['5c', '6d'])
         .create(['5c', '6d'], ['6d', '2d']);
+    },
+  },
+  17: {
+    fnName: 'revertSubArray',
+    inputArgs: [
+      { name: 'arr', type: 'number[]' },
+      { name: 'start', type: 'number' },
+      { name: 'end', type: 'number' },
+    ],
+    fn: () => {
+      addFixed(revertSubArray)
+        .create([1, 2, 3, 4, 5], 0, 1)
+        .create([1, 2, 3, 4, 5], 0, 3)
+        .create([1, 2, 3, 4, 5], 1, 3)
+        .create([1, 2, 3, 4, 5], 0, 4);
+
+      const create = (n: number, start: number, end: number) => {
+        const input = Array<number>(n)
+          .fill(0)
+          .map(() => randomMax(1e4));
+
+        const testInput = [input, start, end] as const;
+        testCases.push({
+          in: testInput,
+          out: revertSubArray(...testInput),
+        });
+      };
+      create(2, 0, 1);
+      create(50, 3, 40);
+      create(50, 39, 40);
+      create(1000, 0, 999);
+      create(10000, 0, 9999);
+      create(10000, 1, 5000);
     },
   },
 };
