@@ -15,11 +15,25 @@ import { lightsGame } from './task-10/source/src/main';
 import { intervals } from './task-11/source/src/main';
 import { floorNumber } from './task-12/source/src/main';
 import { awesomeTriples } from './task-13/source/src/main';
+import { triangle } from './task-14/source/src/main';
 
 const target = process.argv[2];
 
 function randomInt() {
   return crypto.randomBytes(4).readUInt32BE(0);
+}
+
+function randomPositiveMax(max = 1e9 + 1) {
+  let ret = randomInt() % max;
+  return ret;
+}
+
+function randomNaturalMax(max = 1e9 + 1) {
+  let ret = randomInt() % max;
+  if (ret == 0) {
+    ret = 1;
+  }
+  return ret;
 }
 
 function randomMax(max = 1e9 + 1) {
@@ -446,6 +460,30 @@ const generatorMap = {
       create(50);
       create(100);
       create(100);
+    },
+  },
+  14: {
+    fnName: 'triangle',
+    inputArgs: [
+      { name: 'a', type: 'number' },
+      { name: 'b', type: 'number' },
+      { name: 'c', type: 'number' },
+    ],
+    fn: () => {
+      addFixed(triangle)
+        .create(3, 1, 2)
+        .create(5, 5, 4)
+        .create(1, 10, 1)
+        .create(1, 1, 1)
+        .create(1, 2, 3)
+        .create(1, 3, 2)
+        .create(3, 2, 1)
+        .create(randomNaturalMax(), randomNaturalMax(), randomNaturalMax())
+        .create(randomNaturalMax(), randomNaturalMax(), randomNaturalMax())
+        .create(randomNaturalMax(), randomNaturalMax(), randomNaturalMax())
+        .create(randomNaturalMax(), randomNaturalMax(), randomNaturalMax())
+        .create(randomNaturalMax(), randomNaturalMax(), randomNaturalMax())
+        .create(randomNaturalMax(), randomNaturalMax(), randomNaturalMax());
     },
   },
 };

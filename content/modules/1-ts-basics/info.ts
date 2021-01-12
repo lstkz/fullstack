@@ -194,5 +194,10 @@ Moduł zawiera lekcje i zadania dla osób, które chcą zacząć swoją przygod�
       name: 'Wspaniałe trójki',
       videoSolution: sampleSources,
     }),
+    _getTask({
+      id: 14,
+      name: 'Trójkąt',
+      videoSolution: sampleSources,
+    }),
   ],
 };
