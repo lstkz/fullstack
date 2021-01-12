@@ -20,6 +20,7 @@ import { banknotes } from './task-15/source/src/main';
 import { equalCards } from './task-16/source/src/main';
 import { revertSubArray } from './task-17/source/src/main';
 import { calcPages } from './task-18/source/src/main';
+import { targetArraySum } from './task-19/source/src/main';
 
 const target = process.argv[2];
 
@@ -585,6 +586,41 @@ const generatorMap = {
         .create(randomNaturalMax(), randomPositiveMax(1000))
         .create(randomNaturalMax(), randomPositiveMax(1000))
         .create(randomNaturalMax(), randomPositiveMax(1000));
+    },
+  },
+  19: {
+    fnName: 'targetArraySum',
+    inputArgs: [
+      { name: 'arr', type: 'number[]' },
+      { name: 'sum', type: 'number' },
+    ],
+    fn: () => {
+      addFixed(targetArraySum)
+        .create([1, 2, 3], 3)
+        .create([1, 2, 3, 4, 5, 6], 14)
+        .create([10, 20, 30], 10)
+        .create([10, 10, 20, 1], 21);
+
+      const create = (n: number, start: number, end: number) => {
+        const input = Array<number>(n)
+          .fill(0)
+          .map(() => randomPositiveMax(1e5));
+        let sum = input.slice(start, end).reduce((a, b) => a + b);
+        const testInput = [input, sum] as const;
+        testCases.push({
+          in: testInput,
+          out: targetArraySum(...testInput),
+        });
+      };
+      create(30, 20, 30);
+      create(50, 1, 49);
+      create(50, 0, 50);
+      create(100, 0, 100);
+      create(500, 200, 300);
+      create(1000, 450, 560);
+      create(1000, 7, 8);
+      create(1000, 1, 999);
+      create(1000, 0, 1000);
     },
   },
 };

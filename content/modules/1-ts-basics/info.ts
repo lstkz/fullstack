@@ -216,7 +216,12 @@ Moduł zawiera lekcje i zadania dla osób, które chcą zacząć swoją przygod�
     }),
     _getTask({
       id: 18,
-      name: 'Strong',
+      name: 'Strony',
+      videoSolution: sampleSources,
+    }),
+    _getTask({
+      id: 19,
+      name: 'Docelowa suma',
       videoSolution: sampleSources,
     }),
   ],
