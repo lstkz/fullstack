@@ -5,6 +5,7 @@ import prettier from 'prettier';
 import { floorNumber } from './task-12/source/src/main';
 import { middleNumber } from './task-1/source/src/main';
 import { roundCurrency } from './task-2/source/src/main';
+import { warmestMonth } from './task-3/source/src/main';
 
 const target = process.argv[2];
 
@@ -67,6 +68,23 @@ const generatorMap = {
         .create(51.9999)
         .create(0)
         .create(1.000001);
+    },
+  },
+  3: {
+    fnName: 'warmestMonth',
+    inputArgs: [{ name: 'temps', type: 'number[]' }],
+    fn: () => {
+      addFixed(warmestMonth)
+        .create([1, 1, 2, 4, 5, 6, 10, 9, 9, 1, 2, 3])
+        .create([1, 1, 2, 4, 5, 6, 9, 9, 9, 1, 2, 3])
+        .create([1, 1, 2, 4, 5, 21, 20, 20, 9, 1, 2, 3])
+        .create([1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 20])
+        .create([1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 20, 1])
+        .create([20, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1])
+        .create([1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1])
+        .create([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0])
+        .create([0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0])
+        .create([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]);
     },
   },
   12: {
