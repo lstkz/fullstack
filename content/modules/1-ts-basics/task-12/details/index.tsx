@@ -22,11 +22,11 @@ export function Details() {
           element oznacza wysokość i-tego piętra w metrach. Zakres liczby
           elementów:{' '}
           <Code>
-            {'<'}1 - 500{'>'}
+            {'<'}1 - 1000{'>'}
           </Code>
           . Zakres elementu:{' '}
           <Code>
-            {'<'}1 - 10<sup>3</sup>
+            {'<'}1 - 10<sup>5</sup>
             {'>'}
           </Code>
           .
