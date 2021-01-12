@@ -3,6 +3,7 @@ import fs from 'fs';
 import Path from 'path';
 import prettier from 'prettier';
 import { floorNumber } from './task-12/source/src/main';
+import { middleNumber } from './task-1/source/src/main';
 
 const target = process.argv[2];
 
@@ -27,6 +28,30 @@ function addFixed(fn: (...args: any[]) => any) {
 }
 
 const generatorMap = {
+  1: {
+    fnName: 'middleNumber',
+    inputArgs: [
+      { name: 'a', type: 'number' },
+      { name: 'b', type: 'number' },
+      { name: 'c', type: 'number' },
+    ],
+    fn: () => {
+      addFixed(middleNumber)
+        .create(1, 2, 3)
+        .create(3, 2, 1)
+        .create(2, 3, 1)
+        .create(1, 3, 2)
+        .create(1, 1, 1)
+        .create(1, 1, 2)
+        .create(2, 1, 2)
+        .create(1e7, 1e8, 1e9)
+        .create(1e8, 1e9, 1e7)
+        .create(-10, -100, -1)
+        .create(-1, -100, -10)
+        .create(-2, -1, 0)
+        .create(0, 0, 0);
+    },
+  },
   12: {
     fnName: 'floorNumber',
     inputArgs: [
