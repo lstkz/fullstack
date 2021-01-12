@@ -9,6 +9,7 @@ import { warmestMonth } from './task-3/source/src/main';
 import { roundSum } from './task-4/source/src/main';
 import { maxStreak } from './task-5/source/src/main';
 import { clamp } from './task-6/source/src/main';
+import { cycledIndex } from './task-7/source/src/main';
 
 const target = process.argv[2];
 
@@ -167,6 +168,42 @@ const generatorMap = {
         .create(randomMax(), randomMax(), randomMax());
     },
   },
+  7: {
+    fnName: 'cycledIndex',
+    inputArgs: [
+      { name: 'arr', type: 'number[]' },
+      { name: 'idx', type: 'number' },
+    ],
+    fn: () => {
+      addFixed(cycledIndex)
+        .create([10, 11, 12, 13, 14], 4)
+        .create([10, 11, 12, 13, 14], 0)
+        .create([10, 11, 12, 13, 14], 5)
+        .create([1, 2, 3], 9)
+        .create([1, 2, 3], 100)
+        .create([1, 2, 3], 1000000)
+        .create([7], 50)
+        .create([1, 2, 3, 4, 5, 6, 7, 8, 9, 10], 1_000_000_000)
+        .create([1, 2, 3, 4, 5, 6, 7, 8, 9, 10], 999_999_999)
+        .create([1, 2, 3, 4, 5, 6, 7, 8, 9, 10], 7);
+
+      const create = (n: number) => {
+        const input = Array<number>(n)
+          .fill(0)
+          .map(() => randomMax());
+        const idx = randomInt() % 1e9;
+        const testInput = [input, idx] as const;
+        testCases.push({
+          in: testInput,
+          out: cycledIndex(...testInput),
+        });
+      };
+      create(20);
+      create(40);
+      create(70);
+      create(100);
+    },
+  },
   12: {
     fnName: 'floorNumber',
     inputArgs: [
@@ -221,8 +258,7 @@ const mainTestPath = Path.join(testsDir, 'main.test.ts');
 
 let content = `import { ${fnName} } from '../src/main';`;
 
-function ensureDir(file: string) {
-  const dirname = Path.dirname(file);
+function ensureDir(dirname: string) {
   if (!fs.existsSync(dirname)) {
     fs.mkdirSync(dirname);
   }

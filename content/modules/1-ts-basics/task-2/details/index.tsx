@@ -19,7 +19,8 @@ export function Details() {
       </div>
       <TaskFnArguments>
         <li>
-          <Code>amount: number</Code> - Kwota do zaokrąglenia.{' '}
+          <Code>amount: number</Code> - Kwota do zaokrąglenia.
+          <br />
           <TaskRange min={0} max={1000}>
             Zakres:
           </TaskRange>

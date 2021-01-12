@@ -6,6 +6,7 @@ import {
   TaskFnArguments,
   TaskFnReturn,
   TaskFnExamples,
+  TaskRange,
 } from 'ui';
 
 export function Details() {
@@ -26,15 +27,22 @@ export function Details() {
       </div>
       <TaskFnArguments>
         <li>
-          <Code>arr: number[]</Code> - Dana tablica. Tablica będzie zawierać
-          min. 1 element.
+          <Code>arr: number[]</Code> - Dana tablica.
+          <br />
+          <TaskRange min={1} max={100}>
+            Zakres liczby elementów:
+          </TaskRange>
+          <br />
+          <TaskRange min={[-10, 9]} max={[10, 9]}>
+            Zakres elementu:
+          </TaskRange>
         </li>
         <li>
-          <Code>idx: number</Code> - Indeks do obliczenia. Zakres:{' '}
-          <Code>
-            {'<'}0 - 1.000.000.000{'>'}
-          </Code>
-          .
+          <Code>idx: number</Code> - Indeks do obliczenia.
+          <br />
+          <TaskRange min={0} max={[10, 9]}>
+            Zakres:
+          </TaskRange>
         </li>
       </TaskFnArguments>
 

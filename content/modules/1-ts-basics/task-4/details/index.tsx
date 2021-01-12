@@ -23,7 +23,8 @@ export function Details() {
           <>
             <TaskRange min={1} max={100}>
               Zakres liczby elementów w każdej tablicy:
-            </TaskRange>{' '}
+            </TaskRange>
+            <br />
             <TaskRange min={1} max={[10, 9]}>
               Zakres elementu:
             </TaskRange>

@@ -22,7 +22,8 @@ export function Details() {
         <li>
           <Code>temps: number[]</Code> - Lista temperatur dla każdego miesiąca.
           Możesz założyc, że tablica ma zawsze 12 elementów. Pierwszy element to
-          temparatura w styczniu, druga to temparatura w lutym itd.{' '}
+          temparatura w styczniu, druga to temparatura w lutym itd.
+          <br />
           <TaskRange min={-50} max={50}>
             Zakres elementu:
           </TaskRange>
