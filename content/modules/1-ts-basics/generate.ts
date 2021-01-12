@@ -17,6 +17,7 @@ import { floorNumber } from './task-12/source/src/main';
 import { awesomeTriples } from './task-13/source/src/main';
 import { triangle } from './task-14/source/src/main';
 import { banknotes } from './task-15/source/src/main';
+import { equalCards } from './task-16/source/src/main';
 
 const target = process.argv[2];
 
@@ -506,6 +507,25 @@ const generatorMap = {
         .create(randomNaturalMax())
         .create(randomNaturalMax())
         .create(randomNaturalMax());
+    },
+  },
+  16: {
+    fnName: 'equalCards',
+    inputArgs: [
+      { name: 'pair1', type: '[string, string]' },
+      { name: 'pair2', type: '[string, string]' },
+    ],
+    fn: () => {
+      addFixed(equalCards)
+        .create(['2d', '3d'], ['2d', '3d'])
+        .create(['2d', '3d'], ['3d', '2d'])
+        .create(['2d', '3c'], ['3d', '2d'])
+        .create(['Ad', 'Ac'], ['Ad', 'Kd'])
+        .create(['5d', '5c'], ['5c', '5d'])
+        .create(['5d', '5c'], ['5c', '6d'])
+        .create(['6d', '5c'], ['5c', '6d'])
+        .create(['5c', '6d'], ['5c', '6d'])
+        .create(['5c', '6d'], ['6d', '2d']);
     },
   },
 };

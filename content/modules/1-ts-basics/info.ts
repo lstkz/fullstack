@@ -204,5 +204,10 @@ Moduł zawiera lekcje i zadania dla osób, które chcą zacząć swoją przygod�
       name: 'Banknoty',
       videoSolution: sampleSources,
     }),
+    _getTask({
+      id: 16,
+      name: 'Równe karty',
+      videoSolution: sampleSources,
+    }),
   ],
 };
