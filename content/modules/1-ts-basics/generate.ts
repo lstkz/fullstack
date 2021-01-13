@@ -24,6 +24,7 @@ import { targetArraySum } from './task-19/source/src/main';
 import { sumTwoGreatest } from './task-20/source/src/main';
 import { equalArrays } from './task-21/source/src/main';
 import { lowestRounding } from './task-22/source/src/main';
+import { sumAlmostTwoGreatest } from './task-23/source/src/main';
 
 const target = process.argv[2];
 
@@ -734,6 +735,41 @@ const generatorMap = {
         .create(1.134521, 2.134521)
         .create(2.134522, 2.134521)
         .create(2.134552, 2.134555);
+    },
+  },
+  23: {
+    fnName: 'sumAlmostTwoGreatest',
+    inputArgs: [
+      { name: 'arr1', type: 'number[]' },
+      { name: 'arr2', type: 'number[]' },
+    ],
+    fn: () => {
+      addFixed(sumAlmostTwoGreatest)
+        .create([1, 2, 3], [10, 20, 30])
+        .create([5, 5, 1], [1, 2])
+        .create([3, 3, 3, 3], [1, 1, 1, 1])
+        .create([1, 2, 3, 4], [4, 3, 2, 1])
+        .create([-100, -101, -102], [-10, -20, -30]);
+
+      const create = (n: number, m: number) => {
+        const input1 = Array<number>(n)
+          .fill(0)
+          .map(() => randomMax());
+        const input2 = Array<number>(m)
+          .fill(0)
+          .map(() => randomMax());
+        const testInput = [input1, input2] as const;
+        testCases.push({
+          in: testInput,
+          out: sumAlmostTwoGreatest(...testInput),
+        });
+      };
+      create(2, 100);
+      create(100, 2);
+      create(1000, 1237);
+      create(2541, 7841);
+      create(5000, 3);
+      create(1e5, 1e5);
     },
   },
 };

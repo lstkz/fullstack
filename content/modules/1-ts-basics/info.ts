@@ -239,5 +239,10 @@ Moduł zawiera lekcje i zadania dla osób, które chcą zacząć swoją przygod�
       name: 'Najmniejsze zaokrąglenie',
       videoSolution: sampleSources,
     }),
+    _getTask({
+      id: 23,
+      name: 'Suma prawie dwóch największych',
+      videoSolution: sampleSources,
+    }),
   ],
 };
