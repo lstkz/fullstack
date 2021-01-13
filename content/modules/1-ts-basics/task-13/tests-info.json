@@ -1,0 +1,45 @@
+{
+  "resultHash": "03165c2064a95efa024f79743f10c3b9f2dcab99f4597893f0dda8b9f54ec0a5",
+  "files": [
+    {
+      "path": "/.DS_Store",
+      "hash": "dd7a1449ac7e9ef79093ce133e1b593a"
+    },
+    {
+      "path": "/data/4.out.json",
+      "hash": "dddb3048b09af79155f87cd62fe24a86"
+    },
+    {
+      "path": "/data/5.out.json",
+      "hash": "e071353ce3370d78f9deeb39ad08cb30"
+    },
+    {
+      "path": "/data/6.in.json",
+      "hash": "88c9ff23cf8f7077c43f6c1710895771"
+    },
+    {
+      "path": "/data/6.out.json",
+      "hash": "a24b623381f570911e37d3762a1bda17"
+    },
+    {
+      "path": "/data/7.in.json",
+      "hash": "d4999649a71da562fe8342c7352a83b1"
+    },
+    {
+      "path": "/data/7.out.json",
+      "hash": "9381d265eb3fce017a08256d078993f3"
+    },
+    {
+      "path": "/data/8.in.json",
+      "hash": "b257e63733824142f7964c15b77d1b75"
+    },
+    {
+      "path": "/data/8.out.json",
+      "hash": "1c6e909b21d7ba7a8d37f59d837da05b"
+    },
+    {
+      "path": "/main.test.ts",
+      "hash": "ccf6cfa51c8dcacd8ad3ea8a6ea1e0eb"
+    }
+  ]
+}

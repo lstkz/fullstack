@@ -6,6 +6,7 @@ import {
   TaskFnArguments,
   TaskFnReturn,
   TaskFnExamples,
+  TaskRange,
 } from 'ui';
 
 export function Details() {
@@ -18,20 +19,26 @@ export function Details() {
         dwiema pozostałymi (jest większa lub równa od liczby pierwszej i
         mniejsza lub równa od liczba drugiej).
       </div>
-      <TaskFnArguments>
+      <TaskFnArguments
+        footer={
+          <TaskRange min={[-10, 9]} max={[10, 9]}>
+            Każda liczba jest z zakresu:
+          </TaskRange>
+        }
+      >
         <li>
-          <Code>a: number</Code> - pierwsza liczba
+          <Code>a: number</Code> - Pierwsza liczba.
         </li>
         <li>
-          <Code>b: number</Code> - druga liczba
+          <Code>b: number</Code> - Druga liczba.
         </li>
         <li>
-          <Code>c: number</Code> - trzecia liczba
+          <Code>c: number</Code> - Trzecia liczba.
         </li>
       </TaskFnArguments>
 
       <TaskFnReturn>
-        <Code>number</Code> - środkowa liczba
+        <Code>number</Code> - Środkowa liczba.
       </TaskFnReturn>
 
       <TaskFnExamples

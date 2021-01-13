@@ -11,7 +11,7 @@ export function addShownDownAction(
 }
 
 export function setupGracefulShutdown() {
-  if (process.env.NODE_ENV !== 'development') {
+  if (process.env.NODE_ENV !== 'production') {
     return;
   }
   const signals = ['SIGTERM', 'SIGINT'];

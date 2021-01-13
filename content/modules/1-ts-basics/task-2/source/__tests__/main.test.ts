@@ -1,15 +1,37 @@
 import { roundCurrency } from '../src/main';
 
-test.each([
-  [1.101, 1.1],
-  [10.59999, 10.6],
-  [4.123, 4.12],
-  [4.44499, 4.44],
-  [1000, 1000],
-  [651.33333, 651.33],
-  [51.9999, 52],
-  [0, 0],
-  [1.000001, 1],
-])('.roundCurrency(%d)', (a, expected) => {
-  expect(roundCurrency(a)).toEqual(expected);
+it('test 1', () => {
+  expect(roundCurrency(1.101)).toEqual(1.1);
+});
+
+it('test 2', () => {
+  expect(roundCurrency(10.59999)).toEqual(10.6);
+});
+
+it('test 3', () => {
+  expect(roundCurrency(4.123)).toEqual(4.12);
+});
+
+it('test 4', () => {
+  expect(roundCurrency(4.44499)).toEqual(4.44);
+});
+
+it('test 5', () => {
+  expect(roundCurrency(1000)).toEqual(1000);
+});
+
+it('test 6', () => {
+  expect(roundCurrency(651.3333)).toEqual(651.33);
+});
+
+it('test 7', () => {
+  expect(roundCurrency(51.9999)).toEqual(52);
+});
+
+it('test 8', () => {
+  expect(roundCurrency(0)).toEqual(0);
+});
+
+it('test 9', () => {
+  expect(roundCurrency(1.000001)).toEqual(1);
 });

@@ -178,5 +178,106 @@ Moduł zawiera lekcje i zadania dla osób, które chcą zacząć swoją przygod�
       videoSolution: sampleSources,
     }),
     _getTask({ id: 9, name: 'Brakująca liczba', videoSolution: sampleSources }),
+    _getTask({ id: 10, name: 'Gra w światełka', videoSolution: sampleSources }),
+    _getTask({
+      id: 11,
+      name: 'Przedziały liczb',
+      videoSolution: sampleSources,
+    }),
+    _getTask({
+      id: 12,
+      name: 'Piętro',
+      videoSolution: sampleSources,
+    }),
+    _getTask({
+      id: 13,
+      name: 'Wspaniałe trójki',
+      videoSolution: sampleSources,
+    }),
+    _getTask({
+      id: 14,
+      name: 'Trójkąt',
+      videoSolution: sampleSources,
+    }),
+    _getTask({
+      id: 15,
+      name: 'Banknoty',
+      videoSolution: sampleSources,
+    }),
+    _getTask({
+      id: 16,
+      name: 'Równe karty',
+      videoSolution: sampleSources,
+    }),
+    _getTask({
+      id: 17,
+      name: 'Odwróć część tablicy',
+      videoSolution: sampleSources,
+    }),
+    _getTask({
+      id: 18,
+      name: 'Strony',
+      videoSolution: sampleSources,
+    }),
+    _getTask({
+      id: 19,
+      name: 'Docelowa suma',
+      videoSolution: sampleSources,
+    }),
+    _getTask({
+      id: 20,
+      name: 'Suma dwóch najwiekszych',
+      videoSolution: sampleSources,
+    }),
+    _getTask({
+      id: 21,
+      name: 'Równe tablice',
+      videoSolution: sampleSources,
+    }),
+    _getTask({
+      id: 22,
+      name: 'Najmniejsze zaokrąglenie',
+      videoSolution: sampleSources,
+    }),
+    _getTask({
+      id: 23,
+      name: 'Suma prawie dwóch największych',
+      videoSolution: sampleSources,
+    }),
+    _getTask({
+      id: 24,
+      name: 'Dziwna wojna',
+      videoSolution: sampleSources,
+    }),
+    _getTask({
+      id: 25,
+      name: 'Binarna choinka',
+      videoSolution: sampleSources,
+    }),
+    _getTask({
+      id: 26,
+      name: 'Sekwencja liczb',
+      videoSolution: sampleSources,
+    }),
+    _getTask({
+      id: 27,
+      name: 'Odległość liczb',
+      videoSolution: sampleSources,
+    }),
+    _getTask({
+      id: 28,
+      name: 'Najdłuższy rosnący ciąg',
+      videoSolution: sampleSources,
+    }),
+    _getTask({
+      id: 29,
+      name: 'Hazardzista',
+      videoSolution: sampleSources,
+    }),
+    _getTask({
+      id: 30,
+      name: 'Mikstura',
+      videoSolution: sampleSources,
+    }),
   ],
 };

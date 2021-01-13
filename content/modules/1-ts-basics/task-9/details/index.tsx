@@ -6,6 +6,7 @@ import {
   TaskFnArguments,
   TaskFnReturn,
   TaskFnExamples,
+  TaskRange,
 } from 'ui';
 
 export function Details() {
@@ -22,13 +23,21 @@ export function Details() {
       <TaskFnArguments>
         <li>
           <Code>arr: {'Array<number | null>'}</Code> - Tablica liczb. Dokładnie
-          jeden element jest równy <Code>null</Code>. Liczby są z zakresu{' '}
-          <Code>
-            {'<'}0 - 10^3{'>'}.
-          </Code>
+          jeden element jest równy <Code>null</Code>.
+          <br />
+          <TaskRange min={2} max={100}>
+            Zakres liczby elementów:
+          </TaskRange>
+          <TaskRange min={1} max={1000}>
+            Zakres elementu:
+          </TaskRange>
         </li>
         <li>
           <Code>sum: number</Code> - Suma liczb.
+          <br />
+          <TaskRange min={[-10, 9]} max={[10, 9]}>
+            Zakres:
+          </TaskRange>
         </li>
       </TaskFnArguments>
 

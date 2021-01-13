@@ -26,15 +26,20 @@ export function getErrorMessage(e: any) {
 export const isConfirmKey = (code: string) => code === 'Enter' || code === ' ';
 
 export const ensureNotLoggedIn: GetServerSideProps = async context => {
-  if (readCookieFromString(context.req.headers['cookie'], 'token')) {
-    return {
-      redirect: {
-        destination: '/modules',
-        permanent: false,
-      },
-    };
+  const client = createSSRClient(context);
+  if (client.getToken()) {
+    try {
+      await client.user_getMe();
+      return {
+        redirect: {
+          destination: '/modules',
+          permanent: false,
+        },
+      };
+    } catch (e) {
+      // ignore
+    }
   }
-
   return {
     props: {},
   };

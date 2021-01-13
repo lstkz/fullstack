@@ -1,9 +1,21 @@
 {
-  "resultHash": "b07e47721e7de83036085d51c864eac619ea28ccfa82ff1128e00657ef119947",
+  "resultHash": "9a682801b5cfbd576583706ed7755a340d5e967bdc38dcdc61dde4d9504edb16",
   "files": [
     {
+      "path": "/data/12.in.json",
+      "hash": "74d6c212a3b5faa4ad02adf765515846"
+    },
+    {
+      "path": "/data/13.in.json",
+      "hash": "91b5bc5ebfe0d01266cc0e48dd448e8e"
+    },
+    {
+      "path": "/data/14.in.json",
+      "hash": "0267f6dca2854f959a614420a847fe69"
+    },
+    {
       "path": "/main.test.ts",
-      "hash": "77632c36b8c038e933b609a08f242d78"
+      "hash": "792ad0bc6424c6ba1925ce41ac7b521a"
     }
   ]
 }

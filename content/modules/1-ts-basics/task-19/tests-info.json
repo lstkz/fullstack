@@ -1,0 +1,73 @@
+{
+  "resultHash": "2322caa4fd3af77094dd37a35d5fb5104f677a17f6a383fdd5a605f44a31d66d",
+  "files": [
+    {
+      "path": "/data/10.in.json",
+      "hash": "c2a3303c048542aa0d044cecf317a945"
+    },
+    {
+      "path": "/data/10.out.json",
+      "hash": "8595a0f8ad0d790a0eb1f0075683c6d2"
+    },
+    {
+      "path": "/data/11.in.json",
+      "hash": "23fd715330bc54bc2a47c4f312fb0e35"
+    },
+    {
+      "path": "/data/12.in.json",
+      "hash": "061cb0b4396078cc0745243919a59653"
+    },
+    {
+      "path": "/data/12.out.json",
+      "hash": "f4b01ed1d84cef05229458ae79af5f78"
+    },
+    {
+      "path": "/data/13.in.json",
+      "hash": "ed87fcfe06f6d5a7bb6ae6eb2577f64a"
+    },
+    {
+      "path": "/data/13.out.json",
+      "hash": "94af732b71a5760fc55894302b4a9a45"
+    },
+    {
+      "path": "/data/5.in.json",
+      "hash": "360f37d6b1665e491985a65dcc6262e1"
+    },
+    {
+      "path": "/data/6.in.json",
+      "hash": "ae256d8c15f475063663b76352f6b3b2"
+    },
+    {
+      "path": "/data/6.out.json",
+      "hash": "17fd88ab9e688e09b68f077527654316"
+    },
+    {
+      "path": "/data/7.in.json",
+      "hash": "66aa7cfc226386481b29790cdec1df9e"
+    },
+    {
+      "path": "/data/7.out.json",
+      "hash": "0abbabb489fbe7dffb3e36c09b792985"
+    },
+    {
+      "path": "/data/8.in.json",
+      "hash": "79c683e103941572eb675aa09a084ca2"
+    },
+    {
+      "path": "/data/8.out.json",
+      "hash": "aa77178e2920134cc31a657f6cba1676"
+    },
+    {
+      "path": "/data/9.in.json",
+      "hash": "42a16098bb9e5f9541bf5d76a0e761de"
+    },
+    {
+      "path": "/data/9.out.json",
+      "hash": "9b256dc7e3cd5566b11a3b09595089dd"
+    },
+    {
+      "path": "/main.test.ts",
+      "hash": "5a1e6fd91a18d9fdb3a13494865be34b"
+    }
+  ]
+}

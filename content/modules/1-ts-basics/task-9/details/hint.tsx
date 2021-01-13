@@ -2,5 +2,10 @@ import React from 'react';
 import { Code } from 'ui';
 
 export function Hint() {
-  return <div>TODO</div>;
+  return (
+    <div>
+      Oblicz sumę wszystkich liczb w tablicy (z pominięciem <Code>nulla</Code>),
+      a następnie oblicz różnicę z podana wartością <Code>sum</Code>.
+    </div>
+  );
 }

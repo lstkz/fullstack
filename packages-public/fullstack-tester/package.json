@@ -7,7 +7,8 @@
   "scripts": {
     "tsc": "tsc --noEmit",
     "build": "rm dist/*; yarn run webpack --progress --color",
-    "jest": "jest"
+    "jest": "jest",
+    "pub": "yarn run build && cp ./dist/fs-tester.js ./publish && cp ./dist/FsReporter.js ./publish && cd publish && npm publish"
   },
   "bin": {
     "fs-tester": "dist/fs-tester.js"

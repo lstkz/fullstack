@@ -1,0 +1,11 @@
+export function equalCards(
+  pair1: [string, string],
+  pair2: [string, string]
+): boolean {
+  // TRIM_START
+  return (
+    (pair1[0] === pair2[0] && pair1[1] === pair2[1]) ||
+    (pair1[0] === pair2[1] && pair1[1] === pair2[0])
+  );
+  // TRIM_END
+}

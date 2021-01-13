@@ -24,7 +24,12 @@ async function _makePost(
     body: JSON.stringify(body),
   });
   if (res.status !== 200) {
-    throw new Error('Failed to make request return code: ' + res.status);
+    throw new Error(
+      'Failed to make request return code: ' +
+        res.status +
+        ', text: ' +
+        (await res.text())
+    );
   }
   return res.json();
 }

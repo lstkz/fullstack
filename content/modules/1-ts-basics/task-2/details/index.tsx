@@ -6,6 +6,7 @@ import {
   TaskFnArguments,
   TaskFnReturn,
   TaskFnExamples,
+  TaskRange,
 } from 'ui';
 
 export function Details() {
@@ -18,13 +19,17 @@ export function Details() {
       </div>
       <TaskFnArguments>
         <li>
-          <Code>amount: number</Code> - kwota do zaokrąglenia
+          <Code>amount: number</Code> - Kwota do zaokrąglenia.
+          <br />
+          <TaskRange min={0} max={1000}>
+            Zakres:
+          </TaskRange>
         </li>
       </TaskFnArguments>
 
       <TaskFnReturn>
-        <Code>number</Code> - zaokrąglona kwota do pełnych groszy (drugie
-        miejsce po przecinku)
+        <Code>number</Code> - Zaokrąglona kwota do pełnych groszy (drugie
+        miejsce po przecinku).
       </TaskFnReturn>
 
       <TaskFnExamples
