@@ -259,5 +259,10 @@ Moduł zawiera lekcje i zadania dla osób, które chcą zacząć swoją przygod�
       name: 'Sekwencja liczb',
       videoSolution: sampleSources,
     }),
+    _getTask({
+      id: 27,
+      name: 'Odległość liczb',
+      videoSolution: sampleSources,
+    }),
   ],
 };

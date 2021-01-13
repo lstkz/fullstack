@@ -28,6 +28,7 @@ import { sumAlmostTwoGreatest } from './task-23/source/src/main';
 import { weirdWar } from './task-24/source/src/main';
 import { xmasTree } from './task-25/source/src/main';
 import { numberSequence } from './task-26/source/src/main';
+import { numberDistance } from './task-27/source/src/main';
 
 const target = process.argv[2];
 
@@ -838,6 +839,30 @@ const generatorMap = {
         .create(456, 1000)
         .create(-1000, 1)
         .create(-1000, 1000);
+    },
+  },
+  27: {
+    fnName: 'numberDistance',
+    inputArgs: [
+      { name: 'a', type: 'number' },
+      { name: 'b', type: 'number' },
+    ],
+    fn: () => {
+      addFixed(numberDistance)
+        .create(0, 6)
+        .create(1, 6)
+        .create(-1, 6)
+        .create(-3, -5)
+        .create(-5, -3)
+        .create(3, 3)
+        .create(randomMax(), randomMax())
+        .create(randomMax(), randomMax())
+        .create(randomMax(), randomMax())
+        .create(randomMax(), randomMax())
+        .create(randomMax(), randomMax())
+        .create(randomMax(), randomMax())
+        .create(randomMax(), randomMax())
+        .create(randomMax(), randomMax());
     },
   },
 };
