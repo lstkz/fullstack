@@ -22,6 +22,7 @@ import { revertSubArray } from './task-17/source/src/main';
 import { calcPages } from './task-18/source/src/main';
 import { targetArraySum } from './task-19/source/src/main';
 import { sumTwoGreatest } from './task-20/source/src/main';
+import { equalArrays } from './task-21/source/src/main';
 
 const target = process.argv[2];
 
@@ -657,6 +658,61 @@ const generatorMap = {
       create(2541, 7841);
       create(5000, 2);
       create(1e5, 1e5);
+    },
+  },
+  21: {
+    fnName: 'equalArrays',
+    inputArgs: [
+      { name: 'arr1', type: 'number[]' },
+      { name: 'arr2', type: 'number[]' },
+    ],
+    fn: () => {
+      addFixed(equalArrays)
+        .create([1, 2], [1, 2])
+        .create([1, 2, 3], [1, 2])
+        .create([1, 2], [2, 2])
+        .create([], []);
+
+      const create = (
+        n: number,
+        modify?: (arr: number[], n: number) => number[]
+      ) => {
+        const input1 = Array<number>(n)
+          .fill(0)
+          .map(() => randomMax());
+        let input2 = [...input1];
+        if (modify) {
+          input2 = modify(input2, n);
+        }
+        const testInput = [input1, input2] as const;
+        testCases.push({
+          in: testInput,
+          out: equalArrays(...testInput),
+        });
+      };
+      create(50);
+      create(50, (arr, n) => {
+        arr[randomInt() % n] = randomMax();
+        return arr;
+      });
+      create(50, (arr, n) => {
+        arr.push(randomMax());
+        return arr;
+      });
+      create(500);
+      create(500, arr => {
+        arr.push(randomMax());
+        return arr;
+      });
+      create(1000);
+      create(1000, arr => {
+        arr.pop();
+        return arr;
+      });
+      create(1000, arr => {
+        arr.reverse();
+        return arr;
+      });
     },
   },
 };

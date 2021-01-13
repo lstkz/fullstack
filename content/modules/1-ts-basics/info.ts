@@ -229,5 +229,10 @@ Moduł zawiera lekcje i zadania dla osób, które chcą zacząć swoją przygod�
       name: 'Suma dwóch najwiekszych',
       videoSolution: sampleSources,
     }),
+    _getTask({
+      id: 21,
+      name: 'Równe tablice',
+      videoSolution: sampleSources,
+    }),
   ],
 };

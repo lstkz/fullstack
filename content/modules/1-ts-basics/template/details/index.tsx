@@ -27,7 +27,7 @@ export function Details() {
             Zakres liczby elementów:
           </TaskRange>
           <br />
-          <TaskRange min={[-10, 9]} max={[-10, 9]}>
+          <TaskRange min={[-10, 9]} max={[10, 9]}>
             Zakres elementu:
           </TaskRange>
         </li>
