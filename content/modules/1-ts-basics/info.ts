@@ -244,5 +244,10 @@ Moduł zawiera lekcje i zadania dla osób, które chcą zacząć swoją przygod�
       name: 'Suma prawie dwóch największych',
       videoSolution: sampleSources,
     }),
+    _getTask({
+      id: 24,
+      name: 'Dziwna wojna',
+      videoSolution: sampleSources,
+    }),
   ],
 };

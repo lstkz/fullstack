@@ -25,6 +25,7 @@ import { sumTwoGreatest } from './task-20/source/src/main';
 import { equalArrays } from './task-21/source/src/main';
 import { lowestRounding } from './task-22/source/src/main';
 import { sumAlmostTwoGreatest } from './task-23/source/src/main';
+import { weirdWar } from './task-24/source/src/main';
 
 const target = process.argv[2];
 
@@ -770,6 +771,36 @@ const generatorMap = {
       create(2541, 7841);
       create(5000, 3);
       create(1e5, 1e5);
+    },
+  },
+  24: {
+    fnName: 'weirdWar',
+    inputArgs: [{ name: 'arr', type: 'number[]' }],
+    fn: () => {
+      addFixed(weirdWar)
+        .create([1, 2, 3])
+        .create([4, 1, 2, 3])
+        .create([1, 1])
+        .create([4])
+        .create([1, 1, 1, 3, 3, 3])
+        .create([1, 1, 1, 3, 3]);
+
+      const create = (n: number) => {
+        const input = Array<number>(n)
+          .fill(0)
+          .map(() => randomMax());
+        const testInput = [input] as const;
+        testCases.push({
+          in: testInput,
+          out: weirdWar(...testInput),
+        });
+      };
+      create(20);
+      create(50);
+      create(100);
+      create(1000);
+      create(5000);
+      create(10000);
     },
   },
 };
