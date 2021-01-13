@@ -254,5 +254,10 @@ Moduł zawiera lekcje i zadania dla osób, które chcą zacząć swoją przygod�
       name: 'Binarna choinka',
       videoSolution: sampleSources,
     }),
+    _getTask({
+      id: 26,
+      name: 'Sekwencja liczb',
+      videoSolution: sampleSources,
+    }),
   ],
 };

@@ -27,6 +27,7 @@ import { lowestRounding } from './task-22/source/src/main';
 import { sumAlmostTwoGreatest } from './task-23/source/src/main';
 import { weirdWar } from './task-24/source/src/main';
 import { xmasTree } from './task-25/source/src/main';
+import { numberSequence } from './task-26/source/src/main';
 
 const target = process.argv[2];
 
@@ -818,6 +819,25 @@ const generatorMap = {
         .create(32)
         .create(49)
         .create(50);
+    },
+  },
+  26: {
+    fnName: 'numberSequence',
+    inputArgs: [{ name: 'arr', type: 'number[]' }],
+    fn: () => {
+      addFixed(numberSequence)
+        .create(1, 3)
+        .create(3, 1)
+        .create(0, 1)
+        .create(-5, -3)
+        .create(-2, -5)
+        .create(-10, 14)
+        .create(-14, 21)
+        .create(-100, 0)
+        .create(0, 1000)
+        .create(456, 1000)
+        .create(-1000, 1)
+        .create(-1000, 1000);
     },
   },
 };
