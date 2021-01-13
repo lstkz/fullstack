@@ -264,5 +264,10 @@ Moduł zawiera lekcje i zadania dla osób, które chcą zacząć swoją przygod�
       name: 'Odległość liczb',
       videoSolution: sampleSources,
     }),
+    _getTask({
+      id: 28,
+      name: 'Najdłuższy rosnący ciąg',
+      videoSolution: sampleSources,
+    }),
   ],
 };

@@ -29,6 +29,7 @@ import { weirdWar } from './task-24/source/src/main';
 import { xmasTree } from './task-25/source/src/main';
 import { numberSequence } from './task-26/source/src/main';
 import { numberDistance } from './task-27/source/src/main';
+import { longestIncreasing } from './task-28/source/src/main';
 
 const target = process.argv[2];
 
@@ -863,6 +864,48 @@ const generatorMap = {
         .create(randomMax(), randomMax())
         .create(randomMax(), randomMax())
         .create(randomMax(), randomMax());
+    },
+  },
+  28: {
+    fnName: 'longestIncreasing',
+    inputArgs: [{ name: 'arr', type: 'number[]' }],
+    fn: () => {
+      addFixed(longestIncreasing)
+        .create([1, 2, 3, 1, 2])
+        .create([1, 1, 1])
+        .create([1, 5, 10, 15])
+        .create([1, 5, 10, 9, 15])
+        .create([10, -6, -5, 0, 2, 1]);
+
+      const create = (n: number) => {
+        const input = Array<number>(n)
+          .fill(0)
+          .map(() => randomMax());
+
+        const testInput = [input] as const;
+        testCases.push({
+          in: testInput,
+          out: longestIncreasing(...testInput),
+        });
+      };
+      create(20);
+      create(30);
+      create(100);
+      create(1000);
+      const input1 = Array<number>(1000)
+        .fill(0)
+        .map((_, i) => i * 2);
+      testCases.push({
+        in: [input1],
+        out: longestIncreasing(input1),
+      });
+      const input2 = Array<number>(1000)
+        .fill(0)
+        .map((_, i) => i * 2 - 1e6);
+      testCases.push({
+        in: [input1],
+        out: longestIncreasing(input2),
+      });
     },
   },
 };
