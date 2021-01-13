@@ -274,5 +274,10 @@ Moduł zawiera lekcje i zadania dla osób, które chcą zacząć swoją przygod�
       name: 'Hazardzista',
       videoSolution: sampleSources,
     }),
+    _getTask({
+      id: 30,
+      name: 'Mikstura',
+      videoSolution: sampleSources,
+    }),
   ],
 };

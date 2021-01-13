@@ -31,6 +31,7 @@ import { numberSequence } from './task-26/source/src/main';
 import { numberDistance } from './task-27/source/src/main';
 import { longestIncreasing } from './task-28/source/src/main';
 import { gambler } from './task-29/source/src/main';
+import { mixture } from './task-30/source/src/main';
 
 const target = process.argv[2];
 
@@ -938,6 +939,34 @@ const generatorMap = {
         .create(randomNaturalMax(), randomNaturalMax())
         .create(randomNaturalMax(), randomNaturalMax())
         .create(randomNaturalMax(), randomNaturalMax());
+    },
+  },
+  30: {
+    fnName: 'mixture',
+    inputArgs: [
+      { name: 'a', type: 'number' },
+      { name: 'b', type: 'number' },
+      { name: 'c', type: 'number' },
+    ],
+    fn: () => {
+      addFixed(mixture)
+        .create(2, 5, 3)
+        .create(100, 100, 4)
+        .create(4, 10, 6)
+        .create(6, 15, 12)
+        .create(6, 15, 0)
+        .create(randomNaturalMax(), randomNaturalMax(), randomNaturalMax())
+        .create(randomNaturalMax(), randomNaturalMax(), randomNaturalMax())
+        .create(randomNaturalMax(), randomNaturalMax(), randomNaturalMax())
+        .create(randomNaturalMax(), randomNaturalMax(), randomNaturalMax())
+        .create(randomNaturalMax(), randomNaturalMax(), randomNaturalMax())
+        .create(randomNaturalMax(), randomNaturalMax(), randomNaturalMax())
+        .create(randomNaturalMax(), randomNaturalMax(), randomNaturalMax())
+        .create(randomNaturalMax(), randomNaturalMax(), randomNaturalMax())
+        .create(randomNaturalMax(), randomNaturalMax(), randomNaturalMax())
+        .create(0, randomNaturalMax(), randomNaturalMax())
+        .create(randomNaturalMax(), 0, randomNaturalMax())
+        .create(randomNaturalMax(), randomNaturalMax(), 0);
     },
   },
 };
