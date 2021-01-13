@@ -249,5 +249,10 @@ Moduł zawiera lekcje i zadania dla osób, które chcą zacząć swoją przygod�
       name: 'Dziwna wojna',
       videoSolution: sampleSources,
     }),
+    _getTask({
+      id: 25,
+      name: 'Binarna choinka',
+      videoSolution: sampleSources,
+    }),
   ],
 };

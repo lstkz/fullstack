@@ -26,6 +26,7 @@ import { equalArrays } from './task-21/source/src/main';
 import { lowestRounding } from './task-22/source/src/main';
 import { sumAlmostTwoGreatest } from './task-23/source/src/main';
 import { weirdWar } from './task-24/source/src/main';
+import { xmasTree } from './task-25/source/src/main';
 
 const target = process.argv[2];
 
@@ -801,6 +802,22 @@ const generatorMap = {
       create(1000);
       create(5000);
       create(10000);
+    },
+  },
+  25: {
+    fnName: 'xmasTree',
+    inputArgs: [{ name: 'arr', type: 'number[]' }],
+    fn: () => {
+      addFixed(xmasTree)
+        .create(1)
+        .create(2)
+        .create(3)
+        .create(4)
+        .create(10)
+        .create(15)
+        .create(32)
+        .create(49)
+        .create(50);
     },
   },
 };
