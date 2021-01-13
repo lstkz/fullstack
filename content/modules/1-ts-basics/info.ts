@@ -269,5 +269,10 @@ Moduł zawiera lekcje i zadania dla osób, które chcą zacząć swoją przygod�
       name: 'Najdłuższy rosnący ciąg',
       videoSolution: sampleSources,
     }),
+    _getTask({
+      id: 29,
+      name: 'Hazardzista',
+      videoSolution: sampleSources,
+    }),
   ],
 };

@@ -30,6 +30,7 @@ import { xmasTree } from './task-25/source/src/main';
 import { numberSequence } from './task-26/source/src/main';
 import { numberDistance } from './task-27/source/src/main';
 import { longestIncreasing } from './task-28/source/src/main';
+import { gambler } from './task-29/source/src/main';
 
 const target = process.argv[2];
 
@@ -906,6 +907,37 @@ const generatorMap = {
         in: [input1],
         out: longestIncreasing(input2),
       });
+    },
+  },
+  29: {
+    fnName: 'gambler',
+    inputArgs: [
+      { name: 'maxBet', type: 'number' },
+      { name: 'amount', type: 'number' },
+    ],
+    fn: () => {
+      addFixed(gambler)
+        .create(100, 7)
+        .create(100, 8)
+        .create(100, 13)
+        .create(2, 7)
+        .create(30, 30)
+        .create(5, 22)
+        .create(1e5, 1e5)
+        .create(1e5 + 1, 1e5)
+        .create(1e9, 1e9)
+        .create(1, 1e9)
+        .create(2, 1e9)
+        .create(13, 1e9)
+        .create(1441, 1e9)
+        .create(randomNaturalMax(), randomNaturalMax())
+        .create(randomNaturalMax(), randomNaturalMax())
+        .create(randomNaturalMax(), randomNaturalMax())
+        .create(randomNaturalMax(), randomNaturalMax())
+        .create(randomNaturalMax(), randomNaturalMax())
+        .create(randomNaturalMax(), randomNaturalMax())
+        .create(randomNaturalMax(), randomNaturalMax())
+        .create(randomNaturalMax(), randomNaturalMax());
     },
   },
 };
