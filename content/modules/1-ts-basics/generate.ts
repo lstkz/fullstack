@@ -23,6 +23,7 @@ import { calcPages } from './task-18/source/src/main';
 import { targetArraySum } from './task-19/source/src/main';
 import { sumTwoGreatest } from './task-20/source/src/main';
 import { equalArrays } from './task-21/source/src/main';
+import { lowestRounding } from './task-22/source/src/main';
 
 const target = process.argv[2];
 
@@ -713,6 +714,26 @@ const generatorMap = {
         arr.reverse();
         return arr;
       });
+    },
+  },
+  22: {
+    fnName: 'lowestRounding',
+    inputArgs: [
+      { name: 'a', type: 'number' },
+      { name: 'b', type: 'number' },
+    ],
+    fn: () => {
+      addFixed(lowestRounding)
+        .create(0.34, 0.341)
+        .create(1.2345, 1.2)
+        .create(1.2345, 1.23)
+        .create(1.111111, 1.122222)
+        .create(1.251111, 1.222222)
+        .create(1.2, 2.2)
+        .create(1.2, 2.2)
+        .create(1.134521, 2.134521)
+        .create(2.134522, 2.134521)
+        .create(2.134552, 2.134555);
     },
   },
 };

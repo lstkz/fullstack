@@ -234,5 +234,10 @@ Moduł zawiera lekcje i zadania dla osób, które chcą zacząć swoją przygod�
       name: 'Równe tablice',
       videoSolution: sampleSources,
     }),
+    _getTask({
+      id: 22,
+      name: 'Najmniejsze zaokrąglenie',
+      videoSolution: sampleSources,
+    }),
   ],
 };
