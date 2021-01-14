@@ -49,7 +49,12 @@ module.exports = {
   purge: {
     content: ['./src/**/*.ts', './src/**/*.tsx'],
     options: {
-      safelist: [/^text-/, /^bg-/],
+      safelist: [
+        /^text-/,
+        /^bg-/,
+        // tasks
+        'pl-8',
+      ],
     },
   },
   darkMode: false, // or 'media' or 'class'

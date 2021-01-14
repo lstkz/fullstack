@@ -46,12 +46,12 @@ function App({ Component, pageProps, initialUser }: AppProps & GlobalProps) {
         <link rel="icon" type="image/png" href="/favicon-32x32.png?2" />
       </Head>
       <AuthModule initialUser={initialUser}>
-        <SubscriptionModalsModule>
-          <ErrorModalModule>
+        <ErrorModalModule>
+          <SubscriptionModalsModule>
             <Component {...pageProps} />
             <ConfirmEmailChecker />
-          </ErrorModalModule>
-        </SubscriptionModalsModule>
+          </SubscriptionModalsModule>
+        </ErrorModalModule>
       </AuthModule>
       <div id="portals" />
     </>

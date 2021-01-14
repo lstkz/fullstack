@@ -58,7 +58,8 @@ function createTasks(
   stack: cdk.Stack,
   cluster: ecs.Cluster,
   dockerImage: ecs.AssetImage,
-  lbListener: elbv2.ApplicationListener
+  lbListener: elbv2.ApplicationListener,
+  bucket: s3.Bucket
 ) {
   const apiTask = new ecs.Ec2TaskDefinition(stack, 'ApiTask', {});
   const workerTask = new ecs.Ec2TaskDefinition(stack, 'WorkerTask', {});
@@ -67,8 +68,16 @@ function createTasks(
   const taskPolicy = new iam.PolicyStatement();
   taskPolicy.addAllResources();
   taskPolicy.addActions('ses:sendEmail');
+  taskPolicy.addActions('ec2:*');
+  taskPolicy.addActions('route53:*');
   apiTask.addToTaskRolePolicy(taskPolicy);
   workerTask.addToTaskRolePolicy(taskPolicy);
+
+  const s3Policy = new iam.PolicyStatement();
+  s3Policy.addResources(bucket.bucketArn);
+  s3Policy.addActions('s3:*');
+  apiTask.addToTaskRolePolicy(s3Policy);
+  workerTask.addToTaskRolePolicy(s3Policy);
 
   const apiContainer = apiTask.addContainer('ApiContainer', {
     image: dockerImage,
@@ -140,7 +149,7 @@ function createTasks(
       healthCheck: {},
       conditions: [
         elbv2.ListenerCondition.hostHeaders([config.deploy.lbDomain]),
-        elbv2.ListenerCondition.pathPatterns(['/rpc/*']),
+        elbv2.ListenerCondition.pathPatterns(['/rpc/*', '/socket']),
       ],
       priority: 10,
       stickinessCookieDuration: cdk.Duration.minutes(2),
@@ -255,13 +264,13 @@ function createCDN(stack: cdk.Stack) {
     maxCapacity: config.deploy.vmCapacity.count,
   });
 
-  createMainBucket(stack);
+  const bucket = createMainBucket(stack);
   const dockerImage = ecs.ContainerImage.fromAsset(
     Path.join(__dirname, '../../..'),
     {}
   );
   const { loadBalancer, lbListener } = createLoadBalancer(stack, vpc);
-  createTasks(stack, cluster, dockerImage, lbListener);
+  createTasks(stack, cluster, dockerImage, lbListener, bucket);
   const cdnDist = createCDN(stack);
 
   const zone = route53.HostedZone.fromHostedZoneAttributes(

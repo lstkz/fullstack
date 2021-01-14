@@ -7,7 +7,7 @@ interface TaskSplitPaneProps {
   ide: React.ReactNode;
 }
 
-const DEFAULT_SIZE = 300;
+const DEFAULT_SIZE = 550;
 
 export function TaskSplitPane(props: TaskSplitPaneProps) {
   const { details, ide } = props;

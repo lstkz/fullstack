@@ -82,7 +82,12 @@ export default class MyCustomReporter implements Reporter {
     if (results.wasInterrupted) {
       return;
     }
-    if (results.numFailedTests || results.numPendingTests) {
+    if (
+      results.numFailedTests ||
+      results.numPendingTests ||
+      results.numFailedTestSuites ||
+      results.numRuntimeErrorTestSuites
+    ) {
       console.log(chalk.red('PLEASE FIX TESTS...'));
       return;
     }

@@ -21,13 +21,25 @@ export const getSolutionUploadUrl = createContract(
       now.getDate(),
       `${randomString(20)}.tar.gz`,
     ].join('/');
-    const { url, fields } = s3.createPresignedPost({
-      Bucket: config.aws.s3Bucket,
-      Fields: {
-        key: key,
-      },
-      Conditions: [['content-length-range', 1, 10 * 1024 * 1024]],
-    });
+
+    const { url, fields } = await new Promise((resolve, reject) =>
+      s3.createPresignedPost(
+        {
+          Bucket: config.aws.s3Bucket,
+          Fields: {
+            key: key,
+          },
+          Conditions: [['content-length-range', 1, 10 * 1024 * 1024]],
+        },
+        (err, data) => {
+          if (err) {
+            reject(err);
+          } else {
+            resolve(data);
+          }
+        }
+      )
+    );
     return { url, key, fields };
   });
 
