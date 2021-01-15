@@ -49,7 +49,7 @@ export const info: ModuleUpload = {
 Naucz się kompletnych podstaw Typescripta i algorytmiki.
 Moduł zawiera lekcje i zadania dla osób, które chcą zacząć swoją przygodę z programowaniem.
 `.trim(),
-  packageJson: JSON.stringify(require('./package-template.json')),
+  packageJson: JSON.stringify(require('./package-template.json'), null, 2),
   isPending: false,
   estimatedPracticeTimeHours: 100,
 
