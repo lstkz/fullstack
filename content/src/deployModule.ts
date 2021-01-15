@@ -40,7 +40,7 @@ async function _collectSources(tasks: TaskInfo[]) {
           if (file.fullPath.endsWith('.ts')) {
             let content = await fs.readFile(file.fullPath, 'utf8');
             content = content.replace(
-              /(\/\/ TRIM_START)(.*?)(\/\/ TRIM_END)/s,
+              /(\/\/ TRIM_START)(.*?)(\/\/ TRIM_END)/gs,
               ``
             );
             await fs.writeFile(targetPath, content);

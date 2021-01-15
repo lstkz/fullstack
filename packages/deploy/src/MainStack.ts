@@ -74,7 +74,7 @@ function createTasks(
   workerTask.addToTaskRolePolicy(taskPolicy);
 
   const s3Policy = new iam.PolicyStatement();
-  s3Policy.addResources(bucket.bucketArn);
+  s3Policy.addResources(bucket.bucketArn + '/*');
   s3Policy.addActions('s3:*');
   apiTask.addToTaskRolePolicy(s3Policy);
   workerTask.addToTaskRolePolicy(s3Policy);
