@@ -1,6 +1,7 @@
 import { config } from 'config';
 import { S } from 'schema';
 import { AssignedVMCollection } from '../../collections/AssignedVM';
+import { ModuleCollection } from '../../collections/Module';
 import { PreparedTaskCollection } from '../../collections/PreparedTask';
 import { getPreparedTaskId } from '../../common/helper';
 import { prepareVMFolder } from '../../common/vm-helper';
@@ -21,6 +22,16 @@ export const prepareFolder = createContract('vm.prepareFolder')
     const { moduleId, taskId, assignedVMId } = values;
     const vm = await AssignedVMCollection.findByIdOrThrow(assignedVMId);
     const task = await getActiveTask(moduleId, taskId);
+    const module = await ModuleCollection.findOneOrThrow(
+      {
+        _id: moduleId,
+      },
+      {
+        projection: {
+          packageJson: 1,
+        },
+      }
+    );
     const downloadUrl = config.cdnBaseUrl + '/' + task.sourceS3Key;
     const folderPath = `/home/ubuntu/${moduleId}/${taskId}`;
     await prepareVMFolder({
@@ -29,6 +40,7 @@ export const prepareFolder = createContract('vm.prepareFolder')
       folderPath,
       downloadUrl,
       setupCommand: 'yarn',
+      packageJson: module.packageJson,
     });
     const preparedTaskId = getPreparedTaskId({
       awsId: vm.awsId!,

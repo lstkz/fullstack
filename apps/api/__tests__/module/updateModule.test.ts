@@ -18,6 +18,7 @@ it('should insert and update a module', async () => {
         id: 'm1',
         name: 'module 1',
         description: 'desc 1',
+        packageJson: '{}',
         isPending: false,
         estimatedPracticeTimeHours: 10,
         lessons: [
@@ -72,6 +73,7 @@ it('should insert and update a module', async () => {
           },
         ],
         "name": "module 1",
+        "packageJson": "{}",
         "tasks": Array [
           Object {
             "detailsS3Key": "details key",
@@ -98,6 +100,7 @@ it('should insert and update a module', async () => {
         id: 'm1',
         name: 'module 2',
         description: 'desc 2',
+        packageJson: '{"name": "foo"}',
         isPending: false,
         estimatedPracticeTimeHours: 20,
         lessons: [
@@ -177,6 +180,7 @@ it('should insert and update a module', async () => {
           },
         ],
         "name": "module 2",
+        "packageJson": "{\\"name\\": \\"foo\\"}",
         "tasks": Array [
           Object {
             "detailsS3Key": "details key",
@@ -211,6 +215,7 @@ it('should throw if not admin', async () => {
         values: {
           id: 'm1',
           name: 'module 1',
+          packageJson: '',
           description: 'desc 1',
           isPending: false,
           estimatedPracticeTimeHours: 1,

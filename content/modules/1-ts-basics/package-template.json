@@ -1,0 +1,6 @@
+{
+  "name": "1-ts-basics",
+  "version": "1.0.0",
+  "private": true,
+  "workspaces": ["*"]
+}

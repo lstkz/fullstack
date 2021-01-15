@@ -45,6 +45,7 @@ interface PrepareVMFolderOptions {
   folderPath: string;
   downloadUrl: string;
   setupCommand: string;
+  packageJson: string;
 }
 
 export async function prepareVMFolder(options: PrepareVMFolderOptions) {

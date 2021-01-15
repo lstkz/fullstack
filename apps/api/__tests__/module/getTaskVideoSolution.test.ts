@@ -28,6 +28,7 @@ beforeEach(async () => {
       _id: 'm1',
       name: 'module 1',
       description: 'desc 1',
+      packageJson: '{}',
       isPending: false,
       estimatedPracticeTimeHours: 1,
       lessons: [],
