@@ -95,9 +95,9 @@ async function start() {
       });
       const body = validate(req.body, schema);
       await runCommand(`rm -rf ${body.folderPath}`);
+      await runCommand(`mkdir -p ${body.folderPath}`);
       const packageJsonPath = Path.join(body.folderPath, '..', 'package.json');
       fs.writeFileSync(packageJsonPath, body.packageJson);
-      await runCommand(`mkdir -p ${body.folderPath}`);
       await runCommand(
         `wget -c ${body.downloadUrl} -O - | tar -xz`,
         body.folderPath
