@@ -17,14 +17,19 @@ it('should throw if not pro', async () => {
 });
 
 it('should return data', async () => {
-  s3.createPresignedPost = () => ({
-    url: 'http://example.org',
-    fields: {
-      Policy: 'policy',
-      'X-Amz-Signature': 'sig',
-      foo: 'bar',
-    },
-  });
+  s3.createPresignedPost = ((
+    params: any,
+    cb: (err: any, data: any) => void
+  ) => {
+    cb(null, {
+      url: 'http://example.org',
+      fields: {
+        Policy: 'policy',
+        'X-Amz-Signature': 'sig',
+        foo: 'bar',
+      },
+    });
+  }) as any;
   const ret = await execContract(getSolutionUploadUrl, {}, 'user1_token');
   expect(ret.key).toBeTruthy();
   ret.key = 'mocked';

@@ -66,10 +66,9 @@ export const getAllModules = createContract('module.getAllModules')
   })
   .returns<Module[]>()
   .fn(async user => {
-    const modules: Array<ModuleResult> = await ModuleCollection.findAll(
-      {},
+    const modules: Array<ModuleResult> = await ModuleCollection.aggregate([
       {
-        projection: {
+        $project: {
           name: 1,
           description: 1,
           estimatedPracticeTimeHours: 1,
@@ -77,8 +76,8 @@ export const getAllModules = createContract('module.getAllModules')
           totalTasks: { $size: '$tasks' },
           totalLessons: { $size: '$lessons' },
         },
-      }
-    );
+      },
+    ]);
     const [lessonProgressMap, taskProgressMap] = await Promise.all([
       _getLessonProgressMap(user?._id),
       _getTaskProgressMap(user?._id),

@@ -35,10 +35,10 @@ function _getRequeueDelay(retry: number) {
   if (retry < 10) {
     return m;
   }
-  if (retry < 20) {
-    return 15 * m;
+  if (retry < 100) {
+    return 5 * m;
   }
-  return 60 * m;
+  return 20 * m;
 }
 
 interface AmpqOptions {

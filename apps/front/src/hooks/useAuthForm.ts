@@ -4,7 +4,7 @@ import { AuthData } from 'shared';
 import { getErrorMessage } from 'src/common/helper';
 import { createUrl } from 'src/common/url';
 import { useAuthActions } from 'src/features/AuthModule';
-import { setAccessToken } from 'src/services/Storage';
+import { clearAccessToken, setAccessToken } from 'src/services/Storage';
 
 interface UseAuthFormOptions {
   submit: () => Promise<AuthData>;
@@ -22,6 +22,7 @@ export function useAuthForm(options: UseAuthFormOptions) {
     setIsSubmitting(true);
     setError('');
     try {
+      clearAccessToken();
       const ret = await submit();
       setAccessToken(ret.token);
       authActions.setUser(ret.user);

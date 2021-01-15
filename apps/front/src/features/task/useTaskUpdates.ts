@@ -11,7 +11,7 @@ export function useTaskUpdates(defaultTask: ModuleTaskDetails) {
   useLayoutEffectFix(() => {
     const socketUrl =
       API_URL.replace(/^http/, 'ws') +
-      '/?token=' +
+      '/socket?token=' +
       encodeURIComponent(getAccessToken() ?? '');
     const ws = new WS(socketUrl);
     const onMessage = (e: MessageEvent<any>) => {

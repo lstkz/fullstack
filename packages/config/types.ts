@@ -16,6 +16,7 @@ export interface AppConfig {
     dbName: string;
   };
   aws: {
+    region: string;
     sesRegion: string;
     s3Bucket: string;
     s3CDNBucket: string;
