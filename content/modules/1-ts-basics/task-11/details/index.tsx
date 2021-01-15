@@ -34,7 +34,7 @@ export function Details() {
 
       <TaskFnReturn>
         <Code>number[][]</Code> - Podzielona tablica. Liczba elementów powinna
-        być możliwe jak najmniejsza (sub-tablice powinny zawierać możliwie jak
+        być możliwie jak najmniejsza (sub-tablice powinny zawierać możliwie jak
         najwięcej elementów).
       </TaskFnReturn>
 

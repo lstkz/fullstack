@@ -41,7 +41,7 @@ export function Details() {
       </TaskFnArguments>
 
       <TaskFnReturn>
-        <Code>number</Code> - Ilość przegranych z rząd, które są potrzebne do
+        <Code>number</Code> - Ilość przegranych pod rząd, które są potrzebne do
         przegrania wszystkich pieniędzy. Zakładamy, że każda gra kończy się
         przegraną.
       </TaskFnReturn>

@@ -15,7 +15,7 @@ export function Details() {
       <TaskTitle>Sekwencja liczb</TaskTitle>
       <div>
         Zaimplementuj funkcję <Code>numberSequence</Code>, która generuje
-        sekwencję liczb między danymi przedziałami. Sekwencja może być zarówna
+        sekwencję liczb między danymi przedziałami. Sekwencja może być zarówno
         rosnąca, jak i malejąca.
       </div>
       <TaskFnArguments>
@@ -37,7 +37,7 @@ export function Details() {
       </TaskFnArguments>
 
       <TaskFnReturn>
-        <Code>number</Code> - Foo.
+        <Code>number[]</Code> - Wygenerowana sekwencja.
       </TaskFnReturn>
 
       <TaskFnExamples

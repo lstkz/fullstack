@@ -40,7 +40,7 @@ export function Details() {
 
       <TaskFnReturn>
         <Code>string[]</Code> - Binarna choinka, gdzie każdy element to poziom
-        choinki..
+        choinki.
       </TaskFnReturn>
 
       <TaskFnExamples

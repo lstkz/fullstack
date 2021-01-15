@@ -9,7 +9,7 @@ export function Hint() {
       <Code>max1</Code>. Jeżeli jest większy to ustaw wartość <Code>max1</Code>{' '}
       na ten element.
       <br />
-      Stwórz zmienna <Code>max2</Code> i napisz analogiczny kod dla drugiej
+      Stwórz zmienną <Code>max2</Code> i napisz analogiczny kod dla drugiej
       tablicy.
     </div>
   );

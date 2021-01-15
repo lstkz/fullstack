@@ -8,7 +8,7 @@ export function Hint() {
       obecna suma jest większa od danej wysokości, to znaczy, że iterowane
       piętro zawiera tę wysokość. Trzeba również sprawdzić dodatkowy warunek,
       czy dana wysokość jest równa wysokości całego budynku. Jeżeli tak, to
-      znaczy, że ostatnie piętro znajduję się na danej wysokości.
+      znaczy, że ostatnie piętro znajduje się na danej wysokości.
     </div>
   );
 }

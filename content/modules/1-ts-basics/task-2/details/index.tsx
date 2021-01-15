@@ -15,7 +15,7 @@ export function Details() {
       <TaskTitle>Pełna kwota</TaskTitle>
       <div>
         Zaimplementuj funkcję <Code>roundCurrency</Code>, która powinna
-        zaokraglić kwotę do pełnych groszy.
+        zaokrąglić kwotę do pełnych groszy.
       </div>
       <TaskFnArguments>
         <li>
