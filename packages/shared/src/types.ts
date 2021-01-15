@@ -79,6 +79,7 @@ export interface ModuleUpload {
   isPending: boolean;
   name: string;
   description: string;
+  packageJson: string;
   estimatedPracticeTimeHours: number;
   lessons: ModuleLessonUpload[];
   tasks: ModuleTaskUpload[];

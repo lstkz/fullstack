@@ -123,9 +123,10 @@ export class APIClient {
   module_updateModule(values: {
     name: string;
     description: string;
+    isPending: boolean;
     estimatedPracticeTimeHours: number;
     id: string;
-    isPending: boolean;
+    packageJson: string;
     lessons: {
       name: string;
       id: number;

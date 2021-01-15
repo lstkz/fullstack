@@ -131,6 +131,7 @@ export function getModuleData(id: number, isPending = false): ModuleModel {
   return {
     _id: `m${id}`,
     name: `module ${id}`,
+    packageJson: '{}',
     description: `desc ${id}`,
     isPending: isPending,
     estimatedPracticeTimeHours: id * 10,
@@ -144,6 +145,7 @@ export async function createModules() {
     _id: 'm1',
     name: 'module 1',
     description: 'test module 1',
+    packageJson: '{}',
     isPending: false,
     lessons: [],
     estimatedPracticeTimeHours: 1,

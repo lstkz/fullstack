@@ -20,6 +20,7 @@ export const updateModule = createContract('module.updateModule')
       name: S.string(),
       description: S.string(),
       estimatedPracticeTimeHours: S.number(),
+      packageJson: S.string(),
       lessons: S.array().items(
         S.object().keys({
           id: S.number(),

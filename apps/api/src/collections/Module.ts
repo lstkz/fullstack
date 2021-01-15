@@ -32,6 +32,7 @@ export interface ModuleModel {
   isPending: boolean;
   name: string;
   description: string;
+  packageJson: string;
   estimatedPracticeTimeHours: number;
   lessons: ModuleLessonModel[];
   tasks: ModuleTaskModel[];
