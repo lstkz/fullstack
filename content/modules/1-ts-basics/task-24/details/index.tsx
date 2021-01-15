@@ -14,7 +14,7 @@ export function Details() {
     <TaskWrapper>
       <TaskTitle>Dziwna wojna</TaskTitle>
       <div>
-        Zaimplementuj funkcję <Code>weirdWar</Code>. Dziwna gra polega na
+        Zaimplementuj funkcję <Code>strangeWar</Code>. Dziwna gra polega na
         usuwaniu na zmianę liczb. Najpierw usuwa się liczbę najmniejszą, a
         później największą. Oblicz, jaka liczba zostanie zagrana jako ostania.
       </div>
@@ -39,27 +39,27 @@ export function Details() {
       <TaskFnExamples
         code={`
 // Przykład 1
-weirdWar([1, 2, 3])
+strangeWar([1, 2, 3])
 2
 
 // Przykład 2
-weirdWar([4, 1, 2, 3])
+strangeWar([4, 1, 2, 3])
 3
 
 // Przykład 3
-weirdWar([1, 1])
+strangeWar([1, 1])
 1
 
 // Przykład 4
-weirdWar([4])
+strangeWar([4])
 4
 
 // Przykład 5
-weirdWar([1, 1, 1, 3, 3, 3])
+strangeWar([1, 1, 1, 3, 3, 3])
 3
 
 // Przykład 6
-weirdWar([1, 1, 1, 3, 3])
+strangeWar([1, 1, 1, 3, 3])
 1
       `}
       />

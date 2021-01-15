@@ -25,7 +25,7 @@ import { sumTwoGreatest } from './task-20/source/src/main';
 import { equalArrays } from './task-21/source/src/main';
 import { lowestRounding } from './task-22/source/src/main';
 import { sumAlmostTwoGreatest } from './task-23/source/src/main';
-import { weirdWar } from './task-24/source/src/main';
+import { strangeWar } from './task-24/source/src/main';
 import { xmasTree } from './task-25/source/src/main';
 import { numberSequence } from './task-26/source/src/main';
 import { numberDistance } from './task-27/source/src/main';
@@ -780,10 +780,10 @@ const generatorMap = {
     },
   },
   24: {
-    fnName: 'weirdWar',
+    fnName: 'strangeWar',
     inputArgs: [{ name: 'arr', type: 'number[]' }],
     fn: () => {
-      addFixed(weirdWar)
+      addFixed(strangeWar)
         .create([1, 2, 3])
         .create([4, 1, 2, 3])
         .create([1, 1])
@@ -798,7 +798,7 @@ const generatorMap = {
         const testInput = [input] as const;
         testCases.push({
           in: testInput,
-          out: weirdWar(...testInput),
+          out: strangeWar(...testInput),
         });
       };
       create(20);
