@@ -27,7 +27,7 @@ function getConfig(name, plugins = []) {
     },
     externals: [
       function (context, request, callback) {
-        if (/^node-fetch|^form-data|^tar|^chalk/.test(request)) {
+        if (/^node-fetch|^form-data|^tar|^chalk|^archiver/.test(request)) {
           return callback(null, 'commonjs ' + request);
         }
         callback();

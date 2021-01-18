@@ -1,8 +1,9 @@
 import chalk from 'chalk';
-import tar from 'tar';
 import fs from 'fs';
 import fetch from 'node-fetch';
 import FormData from 'form-data';
+import Archiver from 'archiver';
+import Path from 'path';
 import tmp from 'tmp';
 import type { AggregatedResult } from '@jest/test-result';
 import type {
@@ -15,38 +16,50 @@ import { getApiClient } from './getApiClient';
 import util from 'util';
 import { getTaskInfo } from './getTaskInfo';
 
-async function _zipFolder(source: string, target: string) {
-  await new Promise(resolve =>
-    tar
-      .create(
-        {
-          gzip: true,
-          portable: true,
-          cwd: source,
-          filter(path, stat) {
-            if (
-              ['__tests__', '.git', 'node_modules', '.log'].some(part =>
-                path.endsWith(part)
-              )
-            ) {
-              return false;
-            }
-            if (stat.size > 256 * 1024 * 1024) {
-              console.log(
-                chalk.yellow(
-                  `ignoring file ${path}. File too big (limit 256KB).`
-                )
-              );
-              return false;
-            }
-            return true;
-          },
-        },
-        ['.']
+function _getSourceFiles(dir: string) {
+  const results: Array<{ fullPath: string; stats: fs.Stats }> = [];
+  const list = fs.readdirSync(dir);
+  list.forEach(name => {
+    if (
+      ['__tests__', '.git', 'node_modules', '.log'].some(part =>
+        name.endsWith(part)
       )
-      .pipe(fs.createWriteStream(target))
-      .on('close', resolve)
-  );
+    ) {
+      return;
+    }
+    const fullPath = Path.join(dir, name);
+    var stats = fs.statSync(fullPath);
+    if (stats && stats.isDirectory()) {
+      results.push(..._getSourceFiles(fullPath));
+    } else {
+      if (stats.size > 256 * 1024 * 1024) {
+        console.log(
+          chalk.yellow(`ignoring file ${fullPath}. File too big (limit 256KB).`)
+        );
+      } else {
+        results.push({ fullPath, stats });
+      }
+    }
+  });
+  return results;
+}
+
+async function _zipFolder(source: string, target: string) {
+  return new Promise((resolve, reject) => {
+    const archive = Archiver('zip', {});
+    const output = fs.createWriteStream(target);
+    output.on('close', resolve);
+    output.on('error', reject);
+    archive.pipe(output);
+    const files = _getSourceFiles(source);
+    files.forEach(({ fullPath, stats }) => {
+      archive.file(fullPath, {
+        name: Path.relative(source, fullPath),
+        stats,
+      });
+    });
+    archive.finalize();
+  });
 }
 
 async function _uploadS3(
