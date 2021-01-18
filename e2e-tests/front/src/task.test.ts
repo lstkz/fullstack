@@ -37,6 +37,7 @@ beforeEach(() => {
       email: 'user1@example.org',
       id: 'user1',
       isVerified: true,
+      hasSubscription: true,
     };
   });
   task = {
