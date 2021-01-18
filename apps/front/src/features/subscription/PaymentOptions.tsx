@@ -51,6 +51,7 @@ export function PaymentOptions() {
                 type="button"
                 key={item.id}
                 role="radio"
+                data-test={`payment-${item.id}`}
                 aria-checked={item.id === groupId}
                 onClick={() =>
                   setValue('groupId', item.id, {

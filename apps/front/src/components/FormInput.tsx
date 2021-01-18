@@ -37,6 +37,7 @@ export const ContextFormInput = (props: ContextFormInputProps) => {
       {...rest}
       ref={register()}
       name={name}
+      testId={`${name}-input`}
       error={errors[name]?.message}
     />
   );

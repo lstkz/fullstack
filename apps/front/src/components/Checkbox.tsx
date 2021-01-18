@@ -11,6 +11,7 @@ export interface CheckboxProps {
   onChange: (isChecked: boolean) => void;
   feedback?: string;
   state?: 'error';
+  testId?: string;
 }
 
 export function Checkbox(props: CheckboxProps) {
@@ -22,10 +23,11 @@ export function Checkbox(props: CheckboxProps) {
     onChange,
     feedback,
     state,
+    testId,
   } = props;
 
   return (
-    <div className={cx('mb-4', className)}>
+    <div className={cx('mb-4', className)} data-test={testId}>
       <div
         id={id}
         tabIndex={0}

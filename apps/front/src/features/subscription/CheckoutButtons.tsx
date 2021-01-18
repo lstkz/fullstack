@@ -10,7 +10,12 @@ export function CheckoutButtons(props: CheckoutButtonsProps) {
   const { isSubmitting, isDone } = props;
   return (
     <div>
-      <Button type="primary" htmlType="submit" loading={isSubmitting || isDone}>
+      <Button
+        testId="submit-btn"
+        type="primary"
+        htmlType="submit"
+        loading={isSubmitting || isDone}
+      >
         {isDone ? 'Przekierowywanie do płatności...' : ' Zamawiam i płacę'}
       </Button>
     </div>
