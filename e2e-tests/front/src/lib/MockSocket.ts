@@ -14,7 +14,7 @@ export class MockSocket {
         public onmessage: (e: any) => void = null;
         protected isClosed = false;
         constructor(url: string, options: any) {
-          if (!url.includes('/?token')) {
+          if (!url.includes('/socket?token')) {
             return new OrgWebSocket(url, options) as any;
           }
           (window as any).mockSocket = this;
@@ -54,10 +54,14 @@ export class MockSocket {
   async sendMessage(message: AppSocketMsg) {
     await this.page.evaluate(data => {
       const mockSocket: any = (window as any).mockSocket;
-      mockSocket.onmessage({
-        data,
-      });
+      if (mockSocket) {
+        mockSocket.onmessage({
+          data,
+        });
+      } else {
+        throw new Error('mock socket not found');
+      }
     }, JSON.stringify(message));
-    await this.page.waitFor(1);
+    await this.page.waitForTimeout(1);
   }
 }

@@ -29,8 +29,8 @@ export function useAuthForm(options: UseAuthFormOptions) {
       await router.push(redirectUrl ?? createUrl({ name: 'modules' }));
     } catch (e) {
       setError(getErrorMessage(e));
+      setIsSubmitting(false);
     }
-    setIsSubmitting(false);
   };
 
   return {

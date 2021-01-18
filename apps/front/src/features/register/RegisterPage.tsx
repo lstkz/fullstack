@@ -21,9 +21,10 @@ interface FormValues {
 
 export function RegisterPage() {
   const { errors, register, handleSubmit, getValues } = useForm<FormValues>();
+  const redirectUrl = createUrl({ name: 'subscription' });
   const { error, isSubmitting, onSubmit } = useAuthForm({
     submit: () => api.user_register(R.omit(getValues(), ['confirmPassword'])),
-    redirectUrl: createUrl({ name: 'subscription' }),
+    redirectUrl,
   });
 
   return (
@@ -116,7 +117,7 @@ export function RegisterPage() {
         >
           Załóż konto
         </Button>
-        <SocialFormButtons source="register" />
+        <SocialFormButtons redirectUrl={redirectUrl} source="register" />
       </form>
     </FullPageForm>
   );

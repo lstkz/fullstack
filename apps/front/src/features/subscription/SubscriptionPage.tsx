@@ -74,7 +74,10 @@ export function SubscriptionPage(props: SubscriptionPageProps) {
       <HeadTitle title="Kup abonament" />
       <form onSubmit={handleSubmit(onSubmit)}>
         <Dashboard>
-          <div className="container grid md:grid-cols-12 gap-8 my-8 md:grid-rows-1 grid-flow-row-dense">
+          <div
+            data-test="subscription-page"
+            className="container grid md:grid-cols-12 gap-8 my-8 md:grid-rows-1 grid-flow-row-dense"
+          >
             <div className="md:col-start-7 md:col-span-6 lg:col-start-8 lg:col-span-5">
               <OrderDetails subscriptionPlans={subscriptionPlans} />
             </div>
