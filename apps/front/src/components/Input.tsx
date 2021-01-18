@@ -87,7 +87,10 @@ export function Input(props: InputProps) {
         )}
       />
       {feedback && (
-        <InputFeedback color={state === 'error' ? 'danger' : undefined}>
+        <InputFeedback
+          color={state === 'error' ? 'danger' : undefined}
+          testId={testId && testId + '-error'}
+        >
           {feedback}
         </InputFeedback>
       )}
