@@ -8,7 +8,7 @@
     "tsc": "tsc --noEmit",
     "build": "rm dist/*; yarn run webpack --progress --color",
     "jest": "jest",
-    "pub": "yarn run build && cp ./dist/fs-tester.js ./publish && cp ./dist/FsReporter.js ./publish && cd publish && npm publish"
+    "pub": "yarn run build && cp ./dist/fs-tester.js ./publish/dist && cp ./dist/FsReporter.js ./publish/dist && cd publish && npm publish"
   },
   "bin": {
     "fs-tester": "dist/fs-tester.js"
@@ -17,11 +17,12 @@
   "author": "",
   "license": "UNLICENSED",
   "dependencies": {
+    "@types/archiver": "^5.1.0",
+    "archiver": "^5.2.0",
     "chalk": "^4.1.0",
     "chokidar": "^3.2.3",
     "form-data": "^3.0.0",
-    "node-fetch": "^2.6.1",
-    "tar": "^6.0.5"
+    "node-fetch": "^2.6.1"
   },
   "devDependencies": {
     "@types/mz": "^0.0.32",

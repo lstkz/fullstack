@@ -19,7 +19,7 @@ export const getSolutionUploadUrl = createContract(
       now.getFullYear(),
       now.getMonth() + 1,
       now.getDate(),
-      `${randomString(20)}.tar.gz`,
+      `${randomString(20)}.zip`,
     ].join('/');
 
     const { url, fields } = await new Promise((resolve, reject) =>
