@@ -18,6 +18,8 @@ import { FormCheckbox } from 'src/components/FormCheckbox';
 import Link from 'next/link';
 import { createUrl } from 'src/common/url';
 import { HeadTitle } from 'src/components/HeadTitle';
+import { useUser } from '../AuthModule';
+import { useRouter } from 'next/dist/client/router';
 
 interface SubscriptionPageProps {
   subscriptionPlans: SubscriptionPlan[];
@@ -31,6 +33,8 @@ export interface SubscriptionFormValues extends UserInfoFormFields {
 
 export function SubscriptionPage(props: SubscriptionPageProps) {
   const { subscriptionPlans, info } = props;
+  const user = useUser();
+  const router = useRouter();
   const [isSubmitting, setIsSubmitting] = React.useState(false);
   const [isDone, setIsDone] = React.useState(false);
   const errorModalActions = useErrorModalActions();
@@ -47,6 +51,11 @@ export function SubscriptionPage(props: SubscriptionPageProps) {
         .validate();
     },
   });
+  React.useEffect(() => {
+    if (!user) {
+      void router.push(createUrl({ name: 'login' }));
+    }
+  }, []);
   const { handleSubmit } = formMethods;
 
   const onSubmit = async (values: SubscriptionFormValues) => {

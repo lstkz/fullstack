@@ -30,6 +30,7 @@ export function FormCheckbox(props: FormCheckboxProps) {
         });
       }}
       state={error ? 'error' : undefined}
+      testId={name}
     />
   );
 }
