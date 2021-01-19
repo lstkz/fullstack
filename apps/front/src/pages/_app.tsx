@@ -12,6 +12,7 @@ import { createSSRClient } from 'src/common/helper';
 import '../styles/global.css';
 import '../styles/react-select.css';
 import '../styles/plyr.css';
+import useScrollRestoration from 'src/hooks/useScrollRestoration';
 
 config.autoAddCss = false;
 
@@ -19,7 +20,13 @@ interface GlobalProps {
   initialUser: User | null;
 }
 
-function App({ Component, pageProps, initialUser }: AppProps & GlobalProps) {
+function App({
+  Component,
+  pageProps,
+  initialUser,
+  router,
+}: AppProps & GlobalProps) {
+  useScrollRestoration(router);
   return (
     <>
       <Head>
