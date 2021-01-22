@@ -7,17 +7,29 @@ import { ErrorModalModule } from 'src/features/ErrorModalModule';
 import { SubscriptionModalsModule } from 'src/features/SubscriptionModalsModule';
 import { AuthModule } from 'src/features/AuthModule';
 import { User } from 'shared';
+import mixpanel from 'mixpanel-browser';
 import { ConfirmEmailChecker } from 'src/features/ConfirmEmailChecker';
 import { createSSRClient } from 'src/common/helper';
 import '../styles/global.css';
 import '../styles/react-select.css';
 import '../styles/plyr.css';
 import useScrollRestoration from 'src/hooks/useScrollRestoration';
+import { API_URL, MIXPANEL_API_KEY } from 'src/config';
 
 config.autoAddCss = false;
 
 interface GlobalProps {
   initialUser: User | null;
+}
+
+if (MIXPANEL_API_KEY !== '-1') {
+  mixpanel.init(
+    MIXPANEL_API_KEY,
+    {
+      api_host: API_URL + '/track',
+    },
+    ''
+  );
 }
 
 function App({
