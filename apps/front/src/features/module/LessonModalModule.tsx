@@ -4,6 +4,7 @@ import { useImmer } from 'use-immer';
 import { useModulePageActions, useOptionalLesson } from './ModulePage';
 import { Player } from '../../components/Player';
 import { useOnKey } from 'src/hooks/useOnKey';
+import { useRouter } from 'next/router';
 
 interface Actions {
   show: (lessonId: number) => void;
@@ -26,23 +27,40 @@ export interface LessonModalProps {
 export function LessonModalModule(props: LessonModalProps) {
   const { children } = props;
   const [state, setState] = useImmer<State>({ isOpen: false, lessonId: null });
+  const router = useRouter();
   const actions = React.useMemo<Actions>(
     () => ({
-      hide: () =>
-        setState(draft => {
-          draft.isOpen = false;
-        }),
-
+      hide: () => {
+        const newQuery = {
+          ...(router.query ?? {}),
+        };
+        delete newQuery.lesson;
+        void router.push({
+          query: newQuery,
+        });
+      },
       show: lessonId => {
-        setState(draft => {
-          draft.isOpen = true;
-          draft.lessonId = lessonId;
+        void router.push({
+          query: {
+            ...(router.query ?? {}),
+            lesson: lessonId,
+          },
         });
       },
     }),
     []
   );
+
+  React.useEffect(() => {
+    setState(draft => {
+      const lessonId = Number(router.query?.lesson);
+      draft.isOpen = !!lessonId;
+      draft.lessonId = lessonId;
+    });
+  }, [router.query?.lesson]);
+
   const { isOpen, lessonId } = state;
+
   const lesson = useOptionalLesson(lessonId);
   useOnKey({
     isEnabled: isOpen,
