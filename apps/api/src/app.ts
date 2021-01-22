@@ -17,6 +17,7 @@ import { reportError } from './common/bugsnag';
 import { startSockets } from './socket';
 import { addShownDownAction, setupGracefulShutdown } from './shutdown';
 import { getDuration } from './common/helper';
+import { trackMiddleware } from './middlewares/trackMiddleware';
 
 const app = express();
 const server = stoppable(http.createServer(app), getDuration(30, 's'));
@@ -27,7 +28,13 @@ Promise.all([connect(), ampq.connect(['publish', 'socket'])])
     await createCollections();
     app.use(domainMiddleware);
     app.use(compression());
-    app.use(cors());
+    app.use(
+      cors({
+        origin: config.appBaseUrl,
+        credentials: true,
+      })
+    );
+    app.use(trackMiddleware);
     app.use(bodyParser.json());
     app.use(
       bodyParser.urlencoded({

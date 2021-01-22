@@ -41,6 +41,9 @@ export interface AppConfig {
     port: number;
   };
   emailSender: string;
+  mixpanel: {
+    apiKey: string | -1;
+  };
   bugsnag: {
     apiKey: string | -1;
     workerKey: string | -1;

@@ -14,6 +14,7 @@ export function runScript(
     env: {
       ...process.env,
       NODE_ENV: nodeEnv,
+      FS_PUBLIC_MIXPANEL_API_KEY: config.mixpanel.apiKey.toString(),
       FS_PUBLIC_BUGSNAG_API_KEY: config.bugsnag.frontKey.toString(),
       FS_PUBLIC_GITHUB_CLIENT_ID: config.github.clientId,
       FS_PUBLIC_GOOGLE_CLIENT_ID: config.google.clientId,
