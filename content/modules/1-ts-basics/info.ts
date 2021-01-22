@@ -57,18 +57,46 @@ Moduł zawiera lekcje i zadania dla osób, które chcą zacząć swoją przygod�
     {
       id: 1,
       name: 'Wprowadzenie',
-      sources: sampleSources,
+      sources: [
+        {
+          resolution: '4k',
+          url:
+            'https://cdn.fullstack.pl/assets/lekcja-1-4k.c75b9f12b7764492cf30c8107e81c30b.mp4',
+        },
+        {
+          resolution: '1080p',
+          url:
+            'https://cdn.fullstack.pl/assets/lekcja-1-1080p.60692c62cc679787d91b6450cb856741.mp4',
+        },
+        {
+          resolution: '720p',
+          url:
+            'https://cdn.fullstack.pl/assets/lekcja-1-720p.7a3ce5291f95489b634d5868db9c6841.mp4',
+        },
+      ],
     },
     {
       id: 2,
       name: 'Deklaracja zmiennych.',
-      sources: sampleSources,
+      sources: [
+        {
+          resolution: '4k',
+          url:
+            'https://cdn.fullstack.pl/assets/2021-01-20_14-16-56.d1d33c8be64a421b700960fa76422ad2.mp4',
+        },
+      ],
     },
     {
       id: 3,
       name:
         'Typy podstawowe: number, string, boolean, null, undefined, any, unknown.',
-      sources: sampleSources,
+      sources: [
+        {
+          resolution: '4k',
+          url:
+            'https://cdn.fullstack.pl/assets/2021-01-20_14-04-28.ec3e8a5a9000d094d587c81ebe151b4c.mp4',
+        },
+      ],
     },
     {
       id: 4,

@@ -24,6 +24,7 @@ export function Player(props: PlayerProps) {
     '1080p': 1080,
     '720p': 720,
     '5k': 2880,
+    '4k': 2160,
   };
 
   useLayoutEffectFix(() => {

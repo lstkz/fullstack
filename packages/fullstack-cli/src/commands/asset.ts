@@ -5,6 +5,7 @@ import crypto from 'crypto';
 import mime from 'mime-types';
 import AWS from 'aws-sdk';
 import { getConfig } from 'config';
+import { checkS3KeyExists } from '../helper';
 
 function md5File(path: string) {
   return new Promise((resolve, reject) => {
@@ -45,20 +46,27 @@ export async function uploadAsset(path: string) {
   const name = Path.basename(path, ext);
   const hash = await md5File(path);
   const s3Key = `assets/${name}.${hash}${ext}`;
-  console.log('https://cdn.fullstack.pl/' + s3Key);
-  await s3
-    .upload({
-      Bucket: config.aws.s3CDNBucket,
-      Key: s3Key,
-      Body: fs.createReadStream(path),
-      ContentType: contentType,
-      ContentLength: fs.statSync(path).size,
-    })
-    .promise();
+  const exists = await checkS3KeyExists(s3, config.aws.s3CDNBucket, s3Key);
+  if (!exists) {
+    await s3
+      .upload({
+        Bucket: config.aws.s3CDNBucket,
+        Key: s3Key,
+        Body: fs.createReadStream(path),
+        ContentType: contentType,
+        ContentLength: fs.statSync(path).size,
+      })
+      .promise();
+  }
+  return {
+    url: 'https://cdn.fullstack.pl/' + s3Key,
+    s3Key,
+  };
 }
 
 export function init() {
   program.command('asset <path>').action(async path => {
-    await uploadAsset(path);
+    const ret = await uploadAsset(path);
+    console.log(ret.url);
   });
 }

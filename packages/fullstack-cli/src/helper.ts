@@ -107,3 +107,25 @@ export function getModulePath(moduleNr: number) {
   const modulePath = path.join(modules, moduleName);
   return { moduleName, modulePath };
 }
+
+export async function checkS3KeyExists(
+  s3: AWS.S3,
+  bucketName: string,
+  key: string
+) {
+  return await s3
+    .headObject({
+      Bucket: bucketName,
+      Key: key,
+    })
+    .promise()
+    .then(
+      () => true,
+      err => {
+        if (err.code === 'NotFound') {
+          return false;
+        }
+        throw err;
+      }
+    );
+}

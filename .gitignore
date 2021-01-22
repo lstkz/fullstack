@@ -21,6 +21,7 @@ dist-source
 */config/*.key.txt
 */config/stage.ts
 content/modules/*/_videos
+content/modules/*/playground
 content/modules/**/yarn.lock
 
 # Runtime data
