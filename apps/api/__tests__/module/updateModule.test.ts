@@ -25,6 +25,7 @@ it('should insert and update a module', async () => {
           {
             id: 1,
             name: 'l1',
+            duration: '1:00',
             sources: [
               {
                 resolution: '720',
@@ -62,6 +63,7 @@ it('should insert and update a module', async () => {
         "isPending": false,
         "lessons": Array [
           Object {
+            "duration": "1:00",
             "id": 1,
             "name": "l1",
             "sources": Array [
@@ -107,6 +109,7 @@ it('should insert and update a module', async () => {
           {
             id: 1,
             name: 'l1',
+            duration: '1:00',
             sources: [
               {
                 resolution: '720',
@@ -117,6 +120,7 @@ it('should insert and update a module', async () => {
           {
             id: 2,
             name: 'l2',
+            duration: '1:00',
             sources: [
               {
                 resolution: '720',
@@ -159,6 +163,7 @@ it('should insert and update a module', async () => {
         "isPending": false,
         "lessons": Array [
           Object {
+            "duration": "1:00",
             "id": 1,
             "name": "l1",
             "sources": Array [
@@ -169,6 +174,7 @@ it('should insert and update a module', async () => {
             ],
           },
           Object {
+            "duration": "1:00",
             "id": 2,
             "name": "l2",
             "sources": Array [
