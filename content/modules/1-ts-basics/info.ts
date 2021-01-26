@@ -56,113 +56,151 @@ Moduł zawiera lekcje i zadania dla osób, które chcą zacząć swoją przygod�
   lessons: [
     {
       id: 1,
-      name: 'Wprowadzenie',
-      sources: [
-        {
-          resolution: '4k',
-          url:
-            'https://cdn.fullstack.pl/assets/lekcja-1-4k.c75b9f12b7764492cf30c8107e81c30b.mp4',
-        },
-        {
-          resolution: '1080p',
-          url:
-            'https://cdn.fullstack.pl/assets/lekcja-1-1080p.60692c62cc679787d91b6450cb856741.mp4',
-        },
-        {
-          resolution: '720p',
-          url:
-            'https://cdn.fullstack.pl/assets/lekcja-1-720p.7a3ce5291f95489b634d5868db9c6841.mp4',
-        },
-      ],
+      name: 'Wprowadzenie.',
+      duration: '7:20',
+      sources:
+        // [
+        //   {
+        //     resolution: '4k',
+        //     url:
+        //       'https://cdn.fullstack.pl/assets/lekcja-1-4k.c75b9f12b7764492cf30c8107e81c30b.mp4',
+        //   },
+        //   {
+        //     resolution: '1080p',
+        //     url:
+        //       'https://cdn.fullstack.pl/assets/lekcja-1-1080p.60692c62cc679787d91b6450cb856741.mp4',
+        //   },
+        //   {
+        //     resolution: '720p',
+        //     url:
+        //       'https://cdn.fullstack.pl/assets/lekcja-1-720p.7a3ce5291f95489b634d5868db9c6841.mp4',
+        //   },
+        // ],
+        [
+          {
+            resolution: '4k',
+            url:
+              'https://cdn.fullstack.pl/assets/lekcja-1-4k.92bb0e3baff01f32a365c3002053f41d.mp4',
+          },
+          {
+            resolution: '1080p',
+            url:
+              'https://cdn.fullstack.pl/assets/lekcja-1-1080p.5b44397d00e8e6b3e9076935c7e2a2f1.mp4',
+          },
+          {
+            resolution: '720p',
+            url:
+              'https://cdn.fullstack.pl/assets/lekcja-1-720p.eb0324afa215c87cb570758492a80bd7.mp4',
+          },
+        ],
     },
     {
       id: 2,
-      name: 'Deklaracja zmiennych.',
-      sources: [
-        {
-          resolution: '4k',
-          url:
-            'https://cdn.fullstack.pl/assets/2021-01-20_14-16-56.d1d33c8be64a421b700960fa76422ad2.mp4',
-        },
-      ],
+      name:
+        'Deklaracja zmiennych: number, string, boolean, null, undefined, any.',
+      duration: '8:55',
+      sources:
+        // [
+        //   {
+        //     resolution: '4k',
+        //     url:
+        //       'https://cdn.fullstack.pl/assets/lekcja-2-4k.e52adedb369efe8133e73193cbfb9da1.mp4',
+        //   },
+        //   {
+        //     resolution: '1080p',
+        //     url:
+        //       'https://cdn.fullstack.pl/assets/lekcja-2-1080p.811e4cb050c4e76d7ec0732c35c9be4e.mp4',
+        //   },
+        //   {
+        //     resolution: '720p',
+        //     url:
+        //       'https://cdn.fullstack.pl/assets/lekcja-2-720p.81ff9a6b04c906278e51c1afde1be388.mp4',
+        //   },
+        // ],
+        [
+          {
+            resolution: '4k',
+            url:
+              'https://cdn.fullstack.pl/assets/lekcja-2-4k.bd1274261274e46270e27ac9f1941e5d.mp4',
+          },
+          {
+            resolution: '1080p',
+            url:
+              'https://cdn.fullstack.pl/assets/lekcja-2-1080p.f049c7450a1c19575cb80b341c939b1f.mp4',
+          },
+          {
+            resolution: '720p',
+            url:
+              'https://cdn.fullstack.pl/assets/lekcja-2-720p.accb03d6d6aa6356f0249f2feeec34db.mp4',
+          },
+        ],
     },
     {
       id: 3,
       name:
-        'Typy podstawowe: number, string, boolean, null, undefined, any, unknown.',
+        'Operatory: jednoargumentowe, dwuargumentowe, przypisania, porównania, logiczne.',
+      duration: '8:23',
       sources: [
         {
           resolution: '4k',
           url:
-            'https://cdn.fullstack.pl/assets/2021-01-20_14-04-28.ec3e8a5a9000d094d587c81ebe151b4c.mp4',
+            'https://cdn.fullstack.pl/assets/lekcja-3-4k.c2a00336153d41b6b0e141cbd84a0f51.mp4',
+        },
+        {
+          resolution: '1080p',
+          url:
+            'https://cdn.fullstack.pl/assets/lekcja-3-1080p.54f9d63517b6856bb3e56dc599ac0638.mp4',
+        },
+        {
+          resolution: '720p',
+          url:
+            'https://cdn.fullstack.pl/assets/lekcja-3-720p.49c512a6635e615fc09e47c7812b6300.mp4',
         },
       ],
     },
     {
       id: 4,
-      name: 'Tablice.',
-      sources: sampleSources,
+      name: 'Operatory binarne.',
+      duration: '5:04',
+      sources: [
+        {
+          resolution: '4k',
+          url:
+            'https://cdn.fullstack.pl/assets/lekcja-4-4k.be09a55c5e820b4708f54ded603a448c.mp4',
+        },
+        {
+          resolution: '1080p',
+          url:
+            'https://cdn.fullstack.pl/assets/lekcja-4-1080p.da3cef380af9c3b6873604b2e2f68c71.mp4',
+        },
+        {
+          resolution: '720p',
+          url:
+            'https://cdn.fullstack.pl/assets/lekcja-4-720p.bf387b5093bf37ff47dfc6058566cd15.mp4',
+        },
+      ],
     },
     {
       id: 5,
-      name: 'Operatory jednoargumentowe: ++, --.',
-      sources: sampleSources,
-    },
-    {
-      id: 6,
-      name: 'Operatory dwuargumentowe podstawowe: +, -, *, **, /, %.',
-      sources: sampleSources,
-    },
-    {
-      id: 7,
-      name: 'Operatory dwuargumentowe binarne: |, ^, &, >>, <<.',
-      sources: sampleSources,
-    },
-    {
-      id: 8,
-      name:
-        'Operatory przypisania: =, +=, -=, *=, **=, /=, %=, &=, |=, ^=, <<=, >>=.',
-      sources: sampleSources,
-    },
-    {
-      id: 9,
-      name: 'Operatory porównania: <, >, <=, >=, ==, !=, ===, !===.',
-      sources: sampleSources,
-    },
-    {
-      id: 10,
-      name: 'Operatory logiczne: !, ||, &&.',
-      sources: sampleSources,
-    },
-    {
-      id: 11,
-      name: 'Warunki: if..else.',
-      sources: sampleSources,
-    },
-    {
-      id: 12,
-      name: 'Operator trójskładnikowy (ternary operator).',
-      sources: sampleSources,
-    },
-    {
-      id: 13,
-      name: 'Petla for, for of, while.',
-      sources: sampleSources,
-    },
-    {
-      id: 14,
-      name: 'Podstawy funkcji.',
-      sources: sampleSources,
-    },
-    {
-      id: 15,
-      name: 'Podstawowe funkcje w Math.',
-      sources: sampleSources,
-    },
-    {
-      id: 16,
-      name: 'Podstawowe funkcje w tablicy.',
-      sources: sampleSources,
+      name: 'Instrukcje warunkowe If, ternary operator, falsy values.',
+      duration: '8:02',
+      sources: [
+        {
+          resolution: '4k',
+          url:
+            'https://cdn.fullstack.pl/assets/lekcja-5-4k.3e0ed3f802eb59e350892520dea4af78.mp4',
+        },
+        {
+          resolution: '1080p',
+          url:
+            'https://cdn.fullstack.pl/assets/lekcja-5-1080p.4c2ec2400ad9de23c92fc1390923f9e2.mp4',
+        },
+        {
+          resolution: '720p',
+          url:
+            'https://cdn.fullstack.pl/assets/lekcja-5-720p.ff4ed20aa47e4493f9a46d3f80df7d39.mp4',
+        },
+      ],
     },
   ],
   tasks: [

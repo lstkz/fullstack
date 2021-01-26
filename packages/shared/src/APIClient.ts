@@ -130,6 +130,7 @@ export class APIClient {
     lessons: {
       name: string;
       id: number;
+      duration: string;
       sources: { url: string; resolution: string }[];
     }[];
     tasks: {

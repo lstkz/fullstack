@@ -25,6 +25,7 @@ export const updateModule = createContract('module.updateModule')
         S.object().keys({
           id: S.number(),
           name: S.string(),
+          duration: S.string(),
           sources: getVideoSourcesSchema(),
         })
       ),

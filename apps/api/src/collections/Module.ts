@@ -4,6 +4,7 @@ import { createCollection } from '../db';
 export interface ModuleLessonModel {
   id: number;
   name: string;
+  duration: string;
   sources: VideoUpload[];
 }
 

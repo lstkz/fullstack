@@ -82,6 +82,7 @@ export const getModule = createContract('module.getModule')
       lessons: module.lessons.map(item => ({
         id: item.id,
         name: item.name,
+        duration: item.duration,
         sources: user ? item.sources : [],
         isWatched: lessonProgressMap[item.id]?.isWatched ?? false,
       })),
