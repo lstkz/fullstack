@@ -202,6 +202,94 @@ Moduł zawiera lekcje i zadania dla osób, które chcą zacząć swoją przygod�
         },
       ],
     },
+    {
+      id: 6,
+      name: 'Deklaracja funkcji i funkcje lambda.',
+      duration: '11:53',
+      sources: [
+        {
+          resolution: '4k',
+          url:
+            'https://cdn.fullstack.pl/assets/lekcja-6-4k.21e9d56f8eb8a5d97c10b77c84cd5770.mp4',
+        },
+        {
+          resolution: '1080p',
+          url:
+            'https://cdn.fullstack.pl/assets/lekcja-6-1080p.2270b6959cddce4f2219716104b8d8d8.mp4',
+        },
+        {
+          resolution: '720p',
+          url:
+            'https://cdn.fullstack.pl/assets/lekcja-6-720p.d825881ddc887b8d4b10b46006b675ab.mp4',
+        },
+      ],
+    },
+    {
+      id: 7,
+      name: 'Tablice i podstawowe operacje na tablicach.',
+      duration: '11:55',
+      sources: [
+        {
+          resolution: '4k',
+          url:
+            'https://cdn.fullstack.pl/assets/lekcja-7-4k.3ec390a29e93f3810ac802ad3dc03e85.mp4',
+        },
+        {
+          resolution: '1080p',
+          url:
+            'https://cdn.fullstack.pl/assets/lekcja-7-1080p.965e5ca0928ad90aca36b8888b799ce2.mp4',
+        },
+        {
+          resolution: '720p',
+          url:
+            'https://cdn.fullstack.pl/assets/lekcja-7-720p.60919150660db01e1dafbb5f67b1afad.mp4',
+        },
+      ],
+    },
+    {
+      id: 8,
+      name: 'Pętle "for" i "for of".',
+      duration: '12:53',
+      sources: [
+        {
+          resolution: '4k',
+          url:
+            'https://cdn.fullstack.pl/assets/lekcja-8-4k.32dcba3174289fce6fd3537e8761400f.mp4',
+        },
+        {
+          resolution: '1080p',
+          url:
+            'https://cdn.fullstack.pl/assets/lekcja-8-1080p.39fe41b845d135944ee4584da7a2a382.mp4',
+        },
+        {
+          resolution: '720p',
+          url:
+            'https://cdn.fullstack.pl/assets/lekcja-8-720p.251fb7820affc78c5def95d27cef0854.mp4',
+        },
+      ],
+    },
+    {
+      id: 9,
+      name: 'Pętle "while", "do while" oraz kontrola pętel.',
+      duration: '6:16',
+      sources: [
+        {
+          resolution: '4k',
+          url:
+            'https://cdn.fullstack.pl/assets/lekcja-9-4k.bacdfe5d9af806b6c46b5597417d13b4.mp4',
+        },
+        {
+          resolution: '1080p',
+          url:
+            'https://cdn.fullstack.pl/assets/lekcja-9-1080p.7022f3a130f6a3e73657687332b57a81.mp4',
+        },
+        {
+          resolution: '720p',
+          url:
+            'https://cdn.fullstack.pl/assets/lekcja-9-720p.9d61f11e287c5318137b408ed65cbcff.mp4',
+        },
+      ],
+    },
   ],
   tasks: [
     _getTask({
