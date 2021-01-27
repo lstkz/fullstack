@@ -290,6 +290,50 @@ Moduł zawiera lekcje i zadania dla osób, które chcą zacząć swoją przygod�
         },
       ],
     },
+    {
+      id: 10,
+      name: 'Spread operator',
+      duration: '5:11',
+      sources: [
+        {
+          resolution: '4k',
+          url:
+            'https://cdn.fullstack.pl/assets/lekcja-10-4k.704e4d14b3626cc09a912a056f248ed6.mp4',
+        },
+        {
+          resolution: '1080p',
+          url:
+            'https://cdn.fullstack.pl/assets/lekcja-10-1080p.25ae7843f950250dfae88bec6fb0ffd9.mp4',
+        },
+        {
+          resolution: '720p',
+          url:
+            'https://cdn.fullstack.pl/assets/lekcja-10-720p.b5d178408c3131ff5dbfc79412796dee.mp4',
+        },
+      ],
+    },
+    {
+      id: 11,
+      name: 'Tablice: sort, forEach, map, filter.',
+      duration: '13:37',
+      sources: [
+        {
+          resolution: '4k',
+          url:
+            'https://cdn.fullstack.pl/assets/lekcja-11-4k.5b473bfda0fb896255c3639a952f9f58.mp4',
+        },
+        {
+          resolution: '1080p',
+          url:
+            'https://cdn.fullstack.pl/assets/lekcja-11-1080p.ee0248fb9323be40e7b65fa556653215.mp4',
+        },
+        {
+          resolution: '720p',
+          url:
+            'https://cdn.fullstack.pl/assets/lekcja-11-720p.726292bb06938d977d4d37bf1c651e23.mp4',
+        },
+      ],
+    },
   ],
   tasks: [
     _getTask({
