@@ -334,6 +334,28 @@ Moduł zawiera lekcje i zadania dla osób, które chcą zacząć swoją przygod�
         },
       ],
     },
+    {
+      id: 12,
+      name: 'Math: min, max, floor, ceil, round.',
+      duration: '7:54',
+      sources: [
+        {
+          resolution: '4k',
+          url:
+            'https://cdn.fullstack.pl/assets/lekcja-12-4k.ba1c9632ddb9ab22a710ad14e5c1b75f.mp4',
+        },
+        {
+          resolution: '1080p',
+          url:
+            'https://cdn.fullstack.pl/assets/lekcja-12-1080p.3d5fa03bab6cef3742b6ce401fd57d70.mp4',
+        },
+        {
+          resolution: '720p',
+          url:
+            'https://cdn.fullstack.pl/assets/lekcja-12-720p.aba3f63a68d0ae994285d1f40f3c5f95.mp4',
+        },
+      ],
+    },
   ],
   tasks: [
     _getTask({
