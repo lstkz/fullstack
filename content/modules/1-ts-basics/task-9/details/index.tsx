@@ -28,6 +28,7 @@ export function Details() {
           <TaskRange min={2} max={100}>
             Zakres liczby elementów:
           </TaskRange>
+          <br />
           <TaskRange min={1} max={1000}>
             Zakres elementu:
           </TaskRange>

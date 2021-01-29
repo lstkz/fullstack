@@ -3,10 +3,8 @@ export function inaccurateNumbersEqual(
   b: number,
   p: number
 ): boolean {
-  // TRIM_START
-  const mul = 10 ** p;
-  a = Math.round(a * mul) / mul;
-  b = Math.round(b * mul) / mul;
-  return a === b;
-  // TRIM_END
+  const precision = 10 ** p;
+  a = Math.round(a * precision) / precision;
+  b = Math.round(b * precision) / precision;
+  return a == b;
 }

@@ -3,8 +3,10 @@ export function lightsGame(
   toggleButtons: number[][],
   actions: number[]
 ): number[] {
-  // TRIM_START
-  const state = Array<number>(lightCount).fill(0);
+  const state: number[] = [];
+  for (let i = 0; i < lightCount; i++) {
+    state.push(0);
+  }
   actions.forEach(n => {
     const toggle = toggleButtons[n];
     toggle.forEach((bit, i) => {
@@ -12,5 +14,4 @@ export function lightsGame(
     });
   });
   return state;
-  // TRIM_END
 }

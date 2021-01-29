@@ -530,19 +530,111 @@ Moduł zawiera lekcje i zadania dla osób, które chcą zacząć swoją przygod�
       isExample: true,
       videoSolution: task5Sources,
     }),
-    _getTask({ id: 6, name: 'Clamp', videoSolution: sampleSources }),
+    _getTask({
+      id: 6,
+      name: 'Clamp',
+      videoSolution: [
+        {
+          resolution: '4k',
+          url:
+            'https://cdn.fullstack.pl/assets/task-6-4k.80c40137d42608e4be8eaebdf96db9c0.mp4',
+        },
+        {
+          resolution: '1080p',
+          url:
+            'https://cdn.fullstack.pl/assets/task-6-1080p.5170f8c0768937b36a25566b5e32ae99.mp4',
+        },
+        {
+          resolution: '720p',
+          url:
+            'https://cdn.fullstack.pl/assets/task-6-720p.fa67f5eef3a87d36acc8542588b76918.mp4',
+        },
+      ],
+    }),
     _getTask({
       id: 7,
       name: 'Cykliczna tablica',
-      videoSolution: sampleSources,
+      videoSolution: [
+        {
+          resolution: '4k',
+          url:
+            'https://cdn.fullstack.pl/assets/task-7-4k.c926b41fb2bb838f0ba8d1ac5fcbc051.mp4',
+        },
+        {
+          resolution: '1080p',
+          url:
+            'https://cdn.fullstack.pl/assets/task-7-1080p.8bd013934c57ae733afc0df44b4f5878.mp4',
+        },
+        {
+          resolution: '720p',
+          url:
+            'https://cdn.fullstack.pl/assets/task-7-720p.55ec6e9e962e9b3623d0e1c5e668e792.mp4',
+        },
+      ],
     }),
     _getTask({
       id: 8,
       name: 'Niedokładne liczby',
-      videoSolution: sampleSources,
+      videoSolution: [
+        {
+          resolution: '4k',
+          url:
+            'https://cdn.fullstack.pl/assets/task-8-4k.922ca824563886d6c14c2eccad870291.mp4',
+        },
+        {
+          resolution: '1080p',
+          url:
+            'https://cdn.fullstack.pl/assets/task-8-1080p.92273df32fd38fe000c00bdf4d971476.mp4',
+        },
+        {
+          resolution: '720p',
+          url:
+            'https://cdn.fullstack.pl/assets/task-8-720p.dba162cb9aaf04621d16d5be6db80b6a.mp4',
+        },
+      ],
     }),
-    _getTask({ id: 9, name: 'Brakująca liczba', videoSolution: sampleSources }),
-    _getTask({ id: 10, name: 'Gra w światełka', videoSolution: sampleSources }),
+    _getTask({
+      id: 9,
+      name: 'Brakująca liczba',
+      videoSolution: [
+        {
+          resolution: '4k',
+          url:
+            'https://cdn.fullstack.pl/assets/task-9-4k.8cf4ea0c6c41e3b6fe9204ed7e1093f1.mp4',
+        },
+        {
+          resolution: '1080p',
+          url:
+            'https://cdn.fullstack.pl/assets/task-9-1080p.3b8fb42726d96e0951f30e36ea65e7a9.mp4',
+        },
+        {
+          resolution: '720p',
+          url:
+            'https://cdn.fullstack.pl/assets/task-9-720p.80ea806ad49970f0f62d3636804416b2.mp4',
+        },
+      ],
+    }),
+    _getTask({
+      id: 10,
+      name: 'Gra w światełka',
+      videoSolution: [
+        {
+          resolution: '4k',
+          url:
+            'https://cdn.fullstack.pl/assets/task-10-4k.d69aa449c4a12a1b5f28bce17ded69dc.mp4',
+        },
+        {
+          resolution: '1080p',
+          url:
+            'https://cdn.fullstack.pl/assets/task-10-1080p.33f87602324b2aa65179202cb638496f.mp4',
+        },
+        {
+          resolution: '720p',
+          url:
+            'https://cdn.fullstack.pl/assets/task-10-720p.3c7644378a62d09f4dd74708b909277a.mp4',
+        },
+      ],
+    }),
     _getTask({
       id: 11,
       name: 'Przedziały liczb',
