@@ -1,7 +1,7 @@
 import { roundSum } from '../src/main';
 
 it('test 1', () => {
-  expect(roundSum([60, 40], [10, 20, 30, 40])).toEqual(null);
+  expect(roundSum([60, 40], [10, 20, 30, 40])).toEqual([0, 3]);
 });
 
 it('test 2', () => {
@@ -17,7 +17,7 @@ it('test 4', () => {
 });
 
 it('test 5', () => {
-  expect(roundSum([201, 100, 301], [50, 1, 2, 0])).toEqual(null);
+  expect(roundSum([201, 100, 301], [50, 1, 2, 0])).toEqual([1, 3]);
 });
 
 it('test 6', () => {
