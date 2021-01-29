@@ -18,6 +18,96 @@ const sampleSources = [
   },
 ];
 
+const task1Sources = [
+  {
+    resolution: '4k',
+    url:
+      'https://cdn.fullstack.pl/assets/task-1-4k.071777c99fbf54c0111336cc1943a757.mp4',
+  },
+  {
+    resolution: '1080p',
+    url:
+      'https://cdn.fullstack.pl/assets/task-1-1080p.78cc7ef9cb65be2b7fa29a7932a51171.mp4',
+  },
+  {
+    resolution: '720p',
+    url:
+      'https://cdn.fullstack.pl/assets/task-1-720p.f0b22872252e00700a52f98b5b1fe3df.mp4',
+  },
+];
+
+const task2Sources = [
+  {
+    resolution: '4k',
+    url:
+      'https://cdn.fullstack.pl/assets/task-2-4k.124373d9431669db6c2bc4c4144aa42c.mp4',
+  },
+  {
+    resolution: '1080p',
+    url:
+      'https://cdn.fullstack.pl/assets/task-2-1080p.07940e03a2ea0162dbbe4bf714e815b3.mp4',
+  },
+  {
+    resolution: '720p',
+    url:
+      'https://cdn.fullstack.pl/assets/task-2-720p.a7f0544d864df38d5239b62fa7951256.mp4',
+  },
+];
+
+const task3Sources = [
+  {
+    resolution: '4k',
+    url:
+      'https://cdn.fullstack.pl/assets/task-3-4k.64d67cd9c8307558844d2601113f892a.mp4',
+  },
+  {
+    resolution: '1080p',
+    url:
+      'https://cdn.fullstack.pl/assets/task-3-1080p.6a24595b7372ee9d2c1dd7d38ed23be3.mp4',
+  },
+  {
+    resolution: '720p',
+    url:
+      'https://cdn.fullstack.pl/assets/task-3-720p.2869bea41477e3434d88ed824c1e2c7c.mp4',
+  },
+];
+
+const task4Sources = [
+  {
+    resolution: '4k',
+    url:
+      'https://cdn.fullstack.pl/assets/task-4-4k.56bb13be6fe335404fa96a8ddb437a93.mp4',
+  },
+  {
+    resolution: '1080p',
+    url:
+      'https://cdn.fullstack.pl/assets/task-4-1080p.0db23e0add7c1cf22f487b6f86f4e593.mp4',
+  },
+  {
+    resolution: '720p',
+    url:
+      'https://cdn.fullstack.pl/assets/task-4-720p.fac2ce8899b457a0a2004f3d6034abc7.mp4',
+  },
+];
+
+const task5Sources = [
+  {
+    resolution: '4k',
+    url:
+      'https://cdn.fullstack.pl/assets/task-5-4k.45e4ae9261f3268ca9a714c8b6d04245.mp4',
+  },
+  {
+    resolution: '1080p',
+    url:
+      'https://cdn.fullstack.pl/assets/task-5-1080p.7a952c3a15b135d9bfcb51fe763a5733.mp4',
+  },
+  {
+    resolution: '720p',
+    url:
+      'https://cdn.fullstack.pl/assets/task-5-720p.1804bc74d84337a59ac515e367d34723.mp4',
+  },
+];
+
 function _getTask({
   id,
   name,
@@ -378,37 +468,67 @@ Moduł zawiera lekcje i zadania dla osób, które chcą zacząć swoją przygod�
         },
       ],
     },
+    {
+      id: 14,
+      name: 'Przykładowe rozwiązanie: Środkowa liczba',
+      duration: '2:17',
+      sources: task1Sources,
+    },
+    {
+      id: 15,
+      name: 'Przykładowe rozwiązanie: Pełna kwota',
+      duration: '0:32',
+      sources: task2Sources,
+    },
+    {
+      id: 16,
+      name: 'Przykładowe rozwiązanie: Najcieplejszy miesiac',
+      duration: '3:48',
+      sources: task3Sources,
+    },
+    {
+      id: 17,
+      name: 'Przykładowe rozwiązanie: Okrągła suma',
+      duration: '2:38',
+      sources: task4Sources,
+    },
+    {
+      id: 18,
+      name: 'Przykładowe rozwiązanie: Wygrane pod rząd',
+      duration: '1:29',
+      sources: task5Sources,
+    },
   ],
   tasks: [
     _getTask({
       id: 1,
       name: 'Środkowa liczba',
       isExample: true,
-      videoSolution: sampleSources,
+      videoSolution: task1Sources,
     }),
     _getTask({
       id: 2,
       name: 'Pełna kwota',
       isExample: true,
-      videoSolution: sampleSources,
+      videoSolution: task2Sources,
     }),
     _getTask({
       id: 3,
-      name: 'Najcieplejszy miesiac',
+      name: 'Najcieplejszy miesiąc',
       isExample: true,
-      videoSolution: sampleSources,
+      videoSolution: task3Sources,
     }),
     _getTask({
       id: 4,
       name: 'Okrągła suma',
       isExample: true,
-      videoSolution: sampleSources,
+      videoSolution: task4Sources,
     }),
     _getTask({
       id: 5,
       name: 'Wygrane pod rząd',
       isExample: true,
-      videoSolution: sampleSources,
+      videoSolution: task5Sources,
     }),
     _getTask({ id: 6, name: 'Clamp', videoSolution: sampleSources }),
     _getTask({

@@ -12,7 +12,7 @@ import {
 export function Details() {
   return (
     <TaskWrapper>
-      <TaskTitle>Najcieplejszy miesiac</TaskTitle>
+      <TaskTitle>Najcieplejszy miesiąc</TaskTitle>
       <div>
         Zaimplementuj funkcję <Code>warmestMonth</Code>, która zwraca numer
         miesiąca, który był najcieplejszy. Jeżeli dwa lub więcej miesięcy ma
