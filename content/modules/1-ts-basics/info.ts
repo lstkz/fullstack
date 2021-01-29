@@ -356,6 +356,28 @@ Moduł zawiera lekcje i zadania dla osób, które chcą zacząć swoją przygod�
         },
       ],
     },
+    {
+      id: 13,
+      name: 'Jak korzystać z platformy?',
+      duration: '5:46',
+      sources: [
+        {
+          resolution: '4k',
+          url:
+            'https://cdn.fullstack.pl/assets/lekcja-13-4k.1fb876be2bb9596ad839bcf9cdf00291.mp4',
+        },
+        {
+          resolution: '1080p',
+          url:
+            'https://cdn.fullstack.pl/assets/lekcja-13-1080p.b0e7447f85c9a55a9b469973d1e2c8b8.mp4',
+        },
+        {
+          resolution: '720p',
+          url:
+            'https://cdn.fullstack.pl/assets/lekcja-13-720p.f37c0c1d65c536ea016efc8166e5fa6d.mp4',
+        },
+      ],
+    },
   ],
   tasks: [
     _getTask({
