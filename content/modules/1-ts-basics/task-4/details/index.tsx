@@ -40,10 +40,10 @@ export function Details() {
       </TaskFnArguments>
 
       <TaskFnReturn>
-        <Code>[number, number] | null</Code> - Para liczb, gdzie pierwszy
-        element to indeks z pierwszej tablicy, a drugi element to indeks z
-        drugiej tablicy. Jeżeli para nie istnieje lub jest więcej niż 1
-        kombinacja to zwróć <Code>null</Code>.
+        <Code>number[] | null</Code> - Para liczb, gdzie pierwszy element to
+        indeks z pierwszej tablicy, a drugi element to indeks z drugiej tablicy.
+        Jeżeli para nie istnieje lub jest więcej niż 1 kombinacja to zwróć{' '}
+        <Code>null</Code>.
       </TaskFnReturn>
       <TaskFnExamples
         code={`

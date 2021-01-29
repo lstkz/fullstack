@@ -1,9 +1,6 @@
-export function roundSum(
-  arr1: number[],
-  arr2: number[]
-): [number, number] | null {
+export function roundSum(arr1: number[], arr2: number[]): number[] | null {
   // TRIM_START
-  let ret: [number, number] | null = null;
+  let ret: number[] | null = null;
   let multiple = false;
   for (let i = 0; i < arr1.length; i++) {
     for (let j = 0; j < arr2.length; j++) {
