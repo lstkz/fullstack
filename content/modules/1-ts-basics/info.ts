@@ -638,27 +638,107 @@ Moduł zawiera lekcje i zadania dla osób, które chcą zacząć swoją przygod�
     _getTask({
       id: 11,
       name: 'Przedziały liczb',
-      videoSolution: sampleSources,
+      videoSolution: [
+        {
+          resolution: '4k',
+          url:
+            'https://cdn.fullstack.pl/assets/task-11-4k.77a13266c190bc0c08199799fb3ac670.mp4',
+        },
+        {
+          resolution: '1080p',
+          url:
+            'https://cdn.fullstack.pl/assets/task-11-1080p.c39e019f9456bf2c32f396960ab0cac4.mp4',
+        },
+        {
+          resolution: '720p',
+          url:
+            'https://cdn.fullstack.pl/assets/task-11-720p.436fcfbccc6d1f3a7ff0dce0ff7adaa2.mp4',
+        },
+      ],
     }),
     _getTask({
       id: 12,
       name: 'Piętro',
-      videoSolution: sampleSources,
+      videoSolution: [
+        {
+          resolution: '4k',
+          url:
+            'https://cdn.fullstack.pl/assets/task-12-4k.5838826516de2c28e5cbcaa1e1f6be12.mp4',
+        },
+        {
+          resolution: '1080p',
+          url:
+            'https://cdn.fullstack.pl/assets/task-12-1080p.c3f92d30bcc22c8931cb8e5fdb0510a0.mp4',
+        },
+        {
+          resolution: '720p',
+          url:
+            'https://cdn.fullstack.pl/assets/task-12-720p.3f1fbdeb9943ca78bde2eaa93fa35dda.mp4',
+        },
+      ],
     }),
     _getTask({
       id: 13,
       name: 'Wspaniałe trójki',
-      videoSolution: sampleSources,
+      videoSolution: [
+        {
+          resolution: '4k',
+          url:
+            'https://cdn.fullstack.pl/assets/task-13-4k.f6945d18cf9d15c76b5bfeb305129451.mp4',
+        },
+        {
+          resolution: '1080p',
+          url:
+            'https://cdn.fullstack.pl/assets/task-13-1080p.9050ac9cdce265647f38ca52bcd29375.mp4',
+        },
+        {
+          resolution: '720p',
+          url:
+            'https://cdn.fullstack.pl/assets/task-13-720p.c62b1f1c35985ccca7e706e5d8f1ca9e.mp4',
+        },
+      ],
     }),
     _getTask({
       id: 14,
       name: 'Trójkąt',
-      videoSolution: sampleSources,
+      videoSolution: [
+        {
+          resolution: '4k',
+          url:
+            'https://cdn.fullstack.pl/assets/task-14-4k.3bca4899a6cb5373ba8f35d9e2434764.mp4',
+        },
+        {
+          resolution: '1080p',
+          url:
+            'https://cdn.fullstack.pl/assets/task-14-1080p.636cac66395fcc92fcf8adb5c91261df.mp4',
+        },
+        {
+          resolution: '720p',
+          url:
+            'https://cdn.fullstack.pl/assets/task-14-720p.3eaaa1dbb87e336023f9a4bb6f7780a1.mp4',
+        },
+      ],
     }),
     _getTask({
       id: 15,
       name: 'Banknoty',
-      videoSolution: sampleSources,
+      videoSolution: [
+        {
+          resolution: '4k',
+          url:
+            'https://cdn.fullstack.pl/assets/task-15-4k.bca186e48a4f42e9907610ca9063f939.mp4',
+        },
+        {
+          resolution: '1080p',
+          url:
+            'https://cdn.fullstack.pl/assets/task-15-1080p.2a7260098870cff3c0c7a3b9df3449cb.mp4',
+        },
+        {
+          resolution: '720p',
+          url:
+            'https://cdn.fullstack.pl/assets/task-15-720p.200266493fac1f56dc0b242ecf9453bf.mp4',
+        },
+      ],
     }),
     _getTask({
       id: 16,
