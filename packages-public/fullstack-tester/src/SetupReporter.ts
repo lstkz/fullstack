@@ -50,15 +50,15 @@ export default class SetupReporter implements Reporter {
     const destFile = Path.join(process.cwd(), '..', 'tests-info.json');
 
     // const files = getAllFiles(Path.join(process.cwd(), '__tests__'));
-    const files = getAllFiles(Path.join(process.cwd(), '__tests__')).map(
-      filePath => {
-        const fileHash = md5(fs.readFileSync(filePath));
-        return {
-          path: filePath.split('__tests__')[1],
-          hash: fileHash,
-        };
-      }
-    );
+    const files = getAllFiles(Path.join(process.cwd(), '__tests__'), name =>
+      name.includes('.DS_Store')
+    ).map(filePath => {
+      const fileHash = md5(fs.readFileSync(filePath));
+      return {
+        path: filePath.split('__tests__')[1],
+        hash: fileHash,
+      };
+    });
     const testsInfo: TestsInfo = {
       resultHash,
       files,
