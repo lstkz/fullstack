@@ -743,27 +743,107 @@ Moduł zawiera lekcje i zadania dla osób, które chcą zacząć swoją przygod�
     _getTask({
       id: 16,
       name: 'Równe karty',
-      videoSolution: sampleSources,
+      videoSolution: [
+        {
+          resolution: '4k',
+          url:
+            'https://cdn.fullstack.pl/assets/task-16-4k.ae738a8e5726b771cb636e6f6052d931.mp4',
+        },
+        {
+          resolution: '1080p',
+          url:
+            'https://cdn.fullstack.pl/assets/task-16-1080p.7e3dbebf8c95f24bc402eb32ff096992.mp4',
+        },
+        {
+          resolution: '720p',
+          url:
+            'https://cdn.fullstack.pl/assets/task-16-720p.3261b699f68c1dff6ca600e590a66a10.mp4',
+        },
+      ],
     }),
     _getTask({
       id: 17,
       name: 'Odwróć część tablicy',
-      videoSolution: sampleSources,
+      videoSolution: [
+        {
+          resolution: '4k',
+          url:
+            'https://cdn.fullstack.pl/assets/task-17-4k.1bf87a092cff7cec31fa35a08633de7c.mp4',
+        },
+        {
+          resolution: '1080p',
+          url:
+            'https://cdn.fullstack.pl/assets/task-17-1080p.2682302cc4bc0ae5cda13e58c514f36b.mp4',
+        },
+        {
+          resolution: '720p',
+          url:
+            'https://cdn.fullstack.pl/assets/task-17-720p.0a9fd9e2b2d29325f2c080744da656c1.mp4',
+        },
+      ],
     }),
     _getTask({
       id: 18,
       name: 'Strony',
-      videoSolution: sampleSources,
+      videoSolution: [
+        {
+          resolution: '4k',
+          url:
+            'https://cdn.fullstack.pl/assets/task-18-4k.590f6cefcb0ec92a11c29dc9d4402a38.mp4',
+        },
+        {
+          resolution: '1080p',
+          url:
+            'https://cdn.fullstack.pl/assets/task-18-1080p.8494773e70e3735e44e3afb509dd1386.mp4',
+        },
+        {
+          resolution: '720p',
+          url:
+            'https://cdn.fullstack.pl/assets/task-18-720p.7a0305aeae9f8ac0079a7f88fb44fb30.mp4',
+        },
+      ],
     }),
     _getTask({
       id: 19,
       name: 'Docelowa suma',
-      videoSolution: sampleSources,
+      videoSolution: [
+        {
+          resolution: '4k',
+          url:
+            'https://cdn.fullstack.pl/assets/task-19-4k.485146118848182af7ecee189633ccce.mp4',
+        },
+        {
+          resolution: '1080p',
+          url:
+            'https://cdn.fullstack.pl/assets/task-19-1080p.3b89d07f4fd7e12daede60ceedd37bf6.mp4',
+        },
+        {
+          resolution: '720p',
+          url:
+            'https://cdn.fullstack.pl/assets/task-19-720p.96e59f2c454f418d8e0b1a244fdc3fec.mp4',
+        },
+      ],
     }),
     _getTask({
       id: 20,
       name: 'Suma dwóch najwiekszych',
-      videoSolution: sampleSources,
+      videoSolution: [
+        {
+          resolution: '4k',
+          url:
+            'https://cdn.fullstack.pl/assets/task-20-4k.3151240b705780782a9117f2cb98a271.mp4',
+        },
+        {
+          resolution: '1080p',
+          url:
+            'https://cdn.fullstack.pl/assets/task-20-1080p.62527c9e4d82bc09a30aa27f6513eee4.mp4',
+        },
+        {
+          resolution: '720p',
+          url:
+            'https://cdn.fullstack.pl/assets/task-20-720p.e1c45bce70a6acb813c963354089c399.mp4',
+        },
+      ],
     }),
     _getTask({
       id: 21,
