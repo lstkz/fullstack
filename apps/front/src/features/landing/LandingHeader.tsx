@@ -10,12 +10,12 @@ export function LandingHeader() {
         <Button
           type="primary"
           onClick={() => {
-            document.getElementById('subscribe-section')?.scrollIntoView({
+            document.getElementById('purchase-section')?.scrollIntoView({
               behavior: 'smooth',
             });
           }}
         >
-          Zapisz się
+          Wypróbuj
         </Button>
       </div>
     </div>

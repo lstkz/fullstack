@@ -46,10 +46,9 @@ export function SubscribeSection() {
       <div className="container">
         <Heading type={2}>Dołącz do mailingu</Heading>
         <div className="text-gray-600">
-          Platforma jest w budowie. Podaj swojego maila, a dostaniesz
-          powiadomienie jak wystartujemy.
+          Chcesz być na bieżąco? Dołącz do naszego mailingu.
           <br />
-          Start jest szacowany na początek 2021 roku.
+          Zero spamu!
         </div>
         <div className="mt-8 mx-auto mb-3 max-w-xl">
           <InputGroup

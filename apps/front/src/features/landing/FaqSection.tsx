@@ -1,6 +1,5 @@
 import * as React from 'react';
 import { Accordion, AccordionItem } from 'src/components/AccordionItem';
-import { Theme } from 'src/Theme';
 import { SectionShape } from './SectionShape';
 import { Heading } from 'src/components/Heading';
 
@@ -62,17 +61,17 @@ export function FaqSection() {
               </AccordionItem>
               <AccordionItem header={<>Czy jest dostęp do społeczności?</>}>
                 Tak, każda osoba, która kupi kurs, otrzyma dostęp do prywatnego
-                Slacka.
+                Discorda.
               </AccordionItem>
-              <AccordionItem header={<>Ile to kosztuje?</>}>
-                Cena jeszcze nie jest znana. Dostęp do platformy będzie w formie
-                abonamentu.
+              <AccordionItem header={<>Czy są zwroty?</>}>
+                Tak, masz 14 dni na przetestowanie produktu. Jeśli Ci się nie
+                spodobał, zwrócimy Ci pieniądze.
               </AccordionItem>
             </Accordion>
           </div>
         </div>
       </div>
-      <SectionShape position="bottom" color={Theme.section_secondary} />
+      <SectionShape position="bottom" color="gray-100" />
     </div>
   );
 }
