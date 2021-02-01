@@ -49,7 +49,7 @@ it('test 12', () => {
 });
 
 it('test 13', () => {
-  expect(gambler(1441, 1000000000)).toEqual(693972);
+  expect(gambler(1441, 1000000000)).toEqual(693973);
 });
 
 it('test 14', () => {

@@ -68,9 +68,9 @@ gambler(100, 13)
 
 // Przykład 4
 gambler(2, 7)
-5
+4
 // Wyjaśnienie:
-// Gracz obstawia po kolei: 1, 2, 2, 2, 1
+// Gracz obstawia po kolei: 1, 2, 2, 2
 
 // Przykład 5
 gambler(30, 30)
