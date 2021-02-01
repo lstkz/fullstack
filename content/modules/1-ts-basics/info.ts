@@ -848,27 +848,107 @@ Moduł zawiera lekcje i zadania dla osób, które chcą zacząć swoją przygod�
     _getTask({
       id: 21,
       name: 'Równe tablice',
-      videoSolution: sampleSources,
+      videoSolution: [
+        {
+          resolution: '4k',
+          url:
+            'https://cdn.fullstack.pl/assets/task-21-4k.ba7bf7f1c1ad4d773851de0aafaa53be.mp4',
+        },
+        {
+          resolution: '1080p',
+          url:
+            'https://cdn.fullstack.pl/assets/task-21-1080p.0505b1becb3146d166b45644c0fe83ce.mp4',
+        },
+        {
+          resolution: '720p',
+          url:
+            'https://cdn.fullstack.pl/assets/task-21-720p.ad4c1b6dfc5e389f09701f411a7b78f3.mp4',
+        },
+      ],
     }),
     _getTask({
       id: 22,
       name: 'Najmniejsze zaokrąglenie',
-      videoSolution: sampleSources,
+      videoSolution: [
+        {
+          resolution: '4k',
+          url:
+            'https://cdn.fullstack.pl/assets/task-22-4k.ec55d35e9fc8c0bdf0db52cb524c03d2.mp4',
+        },
+        {
+          resolution: '1080p',
+          url:
+            'https://cdn.fullstack.pl/assets/task-22-1080p.83e36350077b56817d5d8fc30bdbf303.mp4',
+        },
+        {
+          resolution: '720p',
+          url:
+            'https://cdn.fullstack.pl/assets/task-22-720p.3aa2e63bbaec3e1838fc00e976323399.mp4',
+        },
+      ],
     }),
     _getTask({
       id: 23,
       name: 'Suma prawie dwóch największych',
-      videoSolution: sampleSources,
+      videoSolution: [
+        {
+          resolution: '4k',
+          url:
+            'https://cdn.fullstack.pl/assets/task-23-4k.721edcbb1a9fe37ba3951401dbc651e8.mp4',
+        },
+        {
+          resolution: '1080p',
+          url:
+            'https://cdn.fullstack.pl/assets/task-23-1080p.376fffaa8e6b491b107575aabf95de32.mp4',
+        },
+        {
+          resolution: '720p',
+          url:
+            'https://cdn.fullstack.pl/assets/task-23-720p.34f77b0c5ed140f228fd58147d5c84b5.mp4',
+        },
+      ],
     }),
     _getTask({
       id: 24,
       name: 'Dziwna wojna',
-      videoSolution: sampleSources,
+      videoSolution: [
+        {
+          resolution: '4k',
+          url:
+            'https://cdn.fullstack.pl/assets/task-24-4k.14f97968b841ad81d7de9f14a2145a7c.mp4',
+        },
+        {
+          resolution: '1080p',
+          url:
+            'https://cdn.fullstack.pl/assets/task-24-1080p.5035e63a717b87dde3972698696856b8.mp4',
+        },
+        {
+          resolution: '720p',
+          url:
+            'https://cdn.fullstack.pl/assets/task-24-720p.bed154c569dd4c4b9fd7ab8c02c419b0.mp4',
+        },
+      ],
     }),
     _getTask({
       id: 25,
       name: 'Binarna choinka',
-      videoSolution: sampleSources,
+      videoSolution: [
+        {
+          resolution: '4k',
+          url:
+            'https://cdn.fullstack.pl/assets/task-25-4k.454a4f8e84d5c24d99d4d5ea453053b3.mp4',
+        },
+        {
+          resolution: '1080p',
+          url:
+            'https://cdn.fullstack.pl/assets/task-25-1080p.6af6589e9e0c2d485a347798bda92f00.mp4',
+        },
+        {
+          resolution: '720p',
+          url:
+            'https://cdn.fullstack.pl/assets/task-25-720p.36b529cfaab684432b77db6652d5a7bf.mp4',
+        },
+      ],
     }),
     _getTask({
       id: 26,
