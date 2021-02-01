@@ -49,6 +49,7 @@ export interface SubscriptionPlan {
 export interface ModuleLessonUpload {
   id: number;
   name: string;
+  duration: string;
   sources: VideoUpload[];
 }
 
@@ -99,6 +100,7 @@ export interface Module {
 export interface ModuleLesson {
   id: number;
   name: string;
+  duration: string;
   sources: VideoUpload[];
   isWatched: boolean;
 }

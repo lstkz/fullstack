@@ -26,10 +26,10 @@ export function Details() {
         }
       >
         <li>
-          <Code>pair1: [string, string]</Code> - Pierwsza para.
+          <Code>pair1: string[]</Code> - Pierwsza para.
         </li>
         <li>
-          <Code>pair2: [string, string]</Code> - Druga para.
+          <Code>pair2: string[]</Code> - Druga para.
         </li>
       </TaskFnArguments>
 

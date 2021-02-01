@@ -23,6 +23,7 @@ dist-source
 content/modules/*/_videos
 content/modules/*/playground
 content/modules/**/yarn.lock
+content/modules/**/script.sh
 
 # Runtime data
 pids

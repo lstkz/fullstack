@@ -15,11 +15,13 @@ beforeEach(async () => {
         {
           id: 1,
           name: 'lesson 1',
+          duration: '1:00',
           sources: [],
         },
         {
           id: 2,
           name: 'lesson 2',
+          duration: '1:00',
           sources: [],
         },
       ],
@@ -30,6 +32,7 @@ beforeEach(async () => {
         {
           id: 1,
           name: 'lesson 1',
+          duration: '1:00',
           sources: [],
         },
       ],

@@ -3,7 +3,9 @@
   "version": "1.0.0",
   "scripts": {
     "test": "jest",
-    "submit": "fs-tester"
+    "test:watch": "jest --watchAll",
+    "submit": "fs-tester",
+    "run": "ts-node -T src/main"
   },
   "license": "UNLICENSED",
   "dependencies": {

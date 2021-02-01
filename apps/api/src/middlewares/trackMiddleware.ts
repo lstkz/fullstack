@@ -18,22 +18,15 @@ export const trackMiddleware: Handler[] = [
   },
   async (req, res, next) => {
     try {
-      if (!req.url.startsWith('/track/')) {
-        next();
-        return;
-      }
       const headers = {
         ...req.headers,
         'X-Forwarded-For': req.ip,
       };
       delete headers.host;
-      const mixPanelRes = await fetch(
-        `${MIXPANEL_API_URL}/${req.url.replace(/^\/track\//, '')}`,
-        {
-          method: req.method,
-          body: req.method === 'GET' ? undefined : (req as any).rawBody,
-        }
-      );
+      const mixPanelRes = await fetch(MIXPANEL_API_URL + req.url, {
+        method: req.method,
+        body: req.method === 'GET' ? undefined : (req as any).rawBody,
+      });
       res.status(mixPanelRes.status);
       mixPanelRes.headers.forEach((value, name) => {
         if (!name.startsWith('access-control-allow-')) {

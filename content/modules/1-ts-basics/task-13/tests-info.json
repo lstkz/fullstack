@@ -2,10 +2,6 @@
   "resultHash": "03165c2064a95efa024f79743f10c3b9f2dcab99f4597893f0dda8b9f54ec0a5",
   "files": [
     {
-      "path": "/.DS_Store",
-      "hash": "dd7a1449ac7e9ef79093ce133e1b593a"
-    },
-    {
       "path": "/data/4.out.json",
       "hash": "dddb3048b09af79155f87cd62fe24a86"
     },

@@ -34,7 +34,7 @@ Promise.all([connect(), ampq.connect(['publish', 'socket'])])
         credentials: true,
       })
     );
-    app.use(trackMiddleware);
+    app.use('/track', trackMiddleware);
     app.use(bodyParser.json());
     app.use(
       bodyParser.urlencoded({

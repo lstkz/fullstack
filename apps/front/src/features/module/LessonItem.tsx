@@ -22,7 +22,7 @@ export function LessonItem(props: LessonItemProps) {
       footer={
         <div className="flex items-center mt-2">
           <TimeIcon />
-          <span className="text-xs ml-2">5 min</span>
+          <span className="text-xs ml-2">{item.duration}</span>
         </div>
       }
       button={

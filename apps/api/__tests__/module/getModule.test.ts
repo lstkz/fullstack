@@ -14,6 +14,7 @@ beforeEach(async () => {
         {
           id: 1,
           name: 'l1',
+          duration: '1:00',
           sources: [
             {
               resolution: '720',
@@ -24,6 +25,7 @@ beforeEach(async () => {
         {
           id: 2,
           name: 'l2',
+          duration: '1:00',
           sources: [
             {
               resolution: '720',
@@ -51,12 +53,14 @@ it('should get a module as anonymous', async () => {
       "id": "m1",
       "lessons": Array [
         Object {
+          "duration": "1:00",
           "id": 1,
           "isWatched": false,
           "name": "l1",
           "sources": Array [],
         },
         Object {
+          "duration": "1:00",
           "id": 2,
           "isWatched": false,
           "name": "l2",
@@ -83,6 +87,7 @@ it('should get a module as logged in', async () => {
       "id": "m1",
       "lessons": Array [
         Object {
+          "duration": "1:00",
           "id": 1,
           "isWatched": false,
           "name": "l1",
@@ -94,6 +99,7 @@ it('should get a module as logged in', async () => {
           ],
         },
         Object {
+          "duration": "1:00",
           "id": 2,
           "isWatched": false,
           "name": "l2",
