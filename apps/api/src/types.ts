@@ -94,6 +94,13 @@ export interface CheckIdleVmsTask {
   payload: {};
 }
 
+export interface InviteDiscordTask {
+  type: 'InviteDiscord';
+  payload: {
+    userId: string;
+  };
+}
+
 export interface OrderCreatedEvent {
   type: 'OrderCreated';
   payload: { orderId: string };
@@ -118,7 +125,8 @@ export type AppTask =
   | ResumeVMTask
   | StopVMTask
   | CheckIdleVmsTask
-  | RemoveVMDomainTask;
+  | RemoveVMDomainTask
+  | InviteDiscordTask;
 export type AppEvent = OrderCreatedEvent | OrderPaidEvent | UserRegisteredEvent;
 
 type ExtractType<T> = T extends { type: infer S } ? S : never;

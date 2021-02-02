@@ -32,6 +32,11 @@ export interface AppConfig {
     idleTimeout: number;
     awsName: string;
   };
+  discord: {
+    enabled: boolean;
+    token: string;
+    inviteChannelId: string;
+  };
   adminToken: string;
   api: {
     port: number;
