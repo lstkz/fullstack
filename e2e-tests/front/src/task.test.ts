@@ -20,7 +20,7 @@ let videoSolution = {
   type: 'ok' as const,
   sources: [
     {
-      resolution: '720p',
+      type: '720p',
       url: 'about:blank',
     },
   ],

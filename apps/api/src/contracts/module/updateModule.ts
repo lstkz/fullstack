@@ -6,7 +6,7 @@ import { createContract, createRpcBinding } from '../../lib';
 const getVideoSourcesSchema = () =>
   S.array().items(
     S.object().keys({
-      resolution: S.string(),
+      type: S.string(),
       url: S.string(),
     })
   );

@@ -17,7 +17,7 @@ beforeEach(async () => {
           duration: '1:00',
           sources: [
             {
-              resolution: '720',
+              type: '720',
               url: '720.mp4',
             },
           ],
@@ -28,11 +28,11 @@ beforeEach(async () => {
           duration: '1:00',
           sources: [
             {
-              resolution: '720',
+              type: '720',
               url: '720.mp4',
             },
             {
-              resolution: '1080',
+              type: '1080',
               url: '1080.mp4',
             },
           ],
@@ -93,7 +93,7 @@ it('should get a module as logged in', async () => {
           "name": "l1",
           "sources": Array [
             Object {
-              "resolution": "720",
+              "type": "720",
               "url": "720.mp4",
             },
           ],
@@ -105,11 +105,11 @@ it('should get a module as logged in', async () => {
           "name": "l2",
           "sources": Array [
             Object {
-              "resolution": "720",
+              "type": "720",
               "url": "720.mp4",
             },
             Object {
-              "resolution": "1080",
+              "type": "1080",
               "url": "1080.mp4",
             },
           ],

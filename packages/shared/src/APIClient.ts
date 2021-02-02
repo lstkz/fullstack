@@ -131,7 +131,7 @@ export class APIClient {
       name: string;
       id: number;
       duration: string;
-      sources: { url: string; resolution: string }[];
+      sources: { url: string; type: string }[];
     }[];
     tasks: {
       name: string;
@@ -145,7 +145,7 @@ export class APIClient {
         resultHash: string;
         files: { path: string; hash: string }[];
       };
-      videoSolution: { url: string; resolution: string }[] | null;
+      videoSolution: { url: string; type: string }[] | null;
     }[];
   }): Promise<unknown> {
     return this.call('module.updateModule', { values });

@@ -100,7 +100,7 @@ it('should return sources', async () => {
     type: 'ok',
     sources: [
       {
-        resolution: '720',
+        type: '720',
         url: 'http://example.org/solution.mp4',
       },
     ],
@@ -123,7 +123,7 @@ it('should return sources if task is solved', async () => {
     type: 'ok',
     sources: [
       {
-        resolution: '720',
+        type: '720',
         url: 'http://example.org/solution.mp4',
       },
     ],
@@ -151,7 +151,7 @@ it('should return sources if task is an example', async () => {
     type: 'ok',
     sources: [
       {
-        resolution: '720',
+        type: '720',
         url: 'http://example.org/solution.mp4',
       },
     ],

@@ -111,7 +111,7 @@ export function getTaskData(id: number, isExample = false): ModuleTaskModel {
     hintHtmlS3Key: `hintHtmlS3Key_${id}.html`,
     videoSolution: [
       {
-        resolution: '720',
+        type: '720',
         url: 'http://example.org/solution.mp4',
       },
     ],

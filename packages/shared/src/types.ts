@@ -16,7 +16,7 @@ export interface SubscriptionResult {
 }
 
 export interface VideoUpload {
-  resolution: string;
+  type: string;
   url: string;
 }
 
