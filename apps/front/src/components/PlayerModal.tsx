@@ -24,7 +24,10 @@ export function PlayerModal(props: PlayerModalProps) {
       isOpen={isOpen}
       close={close}
     >
-      <div className="-m-6 bg-black" style={{ maxHeight: '80vh' }}>
+      <div
+        className="-m-6 bg-black flex items-center justify-center py-4"
+        style={{ minHeight: '80vh' }}
+      >
         {children}
       </div>
     </Modal>

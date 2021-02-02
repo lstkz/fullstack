@@ -28,7 +28,7 @@ it('should insert and update a module', async () => {
             duration: '1:00',
             sources: [
               {
-                resolution: '720',
+                type: '720',
                 url: 'aaa',
               },
             ],
@@ -68,7 +68,7 @@ it('should insert and update a module', async () => {
             "name": "l1",
             "sources": Array [
               Object {
-                "resolution": "720",
+                "type": "720",
                 "url": "aaa",
               },
             ],
@@ -112,7 +112,7 @@ it('should insert and update a module', async () => {
             duration: '1:00',
             sources: [
               {
-                resolution: '720',
+                type: '720',
                 url: 'aaa',
               },
             ],
@@ -123,7 +123,7 @@ it('should insert and update a module', async () => {
             duration: '1:00',
             sources: [
               {
-                resolution: '720',
+                type: '720',
                 url: 'bbb',
               },
             ],
@@ -144,7 +144,7 @@ it('should insert and update a module', async () => {
             },
             videoSolution: [
               {
-                resolution: '720',
+                type: '720',
                 url: 'aqw',
               },
             ],
@@ -168,7 +168,7 @@ it('should insert and update a module', async () => {
             "name": "l1",
             "sources": Array [
               Object {
-                "resolution": "720",
+                "type": "720",
                 "url": "aaa",
               },
             ],
@@ -179,7 +179,7 @@ it('should insert and update a module', async () => {
             "name": "l2",
             "sources": Array [
               Object {
-                "resolution": "720",
+                "type": "720",
                 "url": "bbb",
               },
             ],
@@ -202,7 +202,7 @@ it('should insert and update a module', async () => {
             },
             "videoSolution": Array [
               Object {
-                "resolution": "720",
+                "type": "720",
                 "url": "aqw",
               },
             ],
