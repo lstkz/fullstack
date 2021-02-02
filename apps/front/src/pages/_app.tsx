@@ -15,6 +15,7 @@ import '../styles/react-select.css';
 import '../styles/plyr.css';
 import useScrollRestoration from 'src/hooks/useScrollRestoration';
 import { API_URL, MIXPANEL_API_KEY } from 'src/config';
+import { ErrorBoundary } from 'src/bug-report';
 
 config.autoAddCss = false;
 
@@ -40,7 +41,7 @@ function App({
 }: AppProps & GlobalProps) {
   useScrollRestoration(router);
   return (
-    <>
+    <ErrorBoundary>
       <Head>
         <meta charSet="utf-8" />
         <meta
@@ -73,7 +74,7 @@ function App({
         </ErrorModalModule>
       </AuthModule>
       <div id="portals" />
-    </>
+    </ErrorBoundary>
   );
 }
 
