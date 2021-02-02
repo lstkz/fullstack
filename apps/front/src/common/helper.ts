@@ -6,6 +6,8 @@ import { overrideTailwindClasses } from 'tailwind-override';
 import { API_URL, DISABLE_APP } from 'src/config';
 import { readCookieFromString } from './cookie';
 import { ClassValue } from 'classnames/types';
+import { bugsnag } from 'src/bug-report';
+import Bugsnag from '@bugsnag/js';
 
 export class UnreachableCaseError extends Error {
   constructor(val: never) {
@@ -141,6 +143,33 @@ export const createGetServerSideProps: (
           permanent: false,
         },
       };
+    }
+    if (bugsnag) {
+      const bugsnagEvent = Bugsnag.Event.create(
+        e,
+        false,
+        {
+          severity: 'error',
+          unhandled: true,
+          severityReason: {
+            type: 'unhandledError',
+          },
+        },
+        '',
+        0
+      );
+      if (e.res) {
+        try {
+          bugsnagEvent.addMetadata('response', {
+            url: e.res.url,
+            status: e.res.status,
+            body: e.body,
+          });
+        } catch (e) {
+          // ignore
+        }
+      }
+      bugsnag._notify(bugsnagEvent);
     }
     throw e;
   }
