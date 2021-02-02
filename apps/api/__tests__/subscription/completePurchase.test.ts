@@ -11,8 +11,13 @@ import {
   registerSampleUsers,
 } from '../seed-data';
 import { getSubscriptionStatus } from '../../src/contracts/subscription/getSubscriptionStatus';
+import { dispatchTask } from '../../src/dispatch';
+import { mocked } from 'ts-jest/utils';
 
 setupDb();
+
+jest.mock('../../src/dispatch');
+const mocked_dispatchTask = mocked(dispatchTask);
 
 const userId = getId(1);
 
@@ -33,6 +38,7 @@ beforeEach(async () => {
     status: 'NOT_PAID',
     userId: getId(1),
   });
+  mocked_dispatchTask.mockReset();
 });
 
 it('should complete purchase', async () => {
@@ -50,6 +56,7 @@ it('should complete purchase', async () => {
     )
   ).toBeTruthy();
   expect(userSubs).toHaveLength(1);
+  expect(mocked_dispatchTask).toBeCalledTimes(1);
 });
 
 it('should complete purchase (parallel)', async () => {

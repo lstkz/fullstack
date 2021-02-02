@@ -23,7 +23,11 @@ export async function createDiscordInvite(): Promise<DiscordInvite> {
     {
       method: 'POST',
       headers: getHeaders(),
-      body: JSON.stringify({}),
+      body: JSON.stringify({
+        max_age: 0,
+        max_uses: 1,
+        unique: true,
+      }),
     }
   );
   return getResponseBody('Exchange code', res);
