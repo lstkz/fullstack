@@ -953,27 +953,107 @@ Moduł zawiera lekcje i zadania dla osób, które chcą zacząć swoją przygod�
     _getTask({
       id: 26,
       name: 'Sekwencja liczb',
-      videoSolution: sampleSources,
+      videoSolution: [
+        {
+          resolution: '4k',
+          url:
+            'https://cdn.fullstack.pl/assets/task-26-4k.bf7b61ea616c1d1daa448a7f30812c95.mp4',
+        },
+        {
+          resolution: '1080p',
+          url:
+            'https://cdn.fullstack.pl/assets/task-26-1080p.7c123536e91512400dc4b0b44d002f63.mp4',
+        },
+        {
+          resolution: '720p',
+          url:
+            'https://cdn.fullstack.pl/assets/task-26-720p.c5d94f0a8aa96d68029f26876ca55aaf.mp4',
+        },
+      ],
     }),
     _getTask({
       id: 27,
       name: 'Odległość liczb',
-      videoSolution: sampleSources,
+      videoSolution: [
+        {
+          resolution: '4k',
+          url:
+            'https://cdn.fullstack.pl/assets/task-27-4k.5c524849e3c6a90afbac6fc5df92f6df.mp4',
+        },
+        {
+          resolution: '1080p',
+          url:
+            'https://cdn.fullstack.pl/assets/task-27-1080p.227a33c1916854a2271122209d9216d8.mp4',
+        },
+        {
+          resolution: '720p',
+          url:
+            'https://cdn.fullstack.pl/assets/task-27-720p.eebb10b36762dac45790d862950141aa.mp4',
+        },
+      ],
     }),
     _getTask({
       id: 28,
       name: 'Najdłuższy rosnący ciąg',
-      videoSolution: sampleSources,
+      videoSolution: [
+        {
+          resolution: '4k',
+          url:
+            'https://cdn.fullstack.pl/assets/task-28-4k.e46edc07eb15d96d5599c396956f0619.mp4',
+        },
+        {
+          resolution: '1080p',
+          url:
+            'https://cdn.fullstack.pl/assets/task-28-1080p.33737f42e10ff5a04c5313e14ae0d890.mp4',
+        },
+        {
+          resolution: '720p',
+          url:
+            'https://cdn.fullstack.pl/assets/task-28-720p.669c5c42a7136012f6e645974c5827b8.mp4',
+        },
+      ],
     }),
     _getTask({
       id: 29,
       name: 'Hazardzista',
-      videoSolution: sampleSources,
+      videoSolution: [
+        {
+          resolution: '4k',
+          url:
+            'https://cdn.fullstack.pl/assets/task-29-4k.54977e315d5525518ec446f49e10a441.mp4',
+        },
+        {
+          resolution: '1080p',
+          url:
+            'https://cdn.fullstack.pl/assets/task-29-1080p.514b836c52e465d5d2b4a0239051caf4.mp4',
+        },
+        {
+          resolution: '720p',
+          url:
+            'https://cdn.fullstack.pl/assets/task-29-720p.59efde5115979640ee0619add88764c3.mp4',
+        },
+      ],
     }),
     _getTask({
       id: 30,
       name: 'Mikstura',
-      videoSolution: sampleSources,
+      videoSolution: [
+        {
+          resolution: '4k',
+          url:
+            'https://cdn.fullstack.pl/assets/task-30-4k.00cb14007995fb9b7b41137c7f959db2.mp4',
+        },
+        {
+          resolution: '1080p',
+          url:
+            'https://cdn.fullstack.pl/assets/task-30-1080p.0d4d5fe044e14ed4b6c439f693bdc6db.mp4',
+        },
+        {
+          resolution: '720p',
+          url:
+            'https://cdn.fullstack.pl/assets/task-30-720p.d8f66dff6851af199a42a506d8278f36.mp4',
+        },
+      ],
     }),
   ],
 };
