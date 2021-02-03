@@ -85,7 +85,7 @@ export function Player(props: PlayerProps) {
       height: size.height,
       quality: vimeoSettings.quality,
     });
-    player.setPlaybackRate(vimeoSettings.playbackRate);
+    void player.setPlaybackRate(vimeoSettings.playbackRate);
     if (onEnd) {
       player.on('ended', onEnd);
     }
@@ -99,7 +99,7 @@ export function Player(props: PlayerProps) {
     });
     playerRef.current = player;
     return () => {
-      player.destroy();
+      void player.destroy();
     };
   }, []);
 
