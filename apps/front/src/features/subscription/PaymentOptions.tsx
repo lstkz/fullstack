@@ -59,7 +59,7 @@ export function PaymentOptions() {
                   })
                 }
                 className={classNames(
-                  'p-2 shadow-sm border rounded-md flex items-center justify-center bg-white cursor-pointer focus:ring focus:outline-none transition-shadow',
+                  'p-2 shadow-sm border-2 rounded-md flex items-center justify-center bg-white cursor-pointer focus:ring focus:outline-none transition-shadow',
                   item.id === groupId ? 'border-primary' : 'border-gray-200'
                 )}
                 aria-label={item.name}

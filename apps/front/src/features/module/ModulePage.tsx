@@ -62,7 +62,7 @@ export function ModulePage(props: ModulePageProps) {
       >
         <LessonModalModule>
           <div className="container mt-4" data-test="module-page">
-            <Heading type={3} className="my-4">
+            <Heading type={3} className="my-8">
               {module.name}
             </Heading>
             <ModuleSummary />
