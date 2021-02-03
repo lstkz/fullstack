@@ -12,12 +12,12 @@ export function LandingFooter() {
           Masz Pytania?
         </Heading>
         <div className="text-white opacity-80">
-          Napisz do mnie na{' '}
+          Napisz na{' '}
           <a
             className="text-white font-semibold"
-            href="mailto:lukasz@sentkiewicz"
+            href="mailto:lukasz@fullstack.pl"
           >
-            lukasz@sentkiewicz.pl
+            lukasz@fullstack.pl
           </a>
         </div>
         <FooterCopyright />
