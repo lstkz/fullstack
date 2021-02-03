@@ -31,6 +31,9 @@ export function FooterCopyright() {
         </div>
         <div className="flex flex-wrap justify-center list-none">
           <li>
+            <StyledLink href="/terms">Regulamin</StyledLink>
+          </li>
+          <li>
             <StyledLink href="/privacy">Polityka Prywatności</StyledLink>
           </li>
         </div>

@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { FooterMain } from 'src/components/Footer';
 import { FooterCopyright } from 'src/components/FooterCopyright';
 import { Heading } from 'src/components/Heading';
 import { SectionShape } from './SectionShape';
@@ -20,6 +21,8 @@ export function LandingFooter() {
             lukasz@fullstack.pl
           </a>
         </div>
+        <div className="sep sep-light mt-6" />
+        <FooterMain />
         <FooterCopyright />
       </div>
     </div>
