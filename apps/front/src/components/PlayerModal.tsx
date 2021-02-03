@@ -7,10 +7,11 @@ interface PlayerModalProps {
   children: React.ReactNode;
   isOpen: boolean;
   close: () => void;
+  footer?: React.ReactNode;
 }
 
 export function PlayerModal(props: PlayerModalProps) {
-  const { header, children, isOpen, close } = props;
+  const { header, footer, children, isOpen, close } = props;
   return (
     <Modal
       testId="player-modal"
@@ -24,12 +25,15 @@ export function PlayerModal(props: PlayerModalProps) {
       isOpen={isOpen}
       close={close}
     >
-      <div
-        className="-m-6 bg-black flex items-center justify-center py-4"
-        style={{ minHeight: '80vh' }}
-      >
-        {children}
+      <div className="-m-6 mb-2 bg-black py-4">
+        <div
+          className="flex items-center justify-center "
+          style={{ minHeight: '80vh' }}
+        >
+          {children}
+        </div>
       </div>
+      {footer}
     </Modal>
   );
 }

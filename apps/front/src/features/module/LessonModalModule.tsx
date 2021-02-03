@@ -5,6 +5,9 @@ import { useModulePageActions, useOptionalLesson } from './ModulePage';
 import { Player } from '../../components/Player';
 import { useOnKey } from 'src/hooks/useOnKey';
 import { useRouter } from 'next/router';
+import { Button } from 'src/components/Button';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faArrowRight } from '@fortawesome/free-solid-svg-icons';
 
 interface Actions {
   show: (lessonId: number) => void;
@@ -62,6 +65,7 @@ export function LessonModalModule(props: LessonModalProps) {
   const { isOpen, lessonId } = state;
 
   const lesson = useOptionalLesson(lessonId);
+  const nextLesson = useOptionalLesson(lessonId ? lessonId + 1 : null);
   useOnKey({
     isEnabled: isOpen,
     key: 'Escape',
@@ -86,6 +90,23 @@ export function LessonModalModule(props: LessonModalProps) {
           header={
             <>
               Lekcja {lesson.id}: {lesson.name}
+            </>
+          }
+          footer={
+            <>
+              <div className="flex justify-end mt-2">
+                {lesson.isWatched && nextLesson && (
+                  <Button
+                    type="secondary"
+                    onClick={() => {
+                      actions.show(nextLesson.id);
+                    }}
+                  >
+                    Lekcja {nextLesson.id}
+                    <FontAwesomeIcon className="ml-2" icon={faArrowRight} />
+                  </Button>
+                )}
+              </div>
             </>
           }
           isOpen={isOpen}
