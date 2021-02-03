@@ -27,7 +27,7 @@ export function ModuleSummary() {
     };
   }, [module]);
   return (
-    <div className="bg-white border border-gray-200 my-4 p-7 rounded-xl shadow-sm">
+    <div className="bg-white border border-gray-200 my-8 p-7 rounded-xl shadow-sm">
       <Heading type={5}>Podsumowanie</Heading>
       <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8 mt-4 gap-y-4">
         <Stat
