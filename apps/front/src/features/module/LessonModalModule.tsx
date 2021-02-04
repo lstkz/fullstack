@@ -8,6 +8,7 @@ import { useRouter } from 'next/router';
 import { Button } from 'src/components/Button';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowRight } from '@fortawesome/free-solid-svg-icons';
+import { track } from 'src/track';
 
 interface Actions {
   show: (lessonId: number) => void;
@@ -24,11 +25,12 @@ const LessonModalContext = React.createContext<{
 }>(null!);
 
 export interface LessonModalProps {
+  moduleId: string;
   children: React.ReactNode;
 }
 
 export function LessonModalModule(props: LessonModalProps) {
-  const { children } = props;
+  const { children, moduleId } = props;
   const [state, setState] = useImmer<State>({ isOpen: false, lessonId: null });
   const router = useRouter();
   const actions = React.useMemo<Actions>(
@@ -74,6 +76,16 @@ export function LessonModalModule(props: LessonModalProps) {
 
   const { markLessonWatched } = useModulePageActions();
 
+  React.useEffect(() => {
+    if (isOpen && lesson) {
+      track({
+        type: 'lesson_viewed',
+        moduleId: moduleId,
+        lessonId: lesson.id,
+      });
+    }
+  }, [isOpen, lessonId]);
+
   return (
     <div>
       <LessonModalContext.Provider
@@ -116,6 +128,13 @@ export function LessonModalModule(props: LessonModalProps) {
             key={lesson.id}
             sources={lesson.sources}
             onEnd={() => {
+              if (!lesson.isWatched) {
+                track({
+                  type: 'lesson_watched',
+                  moduleId: module.id,
+                  lessonId: lesson.id,
+                });
+              }
               markLessonWatched(lesson.id);
             }}
           />

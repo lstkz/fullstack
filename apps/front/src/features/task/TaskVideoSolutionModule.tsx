@@ -7,6 +7,7 @@ import { Player } from 'src/components/Player';
 import { PlayerModal } from 'src/components/PlayerModal';
 import { SimpleModal } from 'src/components/SimpleModal';
 import { api } from 'src/services/api';
+import { track } from 'src/track';
 import { Updater, useImmer } from 'use-immer';
 import { useErrorModalActions } from '../ErrorModalModule';
 
@@ -84,6 +85,12 @@ export function TaskVideoSolutionModule(props: TaskVideoSolutionProps) {
         });
         setTask(draft => {
           draft.isSolutionOpened = true;
+        });
+        track({
+          type: 'task_solution_viewed',
+          taskId: task.id,
+          moduleId: task.moduleId,
+          isSolved: task.isSolved,
         });
       }
     } catch (e) {

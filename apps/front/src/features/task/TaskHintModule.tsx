@@ -7,6 +7,7 @@ import { ConfirmModal } from 'src/components/ConfirmModal';
 import { Modal } from 'src/components/Modal';
 import { SimpleModal } from 'src/components/SimpleModal';
 import { api } from 'src/services/api';
+import { track } from 'src/track';
 import { Updater, useImmer } from 'use-immer';
 import { useErrorModalActions } from '../ErrorModalModule';
 
@@ -75,6 +76,12 @@ export function TaskHintModule(props: TaskHintProps) {
         });
         setTask(draft => {
           draft.isHintOpened = true;
+        });
+        track({
+          type: 'task_hint_viewed',
+          taskId: task.id,
+          moduleId: task.moduleId,
+          isSolved: task.isSolved,
         });
       }
     } catch (e) {

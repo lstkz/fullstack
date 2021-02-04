@@ -1,7 +1,7 @@
 import { Handler } from 'express';
 import fetch from 'node-fetch';
 
-const MIXPANEL_API_URL = 'https://api-eu.mixpanel.com';
+export const MIXPANEL_API_URL = 'https://api-eu.mixpanel.com';
 
 export const trackMiddleware: Handler[] = [
   async (req, res, next) => {

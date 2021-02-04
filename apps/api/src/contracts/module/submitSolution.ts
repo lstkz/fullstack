@@ -14,6 +14,7 @@ import { DUPLICATED_UNIQUE_VALUE_ERROR_CODE } from '../../common/mongo';
 import { withTransaction } from '../../db';
 import { dispatchSocketMsg } from '../../dispatch';
 import { createContract, createRpcBinding } from '../../lib';
+import { track } from '../../track';
 import { getActiveTask } from './getTask';
 
 async function _insertScore(
@@ -106,6 +107,11 @@ export const submitSolution = createContract('module.submitSolution')
         taskId: values.taskId,
         score,
       },
+    });
+    track(user._id, {
+      type: 'task_solved',
+      moduleId: values.moduleId,
+      taskId: values.taskId,
     });
   });
 

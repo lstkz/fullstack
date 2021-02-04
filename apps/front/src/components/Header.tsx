@@ -3,6 +3,7 @@ import * as React from 'react';
 import { createUrl } from 'src/common/url';
 import { Logo } from 'src/components/Logo';
 import { useAuthActions, useUser } from 'src/features/AuthModule';
+import { track } from 'src/track';
 import { Button } from './Button';
 import { DropdownPopup, MenuItem, MenuSeparator } from './DropdownPopup';
 import { MenuDropdown } from './MenuDropdown';
@@ -57,7 +58,16 @@ export function Header() {
                 </MenuDropdown>
                 {!user.hasSubscription && (
                   <Link href={createUrl({ name: 'subscription' })}>
-                    <Button type="primary" size="small" className="ml-4">
+                    <Button
+                      type="primary"
+                      size="small"
+                      className="ml-4"
+                      onClick={() => {
+                        track({
+                          type: 'header_buy_clicked',
+                        });
+                      }}
+                    >
                       Kup PRO
                     </Button>
                   </Link>

@@ -11,6 +11,7 @@ import {
 import { createContract, createEventBinding } from '../../lib';
 import { createFlagTransaction } from '../../db';
 import { dispatchTask } from '../../dispatch';
+import { track } from '../../track';
 
 export const completePurchase = createContract('subscription.completePurchase')
   .params('orderId')
@@ -55,6 +56,8 @@ export const completePurchase = createContract('subscription.completePurchase')
         orderId: order._id,
       },
     });
+
+    track(order.userId, { type: 'subscription_complete', planId: plan._id });
   });
 
 export const completeCourseOrderEvent = createEventBinding({
