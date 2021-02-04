@@ -40,6 +40,9 @@ export type UrlOptions =
     }
   | {
       name: 'subscription';
+    }
+  | {
+      name: 'pricing';
     };
 
 export function createUrl(options: UrlOptions) {

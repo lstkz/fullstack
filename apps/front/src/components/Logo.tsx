@@ -1,5 +1,4 @@
 import * as React from 'react';
-import { createUrl } from 'src/common/url';
 import Link from 'next/link';
 import classNames from 'classnames';
 
@@ -10,13 +9,10 @@ interface LogoProps {
 }
 
 export function Logo(props: LogoProps) {
-  const { type, landing, titleClassName } = props;
+  const { type, titleClassName } = props;
   return (
     <div className="flex items-center">
-      <Link
-        href={landing ? '/' : createUrl({ name: 'home' })}
-        aria-label="logo"
-      >
+      <Link href="/" aria-label="logo">
         <a>
           <h1
             className={classNames(
