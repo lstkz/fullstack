@@ -56,7 +56,7 @@ it('should complete purchase', async () => {
     )
   ).toBeTruthy();
   expect(userSubs).toHaveLength(1);
-  expect(mocked_dispatchTask).toBeCalledTimes(1);
+  expect(mocked_dispatchTask).toBeCalledTimes(2);
 });
 
 it('should complete purchase (parallel)', async () => {
