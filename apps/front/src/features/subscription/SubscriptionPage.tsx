@@ -20,6 +20,7 @@ import { createUrl } from 'src/common/url';
 import { HeadTitle } from 'src/components/HeadTitle';
 import { useUser } from '../AuthModule';
 import { useRouter } from 'next/dist/client/router';
+import { track } from 'src/track';
 
 interface SubscriptionPageProps {
   subscriptionPlans: SubscriptionPlan[];
@@ -33,6 +34,11 @@ export interface SubscriptionFormValues extends UserInfoFormFields {
 
 export function SubscriptionPage(props: SubscriptionPageProps) {
   const { subscriptionPlans, info } = props;
+  React.useEffect(() => {
+    track({
+      type: 'subscription_viewed',
+    });
+  }, []);
   const user = useUser();
   const router = useRouter();
   const [isSubmitting, setIsSubmitting] = React.useState(false);
@@ -68,6 +74,9 @@ export function SubscriptionPage(props: SubscriptionPageProps) {
         customer,
       });
       setIsDone(true);
+      track({
+        type: 'subscription_initiated',
+      });
       setTimeout(() => {
         window.location.href = paymentUrl;
       });

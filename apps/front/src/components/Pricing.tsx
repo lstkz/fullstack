@@ -4,6 +4,7 @@ import { createUrl } from 'src/common/url';
 import { Button } from 'src/components/Button';
 import { Heading } from './Heading';
 import { useUser } from 'src/features/AuthModule';
+import { track } from 'src/track';
 
 interface PricingProps {}
 
@@ -36,6 +37,11 @@ export function Pricing(props: PricingProps) {
                 type="warning"
                 size="small"
                 href={createUrl({ name: user ? 'modules' : 'register' })}
+                onClick={() => {
+                  track({
+                    type: 'pricing_try_clicked',
+                  });
+                }}
               >
                 Wybróbuj
               </Button>
@@ -62,6 +68,11 @@ export function Pricing(props: PricingProps) {
                 type="neutral"
                 size="small"
                 href={createUrl({ name: user ? 'subscription' : 'register' })}
+                onClick={() => {
+                  track({
+                    type: 'pricing_purchase_clicked',
+                  });
+                }}
               >
                 Kup
               </Button>

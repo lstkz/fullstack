@@ -23,6 +23,7 @@ export function RegisterPage() {
   const { errors, register, handleSubmit, getValues } = useForm<FormValues>();
   const redirectUrl = createUrl({ name: 'subscription' });
   const { error, isSubmitting, onSubmit } = useAuthForm({
+    isRegister: true,
     submit: () => api.user_register(R.omit(getValues(), ['confirmPassword'])),
     redirectUrl,
   });
