@@ -16,6 +16,7 @@ export interface UserModel {
   subscriptionExpiration?: Date;
   info?: CustomerInfo | null;
   notifications?: NotificationSettings | null;
+  invoiceClientId?: number;
 }
 
 export const UserCollection = safeExtend(

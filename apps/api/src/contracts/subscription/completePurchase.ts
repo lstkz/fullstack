@@ -49,6 +49,12 @@ export const completePurchase = createContract('subscription.completePurchase')
         userId: order.userId.toHexString(),
       },
     });
+    await dispatchTask({
+      type: 'CreateOrderInvoice',
+      payload: {
+        orderId: order._id,
+      },
+    });
   });
 
 export const completeCourseOrderEvent = createEventBinding({
