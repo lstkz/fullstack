@@ -1,4 +1,3 @@
-import { config } from 'config';
 import { S } from 'schema';
 import { AuthData } from 'shared';
 import { UserCollection } from '../../collections/User';
@@ -16,9 +15,6 @@ export const googleRegister = createContract('user.googleRegister')
   })
   .returns<AuthData>()
   .fn(async accessToken => {
-    if (config.disableApp) {
-      throw new Error('disabled');
-    }
     const email = await getEmail(accessToken);
     const existing = await UserCollection.findOneByEmail(email);
     if (existing) {
