@@ -3,7 +3,6 @@ import { createContract, createRpcBinding } from '../../lib';
 import { _createUser } from './_createUser';
 import { _generateAuthData } from './_generateAuthData';
 import { AuthData, getPasswordSchema } from 'shared';
-import { config } from 'config';
 
 export const register = createContract('user.register')
   .params('values')
@@ -15,9 +14,6 @@ export const register = createContract('user.register')
   })
   .returns<AuthData>()
   .fn(async values => {
-    if (config.disableApp) {
-      throw new Error('disabled');
-    }
     const user = await _createUser({
       ...values,
       isVerified: false,
