@@ -1,4 +1,4 @@
-import { ObjectID, ObjectId } from 'mongodb';
+import { ObjectID } from 'mongodb';
 import { createCollection } from '../db';
 
 export interface OrderInvoiceModel {
