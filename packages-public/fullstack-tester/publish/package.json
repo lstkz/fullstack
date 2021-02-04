@@ -1,6 +1,6 @@
 {
   "name": "fullstack-tester",
-  "version": "1.0.6",
+  "version": "1.0.7",
   "description": "",
   "scripts": {},
   "bin": {
@@ -14,6 +14,7 @@
     "chalk": "^4.1.0",
     "chokidar": "^3.2.3",
     "form-data": "^3.0.0",
-    "node-fetch": "^2.6.1"
+    "node-fetch": "^2.6.1",
+    "tar": "^6.1.0"
   }
 }
