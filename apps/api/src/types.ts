@@ -101,6 +101,13 @@ export interface InviteDiscordTask {
   };
 }
 
+export interface CreateOrderInvoiceTask {
+  type: 'CreateOrderInvoice';
+  payload: {
+    orderId: string;
+  };
+}
+
 export interface OrderCreatedEvent {
   type: 'OrderCreated';
   payload: { orderId: string };
@@ -126,7 +133,8 @@ export type AppTask =
   | StopVMTask
   | CheckIdleVmsTask
   | RemoveVMDomainTask
-  | InviteDiscordTask;
+  | InviteDiscordTask
+  | CreateOrderInvoiceTask;
 export type AppEvent = OrderCreatedEvent | OrderPaidEvent | UserRegisteredEvent;
 
 type ExtractType<T> = T extends { type: infer S } ? S : never;

@@ -62,6 +62,19 @@ export interface AppConfig {
     clientId: string;
     clientSecret: string;
   };
+  fakturownia: {
+    enabled: boolean;
+    domain: string;
+    apiToken: string;
+    numberPrefix: string;
+    sellerValues: {
+      seller_name: string;
+      seller_tax_no: string;
+      seller_street: string;
+      seller_post_code: string;
+      seller_city: string;
+    };
+  };
   tpay: {
     resultEmail: string;
     apiKey: string;

@@ -60,6 +60,19 @@ export const config: AppConfig = {
     clientSecret: 'mocked',
   },
   deploy: null!,
+  fakturownia: {
+    enabled: true,
+    domain: 'fullstack',
+    apiToken: '1111234',
+    numberPrefix: 'TEST',
+    sellerValues: {
+      seller_name: 'Seller SA',
+      seller_tax_no: '5252445767',
+      seller_street: 'street',
+      seller_post_code: '122-45',
+      seller_city: 'New York',
+    },
+  },
   tpay: {
     apiKey: 'mocked',
     code: 'demo',

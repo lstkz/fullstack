@@ -103,7 +103,7 @@ export function getDuration(n: number, type: 's' | 'm' | 'h' | 'd') {
 }
 
 export async function getResponseBody<T = any>(opName: string, res: Response) {
-  if (res.status !== 200) {
+  if (res.status < 200 || res.status >= 300) {
     const msg = `${opName} failed with code: ${res.status}`;
     console.error(msg, {
       responseText: await res.text(),
