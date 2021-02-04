@@ -3,7 +3,7 @@ import { GetServerSideProps, NextPageContext } from 'next';
 import { APIClient } from 'shared';
 import classNames from 'classnames';
 import { overrideTailwindClasses } from 'tailwind-override';
-import { API_URL, DISABLE_APP } from 'src/config';
+import { API_URL } from 'src/config';
 import { readCookieFromString } from './cookie';
 import { ClassValue } from 'classnames/types';
 import { bugsnag } from 'src/bug-report';
@@ -45,20 +45,6 @@ export const ensureNotLoggedIn: GetServerSideProps = async context => {
   return {
     props: {},
   };
-};
-
-export const wrapDisabled: (
-  fn: GetServerSideProps
-) => GetServerSideProps = fn => async context => {
-  if (DISABLE_APP) {
-    return {
-      redirect: {
-        destination: '/',
-        permanent: false,
-      },
-    };
-  }
-  return fn(context);
 };
 
 export function createSSRClient<
@@ -129,6 +115,10 @@ export const createGetServerSideProps: (
   } catch (e) {
     const status = e.res?.status;
     if (status == 401) {
+      context.res.setHeader(
+        'Set-Cookie',
+        'token=deleted; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT'
+      );
       return {
         redirect: {
           destination: '/login',
