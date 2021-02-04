@@ -29,6 +29,16 @@ if (config.mixpanel.apiKey !== -1) {
   });
 }
 
+function _handleError(err: Error | undefined) {
+  if (err) {
+    logger.error('mixpanel error', err);
+  }
+}
+
+function _serializeId(id: string | ObjectID) {
+  return typeof id === 'string' ? id : id.toHexString();
+}
+
 export function track(id: string | ObjectID, data: TrackEvent) {
   if (process.env.NODE_ENV === 'development') {
     console.log('track', data);
@@ -39,12 +49,18 @@ export function track(id: string | ObjectID, data: TrackEvent) {
   client.track(
     data.type,
     {
-      distinct_id: id,
+      distinct_id: _serializeId(id),
     },
-    err => {
-      if (err) {
-        logger.error('mixpanel error', err);
-      }
-    }
+    _handleError
   );
+}
+
+export function setTrackingUser(
+  id: string | ObjectID,
+  properties: mixpanel.PropertyDict
+) {
+  if (!client) {
+    return;
+  }
+  client.people.set(_serializeId(id), properties);
 }
