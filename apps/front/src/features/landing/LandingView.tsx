@@ -13,7 +13,7 @@ import { PurchaseSection } from './PurchaseSection';
 export function LandingView() {
   React.useEffect(() => {
     track({
-      type: 'landing_page_viewed',
+      type: 'landing_viewed',
     });
   }, []);
   return (

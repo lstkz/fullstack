@@ -7,7 +7,6 @@ import {
 import * as React from 'react';
 import { FooterCopyright } from './FooterCopyright';
 import { Logo } from './Logo';
-import { cx } from 'src/common/helper';
 import { IconProp } from '@fortawesome/fontawesome-svg-core';
 import Link from 'next/link';
 import { createUrl } from 'src/common/url';

@@ -17,6 +17,7 @@ import { TaskHeaderContainer } from './TaskHeaderContainer';
 import { TaskVideoSolutionModule } from './TaskVideoSolutionModule';
 import { TaskSummary } from './TaskSummary';
 import { HeadTitle } from 'src/components/HeadTitle';
+import { track } from 'src/track';
 
 export interface TaskPageProps {
   task: ModuleTaskDetails;
@@ -31,6 +32,13 @@ export function TaskPage(props: TaskPageProps) {
   const details = useDetails(props.task);
   const { isIdle } = useVMPing(isReady);
   const [task, setTask] = useTaskUpdates(props.task);
+  React.useEffect(() => {
+    track({
+      type: 'task_viewed',
+      moduleId: task.moduleId,
+      taskId: task.id,
+    });
+  }, []);
 
   useReportPracticeTime(task, isReady && vmUrl != null && !isIdle);
   if (isIdle) {

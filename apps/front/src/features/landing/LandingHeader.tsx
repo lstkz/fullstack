@@ -2,6 +2,7 @@ import * as React from 'react';
 import { Logo } from 'src/components/Logo';
 import { Button } from 'src/components/Button';
 import { createUrl } from 'src/common/url';
+import { track } from 'src/track';
 
 export function LandingHeader() {
   return (
@@ -12,6 +13,9 @@ export function LandingHeader() {
           <Button
             type="primary"
             onClick={() => {
+              track({
+                type: 'landing_try_clicked',
+              });
               document.getElementById('purchase-section')?.scrollIntoView({
                 behavior: 'smooth',
               });

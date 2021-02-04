@@ -4,6 +4,7 @@ import { Dashboard } from 'src/components/Dashboard';
 import { Heading } from 'src/components/Heading';
 import { HeadTitle } from 'src/components/HeadTitle';
 import { api } from 'src/services/api';
+import { track } from 'src/track';
 import { useImmer } from 'use-immer';
 import { LessonModalModule } from './LessonModalModule';
 import { LessonsSection } from './LessonsSection';
@@ -30,6 +31,12 @@ export interface ModulePageProps {
 export function ModulePage(props: ModulePageProps) {
   const [state, setState] = useImmer<State>({ module: props.module });
   const { module } = state;
+  React.useEffect(() => {
+    track({
+      type: 'module_viewed',
+      moduleId: module.id,
+    });
+  }, []);
 
   const actions = React.useMemo<Actions>(
     () => ({
@@ -60,7 +67,7 @@ export function ModulePage(props: ModulePageProps) {
           actions,
         }}
       >
-        <LessonModalModule>
+        <LessonModalModule moduleId={module.id}>
           <div className="container mt-4" data-test="module-page">
             <Heading type={3} className="my-8">
               {module.name}
