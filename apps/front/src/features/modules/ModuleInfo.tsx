@@ -14,6 +14,7 @@ import Link from 'next/link';
 import { Heading } from 'src/components/Heading';
 import { Button } from 'src/components/Button';
 import { Badge } from 'src/components/Badge';
+import { faHtml5, faNodeJs, faReact } from '@fortawesome/free-brands-svg-icons';
 
 interface ModuleInfoProps {
   className?: string;
@@ -33,6 +34,19 @@ function Stat({ icon, text }: StatProps) {
   );
 }
 
+function getIcon(moduleId: string) {
+  switch (moduleId.split('-')[0]) {
+    case '6':
+      return <FontAwesomeIcon icon={faHtml5} className="text-blue text-4xl" />;
+    case '7':
+      return <FontAwesomeIcon icon={faReact} className="text-blue text-4xl" />;
+    case '8':
+      return <FontAwesomeIcon icon={faNodeJs} className="text-blue text-4xl" />;
+    default:
+      return <TsIcon className="w-8 h-8" />;
+  }
+}
+
 export const ModuleInfo = (props: ModuleInfoProps) => {
   const { module } = props;
   const heading = <Heading type={5}>{module.name}</Heading>;
@@ -42,7 +56,7 @@ export const ModuleInfo = (props: ModuleInfoProps) => {
         <div className="col-span-5">
           <div className="flex items-center mb-4">
             <div className="flex items-center justify-center mr-4">
-              <TsIcon className="w-8 h-8" />
+              {getIcon(module.id)}
             </div>
             {module.isPending ? (
               <>
@@ -63,7 +77,11 @@ export const ModuleInfo = (props: ModuleInfoProps) => {
               </Link>
             )}
           </div>
-          <div>{module.description}</div>
+          <div
+            dangerouslySetInnerHTML={{
+              __html: module.description,
+            }}
+          ></div>
         </div>
         <div className="flex justify-end items-center mt-4 md:m-0">
           {!module.isPending && (
