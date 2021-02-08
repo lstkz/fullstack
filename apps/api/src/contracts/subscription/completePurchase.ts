@@ -12,6 +12,7 @@ import { createContract, createEventBinding } from '../../lib';
 import { createFlagTransaction } from '../../db';
 import { dispatchTask } from '../../dispatch';
 import { track } from '../../track';
+import { config } from 'config';
 
 export const completePurchase = createContract('subscription.completePurchase')
   .params('orderId')
@@ -62,7 +63,7 @@ export const completePurchase = createContract('subscription.completePurchase')
               user.subscriptionExpiration!,
               'dd/MM/YYY'
             )}.`,
-            buttonUrl: 'https://fullstack.pl/modules',
+            buttonUrl: config.appBaseUrl + '/modules',
             buttonText: 'Pokaż moduły',
           },
         },

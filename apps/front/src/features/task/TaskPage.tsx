@@ -58,7 +58,7 @@ export function TaskPage(props: TaskPageProps) {
     <TaskHintModule task={task} setTask={setTask}>
       <HeadTitle title={task.name} />
       <TaskVideoSolutionModule task={task} setTask={setTask}>
-        <div className="flex h-full flex-col">
+        <div className="flex h-full flex-col" style={{ minWidth: 800 }}>
           <SolvedModal task={task} />
           <HighlightStyles />
           <TaskHeader task={task} />
