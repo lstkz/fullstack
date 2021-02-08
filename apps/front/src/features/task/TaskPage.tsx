@@ -18,6 +18,7 @@ import { TaskVideoSolutionModule } from './TaskVideoSolutionModule';
 import { TaskSummary } from './TaskSummary';
 import { HeadTitle } from 'src/components/HeadTitle';
 import { track } from 'src/track';
+import { TaskBackLink } from './TaskBackLink';
 
 export interface TaskPageProps {
   task: ModuleTaskDetails;
@@ -70,6 +71,7 @@ export function TaskPage(props: TaskPageProps) {
                   {details ?? (
                     <div dangerouslySetInnerHTML={{ __html: detailsHtml }} />
                   )}
+                  <TaskBackLink moduleId={task.moduleId} />
                 </>
               }
               ide={renderIframe()}
