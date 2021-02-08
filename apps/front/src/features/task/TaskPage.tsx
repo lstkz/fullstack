@@ -18,6 +18,7 @@ import { TaskVideoSolutionModule } from './TaskVideoSolutionModule';
 import { TaskSummary } from './TaskSummary';
 import { HeadTitle } from 'src/components/HeadTitle';
 import { track } from 'src/track';
+import { TaskBackLink } from './TaskBackLink';
 
 export interface TaskPageProps {
   task: ModuleTaskDetails;
@@ -58,7 +59,7 @@ export function TaskPage(props: TaskPageProps) {
     <TaskHintModule task={task} setTask={setTask}>
       <HeadTitle title={task.name} />
       <TaskVideoSolutionModule task={task} setTask={setTask}>
-        <div className="flex h-full flex-col">
+        <div className="flex h-full flex-col" style={{ minWidth: 800 }}>
           <SolvedModal task={task} />
           <HighlightStyles />
           <TaskHeader task={task} />
@@ -70,6 +71,7 @@ export function TaskPage(props: TaskPageProps) {
                   {details ?? (
                     <div dangerouslySetInnerHTML={{ __html: detailsHtml }} />
                   )}
+                  <TaskBackLink moduleId={task.moduleId} />
                 </>
               }
               ide={renderIframe()}
