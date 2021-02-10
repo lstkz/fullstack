@@ -36,6 +36,13 @@ export class APIClient {
   }
 
   // SIGNATURES
+  convertKit_unsubscribeWebhook(
+    values: { subscriber: { id: number } & { [key: string]: any } } & {
+      [key: string]: any;
+    }
+  ): Promise<unknown> {
+    return this.call('convertKit.unsubscribeWebhook', { values });
+  }
   domainCert_createDomainCert(values: {
     expiresAt: Date;
     cert: string;
@@ -104,21 +111,21 @@ export class APIClient {
     });
   }
   module_updateModule(values: {
+    id: string;
     name: string;
     description: string;
     isPending: boolean;
     estimatedPracticeTimeHours: number;
-    id: string;
     packageJson: string;
     lessons: {
-      name: string;
       id: number;
+      name: string;
       duration: string;
       sources: { url: string; type: string }[];
     }[];
     tasks: {
-      name: string;
       id: number;
+      name: string;
       isExample: boolean;
       detailsS3Key: string;
       sourceS3Key: string;
@@ -197,6 +204,9 @@ export class APIClient {
   user_confirmEmail(code: string): Promise<AuthData> {
     return this.call('user.confirmEmail', { code });
   }
+  user_confirmNewEmail(code: string): Promise<unknown> {
+    return this.call('user.confirmNewEmail', { code });
+  }
   user_confirmResetPassword(
     code: string,
     newPassword: string
@@ -215,14 +225,23 @@ export class APIClient {
   user_githubLogin(code: string): Promise<AuthData> {
     return this.call('user.githubLogin', { code });
   }
-  user_githubRegister(code: string): Promise<AuthData> {
-    return this.call('user.githubRegister', { code });
+  user_githubRegister(
+    code: string,
+    subscribeNewsletter: boolean
+  ): Promise<AuthData> {
+    return this.call('user.githubRegister', { code, subscribeNewsletter });
   }
   user_googleLogin(accessToken: string): Promise<AuthData> {
     return this.call('user.googleLogin', { accessToken });
   }
-  user_googleRegister(accessToken: string): Promise<AuthData> {
-    return this.call('user.googleRegister', { accessToken });
+  user_googleRegister(
+    accessToken: string,
+    subscribeNewsletter: boolean
+  ): Promise<AuthData> {
+    return this.call('user.googleRegister', {
+      accessToken,
+      subscribeNewsletter,
+    });
   }
   user_login(values: { email: string; password: string }): Promise<AuthData> {
     return this.call('user.login', { values });
@@ -230,17 +249,19 @@ export class APIClient {
   user_register(values: {
     email: string;
     password: string;
+    subscribeNewsletter: boolean;
   }): Promise<AuthData> {
     return this.call('user.register', { values });
   }
   user_resetPassword(email: string): Promise<void> {
     return this.call('user.resetPassword', { email });
   }
-  user_updateEmail(newEmail: string): Promise<void> {
+  user_updateEmail(newEmail: string): Promise<{ ok: boolean }> {
     return this.call('user.updateEmail', { newEmail });
   }
   user_updateNotificationSettings(values: {
     newsletter: boolean;
+    webinars: boolean;
     newContent: boolean;
     subscriptionRemainder: boolean;
   }): Promise<unknown> {

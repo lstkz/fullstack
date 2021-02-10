@@ -4,7 +4,13 @@ import { cx } from 'src/common/helper';
 
 type BaseProps = Pick<
   React.InputHTMLAttributes<HTMLInputElement>,
-  'value' | 'placeholder' | 'onChange' | 'type' | 'id' | 'autoComplete'
+  | 'value'
+  | 'placeholder'
+  | 'onChange'
+  | 'type'
+  | 'id'
+  | 'autoComplete'
+  | 'maxLength'
 >;
 
 export interface InputProps extends BaseProps {

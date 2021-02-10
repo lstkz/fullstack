@@ -11,32 +11,41 @@ import { Button } from './Button';
 interface SocialFormButtonsProps {
   source: 'login' | 'register';
   redirectUrl?: string;
+  subscribeNewsletter?: boolean;
+  isValid?: boolean;
+  validate?: () => void;
 }
 
 export function SocialFormButtons(props: SocialFormButtonsProps) {
-  const { source, redirectUrl } = props;
+  const { source, redirectUrl, subscribeNewsletter, isValid, validate } = props;
   const router = useRouter();
   const errorModalActions = useErrorModalActions();
+  const getIsSubscribe = () => router.query.subscribeNewsletter === '1';
 
   const github = useAuthForm({
     redirectUrl,
     submit: async () => {
-      const fn =
-        source === 'login' ? api.user_githubLogin : api.user_githubRegister;
-      return fn.bind(api)(router.query.code as string);
+      const code = router.query.code as string;
+      if (source === 'login') {
+        return api.user_githubLogin(code);
+      } else {
+        return api.user_githubRegister(code, getIsSubscribe());
+      }
     },
   });
 
   const google = useAuthForm({
     redirectUrl,
     submit: async () => {
-      const fn =
-        source === 'login' ? api.user_googleLogin : api.user_googleRegister;
       const token = /access_token=([^&]+)/.exec(window.location.hash)?.[1];
       if (!token) {
         throw new Error('access_token missing');
       }
-      return fn.bind(api)(token);
+      if (source === 'login') {
+        return api.user_googleLogin(token);
+      } else {
+        return api.user_googleRegister(token, getIsSubscribe());
+      }
     },
   });
 
@@ -61,6 +70,22 @@ export function SocialFormButtons(props: SocialFormButtonsProps) {
     }
   }, [google.error]);
 
+  const getRedirect = (auth: 'github' | 'google') => {
+    const query = [`auth=${auth}`];
+    if (subscribeNewsletter) {
+      query.push(`subscribeNewsletter=1`);
+    }
+
+    return encodeURIComponent(window.origin + `/${source}?${query.join('&')}`);
+  };
+  const checkCanAuth = () => {
+    if (!validate || isValid) {
+      return false;
+    }
+    validate();
+    return true;
+  };
+
   return (
     <>
       <div className="text-xs my-4 uppercase text-center">lub</div>
@@ -68,11 +93,12 @@ export function SocialFormButtons(props: SocialFormButtonsProps) {
         <Button
           testId="social-github-btn"
           onClick={() => {
+            if (checkCanAuth()) {
+              return;
+            }
             const params = [
               `client_id=${GITHUB_CLIENT_ID}`,
-              `redirect_uri=${encodeURIComponent(
-                window.origin + `/${source}?auth=github`
-              )}`,
+              `redirect_uri=${getRedirect('github')}`,
               `scope=${encodeURIComponent('user:email')}`,
             ];
             window.location.href = `https://github.com/login/oauth/authorize?${params.join(
@@ -89,11 +115,12 @@ export function SocialFormButtons(props: SocialFormButtonsProps) {
         <Button
           testId="social-google-btn"
           onClick={() => {
+            if (checkCanAuth()) {
+              return;
+            }
             const params = [
               `client_id=${GOOGLE_CLIENT_ID}`,
-              `redirect_uri=${encodeURIComponent(
-                window.origin + `/${source}?auth=google`
-              )}`,
+              `redirect_uri=${getRedirect('google')}`,
               `scope=email`,
               `response_type=token`,
             ];

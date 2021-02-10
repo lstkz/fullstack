@@ -27,7 +27,7 @@ export function Pricing(props: PricingProps) {
             type="Wersja Darmowa"
             features={[
               'Dostęp do wszystkich filmów',
-              'Jakość video 720p',
+              'Jakość video 4k',
               'Dostęp do przykładowych rozwiązań przez mentora',
               'Bez podawania karty kredytowej',
             ]}

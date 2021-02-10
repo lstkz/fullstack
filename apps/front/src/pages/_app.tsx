@@ -15,6 +15,7 @@ import '../styles/plyr.css';
 import useScrollRestoration from 'src/hooks/useScrollRestoration';
 import { API_URL, MIXPANEL_API_KEY } from 'src/config';
 import { ErrorBoundary } from 'src/bug-report';
+import { ConfirmEmailChecker } from 'src/features/ConfirmEmailChecker';
 
 config.autoAddCss = false;
 
@@ -68,6 +69,7 @@ function App({
         <ErrorModalModule>
           <SubscriptionModalsModule>
             <Component {...pageProps} />
+            <ConfirmEmailChecker />
           </SubscriptionModalsModule>
         </ErrorModalModule>
       </AuthModule>

@@ -28,6 +28,13 @@ interface Subscription {
   };
 }
 
+function getHeaders() {
+  const ret: Record<string, string> = {
+    'content-type': 'application/json',
+  };
+  return ret;
+}
+
 export async function addSubscriberToForm(
   formId: number,
   email: string
@@ -38,6 +45,7 @@ export async function addSubscriberToForm(
     body: JSON.stringify({
       email,
     }),
+    headers: getHeaders(),
   });
   const body = await getResponseBody('Add subscriber to form', res);
   return body.subscription;
@@ -62,6 +70,7 @@ export async function tagSubscriber(
     body: JSON.stringify({
       email,
     }),
+    headers: getHeaders(),
   });
   await getResponseBody('Tag subscriber', res);
 }
@@ -75,6 +84,7 @@ export async function untagSubscriber(
     body: JSON.stringify({
       email,
     }),
+    headers: getHeaders(),
   });
   await getResponseBody('Untag subscriber', res);
 }

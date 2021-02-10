@@ -1,42 +1,71 @@
 import * as R from 'remeda';
-import React from 'react';
+import React, { useState } from 'react';
+import { faCheckCircle } from '@fortawesome/free-solid-svg-icons';
 import { useRouter } from 'next/dist/client/router';
 import { useErrorModalActions } from './ErrorModalModule';
-import { useSubscriptionModalsActions } from './SubscriptionModalsModule';
 import { api } from '../services/api';
+import { SimpleModal } from 'src/components/SimpleModal';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 export function ConfirmEmailChecker() {
   const router = useRouter();
   const errorModalActions = useErrorModalActions();
-  const subscriptionModals = useSubscriptionModalsActions();
+  const [visibleModal, setVisibleModal] = useState<
+    null | 'confirmed' | 'confirmed-new'
+  >(null);
   React.useEffect(() => {
     const getQuery = (name: string) =>
       Array.isArray(router.query[name]) ? null : (router.query[name] as string);
-    const code = getQuery('confirm-email');
-    const unsubscribe = getQuery('unsubscribe');
-    const email = getQuery('email');
-    const source = getQuery('source');
-    if (code) {
+    const confirmEmail = getQuery('confirm-email');
+    const confirmNewEmail = getQuery('confirm-new-email');
+    if (confirmEmail) {
       void router.replace({
         pathname: router.pathname,
         query: R.omit(router.query, ['confirm-email']),
       });
       api
-        .emailSubscription_confirmSubscription(code)
-        .then(() => subscriptionModals.show('confirmed'))
+        .user_confirmEmail(confirmEmail)
+        .then(() => setVisibleModal('confirmed'))
         .catch(errorModalActions.show);
     }
-    if (unsubscribe && email && source) {
+    if (confirmNewEmail) {
       void router.replace({
         pathname: router.pathname,
-        query: R.omit(router.query, ['unsubscribe', 'email', 'source']),
+        query: R.omit(router.query, ['confirm-new-email']),
       });
       api
-        .emailSubscription_unsubscribe(email, unsubscribe, source)
-        .then(() => subscriptionModals.show('unsubscribed'))
+        .user_confirmNewEmail(confirmNewEmail)
+        .then(() => setVisibleModal('confirmed-new'))
         .catch(errorModalActions.show);
     }
   }, [router.query]);
 
-  return null;
+  const closeModal = () => {
+    setVisibleModal(null);
+  };
+
+  return (
+    <>
+      <SimpleModal
+        testId="email-confirmed-modal"
+        isOpen={visibleModal === 'confirmed'}
+        bgColor="primary"
+        title="Potwierdzono!"
+        icon={<FontAwesomeIcon size="4x" icon={faCheckCircle} />}
+        header="Potwierdź konto"
+        description={<>Twój e-mail został potwierdzony.</>}
+        close={closeModal}
+      />
+      <SimpleModal
+        testId="email-confirmed-modal"
+        isOpen={visibleModal === 'confirmed-new'}
+        bgColor="primary"
+        title="Potwierdzono!"
+        icon={<FontAwesomeIcon size="4x" icon={faCheckCircle} />}
+        header="Zmiena adresu email"
+        description={<>Twój nowy e-mail został potwierdzony.</>}
+        close={closeModal}
+      />
+    </>
+  );
 }

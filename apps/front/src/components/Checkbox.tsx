@@ -46,7 +46,7 @@ export function Checkbox(props: CheckboxProps) {
       >
         <div
           className={classNames(
-            'rounded-md w-4 h-4 transition-all mr-2 flex items-center justify-center',
+            'rounded-md flex-shrink-0 w-4 h-4 transition-all mr-2 flex items-center justify-center',
             isChecked ? 'bg-primary' : 'bg-gray-400'
           )}
         >

@@ -7,9 +7,10 @@ export default LandingView;
 export const getServerSideProps: GetServerSideProps = async context => {
   const client = createSSRClient(context);
   if (client.getToken()) {
+    const query = (context.req.url ?? '').split('?')[1];
     return {
       redirect: {
-        destination: '/modules',
+        destination: '/modules' + (query ? `?${query}` : ''),
         permanent: false,
       },
     };
