@@ -48,6 +48,11 @@ export function NotificationsPage(props: NotificationsPageProps) {
               }
             />
             <ListGroupItem
+              title={<Heading type={5}>Webinary</Heading>}
+              desc="Będziesz dostawać informacje o nowych webinarach."
+              right={<FormSwitch name="webinars" aria-label="Webinary" />}
+            />
+            <ListGroupItem
               title={<Heading type={5}>Kończący się abonament</Heading>}
               desc="Będziesz dostawać informacje o kończącym się abonamencie."
               right={

@@ -19,6 +19,7 @@ export async function registerSampleUsers(isVerified = true) {
       email: 'user1@example.com',
       password: 'password1',
       isVerified: isVerified,
+      subscribeNewsletter: true,
     }).then(() => createToken(getId(1), 'user1_token')),
     _createUser({
       userId: getId(2),
@@ -180,4 +181,36 @@ export async function createVM(status: VMStatus = 'running', id?: string) {
     status,
     lastPingTime: new Date(0),
   });
+}
+
+export function getAddSubscriberResult(
+  id: number,
+  state: 'active' | 'cancelled' = 'active'
+) {
+  return {
+    created_at: '123',
+    id: 100,
+    referrer: null,
+    source: '',
+    state,
+    subscribable_id: 200,
+    subscribable_type: 'type',
+    subscriber: {
+      id,
+    },
+  };
+}
+
+export function getGetSubscriberResult(
+  id: number,
+  state: 'active' | 'cancelled' = 'active'
+) {
+  return {
+    id,
+    state,
+    first_name: null,
+    email_address: '',
+    created_at: '',
+    fields: {},
+  };
 }

@@ -58,4 +58,11 @@ export async function startSchedular() {
     },
     getDuration(5, 'm')
   );
+  runEvery(
+    {
+      type: 'SyncConvertKitSubscribers',
+      payload: {},
+    },
+    getDuration(5, 'm')
+  );
 }

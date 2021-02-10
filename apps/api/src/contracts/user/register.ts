@@ -10,14 +10,18 @@ export const register = createContract('user.register')
     values: S.object().keys({
       email: S.string().email().trim(),
       password: getPasswordSchema(),
+      subscribeNewsletter: S.boolean(),
     }),
   })
   .returns<AuthData>()
   .fn(async values => {
-    const user = await _createUser({
-      ...values,
-      isVerified: false,
-    });
+    const user = await _createUser(
+      {
+        ...values,
+        isVerified: false,
+      },
+      true
+    );
     return _generateAuthData(user);
   });
 

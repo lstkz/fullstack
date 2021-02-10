@@ -37,6 +37,7 @@ export function Checkbox(props: CheckboxProps) {
         onClick={() => {
           onChange(!isChecked);
         }}
+        data-test={testId}
         onKeyPress={e => {
           if (isConfirmKey(e.key || e.nativeEvent.key)) {
             e.preventDefault();
@@ -46,7 +47,7 @@ export function Checkbox(props: CheckboxProps) {
       >
         <div
           className={classNames(
-            'rounded-md w-4 h-4 transition-all mr-2 flex items-center justify-center',
+            'rounded-md flex-shrink-0 w-4 h-4 transition-all mr-2 flex items-center justify-center',
             isChecked ? 'bg-primary' : 'bg-gray-400'
           )}
         >
@@ -64,6 +65,7 @@ export function Checkbox(props: CheckboxProps) {
       <div>
         {feedback && (
           <InputFeedback
+            testId={testId ? testId + '-error' : undefined}
             className="mt-0"
             color={state === 'error' ? 'danger' : undefined}
           >

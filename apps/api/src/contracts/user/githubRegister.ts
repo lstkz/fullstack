@@ -9,12 +9,13 @@ import { _createUser } from './_createUser';
 import { _generateAuthData } from './_generateAuthData';
 
 export const githubRegister = createContract('user.githubRegister')
-  .params('code')
+  .params('code', 'subscribeNewsletter')
   .schema({
     code: S.string(),
+    subscribeNewsletter: S.boolean(),
   })
   .returns<AuthData>()
-  .fn(async code => {
+  .fn(async (code, subscribeNewsletter) => {
     const accessToken = await exchangeCode(code);
     const githubData = await getUserData(accessToken);
     const githubUser = await UserCollection.findOne({
@@ -23,12 +24,16 @@ export const githubRegister = createContract('user.githubRegister')
     if (githubUser) {
       throw new AppError('User is already registered');
     }
-    const user = await _createUser({
-      email: githubData.email,
-      githubId: githubData.id,
-      password: randomUniqString(),
-      isVerified: true,
-    });
+    const user = await _createUser(
+      {
+        email: githubData.email,
+        githubId: githubData.id,
+        password: randomUniqString(),
+        isVerified: true,
+        subscribeNewsletter,
+      },
+      true
+    );
     return _generateAuthData(user);
   });
 

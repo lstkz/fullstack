@@ -15,7 +15,7 @@ export interface UserModel {
   hasSubscription?: boolean;
   subscriptionExpiration?: Date;
   info?: CustomerInfo | null;
-  notifications?: NotificationSettings | null;
+  notifications: NotificationSettings;
   invoiceClientId?: number;
 }
 

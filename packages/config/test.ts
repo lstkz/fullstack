@@ -59,6 +59,16 @@ export const config: AppConfig = {
     clientSecret: 'mocked',
   },
   deploy: null!,
+  convertKit: {
+    apiKey: 'key123',
+    apiSecret: 'secret123',
+    registerFormId: 1234,
+    tagMapping: {
+      newContent: 1,
+      newsletter: 2,
+      webinars: 3,
+    },
+  },
   fakturownia: {
     enabled: true,
     domain: 'fullstack',

@@ -108,6 +108,25 @@ export interface CreateOrderInvoiceTask {
   };
 }
 
+export interface SyncConvertKitSubscribersTask {
+  type: 'SyncConvertKitSubscribers';
+  payload: {};
+}
+
+export type AppTask =
+  | SendEmailTask
+  | VMStep1CreateTask
+  | VMStep2AssignDomainTask
+  | VMStep3InstallTask
+  | PrepareFolderTask
+  | ResumeVMTask
+  | StopVMTask
+  | CheckIdleVmsTask
+  | RemoveVMDomainTask
+  | InviteDiscordTask
+  | CreateOrderInvoiceTask
+  | SyncConvertKitSubscribersTask;
+
 export interface OrderCreatedEvent {
   type: 'OrderCreated';
   payload: { orderId: string };
@@ -123,19 +142,22 @@ export interface UserRegisteredEvent {
   payload: { userId: string };
 }
 
-export type AppTask =
-  | SendEmailTask
-  | VMStep1CreateTask
-  | VMStep2AssignDomainTask
-  | VMStep3InstallTask
-  | PrepareFolderTask
-  | ResumeVMTask
-  | StopVMTask
-  | CheckIdleVmsTask
-  | RemoveVMDomainTask
-  | InviteDiscordTask
-  | CreateOrderInvoiceTask;
-export type AppEvent = OrderCreatedEvent | OrderPaidEvent | UserRegisteredEvent;
+export interface UserEmailVerifiedEvent {
+  type: 'UserEmailVerified';
+  payload: { userId: string };
+}
+
+export interface UserEmailUpdatedEvent {
+  type: 'UserEmailUpdated';
+  payload: { userId: string };
+}
+
+export type AppEvent =
+  | OrderCreatedEvent
+  | OrderPaidEvent
+  | UserRegisteredEvent
+  | UserEmailVerifiedEvent
+  | UserEmailUpdatedEvent;
 
 type ExtractType<T> = T extends { type: infer S } ? S : never;
 

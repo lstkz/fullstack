@@ -1,6 +1,5 @@
 import * as React from 'react';
 import { Accordion, AccordionItem } from 'src/components/AccordionItem';
-import { SectionShape } from './SectionShape';
 import { Heading } from 'src/components/Heading';
 
 export function FaqSection() {
@@ -71,7 +70,6 @@ export function FaqSection() {
           </div>
         </div>
       </div>
-      <SectionShape position="bottom" color="gray-100" />
     </div>
   );
 }
