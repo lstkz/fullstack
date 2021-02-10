@@ -74,6 +74,16 @@ export interface AppConfig {
       seller_city: string;
     };
   };
+  convertKit: {
+    apiKey: string;
+    apiSecret: string;
+    registerFormId: number;
+    tagMapping: {
+      newsletter: number;
+      newContent: number;
+      webinars: number;
+    };
+  };
   tpay: {
     resultEmail: string;
     apiKey: string;

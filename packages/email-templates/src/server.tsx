@@ -3,6 +3,7 @@ import { render } from 'mjml-react';
 import React from 'react';
 import { ButtonActionTemplate } from './templates/ButtonActionTemplate';
 import { MultiLinksTemplate } from './templates/MultiLinksTemplate';
+import { NewsletterTemplate } from './templates/NewsletterTemplate';
 
 const templates = {
   action: (
@@ -34,6 +35,7 @@ const templates = {
       ]}
     />
   ),
+  newsletter: <NewsletterTemplate />,
 };
 
 const server = http.createServer(async (req, res) => {

@@ -17,6 +17,7 @@ it('should update notification settings successfully', async () => {
       values: {
         newContent: false,
         newsletter: false,
+        webinars: false,
         subscriptionRemainder: false,
       },
     },
@@ -26,6 +27,7 @@ it('should update notification settings successfully', async () => {
   expect(latest).toEqual({
     newContent: false,
     newsletter: false,
+    webinars: false,
     subscriptionRemainder: false,
   });
 });

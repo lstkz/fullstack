@@ -4,6 +4,7 @@ import { _createUser } from '../../src/contracts/user/_createUser';
 import { execContract, getId, setupDb } from '../helper';
 import { githubRegister } from '../../src/contracts/user/githubRegister';
 
+jest.mock('../../src/dispatch');
 jest.mock('../../src/common/github');
 
 const mockedExchangeCode = mocked(exchangeCode);
@@ -23,6 +24,7 @@ beforeAll(async () => {
 it('should register successfully', async () => {
   const ret = await execContract(githubRegister, {
     code: 'abc',
+    subscribeNewsletter: true,
   });
   expect(ret.user.email).toEqual('new-user1@example.com');
 });
@@ -38,6 +40,7 @@ it('should throw an error if already registered code', async () => {
   await expect(
     execContract(githubRegister, {
       code: 'abc',
+      subscribeNewsletter: true,
     })
   ).rejects.toThrowError('User is already registered');
 });

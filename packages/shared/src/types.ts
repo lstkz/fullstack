@@ -195,5 +195,6 @@ export interface Order {
 export interface NotificationSettings {
   newsletter: boolean;
   newContent: boolean;
+  webinars: boolean;
   subscriptionRemainder: boolean;
 }

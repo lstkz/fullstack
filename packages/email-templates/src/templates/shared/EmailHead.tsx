@@ -10,7 +10,7 @@ import {
 } from 'mjml-react';
 
 interface MjmlHeadProps {
-  preview: string;
+  preview?: string;
 }
 
 export function EmailHead(props: MjmlHeadProps) {
@@ -25,7 +25,7 @@ export function EmailHead(props: MjmlHeadProps) {
         href="https://fonts.googleapis.com/css?family=Nunito+Sans:400,400i,600,700,800&display=swap"
       />
       <MjmlTitle>Fullstack.pl</MjmlTitle>
-      <MjmlPreview>{preview}</MjmlPreview>
+      {preview && <MjmlPreview>{preview}</MjmlPreview>}
       <MjmlAttributes>
         <MjmlAll padding="0" fontFamily="Nunito Sans, sans-serif" />
       </MjmlAttributes>

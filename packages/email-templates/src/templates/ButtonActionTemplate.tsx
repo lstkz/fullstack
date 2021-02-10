@@ -60,6 +60,7 @@ export function ButtonActionTemplate(props: ButtonActionTemplateProps) {
           </MjmlColumn>
         </MjmlSection>
         <EmailFooter unsubscribeLink={unsubscribeLink} />
+        <MjmlSection paddingTop={30}> </MjmlSection>
       </MjmlBody>
     </Mjml>
   );

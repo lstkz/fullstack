@@ -6,7 +6,6 @@ import { LandingHeader } from './LandingHeader';
 import { MainBanner } from './MainBanner';
 import { MentorSection } from './MentorSection';
 import { MoreThenCourse } from './MoreThenCourse';
-import { SubscribeSection } from './SubscribeSection';
 import { TargetSection } from './TargetSection';
 import { PurchaseSection } from './PurchaseSection';
 
@@ -23,9 +22,8 @@ export function LandingView() {
       <MoreThenCourse />
       <TargetSection />
       <MentorSection />
-      <PurchaseSection />
       <FaqSection />
-      <SubscribeSection />
+      <PurchaseSection />
       <LandingFooter />
     </div>
   );

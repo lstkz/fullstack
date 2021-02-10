@@ -9,22 +9,27 @@ import { _createUser } from './_createUser';
 import { _generateAuthData } from './_generateAuthData';
 
 export const googleRegister = createContract('user.googleRegister')
-  .params('accessToken')
+  .params('accessToken', 'subscribeNewsletter')
   .schema({
     accessToken: S.string(),
+    subscribeNewsletter: S.boolean(),
   })
   .returns<AuthData>()
-  .fn(async accessToken => {
+  .fn(async (accessToken, subscribeNewsletter) => {
     const email = await getEmail(accessToken);
     const existing = await UserCollection.findOneByEmail(email);
     if (existing) {
       throw new AppError('User is already registered');
     }
-    const user = await _createUser({
-      email,
-      password: randomUniqString(),
-      isVerified: true,
-    });
+    const user = await _createUser(
+      {
+        email,
+        password: randomUniqString(),
+        isVerified: true,
+        subscribeNewsletter,
+      },
+      true
+    );
     return _generateAuthData(user);
   });
 

@@ -5,6 +5,9 @@ import { MongoError, ObjectID } from 'mongodb';
 import { DUPLICATED_UNIQUE_VALUE_ERROR_CODE } from '../../common/mongo';
 import { AppError } from '../../common/errors';
 import { setTrackingUser, track } from '../../track';
+import { dispatchEvent } from '../../dispatch';
+import { NEWSLETTER_TYPES } from '../../Const';
+import { NotificationSettings } from 'shared';
 
 interface CreateUserValues {
   userId?: ObjectID;
@@ -12,20 +15,31 @@ interface CreateUserValues {
   password: string;
   isVerified: boolean;
   githubId?: number;
+  subscribeNewsletter?: boolean;
 }
 
-export async function _createUser(values: CreateUserValues) {
+export async function _createUser(
+  values: CreateUserValues,
+  publishEvents = false
+) {
   const userId = values.userId || new ObjectID();
   const salt = await randomSalt();
   const password = await createPasswordHash(values.password, salt);
+  const notifications = {
+    subscriptionRemainder: true,
+  } as NotificationSettings;
+  NEWSLETTER_TYPES.forEach(type => {
+    notifications[type] = values.subscribeNewsletter ?? false;
+  });
   const user: UserModel = {
     _id: userId,
     email: values.email,
     email_lowered: values.email.toLowerCase(),
-    salt: salt,
-    password: password,
+    salt,
+    password,
     isVerified: values.isVerified,
     githubId: values.githubId,
+    notifications,
   };
   if (!user.githubId) {
     delete user.githubId;
@@ -43,6 +57,14 @@ export async function _createUser(values: CreateUserValues) {
         throw new AppError('Email is already registered');
       }
     }
+  }
+  if (publishEvents) {
+    await dispatchEvent({
+      type: 'UserRegistered',
+      payload: {
+        userId: user._id.toHexString(),
+      },
+    });
   }
   return user;
 }

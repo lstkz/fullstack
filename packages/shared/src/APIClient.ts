@@ -2,7 +2,6 @@
 
 // IMPORTS
 import {
-  SubscriptionResult,
   Module,
   ModuleDetails,
   ModuleTaskDetails,
@@ -44,22 +43,6 @@ export class APIClient {
     domain: string;
   }): Promise<void> {
     return this.call('domainCert.createDomainCert', { values });
-  }
-  emailSubscription_confirmSubscription(code: string): Promise<unknown> {
-    return this.call('emailSubscription.confirmSubscription', { code });
-  }
-  emailSubscription_subscribe(
-    name: string | null | undefined,
-    email: string
-  ): Promise<SubscriptionResult> {
-    return this.call('emailSubscription.subscribe', { name, email });
-  }
-  emailSubscription_unsubscribe(
-    email: string,
-    code: string,
-    source: string
-  ): Promise<unknown> {
-    return this.call('emailSubscription.unsubscribe', { email, code, source });
   }
   module_getAllModules(): Promise<Module[]> {
     return this.call('module.getAllModules', {});

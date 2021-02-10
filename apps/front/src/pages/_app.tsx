@@ -8,7 +8,6 @@ import { SubscriptionModalsModule } from 'src/features/SubscriptionModalsModule'
 import { AuthModule } from 'src/features/AuthModule';
 import { User } from 'shared';
 import mixpanel from 'mixpanel-browser';
-import { ConfirmEmailChecker } from 'src/features/ConfirmEmailChecker';
 import { createSSRClient } from 'src/common/helper';
 import '../styles/global.css';
 import '../styles/react-select.css';
@@ -69,7 +68,6 @@ function App({
         <ErrorModalModule>
           <SubscriptionModalsModule>
             <Component {...pageProps} />
-            <ConfirmEmailChecker />
           </SubscriptionModalsModule>
         </ErrorModalModule>
       </AuthModule>
