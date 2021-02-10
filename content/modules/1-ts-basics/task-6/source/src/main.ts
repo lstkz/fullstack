@@ -1,4 +1,5 @@
 export function clamp(n: number, min: number, max: number): number {
+  // TRIM_START
   if (n < min) {
     return min;
   }
@@ -6,4 +7,5 @@ export function clamp(n: number, min: number, max: number): number {
     return max;
   }
   return n;
+  // TRIM_END
 }

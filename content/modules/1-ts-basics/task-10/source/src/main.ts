@@ -3,6 +3,7 @@ export function lightsGame(
   toggleButtons: number[][],
   actions: number[]
 ): number[] {
+  // TRIM_START
   const state: number[] = [];
   for (let i = 0; i < lightCount; i++) {
     state.push(0);
@@ -14,4 +15,5 @@ export function lightsGame(
     });
   });
   return state;
+  // TRIM_END
 }

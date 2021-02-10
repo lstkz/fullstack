@@ -4,20 +4,22 @@ import fs from 'fs-extra';
 import AWS from 'aws-sdk';
 import crypto from 'crypto';
 import { FileUpload } from './types';
+import { config } from 'config';
 
 let s3: AWS.S3 | null = null;
 
 function getS3() {
   if (!s3) {
-    s3 = new AWS.S3();
-    // process.env.AWS_DEFAULT_CREDENTIALS === 'true'
-    //   ? {}
-    //   : {
-    //       credentials: {
-    //         accessKeyId: process.env.AWS_ACCESS_KEY_ID!,
-    //         secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY!,
-    //       },
-    //     }
+    s3 = new AWS.S3(
+      config.aws.uploadAssetsCredentials
+        ? {
+            credentials: {
+              accessKeyId: config.aws.uploadAssetsCredentials.accessKey,
+              secretAccessKey: config.aws.uploadAssetsCredentials.secretKey,
+            },
+          }
+        : undefined
+    );
   }
   return s3;
 }

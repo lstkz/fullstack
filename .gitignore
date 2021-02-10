@@ -24,6 +24,8 @@ content/modules/*/_videos
 content/modules/*/playground
 content/modules/**/yarn.lock
 content/modules/**/script.sh
+util-scripts/cert.ts
+email-backup.ts
 
 # Runtime data
 pids
