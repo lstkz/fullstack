@@ -88,3 +88,20 @@ export async function untagSubscriber(
   });
   await getResponseBody('Untag subscriber', res);
 }
+
+interface UpdateProfile {
+  email_address: string;
+}
+
+export async function updateSubscriber(
+  id: number,
+  profile: UpdateProfile
+): Promise<void> {
+  const url = `/subscribers/${id}?api_secret=${config.convertKit.apiSecret}`;
+  const res = await fetch(BASE_URL + url, {
+    method: 'PUT',
+    body: JSON.stringify(profile),
+    headers: getHeaders(),
+  });
+  await getResponseBody('update subscriber', res);
+}

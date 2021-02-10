@@ -2,6 +2,7 @@ import { S } from 'schema';
 import { ConfirmEmailChangeCollection } from '../../collections/ConfirmEmailChange';
 import { UserCollection } from '../../collections/User';
 import { AppError } from '../../common/errors';
+import { dispatchEvent } from '../../dispatch';
 import { createContract, createRpcBinding } from '../../lib';
 
 export const confirmNewEmail = createContract('user.confirmNewEmail')
@@ -33,6 +34,12 @@ export const confirmNewEmail = createContract('user.confirmNewEmail')
         },
       }
     );
+    await dispatchEvent({
+      type: 'UserEmailUpdated',
+      payload: {
+        userId: user._id.toHexString(),
+      },
+    });
   });
 
 export const confirmNewEmailRpc = createRpcBinding({

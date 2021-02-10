@@ -57,7 +57,7 @@ export function ConfirmEmailChecker() {
         close={closeModal}
       />
       <SimpleModal
-        testId="email-confirmed-modal"
+        testId="new-email-confirmed-modal"
         isOpen={visibleModal === 'confirmed-new'}
         bgColor="primary"
         title="Potwierdzono!"

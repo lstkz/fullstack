@@ -4,6 +4,8 @@ import { _createUser } from '../../src/contracts/user/_createUser';
 import { confirmNewEmail } from '../../src/contracts/user/confirmNewEmail';
 import { ConfirmEmailChangeCollection } from '../../src/collections/ConfirmEmailChange';
 
+jest.mock('../../src/dispatch');
+
 setupDb();
 
 beforeEach(async () => {

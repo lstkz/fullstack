@@ -147,11 +147,17 @@ export interface UserEmailVerifiedEvent {
   payload: { userId: string };
 }
 
+export interface UserEmailUpdatedEvent {
+  type: 'UserEmailUpdated';
+  payload: { userId: string };
+}
+
 export type AppEvent =
   | OrderCreatedEvent
   | OrderPaidEvent
   | UserRegisteredEvent
-  | UserEmailVerifiedEvent;
+  | UserEmailVerifiedEvent
+  | UserEmailUpdatedEvent;
 
 type ExtractType<T> = T extends { type: infer S } ? S : never;
 

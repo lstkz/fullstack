@@ -1,11 +1,14 @@
+import { faEnvelope } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 import { Validator } from 'src/common/Validator';
 import { ContextFormInput } from 'src/components/FormInput';
 import { Heading } from 'src/components/Heading';
+import { SimpleModal } from 'src/components/SimpleModal';
 import { useFormSubmitState } from 'src/hooks/useFormSubmitState';
 import { api } from 'src/services/api';
-import { useAuthActions, useUser } from '../AuthModule';
+import { useUser } from '../AuthModule';
 
 interface EmailFormValues {
   email: string;
@@ -14,7 +17,7 @@ interface EmailFormValues {
 
 export function EmailSection() {
   const user = useUser();
-  const { updateEmail } = useAuthActions();
+  const [isConfirmVisible, setIsConfirmVisible] = React.useState(false);
 
   const formMethods = useForm<EmailFormValues>({
     defaultValues: {
@@ -39,8 +42,10 @@ export function EmailSection() {
 
   const { onSubmit, submitButton } = useFormSubmitState(
     async (values: EmailFormValues) => {
-      await api.user_updateEmail(values.email);
-      updateEmail(values.email);
+      const ret = await api.user_updateEmail(values.email);
+      if (ret.ok) {
+        setIsConfirmVisible(true);
+      }
     }
   );
 
@@ -54,6 +59,23 @@ export function EmailSection() {
           {submitButton}
         </form>
       </FormProvider>
+      <SimpleModal
+        testId="new-email-confirm-modal"
+        isOpen={isConfirmVisible}
+        bgColor="primary"
+        title="Potwierdź maila"
+        icon={<FontAwesomeIcon size="4x" icon={faEnvelope} />}
+        header="Prawie gotowe!"
+        description={
+          <>
+            Link potwierdzający został wysłany na Twój nowy adres email. <br />
+            Potwierdź go, aby zmienić email.
+          </>
+        }
+        close={() => {
+          setIsConfirmVisible(false);
+        }}
+      />
     </>
   );
 }
