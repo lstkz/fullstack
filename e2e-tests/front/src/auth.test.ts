@@ -137,18 +137,23 @@ describe('register', () => {
       };
     });
     await page.goto(WEBSITE_URL + '/register');
-    await $('@register-input').type('a@example.org');
+    await $('@email-input').type('a@example.org');
     await $('@password-input').type('pass12');
-    await $('@confirm-password-input').type('pass1');
+    await $('@confirmPassword-input').type('pass1');
     await $('@register-submit').click();
-    await $('@confirm-password-input-error').expect.toMatch(
+    await $('@confirmPassword-input-error').expect.toMatch(
       'Hasła muszą być takie same'
     );
-    await $('@confirm-password-input').type('2');
+    await $('@acceptTerms-error').expect.toMatch(
+      'Musisz zaakceptować regulamin'
+    );
+    await $('@acceptTerms').click();
+    await $('@acceptTerms-error').expect.toBeHidden();
+    await $('@confirmPassword-input').type('2');
     await $('@register-submit').click();
     await $('@register-error').expect.toMatch('Duplicated user');
-    await $('@register-input').clear();
-    await $('@register-input').type('b@example.org');
+    await $('@email-input').clear();
+    await $('@email-input').type('b@example.org');
     await $('@register-submit').click();
     await $('@current-email').expect.toMatch('b@example.org');
     await $('@subscription-page').expect.toBeVisible();

@@ -20,8 +20,8 @@ let videoSolution = {
   type: 'ok' as const,
   sources: [
     {
-      type: '720p',
-      url: 'about:blank',
+      type: 'vimeo',
+      url: 'https://vimeo.com/507228512/7fe5d16ee7',
     },
   ],
 };

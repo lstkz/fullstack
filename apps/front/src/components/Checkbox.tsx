@@ -37,6 +37,7 @@ export function Checkbox(props: CheckboxProps) {
         onClick={() => {
           onChange(!isChecked);
         }}
+        data-test={testId}
         onKeyPress={e => {
           if (isConfirmKey(e.key || e.nativeEvent.key)) {
             e.preventDefault();
@@ -64,6 +65,7 @@ export function Checkbox(props: CheckboxProps) {
       <div>
         {feedback && (
           <InputFeedback
+            testId={testId ? testId + '-error' : undefined}
             className="mt-0"
             color={state === 'error' ? 'danger' : undefined}
           >
