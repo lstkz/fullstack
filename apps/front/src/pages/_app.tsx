@@ -4,7 +4,6 @@ import Head from 'next/head';
 import { config } from '@fortawesome/fontawesome-svg-core';
 import '@fortawesome/fontawesome-svg-core/styles.css';
 import { ErrorModalModule } from 'src/features/ErrorModalModule';
-import { SubscriptionModalsModule } from 'src/features/SubscriptionModalsModule';
 import { AuthModule } from 'src/features/AuthModule';
 import { User } from 'shared';
 import mixpanel from 'mixpanel-browser';
@@ -67,10 +66,8 @@ function App({
       </Head>
       <AuthModule initialUser={initialUser}>
         <ErrorModalModule>
-          <SubscriptionModalsModule>
-            <Component {...pageProps} />
-            <ConfirmEmailChecker />
-          </SubscriptionModalsModule>
+          <Component {...pageProps} />
+          <ConfirmEmailChecker />
         </ErrorModalModule>
       </AuthModule>
       <div id="portals" />
