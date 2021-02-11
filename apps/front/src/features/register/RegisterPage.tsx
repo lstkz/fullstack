@@ -51,13 +51,13 @@ export function RegisterPage() {
   const redirectUrl = createUrl({ name: 'subscription' });
   const { error, isSubmitting, onSubmit } = useAuthForm({
     isRegister: true,
-    submit: () => {
-      const ret = api.user_register(
-        R.omit(getValues(), ['acceptTerms', 'confirmPassword'])
-      );
-      fbTrack('CompleteRegistration');
-      return ret;
-    },
+    submit: () =>
+      api
+        .user_register(R.omit(getValues(), ['acceptTerms', 'confirmPassword']))
+        .then(ret => {
+          fbTrack('CompleteRegistration');
+          return ret;
+        }),
     redirectUrl,
   });
   const { watch, handleSubmit, getValues, setValue, trigger } = formMethods;
