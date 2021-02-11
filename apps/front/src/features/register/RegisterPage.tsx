@@ -15,6 +15,7 @@ import { HeadTitle } from 'src/components/HeadTitle';
 import { FormCheckbox } from 'src/components/FormCheckbox';
 import { Validator } from 'src/common/Validator';
 import { Checkbox } from 'src/components/Checkbox';
+import { fbTrack } from 'src/track';
 
 interface FormValues {
   email: string;
@@ -50,10 +51,13 @@ export function RegisterPage() {
   const redirectUrl = createUrl({ name: 'subscription' });
   const { error, isSubmitting, onSubmit } = useAuthForm({
     isRegister: true,
-    submit: () =>
-      api.user_register(
+    submit: () => {
+      const ret = api.user_register(
         R.omit(getValues(), ['acceptTerms', 'confirmPassword'])
-      ),
+      );
+      fbTrack('CompleteRegistration');
+      return ret;
+    },
     redirectUrl,
   });
   const { watch, handleSubmit, getValues, setValue, trigger } = formMethods;

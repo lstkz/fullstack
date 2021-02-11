@@ -12,7 +12,7 @@ import '../styles/global.css';
 import '../styles/react-select.css';
 import '../styles/plyr.css';
 import useScrollRestoration from 'src/hooks/useScrollRestoration';
-import { API_URL, MIXPANEL_API_KEY } from 'src/config';
+import { API_URL, IS_REAL_PROD, MIXPANEL_API_KEY } from 'src/config';
 import { ErrorBoundary } from 'src/bug-report';
 import { ConfirmEmailChecker } from 'src/features/ConfirmEmailChecker';
 
@@ -63,9 +63,11 @@ function App({
 
         <title>Fullstack</title>
         <link rel="icon" type="image/png" href="/favicon-32x32.png?2" />
-        <script
-          dangerouslySetInnerHTML={{
-            __html: `!function(f,b,e,v,n,t,s)
+        {IS_REAL_PROD && (
+          <>
+            <script
+              dangerouslySetInnerHTML={{
+                __html: `!function(f,b,e,v,n,t,s)
         {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
         n.callMethod.apply(n,arguments):n.queue.push(arguments)};
         if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
@@ -75,16 +77,18 @@ function App({
         'https://connect.facebook.net/en_US/fbevents.js');
         fbq('init', '764473161151688');
         fbq('track', 'PageView');`,
-          }}
-        />
-        <noscript>
-          <img
-            height="1"
-            width="1"
-            style={{ display: 'none' }}
-            src="https://www.facebook.com/tr?id=764473161151688&ev=PageView&noscript=1"
-          />
-        </noscript>
+              }}
+            />
+            <noscript>
+              <img
+                height="1"
+                width="1"
+                style={{ display: 'none' }}
+                src="https://www.facebook.com/tr?id=764473161151688&ev=PageView&noscript=1"
+              />
+            </noscript>
+          </>
+        )}
       </Head>
       <AuthModule initialUser={initialUser}>
         <ErrorModalModule>

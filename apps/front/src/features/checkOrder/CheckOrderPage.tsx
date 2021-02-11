@@ -11,6 +11,7 @@ import { useErrorModalActions } from '../ErrorModalModule';
 import { Heading } from 'src/components/Heading';
 import { Button } from 'src/components/Button';
 import { HeadTitle } from 'src/components/HeadTitle';
+import { fbTrack } from 'src/track';
 
 export function CheckOrderPage() {
   const { width, height } = useWindowSize();
@@ -30,6 +31,7 @@ export function CheckOrderPage() {
         }
         if (ret.status === 'PAID') {
           setIsDone(true);
+          fbTrack('Subscribe');
         } else {
           setTimeout(check, 1000);
         }

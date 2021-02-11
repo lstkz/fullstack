@@ -84,3 +84,15 @@ export function setTrackingIdentify(id: string) {
   }
   mixpanel.identify(id);
 }
+
+export function fbTrack(name: 'Subscribe' | 'CompleteRegistration') {
+  if (process.env.NODE_ENV === 'development') {
+    console.log('fbTrack', name);
+  }
+  try {
+    const fbq: (type: string, name: string) => void = (window as any).fbq;
+    fbq('track', name);
+  } catch (e) {
+    //
+  }
+}
