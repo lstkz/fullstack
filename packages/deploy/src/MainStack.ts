@@ -149,7 +149,7 @@ function createTasks(
       healthCheck: {},
       conditions: [
         elbv2.ListenerCondition.hostHeaders([config.deploy.lbDomain]),
-        elbv2.ListenerCondition.pathPatterns(['/rpc/*', '/socket']),
+        elbv2.ListenerCondition.pathPatterns(['/rpc/*', '/socket', '/track/*']),
       ],
       priority: 10,
       stickinessCookieDuration: cdk.Duration.minutes(2),
