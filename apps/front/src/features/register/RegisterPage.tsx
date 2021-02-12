@@ -48,7 +48,7 @@ export function RegisterPage() {
         .validate();
     },
   });
-  const redirectUrl = createUrl({ name: 'subscription' });
+  const redirectUrl = createUrl({ name: 'modules' });
   const { error, isSubmitting, onSubmit } = useAuthForm({
     isRegister: true,
     submit: () =>
