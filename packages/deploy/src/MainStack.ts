@@ -255,7 +255,7 @@ function createCDN(stack: cdk.Stack) {
   });
   const cluster = new ecs.Cluster(stack, 'AppCluster', {
     vpc,
-    containerInsights: false,
+    containerInsights: true,
   });
 
   cluster.addCapacity('DefaultAutoScalingGroupCapacity', {
