@@ -8,6 +8,7 @@ import { MentorSection } from './MentorSection';
 import { MoreThenCourse } from './MoreThenCourse';
 import { TargetSection } from './TargetSection';
 import { PurchaseSection } from './PurchaseSection';
+import { SubscribeSection } from './SubscribeSection';
 
 export function LandingView() {
   React.useEffect(() => {
@@ -22,8 +23,9 @@ export function LandingView() {
       <MoreThenCourse />
       <TargetSection />
       <MentorSection />
-      <FaqSection />
       <PurchaseSection />
+      <FaqSection />
+      <SubscribeSection />
       <LandingFooter />
     </div>
   );
