@@ -7,7 +7,7 @@ import { getErrorMessage } from 'src/common/helper';
 
 interface Actions {
   hide: () => void;
-  show: (message: string) => void;
+  show: (message: string, noLog?: boolean) => void;
 }
 
 const ErrorModalContext = React.createContext<{
@@ -34,8 +34,8 @@ export function ErrorModalModule(props: ErrorModalProps) {
           draft.isOpen = false;
         }),
 
-      show: message => {
-        if (process.env.NODE_ENV !== 'test') {
+      show: (message, noLog) => {
+        if (process.env.NODE_ENV !== 'test' && !noLog) {
           if (typeof message === 'string') {
             console.error('An error occurred: ', message);
           } else {

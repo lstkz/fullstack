@@ -3,6 +3,7 @@ import { useFormContext } from 'react-hook-form';
 import { SubscriptionPlan } from 'shared';
 import { Heading } from 'src/components/Heading';
 import { Select } from 'src/components/Select';
+import { PromoForm } from './PromoForm';
 import { SubscriptionFormValues } from './SubscriptionPage';
 
 interface OrderDetailsProps {
@@ -39,10 +40,15 @@ export function OrderDetails(props: OrderDetailsProps) {
     watch,
     register,
   } = useFormContext<SubscriptionFormValues>();
-
+  const [discount, setDiscount] = React.useState<null | number>(null);
+  const onPromoCode = (code: string, discount: number) => {
+    setDiscount(discount);
+    setValue('promoCode', code);
+  };
   const planType = watch('subscriptionPlanId');
   React.useEffect(() => {
     register('subscriptionPlanId');
+    register('promoCode');
   }, []);
 
   const options = React.useMemo(() => {
@@ -81,12 +87,28 @@ export function OrderDetails(props: OrderDetailsProps) {
             {_formatPrice(selectedPlan.price.vat)}
           </div>
         </Row>
+        {discount && (
+          <Row>
+            <div className="font-semibold text-sm">Zniżka:</div>
+            <div className="font-semibold text-sm text-right">{discount}%</div>
+          </Row>
+        )}
         <Row>
           <div className="font-semibold text-heading text-lg">Do zapłaty:</div>
           <div className="font-semibold text-heading text-lg text-right">
-            {_formatPrice(selectedPlan.price.total)}
+            {discount && (
+              <div className="line-through">
+                {_formatPrice(selectedPlan.price.total)}
+              </div>
+            )}
+            <div>
+              {_formatPrice(
+                selectedPlan.price.total * ((100 - (discount ?? 0)) / 100)
+              )}
+            </div>
           </div>
         </Row>
+        <PromoForm onPromoCode={onPromoCode} />
       </div>
     </div>
   );

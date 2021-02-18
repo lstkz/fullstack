@@ -8,6 +8,7 @@ import {
   TaskHintResult,
   TaskVideoResult,
   TaskTestInfo,
+  CheckPromoCodResult,
   Order,
   SubscriptionStatus,
   TPayGroup,
@@ -140,6 +141,9 @@ export class APIClient {
   }): Promise<unknown> {
     return this.call('module.updateModule', { values });
   }
+  subscription_checkPromoCode(code: string): Promise<CheckPromoCodResult> {
+    return this.call('subscription.checkPromoCode', { code });
+  }
   subscription_checkStatus(
     orderId: string
   ): Promise<{ status: 'NOT_PAID' | 'PAID' }> {
@@ -177,6 +181,7 @@ export class APIClient {
     };
     subscriptionPlanId: string;
     tpayGroup: number;
+    promoCode?: string | undefined;
   }): Promise<{ paymentUrl: string }> {
     return this.call('subscription.purchase', { values });
   }

@@ -31,7 +31,6 @@ interface ContextFormInputProps extends Omit<FormInputProps, 'error'> {}
 export const ContextFormInput = (props: ContextFormInputProps) => {
   const { name, ...rest } = props;
   const { errors, register } = useFormContext<any>();
-
   return (
     <FormInput
       {...rest}

@@ -11,6 +11,7 @@ type BaseProps = Pick<
   | 'id'
   | 'autoComplete'
   | 'maxLength'
+  | 'onKeyPress'
 >;
 
 export interface InputProps extends BaseProps {
@@ -78,7 +79,9 @@ export function Input(props: InputProps) {
         data-test={testId}
         style={{
           height:
-            size === 'large'
+            size === 'small'
+              ? '2.5rem'
+              : size === 'large'
               ? 'calc(1.5em + 2rem + 2px)'
               : 'calc(1.5em + 1.5rem + 2px)',
         }}
@@ -88,6 +91,7 @@ export function Input(props: InputProps) {
           'outline-none',
           'focus:border-primary focus:shadow-lg focus:placeholder-gray-400',
           size === 'large' && 'px-7 py-4 rounded-lg',
+          size === 'small' && 'px-3 py-4 rounded-md',
           !size && 'py-3 px-5 rounded-md ',
           state === 'error' && `border-danger focus:border-danger`
         )}

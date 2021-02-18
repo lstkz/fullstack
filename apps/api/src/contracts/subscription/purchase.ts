@@ -12,6 +12,19 @@ import { config } from 'config';
 import { dispatchEvent } from '../../dispatch';
 import { getCustomerSchema } from 'shared';
 import { updateGeneralInfo } from '../user/updateGeneralInfo';
+import { PromoCodeCollection } from '../../collections/PromoCode';
+import { getDiscountedPrice } from '../../common/money';
+
+async function _getDiscount(code?: string) {
+  if (!code) {
+    return 0;
+  }
+  const promo = await PromoCodeCollection.findById(code.toLowerCase());
+  if (!promo) {
+    throw new AppError('Promo code not found');
+  }
+  return promo.discount;
+}
 
 export const purchase = createContract('subscription.purchase')
   .params('user', 'values')
@@ -21,6 +34,7 @@ export const purchase = createContract('subscription.purchase')
       subscriptionPlanId: S.string(),
       tpayGroup: S.number(),
       customer: getCustomerSchema(),
+      promoCode: S.string().optional(),
     }),
   })
   .returns<{ paymentUrl: string }>()
@@ -36,12 +50,14 @@ export const purchase = createContract('subscription.purchase')
       throw new AppError('Invalid plan id');
     }
     const orderId = randomUniqString().toUpperCase();
+    const discount = await _getDiscount(values.promoCode);
+    const price = getDiscountedPrice(plan.price, discount);
     const order: SubscriptionOrderModel = {
       _id: orderId,
       createdAt: new Date(),
       customer: values.customer,
       planId: plan._id,
-      price: plan.price,
+      price: price,
       provider: {
         name: 'tpay',
         transactionId: null,
@@ -49,13 +65,15 @@ export const purchase = createContract('subscription.purchase')
       },
       status: 'NOT_PAID',
       userId: user._id,
+      promoCode: values.promoCode,
     };
     await SubscriptionOrderCollection.insertOne(order);
+
     await updateGeneralInfo(user, order.customer);
 
     const tpayTransaction = await createTPayTransaction({
       crc: orderId,
-      amount: plan.price.total,
+      amount: price.total,
       description: plan.name,
       name: `${values.customer.firstName} ${values.customer.lastName}`,
       email: user.email,

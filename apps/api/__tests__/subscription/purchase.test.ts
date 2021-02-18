@@ -1,4 +1,5 @@
 import { mocked } from 'ts-jest/utils';
+import { PromoCodeCollection } from '../../src/collections/PromoCode';
 import { SubscriptionOrderCollection } from '../../src/collections/SubscriptionOrder';
 import { createTPayTransaction, getTPayGroups } from '../../src/common/tpay';
 import { purchase } from '../../src/contracts/subscription/purchase';
@@ -59,20 +60,21 @@ it('should throw an error if group invalid', async () => {
   ).rejects.toThrow('Invalid group');
 });
 
-it('should throw an error if course is not found', async () => {
+it('should throw an error if invalid promo code', async () => {
   await expect(
     execContract(
       purchase,
       {
         values: {
-          subscriptionPlanId: 'pasadsad1',
-          tpayGroup: 1234,
+          subscriptionPlanId: 'p1',
+          tpayGroup: 100,
           customer: getCustomerData(),
+          promoCode: '12345',
         },
       },
       'user1_token'
     )
-  ).rejects.toThrow('Invalid group');
+  ).rejects.toThrow('Promo code not found');
 });
 
 it('should purchase successfully', async () => {
@@ -103,5 +105,32 @@ it('should purchase successfully', async () => {
     vatRate: 23,
     vat: 23,
     total: 123,
+  });
+});
+
+it('should purchase successfully with promo code', async () => {
+  await PromoCodeCollection.insertOne({ _id: 'code123', discount: 50 });
+  await execContract(
+    purchase,
+    {
+      values: {
+        subscriptionPlanId: 'p1',
+        tpayGroup: 100,
+        customer: getCustomerData(),
+        promoCode: 'code123',
+      },
+    },
+    'user1_token'
+  );
+  const options = mockedCreateTPayTransaction.mock.calls[0][0];
+  expect(options).toHaveProperty('amount', 61.5);
+  const orderId = options.crc;
+  const order = await SubscriptionOrderCollection.findByIdOrThrow(orderId);
+  expect(order.planId).toEqual('p1');
+  expect(order.price).toEqual({
+    net: 50,
+    vatRate: 23,
+    vat: 11.5,
+    total: 61.5,
   });
 });
