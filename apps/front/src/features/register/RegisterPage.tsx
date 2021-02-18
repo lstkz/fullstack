@@ -15,7 +15,7 @@ import { HeadTitle } from 'src/components/HeadTitle';
 import { FormCheckbox } from 'src/components/FormCheckbox';
 import { Validator } from 'src/common/Validator';
 import { Checkbox } from 'src/components/Checkbox';
-import { fbTrack } from 'src/track';
+import { fbTrack, gTagConversion } from 'src/track';
 
 interface FormValues {
   email: string;
@@ -56,6 +56,7 @@ export function RegisterPage() {
         .user_register(R.omit(getValues(), ['acceptTerms', 'confirmPassword']))
         .then(ret => {
           fbTrack('CompleteRegistration');
+          gTagConversion();
           return ret;
         }),
     redirectUrl,

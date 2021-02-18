@@ -96,3 +96,17 @@ export function fbTrack(name: 'Subscribe' | 'CompleteRegistration') {
     //
   }
 }
+
+export function gTagConversion() {
+  if (process.env.NODE_ENV === 'development') {
+    console.log('gTagConversion');
+  }
+  try {
+    const gtag: (...args: any[]) => void = (window as any).gtag;
+    gtag('event', 'conversion', {
+      send_to: 'AW-582094465/Lr7CCI2DufYBEIGdyJUC',
+    });
+  } catch (e) {
+    //
+  }
+}

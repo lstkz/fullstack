@@ -66,6 +66,21 @@ function App({
         {IS_REAL_PROD && (
           <>
             <script
+              async
+              src="https://www.googletagmanager.com/gtag/js?id=AW-582094465"
+            ></script>
+            <script
+              dangerouslySetInnerHTML={{
+                __html: `
+              window.dataLayer = window.dataLayer || [];
+              function gtag(){dataLayer.push(arguments);}
+              gtag('js', new Date()); 
+              gtag('config', 'AW-582094465');
+            `,
+              }}
+            />
+
+            <script
               dangerouslySetInnerHTML={{
                 __html: `!function(f,b,e,v,n,t,s)
         {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
