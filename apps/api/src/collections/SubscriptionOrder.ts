@@ -1,5 +1,5 @@
 import { ObjectID } from 'mongodb';
-import { CustomerInfo } from 'shared';
+import { CustomerInfo, PriceInfo } from 'shared';
 import { createCollection } from '../db';
 
 export interface SubscriptionOrderModel {
@@ -12,15 +12,11 @@ export interface SubscriptionOrderModel {
     transactionId: string | null;
     paymentUrl: string | null;
   };
-  price: {
-    net: number;
-    vat: number;
-    vatRate: number;
-    total: number;
-  };
+  price: PriceInfo;
   status: 'NOT_PAID' | 'PAID';
   paidAt?: Date;
   customer: CustomerInfo;
+  promoCode?: string;
 }
 
 export const SubscriptionOrderCollection = createCollection<SubscriptionOrderModel>(

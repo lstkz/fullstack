@@ -198,3 +198,19 @@ export interface NotificationSettings {
   webinars: boolean;
   subscriptionRemainder: boolean;
 }
+
+export interface PriceInfo {
+  net: number;
+  vat: number;
+  vatRate: number;
+  total: number;
+}
+
+export type CheckPromoCodResult =
+  | {
+      type: 'invalid';
+    }
+  | {
+      type: 'valid';
+      discount: number;
+    };

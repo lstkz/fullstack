@@ -30,6 +30,7 @@ export interface SubscriptionFormValues extends UserInfoFormFields {
   acceptTerms: boolean;
   groupId: number;
   subscriptionPlanId: string;
+  promoCode?: string;
 }
 
 export function SubscriptionPage(props: SubscriptionPageProps) {
@@ -67,11 +68,18 @@ export function SubscriptionPage(props: SubscriptionPageProps) {
   const onSubmit = async (values: SubscriptionFormValues) => {
     setIsSubmitting(true);
     try {
-      const { subscriptionPlanId, groupId, acceptTerms, ...customer } = values;
+      const {
+        subscriptionPlanId,
+        groupId,
+        acceptTerms,
+        promoCode,
+        ...customer
+      } = values;
       const { paymentUrl } = await api.subscription_purchase({
         subscriptionPlanId,
         tpayGroup: groupId,
         customer,
+        promoCode,
       });
       setIsDone(true);
       track({
