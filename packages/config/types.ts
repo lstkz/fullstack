@@ -78,6 +78,7 @@ export interface AppConfig {
     apiKey: string;
     apiSecret: string;
     registerFormId: number;
+    newsletterFormId: number;
     tagMapping: {
       newsletter: number;
       newContent: number;

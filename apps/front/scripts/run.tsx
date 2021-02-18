@@ -25,6 +25,8 @@ export function runScript(
         __dirname,
         '../../../content/modules'
       ),
+      FS_PUBLIC_CONVERT_KIT_NEWSLETTER_FORM_ID: config.convertKit.newsletterFormId.toString(),
+      FS_PUBLIC_CONVERT_KIT_API_KEY: config.convertKit.apiKey,
     },
   });
 
