@@ -17,7 +17,7 @@ export function Pricing(props: PricingProps) {
       </Heading>
       <div className="text-lg font-light text-center mb-12 mt-4">
         Zacznij za darmo albo wykup płatny dostęp do całej platformy.
-        <br />W wersji darmowej masz dostęp tylko do teori, bez praktyki.
+        <br />W wersji darmowej masz dostęp tylko do teorii, bez praktyki.
       </div>
       <div className="grid md:grid-cols-2 gap-10">
         <div className="lg:w-96 md:ml-auto">
