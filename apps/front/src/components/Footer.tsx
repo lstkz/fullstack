@@ -100,7 +100,7 @@ export function Footer() {
   return (
     <div className="bg-dark text-gray-600">
       <div className="container">
-        <FooterMain />
+        {/* <FooterMain /> */}
         <FooterCopyright />
       </div>
     </div>
