@@ -1,3 +1,9 @@
+import { IconProp } from '@fortawesome/fontawesome-svg-core';
+import {
+  faFacebook,
+  faGithub,
+  faYoutube,
+} from '@fortawesome/free-brands-svg-icons';
 import { faTrophy, faAward, faRocket } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import classNames from 'classnames';
@@ -20,9 +26,23 @@ function Image(props: ImageProps) {
   );
 }
 
+function SocialIcon(props: { icon: IconProp; href: string; title: string }) {
+  const { icon, href, title } = props;
+  return (
+    <a
+      href={href}
+      title={title}
+      target="_blank"
+      className="text-dark-400 hover:text-dark-600"
+    >
+      <FontAwesomeIcon icon={icon} />
+    </a>
+  );
+}
+
 export function MentorSection() {
   return (
-    <div className="py-24 container grid md:grid-cols-2 gap-4">
+    <div className="py-24 pb-16 container grid md:grid-cols-2 gap-4">
       <div className="grid grid-cols-2 gap-4">
         <div className="mt-20">
           <Image className="mb-3" src={require('./assets/mentor_1.jpg')} />
@@ -93,6 +113,26 @@ export function MentorSection() {
             350+ wygranych contestów.
           </IconListItem>
         </IconList>
+        <Heading type={4} className="mt-6 mb-2">
+          Social media
+        </Heading>
+        <div className="grid gap-6  grid-cols-3 w-36 mt-4 text-2xl">
+          <SocialIcon
+            title="Facebook"
+            href="https://www.facebook.com/fullstackpl"
+            icon={faFacebook}
+          />
+          <SocialIcon
+            title="GitHub"
+            href="https://github.com/fullstackpl"
+            icon={faGithub}
+          />
+          <SocialIcon
+            title="YouTube"
+            href="https://www.youtube.com/channel/UCufpAal-CcMXxGDQaHRFUGA"
+            icon={faYoutube}
+          />
+        </div>
       </div>
     </div>
   );

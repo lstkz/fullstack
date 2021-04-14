@@ -27,7 +27,7 @@ export function SubscribeSection() {
     setIsSubmitting(true);
     try {
       const res = await fetch(
-        'https://api.convertkit.com/v3/forms/2049944/subscribe?api_key=8d_N54q7cE1ILXSPyYYetA',
+        'https://api.convertkit.com/v3/forms/2197044/subscribe?api_key=8d_N54q7cE1ILXSPyYYetA',
         {
           method: 'POST',
           headers: {
@@ -63,8 +63,8 @@ export function SubscribeSection() {
         header="Prawie gotowe!"
         description={
           <>
-            Link potwierdzający został wysłany na Twój nowy adres email. <br />
-            Potwierdź go, aby otrzymać kod promocyjny.
+            Link potwierdzający został wysłany na Twój adres email. <br />
+            Potwierdź go, aby otrzymać zadania.
           </>
         }
         close={() => {
@@ -74,7 +74,9 @@ export function SubscribeSection() {
       <div className="container">
         <Heading type={2}>Dołącz do mailingu</Heading>
         <div className="text-gray-600">
-          Otrzymasz 20% zniżki na zakup abonamentu!
+          Jako prezent otrzymasz{' '}
+          <strong>5 przykładowych zadań rekrutacyjnych</strong> dla TypeScript
+          developerów.
         </div>
         <div className="mt-8 mx-auto mb-3 max-w-xl">
           <InputGroup

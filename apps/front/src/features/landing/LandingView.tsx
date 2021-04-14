@@ -1,5 +1,4 @@
 import React from 'react';
-import { track } from 'src/track';
 import { FaqSection } from './FaqSection';
 import { LandingFooter } from './LandingFooter';
 import { LandingHeader } from './LandingHeader';
@@ -11,20 +10,15 @@ import { PurchaseSection } from './PurchaseSection';
 import { SubscribeSection } from './SubscribeSection';
 
 export function LandingView() {
-  React.useEffect(() => {
-    track({
-      type: 'landing_viewed',
-    });
-  }, []);
   return (
     <div className="overflow-x-hidden">
       <LandingHeader />
       <MainBanner />
-      <MoreThenCourse />
-      <TargetSection />
+      {/* <MoreThenCourse /> */}
+      {/* <TargetSection /> */}
       <MentorSection />
-      <PurchaseSection />
-      <FaqSection />
+      {/* <PurchaseSection /> */}
+      {/* <FaqSection /> */}
       <SubscribeSection />
       <LandingFooter />
     </div>
